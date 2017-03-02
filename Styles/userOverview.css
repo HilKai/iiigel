@@ -1,0 +1,23 @@
+body {
+	background-color: #e1e1e1;
+}
+
+	#WrappingContainer {
+		width: 80%;
+		border-radius: 10px;
+		margin: 20px auto;
+		background-color: #fff;
+		padding: 0;
+	}
+	
+		#ProfileContainer {
+			margin: 20px;
+		}
+		
+			#ProfilePic {
+
+			}
+			
+			#Name  {
+				margin: 0;
+			}

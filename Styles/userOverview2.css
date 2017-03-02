@@ -1,0 +1,84 @@
+body {
+	margin: 0 auto;
+	background-color: #e1e1e1;
+}
+
+	#WrappingContainer {
+		width: 80%;
+		background-color: #fff;
+		margin: 20px auto;
+		border-radius: 10px;
+		font-family: 'Arial';
+	}
+
+		#ProfileContainer {
+			padding: 40px;
+		}
+			
+			#ProfilePic {
+				width: 15vw;
+				height: 15vw;
+				border-radius: 15vw;
+				float: left;
+			}
+			
+			#ProfileTextContainer {
+				float: left;
+				margin: 0px 0px 0px 40px;
+			}
+				
+				#Name {
+					font-size: 70px;
+					float: left;
+					margin: 0px;
+				}	
+				
+				#ClearBoth {
+					clear:both;
+				}
+				
+				#UserDataContainer {
+					color: #535353;
+					margin-top: 10px;
+				}
+				
+					#UserDataContainer a { 
+						font-size: 17px; 
+						margin-right: 25px;
+					}
+					
+				#ProfileOptions {
+					margin: 20px 0px 0px 0px;
+				}	
+				
+					#EditProfileText {
+						color: #000;
+						text-decoration: none;
+						margin-right: 25px;
+					}
+					
+					.button {
+						background-color: #8ba1bf;
+						border: none;
+						border-radius: 8px;
+						color: white;
+						padding: 8px;
+						text-align: center;
+						text-decoration: none;
+						display: inline-block;
+						font-size: 16px;
+					}
+
+			
+		#TNModulContainer {
+			height: 300px;
+			background-color: #fff;
+			padding: 20px;
+		}
+		
+			.tnModulBox {
+				
+				background-color: #ffffff;
+			}
+		
+

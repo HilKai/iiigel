@@ -18,6 +18,12 @@ body {
 
 			}
 			
+		#ProfileTextContainer {
+			font-family: 'Open Sans', sans-serif;
+		}	
+		
 			#Name  {
+				font-size: 75px;
 				margin: 0;
+				font-family: 'Open Sans Condensed', sans-serif;
 			}

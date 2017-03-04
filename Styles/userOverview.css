@@ -20,10 +20,105 @@ body {
 			
 		#ProfileTextContainer {
 			font-family: 'Open Sans', sans-serif;
+			padding-left: 40px; 
 		}	
 		
 			#Name  {
+				margin: 0;
+				padding-bottom: 10px;
+				font-family: 'Open Sans Condensed', sans-serif;
 				font-size: 75px;
+			}
+			
+			#UserDataContainer {
+				color: #636363;
+				text-decoration: none;
+				font-size: 20px;
+				padding-left: 2px;
+			}
+			
+			#ProfileOptions {
+			}
+
+				#ProfileOptions a  {
+					color: #636363;
+					font-size: 20px;
+				}
+			
+					#ProfileOptions a:hover  {
+						text-decoration: none;
+						color: #957A74;
+					}
+					
+					
+				#LogOutButton {
+					display: inline-block;
+	
+				}
+		
+		#Container {
+			margin: 20px;
+			padding-top:20px;
+		}
+		
+			#ModulOverviewHeading {
 				margin: 0;
 				font-family: 'Open Sans Condensed', sans-serif;
+				font-size: 60px;
 			}
+			
+			#ModulContainer {
+				margin:0;
+				padding-top:20px;
+				
+				
+			}
+				
+				.modul {
+					margin:5px 5px 5px 0px;
+					border-style: solid;
+					border-width: 2px;
+					border-radius: 15px;
+					box-shadow:15px 17px 23px -8px #EAEAEA;
+					box-shadow: inset 25px 10px 20px 30px rgba(250,250,250,0.61);
+					box-shadow: inset -47px 38px 53px -24px rgba(247,247,247,1);
+				}
+				
+					.chapterTitel{
+						margin:6px;
+						font-family: 'Open Sans condensed', sans-serif;
+						font-size:50px;
+						text-align:center;
+					}
+					
+					.chapterImage{
+						border-radius: 10px;
+						width : 90%;
+						margin: 0 auto;
+						
+					}
+					
+					.chapterBarOuter{
+						
+						margin:0 auto;
+						width: 90%;
+						margin-top: 3px;
+						margin-bottom: 10px;
+						
+						
+					}
+					
+					.chapterBar{
+						width : 95 %;
+						margin: 0 auto;
+						
+					}
+					.chapterInfo{
+						font-family: 'Open Sans', sans-serif;
+						margin:0 auto;
+						font-size: 20px;
+						text-align:center;
+					}
+.noPadding {
+	padding:0 !important;
+}				

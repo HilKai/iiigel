@@ -1,5 +1,7 @@
  <?php 
-	error_reporting( E_DEPRECATED & E_NOTICE );
+
+	$db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+ /*error_reporting( E_DEPRECATED & E_NOTICE );
  
 	define('DBHOST', 'localhost');
 	define('DBUSER', 'root');
@@ -15,5 +17,5 @@
 	 
 	if ( !$dbcon ) {
 	  die("Database Connection failed : " . mysql_error());
-	}
+	}*/
  ?>

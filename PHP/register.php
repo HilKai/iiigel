@@ -3,6 +3,7 @@
 	ob_start();
 	session_start();
 	include_once 'DBConnection.php';
+	$error = false;
 
 	if (isset($_SESSION['user'])!="") {
 		header("Location: home.php");
@@ -93,27 +94,28 @@
 		}
 		
 		$hash_passwort = hash('sha256', $passwort);
-	}		
+			
 
-	if( !$error ) {
-   
-	   $query = "INSERT INTO users (Username,Vorname,Name,EMail,Passwort) VALUES($username,$vorname,$nachname,$email,$hash_passwort)";
-	   $res = mysql_query($query);
-		
-	   if ($res) {
-			$errTyp = "success";
-			$errMSG = "Successfully registered, you may login now";
-			unset($username);
-			unset($vorname);
-			unset($nachname);
-			unset($email);
-			unset($passwort);
-	   } else {
-			$errTyp = "danger";
-			$errMSG = "Something went wrong, try again later..."; 
-	   } 
-		
-    }
+		if( !$error ) {
+	   
+		   $query = "INSERT INTO users (Username,Vorname,Name,EMail,Passwort) VALUES('$username','$vorname','$nachname','$email','$hash_passwort')";
+		   $res = mysql_query($query);
+			
+		   if ($res) {
+				$errTyp = "success";
+				$errMSG = "Successfully registered, you may login now";
+				unset($username);
+				unset($vorname);
+				unset($nachname);
+				unset($email);
+				unset($passwort);
+		   } else {
+				$errTyp = "danger";
+				$errMSG = "Something went wrong, try again later..."; 
+		   } 
+			
+		}
+	}
 ?>
 
 <html>
@@ -143,7 +145,7 @@
 				<p>Registrieren</p>
 				<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
 					<?php
-						if ( isset($errMSG) ) {
+						if (isset($errMSG)) {
 							
 					?>
 						<div class="form-group">
@@ -151,7 +153,7 @@
 								<span class="glyphicon glyphicon-info-sign"></span> 
 								<?php echo $errMSG; ?>
 							</div>
-							</div>
+						</div>
 							<?php
 						   }
 						   ?>
@@ -193,3 +195,4 @@
 	</body>
 
 </html>
+<?php ob_end_flush(); ?>

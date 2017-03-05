@@ -1,21 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Erstellungszeit: 05. Mrz 2017 um 18:04
--- Server-Version: 10.1.19-MariaDB
--- PHP-Version: 7.0.9
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Datenbank: `iiigel`
 --
@@ -152,7 +134,7 @@ CREATE TABLE `users` (
   `sFirstName` varchar(50) NOT NULL,
   `sLastName` varchar(50) NOT NULL,
   `sEMail` varchar(255) NOT NULL,
-  `sHashedPassword` varchar(60) NOT NULL,
+  `sHashedPassword` varchar(255) NOT NULL,
   `sProfilePicture` varchar(255) NOT NULL,
   `bIsVerified` tinyint(1) NOT NULL,
   `bIsAdmin` tinyint(1) NOT NULL,

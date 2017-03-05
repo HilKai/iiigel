@@ -2,7 +2,7 @@
 
 	ob_start();
 	session_start();
-	include_once("DBConnection.php");
+	require_once("DBConnection.php");
 	$error = false;
 
 
@@ -32,19 +32,14 @@
 		$passwort = strip_Tags($passwort);
 		$passwort = htmlspecialchars($passwort);
 		
-		if (empty($username)) {
-			$error = true;
-			$usernameError = "Geben Sie bitte einen Benutzernamen ein.";
-		}
-		
 		if (strlen($username)<3) {
 			$error = true;
 			$usernameError = "Ihr Benutzername muss länger als 3 Zeichen sein";
 		}
 		
-		if (empty($vorname)) {
+		if (empty($username)) {
 			$error = true;
-			$usernameError = "Geben Sie bitte einen Vornamen ein.";
+			$usernameError = "Geben Sie bitte einen Benutzernamen ein.";
 		}
 		
 		if(!preg_match("/^[a-zA-Z ]+$/",$vorname)) {
@@ -52,14 +47,19 @@
 			$vornameError = "Ihr Vorname darf keine Sonderzeichen enthalten";
 		}
 		
-		if (empty($nachname)) {
+		if (empty($vorname)) {
 			$error = true;
-			$nachnameError = "Geben Sie bitte einen Nachnamen ein.";
+			$vornameError = "Geben Sie bitte einen Vornamen ein.";
 		}
 		
 		if(!preg_match("/^[a-zA-Z ]+$/",$nachname)) {
 			$error = true;
 			$nachnameError = "Ihr Nachname darf keine Sonderzeichen enthalten";
+		}
+		
+		if (empty($nachname)) {
+			$error = true;
+			$nachnameError = "Geben Sie bitte einen Nachnamen ein.";
 		}
 
 		if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
@@ -118,10 +118,7 @@
 		}
 	}
 	
-	function iiigel_query($query){
-		global $db_connection;
-		return mysqli_query($db_connection, $query);
-	}
+	
 ?>
 
 <html>
@@ -148,7 +145,7 @@
 		<div id="WrappingContainer" class="container">
 			
 			<div id="register_Container" class="col-md-6 col-md-offset-3">
-				<p>Registrieren</p>
+				<h3 style="margin-top:10px;">Registrieren</h3>
 				<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
 					<?php
 						if (isset($errMSG)) {
@@ -167,7 +164,7 @@
 					<div class="form-group">
 						<label for="exampleInputEmail1">Username</label>
 						<input type="text" name="username" class="form-control" value="<?php if(isset($username)) echo $username; ?>" id="exampleInputEmail1" placeholder="Username">
-						 <span class="text-danger"><?php if(isset($userNameError)) echo $userNameError; ?></span>
+						 <span class="text-danger"><?php if(isset($usernameError)) echo $usernameError; ?></span>
 					</div>
 					
 					<div class="form-group">
@@ -193,9 +190,9 @@
 						 <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
 					</div>
 					
-					
+					<a href="index.php"> Bereits einen Account? Hier anmelden! </a>
 					<div class="form-group">
-						<button type="submit" class="btn btn-block btn-primary" name="btn-signup">Sign Up</button>
+						<button type="submit" class="btn btn-block btn-primary" name="btn-signup">Registrieren</button>
 					</div>
 				</form>
 			</div>

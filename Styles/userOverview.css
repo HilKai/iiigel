@@ -11,7 +11,7 @@ body {
 	}
 	
 		#ProfileContainer {
-			margin: 20px;
+			margin: 40px;
 		}
 		
 			#ProfilePic {
@@ -53,11 +53,10 @@ body {
 					
 				#LogOutButton {
 					display: inline-block;
-	
 				}
 		
 		#Container {
-			margin: 20px;
+			margin: 40px;
 			padding-top:20px;
 		}
 		
@@ -99,19 +98,16 @@ body {
 					}
 					
 					.chapterBarOuter{
-						
 						margin:0 auto;
 						width: 90%;
 						margin-top: 3px;
-						margin-bottom: 10px;
-						
-						
+						margin-bottom: 10px;	
 					}
 					
 					.chapterBar{
 						width : 95 %;
 						margin: 0 auto;
-						
+						background-color: #957A74;
 					}
 					.chapterInfo{
 						font-family: 'Open Sans', sans-serif;

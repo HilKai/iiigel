@@ -4,6 +4,12 @@
 	session_start();
 	include_once 'DBConnection.php';
 	$error = false;
+	$username = "";
+	$usernameError = "";
+	$vornameError = "";
+	$nachnameError = "";
+	$emailError = "";
+	$passwortError = "";
 
 	if (isset($_SESSION['user'])!="") {
 		header("Location: home.php");
@@ -80,7 +86,7 @@
 			
 		if ($count != 0) {
 			$error = true;
-			$userError = "Dieser Username ist bereits vergeben.";
+			$usernameError = "Dieser Username ist bereits vergeben.";
 		}
 		
 		if (empty($passwort)) {
@@ -160,31 +166,31 @@
 						
 					<div class="form-group">
 						<label for="exampleInputEmail1">Username</label>
-						<input type="email" class="form-control" value="<?php echo $username ?>" id="exampleInputEmail1" placeholder="Username">
-						 <span class="text-danger"><?php echo $usernameError; ?></span>
+						<input type="text" class="form-control" value="<?php if(isset($username)) echo $username; ?>" id="exampleInputEmail1" placeholder="Username">
+						 <span class="text-danger"><?php if(isset($userNameError)) echo $userNameError; ?></span>
 					</div>
 					
 					<div class="form-group">
 						<label for="exampleInputEmail1">Vorname</label>
-						<input type="email" class="form-control" value="<?php echo $vorname ?>" id="exampleInputEmail1" placeholder="Vorname">
-						 <span class="text-danger"><?php echo $vornameError; ?></span>
+						<input type="text" class="form-control" value="<?php if(isset($vorname)) echo $vorname; ?>" id="exampleInputEmail1" placeholder="Vorname">
+						 <span class="text-danger"><?php if(isset($vornameError)) echo $vornameError; ?></span>
 					</div>
 					
 					<div class="form-group">
 						<label for="exampleInputEmail1">Nachname</label>
-						<input type="email" class="form-control" value="<?php echo $nachname ?>" id="exampleInputEmail1" placeholder="Nachname">
-						 <span class="text-danger"><?php echo $nachnameError; ?></span>
+						<input type="text" class="form-control" value="<?php if(isset($nachname)) echo $nachname; ?>" id="exampleInputEmail1" placeholder="Nachname">
+						 <span class="text-danger"><?php if(isset($nachnameError)) echo $nachnameError; ?></span>
 					</div>
 					
 					<div class="form-group">
 						<label for="exampleInputEmail1">Email address</label>
-						<input type="email" class="form-control" value="<?php echo $email ?>" id="exampleInputEmail1" placeholder="Email">
-						 <span class="text-danger"><?php echo $emailError; ?></span>
+						<input type="email" class="form-control" value="<?php if(isset($email)) echo $email; ?>" id="exampleInputEmail1" placeholder="Email">
+						 <span class="text-danger"><?php if(isset($emailError)) echo $emailError; ?></span>
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1">Password</label>
 						<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-						 <span class="text-danger"><?php echo $passError; ?></span>
+						 <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
 					</div>
 					
 					<button name="btn-signUp" type="submit" class="btn btn-default">Registrieren</button>

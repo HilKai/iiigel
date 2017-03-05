@@ -39,11 +39,10 @@
 	   
 		    $query = "SELECT ID, sUsername, sHashedPassword FROM users WHERE sUsername = '$username'";
 		    $res = iiigel_query($query);
-			var_dump($res);
+			
 			
 			$row=mysqli_fetch_array($res);
-			var_dump($row);
-			echo $hash_passwort;
+			
 			$count = mysqli_num_rows($res); // if uname/pass correct it returns must be 1 row
 		   
 		if( $count == 1 && $row['sHashedPassword']==$hash_passwort ) {

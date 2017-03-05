@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
+		<link rel="stylesheet" href="../Styles\trainerModulview.css" type="text/css">
+		<!-- Schrift -->
+			<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	</head>
+	
+	<body>
+	
+		<div id="WrappingContainer"  class="container">
+		
+			<div id="Container" class="row">
+		
+				<div class="col-md-10 noPadding">
+					<h1 id="ModulHeading" >Modulname</h1>	
+				</div>	
+				
+				<div class="col-md-2 noPadding">
+					<button id="LogOutButton" class="btn btn-default"> <span class="glyphicon glyphicon-log-out"></span> Abmelden</button> 
+				</div>
+				
+				<div class="row">
+					
+					<div class="col-md-12">
+						<p id="Institution" ><span class="glyphicon glyphicon-education"></span> Gymnasium Am Geroweiher</p>	
+					</div>	
+				
+				</div>
+				
+			</div>
+
+			<div id="OverviewTable" class="row">
+			
+				<div class="col-md-12 noPadding">
+			
+					<table class="table">
+						<thead>
+						  <tr>
+							<th>Vorname</th>
+							<th>Nachname</th>
+							<th>Telefonnummer</th>
+							<th>E-Mail Adresse</th>
+							<th>Fortschrit</th>
+							<th>Kapitel</th>
+							<th></th> <!--Kapitelhochsetzen-->
+							<th></th> <!--Abgabe-Benachrichtigung-->
+							
+						  </tr>
+						</thead>
+						<tbody>
+						  <tr>
+							<td>Nele</td>
+							<td>Mersch</td>
+							<td>0800/5678222</td>
+							<td>nele_mersch@example.com</td>
+							<td> <div class="progress chapterBarOuter">
+									<div class="progress-bar chapterBar" role="progressbar" aria-valuenow="70"
+									  aria-valuemin="0" aria-valuemax="100" style="width:70%">
+									</div>
+								 </div>
+							</td>	 
+							<td>08</td>
+							<td class="levelUp"><span class="glyphicon glyphicon-circle-arrow-up"></span></td>
+							<td class="notification"><span class="glyphicon glyphicon-bell"></span></td>
+						  </tr>
+						  <tr>
+							<td>Kai Kilian</td>
+							<td>Hilgers</td>
+							<td>0800/5678222</td>
+							<td>kai_hilgers@example.com</td>
+							<td> <div class="progress chapterBarOuter">
+									<div class="progress-bar chapterBar" role="progressbar" aria-valuenow="70"
+									  aria-valuemin="0" aria-valuemax="100" style="width:70%">
+									</div>
+								 </div>
+							</td>
+							<td>10</td>
+							<td class="levelUp"><span class="glyphicon glyphicon-circle-arrow-up"></span></td>
+							<td class="notification"><span class="glyphicon glyphicon-bell"></span></td>
+						  </tr>
+						  <tr>
+							<td>Jasmina</td>
+							<td>Karakas</td>
+							<td>0800/5678222</td>
+							<td>jasmina_karakas@example.com</td>
+							<td> <div class="progress chapterBarOuter">
+									<div class="progress-bar chapterBar" role="progressbar" aria-valuenow="70"
+									  aria-valuemin="0" aria-valuemax="100" style="width:70%">
+									</div>
+								 </div>
+							</td>
+							<td>12</td>
+							<td class="levelUp"><span class="glyphicon glyphicon-circle-arrow-up"></span></td>
+							<td class="notification"><span class="glyphicon glyphicon-bell"></span></td>
+						  </tr>
+						</tbody>
+					  </table>
+					  
+				</div>
+			
+			</div>
+		
+		</div>	
+	
+	</body>
+
+</html>

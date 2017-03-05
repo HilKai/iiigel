@@ -64,7 +64,7 @@
 
 		if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
 			$error = true;
-			$emailError = "Please enter valid email address.";
+			$emailError = "Bitte geben Sie eine gültige E-Mail Adresse ein.";
 		} else {
 			$query = "SELECT sEMail FROM users WHERE users.sEMail = '$email'";
 			$result = iiigel_query($query);
@@ -104,7 +104,7 @@
 			
 		   if ($res) {
 				$errTyp = "success";
-				$errMSG = "Successfully registered, you may login now";
+				$errMSG = "Sie haben sich erfolgreich registriert. Sie können sich jetzt einloggen";
 				unset($username);
 				unset($vorname);
 				unset($nachname);

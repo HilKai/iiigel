@@ -49,7 +49,7 @@
 			$_SESSION['user'] = $row['ID'];
 			header("Location: userOverview.php");
 		   } else {
-			$errMSG = "Incorrect Credentials, Try again...";
+			$errMSG = "Ihre Accountdaten sind falsch. Bitte geben Sie diese erneut ein";
 		   }
 			
 		}

@@ -2,14 +2,9 @@
 
 	ob_start();
 	session_start();
-	include_once 'DBConnection.php';
+	include_once("DBConnection.php");
 	$error = false;
-	$username = "";
-	$usernameError = "";
-	$vornameError = "";
-	$nachnameError = "";
-	$emailError = "";
-	$passwortError = "";
+
 
 	if (isset($_SESSION['user'])!="") {
 		header("Location: home.php");
@@ -33,9 +28,9 @@
 		$email = strip_Tags($email);
 		$email = htmlspecialchars($email);
 		
-		$passwort = trim($_POST['password']);
-		$passwort = strip_Tags($password);
-		$passwort = htmlspecialchars($password);
+		$passwort = trim($_POST['passwort']);
+		$passwort = strip_Tags($passwort);
+		$passwort = htmlspecialchars($passwort);
 		
 		if (empty($username)) {
 			$error = true;
@@ -72,8 +67,8 @@
 			$emailError = "Please enter valid email address.";
 		} else {
 			$query = "SELECT sEMail FROM users WHERE users.sEMail = '$email'";
-			$result = mysql_query($query);
-			$count = mysql_num_rows($result);
+			$result = iiigel_query($query);
+			$count = mysqli_num_rows($result);
 				if ($count != 0) {
 					$error = true;
 					$emailError = "Ihre angegebene E-Mail ist bereits vergeben.";
@@ -81,8 +76,8 @@
 		}
 	
 		$query = "SELECT sUsername FROM users WHERE users.sUsername = '$username'";
-		$result = mysql_query($query);
-		$count = mysql_num_rows($result);
+		$result = iiigel_query($query);
+		$count = mysqli_num_rows($result);
 			
 		if ($count != 0) {
 			$error = true;
@@ -104,8 +99,8 @@
 
 		if( !$error ) {
 	   
-		   $query = "INSERT INTO users (Username,Vorname,Name,EMail,Passwort) VALUES('$username','$vorname','$nachname','$email','$hash_passwort')";
-		   $res = mysql_query($query);
+		   $query = "INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword) VALUES('$username','$vorname','$nachname','$email','$hash_passwort')";
+		   $res = iiigel_query($query);
 			
 		   if ($res) {
 				$errTyp = "success";
@@ -121,6 +116,11 @@
 		   } 
 			
 		}
+	}
+	
+	function iiigel_query($query){
+		global $db_connection;
+		return mysqli_query($db_connection, $query);
 	}
 ?>
 
@@ -166,34 +166,37 @@
 						
 					<div class="form-group">
 						<label for="exampleInputEmail1">Username</label>
-						<input type="text" class="form-control" value="<?php if(isset($username)) echo $username; ?>" id="exampleInputEmail1" placeholder="Username">
+						<input type="text" name="username" class="form-control" value="<?php if(isset($username)) echo $username; ?>" id="exampleInputEmail1" placeholder="Username">
 						 <span class="text-danger"><?php if(isset($userNameError)) echo $userNameError; ?></span>
 					</div>
 					
 					<div class="form-group">
 						<label for="exampleInputEmail1">Vorname</label>
-						<input type="text" class="form-control" value="<?php if(isset($vorname)) echo $vorname; ?>" id="exampleInputEmail1" placeholder="Vorname">
+						<input type="text" name="vorname" class="form-control" value="<?php if(isset($vorname)) echo $vorname; ?>" id="exampleInputEmail1" placeholder="Vorname">
 						 <span class="text-danger"><?php if(isset($vornameError)) echo $vornameError; ?></span>
 					</div>
 					
 					<div class="form-group">
 						<label for="exampleInputEmail1">Nachname</label>
-						<input type="text" class="form-control" value="<?php if(isset($nachname)) echo $nachname; ?>" id="exampleInputEmail1" placeholder="Nachname">
+						<input type="text" name="nachname" class="form-control" value="<?php if(isset($nachname)) echo $nachname; ?>" id="exampleInputEmail1" placeholder="Nachname">
 						 <span class="text-danger"><?php if(isset($nachnameError)) echo $nachnameError; ?></span>
 					</div>
 					
 					<div class="form-group">
 						<label for="exampleInputEmail1">Email address</label>
-						<input type="email" class="form-control" value="<?php if(isset($email)) echo $email; ?>" id="exampleInputEmail1" placeholder="Email">
+						<input type="email" name="email" class="form-control" value="<?php if(isset($email)) echo $email; ?>" id="exampleInputEmail1" placeholder="Email">
 						 <span class="text-danger"><?php if(isset($emailError)) echo $emailError; ?></span>
 					</div>
 					<div class="form-group">
 						<label for="exampleInputPassword1">Password</label>
-						<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+						<input type="password" name="passwort" class="form-control" id="exampleInputPassword1" placeholder="Password">
 						 <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
 					</div>
 					
-					<button name="btn-signUp" type="submit" class="btn btn-default">Registrieren</button>
+					
+					<div class="form-group">
+						<button type="submit" class="btn btn-block btn-primary" name="btn-signup">Sign Up</button>
+					</div>
 				</form>
 			</div>
 				

@@ -1,6 +1,10 @@
  <?php 
 
 	$db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+	
+	if(!$db_connection){
+		echo('Keine Verbindung mit der Datenbank möglich');
+	}
  /*error_reporting( E_DEPRECATED & E_NOTICE );
  
 	define('DBHOST', 'localhost');

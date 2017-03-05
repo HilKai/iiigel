@@ -7,7 +7,7 @@
 
 
 	if (isset($_SESSION['user'])!="") {
-		header("Location: home.php");
+		header("Location: userOverview.php");
 	}
 	
 	if ( isset($_POST['btn-signup']) ) {
@@ -110,6 +110,7 @@
 				unset($nachname);
 				unset($email);
 				unset($passwort);
+				header("Location: index.php");
 		   } else {
 				$errTyp = "danger";
 				$errMSG = "Something went wrong, try again later..."; 

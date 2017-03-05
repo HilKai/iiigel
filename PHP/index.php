@@ -109,7 +109,7 @@
 						 <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
 					</div>
 					
-					<a href="register.php"> Noch kein Account? Hier registrieren! </a>
+					<a href="register.php"> Noch keinen Account? Hier registrieren! </a>
 					<div class="form-group">
 						<button type="submit" class="btn btn-block btn-primary" name="btn-signin">Einloggen</button>
 					</div>

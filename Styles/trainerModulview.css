@@ -12,7 +12,7 @@ body {
 	}
 	
 		#Container {
-			margin: 40px;
+			margin:  40px 40px 20px 40px;
 		}
 	
 			#ModulHeading {
@@ -31,30 +31,95 @@ body {
 			color: #636363;
 		}
 
-		#OverviewTable {
-			margin: 40px;
+		#OverviewContainer {
+			margin: 0px 40px 40px 40px;
 		}
 		
-			.chapterBarOuter {
-				height: 15px;
-				margin-bottom:0;
+			#Table {
+				margin-top: 30px;
 			}
 			
-				.chapterBar {
-					background-color: #957A74;
+				.chapterBarOuter {
+					height: 15px;
+					margin-bottom:0;
 				}
+				
+					.chapterBar {
+						background-color: #957A74;
+					}
+			
+				.chapter {
+					text-align:center;
+				}
+			
+				.levelUp {
+					color: #ddd;
+				}
+			
+				.notification {
+					color: #ddd;
+				}
+					
+				#AddUser {
+					text-align: center;
+					color: #ddd;
+				}	
 		
-			.levelUp:hover {
-				color: #ddd;
+		#ChapterViewButton {
+			display: inline-block;
+			background-color: #fff;
+			margin-left:20px;
+		}
+		
+			#ChapterViewButton:hover {
+				background-color: #ccc;
+				-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+				box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 			}
+
+		#TrainerViewButton {
+			display: inline-block;
+			background-color: #f1f1f1;
+		}
 		
-			.notification:hover {
-				color: #ddd;
+			#TrainerViewButton:hover{
+				cursor: default;
 			}
 			
+		#LevelAllUp {
+			font-family: 'Open Sans', sans-serif;
+			font-size: 20px;
+		}
+
+		#AllLevelUp {
+			margin: 20px 0px 0px 20px;
+			font-size:small;
+		}
+		
+		#DropdownContainer{
+			display: inline-block;
+		}
+		
+			.scrollable-menu {
+				height: auto;
+				max-height: 150px;
+				overflow-x: hidden;
+			}
 			
+		#OkButton {
+			background-color: #957A74;	
+			color: #fff;
+		}
+
+			#OkButton:hover {
+				background-color:#755F5A;
+			}
 			
 			
 .noPadding {
 	padding:0 !important;
+}
+
+.cursorHover:hover span{
+	cursor:pointer;
 }			

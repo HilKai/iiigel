@@ -1,5 +1,4 @@
 <?php 
-
 	ob_start();
 	session_start();
 	require_once("DBConnection.php");
@@ -32,7 +31,7 @@
 			$passError = "Bitte geben Sie ein Passwort an.";
 		}
 		
-		$hash_passwort = hash('sha256', $passwort);
+		
 			
 
 		if( !$error ) {
@@ -43,9 +42,9 @@
 			
 			$row=mysqli_fetch_array($res);
 			
-			$count = mysqli_num_rows($res); // if uname/pass correct it returns must be 1 row
+			$numUsersWithUsername = mysqli_num_rows($res); // if uname/pass correct it returns must be 1 row
 		   
-		if( $count == 1 && $row['sHashedPassword']==$hash_passwort ) {
+		if( $numUsersWithUsername == 1 && password_verify($passwort, $row['sHashedPassword']) ) {
 			$_SESSION['user'] = $row['ID'];
 			header("Location: userOverview.php");
 		   } else {

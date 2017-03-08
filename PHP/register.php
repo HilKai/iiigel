@@ -93,8 +93,14 @@
 				$passError = "Das eingegebene Passwort ist zu kurz. Es muss länger als 6 Zeichen sein.";
 			}
 		}
+        
 		
-		$hash_passwort = hash('sha256', $passwort);
+        $options = [
+            'cost' => 11,
+            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+        ];
+		
+        $hash_passwort = password_hash( $passwort, PASSWORD_BCRYPT, $options);
 			
 
 		if( !$error ) {

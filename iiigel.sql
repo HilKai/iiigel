@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 09. Mrz 2017 um 18:13
+-- Erstellungszeit: 09. Mrz 2017 um 20:15
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -100,6 +100,19 @@ CREATE TABLE `groups` (
   `bIsDeleted` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `groups`
+--
+
+INSERT INTO `groups` (`ID`, `ModulID`, `InstitutionsID`, `sName`, `bIsDeleted`) VALUES
+(1, 1, 1, 'SmallBasic Corinna', 0),
+(2, 3, 1, 'Javascript Torben', 0),
+(3, 1, 1, 'SmallBasic Konrad', 0),
+(4, 4, 1, 'Delphi Kai', 0),
+(5, 2, 1, 'HTML Nele&Dominik', 0),
+(6, 5, 1, 'Python Roger', 0),
+(7, 6, 1, 'Java Nat', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -135,7 +148,8 @@ CREATE TABLE `institutions` (
 
 INSERT INTO `institutions` (`ID`, `sID`, `sName`, `bIsDeleted`) VALUES
 (1, NULL, 'Gymnasium Am Geroweiher', 0),
-(2, NULL, 'Math.-Nat. Gymnasium', 0);
+(2, NULL, 'Math.-Nat. Gymnasium', 0),
+(3, NULL, 'RWTH Aachen', 0);
 
 -- --------------------------------------------------------
 
@@ -161,8 +175,10 @@ CREATE TABLE `modules` (
 INSERT INTO `modules` (`ID`, `sID`, `sName`, `sDescription`, `sLanguage`, `sIcon`, `bIsDeleted`, `bIsLive`) VALUES
 (1, NULL, 'SmallBasic', '', 'Microsoft Small Basic', '', 0, 1),
 (2, NULL, 'HTML/CSS', '', 'Hypertext Markup Language/Cascading Style Sheets', '', 0, 1),
-(3, NULL, 'Javascript', '', 'Javascript', '', 0, 0),
-(4, NULL, 'Delphi', '', 'Embarcadero Delphi', '', 0, 0);
+(3, NULL, 'Javascript', '', 'Javascript', '', 0, 1),
+(4, NULL, 'Delphi', '', 'Embarcadero Delphi', '', 0, 0),
+(5, NULL, 'Python', '', 'Python', '', 0, 1),
+(6, NULL, 'Java', '', 'Java', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -174,6 +190,18 @@ CREATE TABLE `moduletoinstitution` (
   `ModuleID` int(11) NOT NULL,
   `InstitutionID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `moduletoinstitution`
+--
+
+INSERT INTO `moduletoinstitution` (`ModuleID`, `InstitutionID`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1);
 
 -- --------------------------------------------------------
 
@@ -232,7 +260,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMail`, `sHashedPassword`, `sProfilePicture`, `bIsVerified`, `bIsAdmin`, `bIsOnline`) VALUES
-(1, NULL, 'TestUser', 'Test', 'Test', 'Test@user.de', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', '', 0, 0, 0);
+(6, NULL, 'JasminaK', 'Jasmina', 'Karakas', 'jasmina_karakas@hotmail.de', '$2y$11$VcNjGJh31/EQnYGyneAucOCxQ2hOjc3wPLU4kXbopNBk6VxfF.lWK', '', 0, 0, 0),
+(7, NULL, 'CorinnaH', 'Corinna', 'Heinze', 'hei.cor@web.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '', 0, 0, 0),
+(8, NULL, 'NeleM', 'Nele', 'Mersch', 'nele.mersch5@gmail.com', '$2y$11$.ra3YIUNjUkepTWlXvwqFeSNfvdww7li/lS5GBMwyZcmRz6epCur2', '', 0, 0, 0),
+(9, NULL, 'KaiH', 'Kai', 'Hilgers', 'Kai.Hilgers.Info@gmx.de', '$2y$11$n5mwk39o61P6y/VtiEZq3utUPxyh8Py9cyLPeiTJtTvpyOAOsMGhi', '', 0, 0, 0),
+(10, NULL, 'TestUser', 'Test', 'User', 'test@user.de', '$2y$11$vg01oIhh4o/7GpEQ8Xr8fOIr7yZ0qwGcg4lunthTSxVMFyjFn0Gpm', '', 0, 0, 0),
+(11, NULL, 'RogerH', 'Roger', 'Hermasch', 'roger.hermasch@t-online.de', '$2y$11$NqUdz4ws1zLKwE8LLyxhmef2VA971vmle148vhZWn/1z5F9L.TtOa', '', 0, 0, 0),
+(12, NULL, 'PatrickL', 'Patrick', 'Liesen', 'patrick@mail4liesen.de', '$2y$11$m/RbWwrA4suAlhsp/Iur9OW4I04qxLCCzZHTITY26GnVoIfOR4nFe', '', 0, 0, 0),
+(13, NULL, 'JanSc', 'Jan', 'Schumann', 'janschumann55@gmail.com', '$2y$11$XnR2UOOHEBcRo9ZRmwt6FOt59s4.3IkKTqhgzOBJZ5yY0JRiLaMue', '', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -247,6 +282,20 @@ CREATE TABLE `usertogroup` (
   `bIsTrainer` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `usertogroup`
+--
+
+INSERT INTO `usertogroup` (`UserID`, `GroupID`, `iFortschritt`, `bIsTrainer`) VALUES
+(7, 1, 0, 1),
+(11, 6, 0, 1),
+(6, 6, 0, 0),
+(8, 5, 0, 1),
+(10, 4, 0, 0),
+(9, 4, 0, 1),
+(12, 5, 0, 0),
+(13, 6, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -258,6 +307,18 @@ CREATE TABLE `usertoinstitution` (
   `InstitutionID` int(11) NOT NULL,
   `bIsInstitutionleader` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `usertoinstitution`
+--
+
+INSERT INTO `usertoinstitution` (`UserID`, `InstitutionID`, `bIsInstitutionleader`) VALUES
+(13, 2, 0),
+(6, 1, 0),
+(7, 1, 0),
+(8, 1, 0),
+(11, 1, 0),
+(12, 1, 0);
 
 --
 -- Indizes der exportierten Tabellen
@@ -318,7 +379,7 @@ ALTER TABLE `chapters`
 -- AUTO_INCREMENT für Tabelle `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT für Tabelle `handins`
 --
@@ -328,12 +389,12 @@ ALTER TABLE `handins`
 -- AUTO_INCREMENT für Tabelle `institutions`
 --
 ALTER TABLE `institutions`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT für Tabelle `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT für Tabelle `transcribedtags`
 --
@@ -343,7 +404,7 @@ ALTER TABLE `transcribedtags`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

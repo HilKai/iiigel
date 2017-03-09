@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 07. Mrz 2017 um 17:25
+-- Erstellungszeit: 09. Mrz 2017 um 18:13
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -232,7 +232,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMail`, `sHashedPassword`, `sProfilePicture`, `bIsVerified`, `bIsAdmin`, `bIsOnline`) VALUES
-(2, NULL, 'TestUser', 'Test', 'Test', 'Test@user.de', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', '', 0, 0, 0);
+(1, NULL, 'TestUser', 'Test', 'Test', 'Test@user.de', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225', '', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -241,6 +241,8 @@ INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMai
 --
 
 CREATE TABLE `usertogroup` (
+  `UserID` int(11) NOT NULL,
+  `GroupID` int(11) NOT NULL,
   `iFortschritt` int(11) NOT NULL,
   `bIsTrainer` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -252,6 +254,8 @@ CREATE TABLE `usertogroup` (
 --
 
 CREATE TABLE `usertoinstitution` (
+  `UserID` int(11) NOT NULL,
+  `InstitutionID` int(11) NOT NULL,
   `bIsInstitutionleader` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

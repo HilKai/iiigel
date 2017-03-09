@@ -11,6 +11,6 @@
 	 }
 	 // select loggedin users detail
 	 $query = "SELECT * FROM users WHERE ID=".$_SESSION['user'];
-	 $res=iiigel_query($query);
+	 $res=$ODB->query($query);
 	 $userRow=mysqli_fetch_array($res);
 ?>

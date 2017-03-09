@@ -2,7 +2,7 @@
 
 	ob_start();
 	session_start();
-	require_once("DBConnection.php");
+	include_once("database.php");
 	$error = false;
 
 
@@ -67,7 +67,7 @@
 			$emailError = "Bitte geben Sie eine gültige E-Mail Adresse ein.";
 		} else {
 			$query = "SELECT sEMail FROM users WHERE users.sEMail = '$email'";
-			$result = iiigel_query($query);
+			$result = $ODB->query($query);
 			$count = mysqli_num_rows($result);
 				if ($count != 0) {
 					$error = true;
@@ -76,7 +76,7 @@
 		}
 	
 		$query = "SELECT sUsername FROM users WHERE users.sUsername = '$username'";
-		$result = iiigel_query($query);
+		$result = $ODB->query($query);
 		$count = mysqli_num_rows($result);
 			
 		if ($count != 0) {
@@ -106,7 +106,7 @@
 		if( !$error ) {
 	   
 		   $query = "INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword) VALUES('$username','$vorname','$nachname','$email','$hash_passwort')";
-		   $res = iiigel_query($query);
+		   $res = $ODB->query($query);
 			
 		   if ($res) {
 				$errTyp = "success";
@@ -128,84 +128,82 @@
 	
 ?>
 
-<html>
+    <html>
 
-	<head>
-		<link rel="stylesheet" href="../Styles/layout.css" type="text/css"> 
-		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-		
-		<!-------------------------------BOOTSTRAP-------------------------------->
-		
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <head>
+        <link rel="stylesheet" href="../Styles/layout.css" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
-		integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <!-------------------------------BOOTSTRAP-------------------------------->
 
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		
-	</head>
-	
-	<body class="body">
-		<div id="WrappingContainer" class="container">
-			
-			<div id="register_Container" class="col-md-6 col-md-offset-3">
-				<h3 style="margin-top:10px;">Registrieren</h3>
-				<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
-					<?php
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    </head>
+
+    <body class="body">
+        <div id="WrappingContainer" class="container">
+
+            <div id="register_Container" class="col-md-6 col-md-offset-3">
+                <h3 style="margin-top:10px;">Registrieren</h3>
+                <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
+                    <?php
 						if (isset($errMSG)) {
 							
 					?>
-						<div class="form-group">
-							<div class="alert alert-<?php echo ($errTyp=="success") ? "success" : $errTyp; ?>">
-								<span class="glyphicon glyphicon-info-sign"></span> 
-								<?php echo $errMSG; ?>
-							</div>
-						</div>
-							<?php
+                        <div class="form-group">
+                            <div class="alert alert-<?php echo ($errTyp==" success ") ? "success " : $errTyp; ?>">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                                <?php echo $errMSG; ?>
+                            </div>
+                        </div>
+                        <?php
 						   }
 						   ?>
-						
-					<div class="form-group">
-						<label for="exampleInputEmail1">Username</label>
-						<input type="text" name="username" class="form-control" value="<?php if(isset($username)) echo $username; ?>" id="exampleInputEmail1" placeholder="Username">
-						 <span class="text-danger"><?php if(isset($usernameError)) echo $usernameError; ?></span>
-					</div>
-					
-					<div class="form-group">
-						<label for="exampleInputEmail1">Vorname</label>
-						<input type="text" name="vorname" class="form-control" value="<?php if(isset($vorname)) echo $vorname; ?>" id="exampleInputEmail1" placeholder="Vorname">
-						 <span class="text-danger"><?php if(isset($vornameError)) echo $vornameError; ?></span>
-					</div>
-					
-					<div class="form-group">
-						<label for="exampleInputEmail1">Nachname</label>
-						<input type="text" name="nachname" class="form-control" value="<?php if(isset($nachname)) echo $nachname; ?>" id="exampleInputEmail1" placeholder="Nachname">
-						 <span class="text-danger"><?php if(isset($nachnameError)) echo $nachnameError; ?></span>
-					</div>
-					
-					<div class="form-group">
-						<label for="exampleInputEmail1">Email address</label>
-						<input type="email" name="email" class="form-control" value="<?php if(isset($email)) echo $email; ?>" id="exampleInputEmail1" placeholder="Email">
-						 <span class="text-danger"><?php if(isset($emailError)) echo $emailError; ?></span>
-					</div>
-					<div class="form-group">
-						<label for="exampleInputPassword1">Password</label>
-						<input type="password" name="passwort" class="form-control" id="exampleInputPassword1" placeholder="Password">
-						 <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
-					</div>
-					
-					<a href="index.php"> Bereits einen Account? Hier anmelden! </a>
-					<div class="form-group">
-						<button type="submit" class="btn btn-block btn-primary" name="btn-signup">Registrieren</button>
-					</div>
-				</form>
-			</div>
-				
-		</div>
-	</body>
 
-</html>
-<?php ob_end_flush(); ?>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Username</label>
+                                <input type="text" name="username" class="form-control" value="<?php if(isset($username)) echo $username; ?>" id="exampleInputEmail1" placeholder="Username">
+                                <span class="text-danger"><?php if(isset($usernameError)) echo $usernameError; ?></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Vorname</label>
+                                <input type="text" name="vorname" class="form-control" value="<?php if(isset($vorname)) echo $vorname; ?>" id="exampleInputEmail1" placeholder="Vorname">
+                                <span class="text-danger"><?php if(isset($vornameError)) echo $vornameError; ?></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Nachname</label>
+                                <input type="text" name="nachname" class="form-control" value="<?php if(isset($nachname)) echo $nachname; ?>" id="exampleInputEmail1" placeholder="Nachname">
+                                <span class="text-danger"><?php if(isset($nachnameError)) echo $nachnameError; ?></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input type="email" name="email" class="form-control" value="<?php if(isset($email)) echo $email; ?>" id="exampleInputEmail1" placeholder="Email">
+                                <span class="text-danger"><?php if(isset($emailError)) echo $emailError; ?></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" name="passwort" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
+                            </div>
+
+                            <a href="index.php"> Bereits einen Account? Hier anmelden! </a>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-block btn-primary" name="btn-signup">Registrieren</button>
+                            </div>
+                </form>
+            </div>
+
+        </div>
+    </body>
+
+    </html>
+    <?php ob_end_flush(); ?>

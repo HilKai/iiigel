@@ -115,14 +115,14 @@
         private $InstitutionsID;
         private $sName;
         private $bIsDeleted;
-        private $Teilnehmer; //as User
+        private $Teilnehmer; //as User + fortschritt+ istrainer
         public function __construct($ID,$ModulID,$InstitutionsID,$sName,$bIsDeleted){
             $this->ID = $ID;
             $this->ModulID = $ModulID;
             $this->InstitutionsID = $InstitutionsID;
             $this->sName = $sName;
             $this->bIsDeleted = $bIsDeleted;
-            $res = $ODB->query('SELECT * FROM users INNER JOIN usertogroup ON users.ID = usertogroup.UserID WHERE usertogroup.GroupID = '$ID'');
+            $res = $ODB->query("SELECT * FROM users INNER JOIN usertogroup ON users.ID = usertogroup.UserID WHERE usertogroup.GroupID = ".$this->ID." ORDER BY users.sFirstName ASC");
             $Teilnehmer = mysqli_fetch_array($res);
         }
         public function getID(){
@@ -139,6 +139,74 @@
         }
          public function getbIsDeleted(){
             return $this->bIsDeleted;
+        }
+    }
+
+    class module{
+        private $ID;
+        private $sID;
+        private $sName;
+        private $sDescription;
+        private $sLanguage;
+        private $sIcon;
+        private $bIsDeleted;
+        private $bIsLive;
+        private $chapter;
+        public function __construct($ID,$sID,$sName,$sDescriptionsLanguage,$sIcon,$bIsDeleted,$bIsLive){
+            $this->ID= $ID;
+            $this->sID= $sID;
+            $this->sName= $sName;
+            $this->sDescription= $sDescription;
+            $this->sLanguage= $sLanguage;
+            $this->sIcon= $sIcon;
+            $this->bIsDeleted= $bIsDeleted;
+            $this->bIsLive= $bIsLive;
+            $res= $ODB->query("SELECT * FROM chapters WHERE ModulID = ".$this->ID." ORDER BY iIndex");
+            
+            
+            while ($row = mysqli_fetch_row($res) != NULL){
+                array_push($chapter,new chapter($row['ID'],$row['sID'],$row['iIndex'],$row['sTitle'],
+                                                $row['sText'],$row['sNote'],$row['ModulID'],$row['bInterpreter'],$row['bIsMandatoryHandIn'],
+                                                $row['bIsLive'],$row['bLiveInterpretation'],$row['bShowCloud'],$row['bIsDeleted']));
+            }
+            
+            
+             
+              
+            } 
+        
+           
+            
+    }
+
+    class chapter{	
+        private $ID;
+        private $sID;
+        private $iIndex;
+        private $sTitle;
+        private $sText;
+        private $sNote;
+        private $ModulID;
+        private $bInterpreter;
+        private $bIsMandatoryHandIn;
+        private $bIsLive;
+        private $bLiveInterpretation;
+        private $bShowCloud;
+        private $bIsDeleted;
+        public function __construct($ID,$sID,$iIndex,$sTitle,$sText,$sNote,$ModulID,$bInterpret,$bIsMandato,$bIsLive,$bLiveInter,$bShowCloud,$bIsDeleted){
+            $this->ID= $ID;
+            $this->sID= $sID;
+            $this->iIndex= $iIndex;
+            $this->sTitle= $sTitle;
+            $this->sText= $sText;
+            $this->sNote= $sNote;
+            $this->ModulID= $ModulID;
+            $this->bInterpreter= $bInterpreter;
+            $this->bIsMandatoryHandIn= $bIsMandatoryHandIn;
+            $this->bIsLive= $bIsLive;
+            $this->bLiveInterpretation= $bLiveInterpretation;
+            $this->bShowCloud= $bShowCloud;
+            $this->bIsDeleted= $bIsDeleted;  
         }
     }
     

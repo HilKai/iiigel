@@ -36,7 +36,8 @@
 
 		if( !$error ) {
 	   
-		    $myUser = $ODB->getUserFromUsername($username);   
+		    $myUser = $ODB->getUserFromUsername($username);  
+           
 		if( $myUser->verifyPassword($passwort)){
 			$_SESSION['user'] = $myUser->getID();
 			header("Location: userOverview.php");

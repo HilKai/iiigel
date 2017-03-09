@@ -33,17 +33,29 @@
             }
         }
         public function getGroupFromID($ID){
-         $res = $this->query("SELECT * FROM Users WHERE Users.ID ='$ID'");
+         $res = $this->query("SELECT * FROM Groups WHERE Groups.ID ='$ID'");
             if (mysqli_num_rows($res)==1){
                 $row = mysqli_fetch_array($res);
                     return new group($row['ID'],$row['ModulID'],$row['InstitutionsID'],$row['sName'],
-                                    $row['bIsDeleted']);
+                                    $row['bIsDeleted'],
+                                     $this->query("SELECT users.ID,users.sID,users.sUsername,users.sFirstName,users.sLastName,users.sEMail,users.sHashedPassword,users.sProfilePicture,users.bIsVerified,users.bIsAdmin,users.bIsOnline,usertogroup.iFortschritt,usertogroup.bIsTrainer FROM users INNER JOIN usertogroup ON users.ID = usertogroup.UserID  WHERE usertogroup.GroupID = ".$ID." ORDER BY users.sFirstName ASC"));
             } else {
                 throw new exception('Mehr als eine Gruppe mit dieser ID');        
             }
         }
+        public function getModuleFromID($ID){
+            $res = $this->query("SELECT * FROM Modules WHERE Modules.ID ='$ID'");
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return new Module($row['ID'],$row['sID'],$row['sName'],$row['sDescription'],$row['sLanguage'],$row['sIcon'],$row['bIsDeleted'],$row['bIsLive'],
+                                     $this->query("SELECT * FROM chapters WHERE ModulID = ".$ID." ORDER BY iIndex")
+                                     );
+            } else {
+                throw new exception('Mehr als ein Modul mit dieser ID');        
+            }
+        }
     }
-
+  
     class User
     {
         private $ID;
@@ -108,6 +120,81 @@
             return password_verify($hashedPassword, $this->sHashedPassword);
         }
     }
+    
+    class teilnehmer{ //nur für User in Modulen
+        private $ID;
+        private $sID;
+        private $sUsername;
+        private $sFirstName;
+        private $sLastName;
+        private $sEMail;
+        private $sHashedPassword;
+        private $sProfilePicture;
+        private $bIsVerified;
+        private $bIsAdmin;
+        private $bIsOnline;
+        private $iFortschritt;
+        private $bIsTrainer;
+        
+         public function __construct($ID,$sID,$sUsername,$sFirstName,$sLastName,$sEMail,$sHashedPassword,$sProfilePicture,$bIsVerified,$bIsAdmin,$bIsOnline,$iFortschritt,$bIsTrainer){
+            $this->ID = $ID;
+            $this->sID = $sID;
+            $this->sUsername = $sUsername;
+            $this->sFirstName = $sFirstName;
+            $this->sLastName = $sLastName;
+            $this->sEMail = $sEMail;
+            $this->sHashedPassword = $sHashedPassword;
+            $this->sProfilePicture = $sProfilePicture;
+            $this->bIsVerified = $bIsVerified;
+            $this->bIsAdmin = $bIsAdmin;
+            $this->bIsOnline = $bIsOnline;
+            $this->iFortschritt = $iFortschritt;
+            $this->bIsTrainer = $bIsTrainer;
+        }
+            public function getID(){
+            return $this->ID;
+        }
+        public function getsID(){
+            return $this->sID;
+        }
+        public function getsUsername(){
+            return $this->sUsername;
+        }
+        public function getsFirstName(){
+            return $this->sFirstName;
+        }
+        public function getsLastName(){
+            return $this->sLastName;
+        }
+        public function getsEMail(){
+            return $this->sEMail;
+        }
+        public function getsHashedPassword(){
+            return $this->sHashedPassword;
+        }
+        public function getsProfilePicture(){
+            return $this->sProfilePicture;
+        }
+        public function getbIsVerified(){
+            return $this->bIsVerified;
+        }
+        public function getbIsAdmin(){
+            return $this->bIsAdmin;
+        }
+        public function getbIsOnline(){
+            return $this->bIsOnline;
+        }
+        public function verifyPassword($hashedPassword){
+            return password_verify($hashedPassword, $this->sHashedPassword);
+        }
+        
+        public function getiFortschritt(){
+            return $this->iFortschritt;
+        }
+        public function getbIsTrainer(){
+            return $this->bIsTrainer;
+        }
+    }
 
     class group{
         private $ID;
@@ -115,15 +202,19 @@
         private $InstitutionsID;
         private $sName;
         private $bIsDeleted;
-        private $Teilnehmer; //as User + fortschritt+ istrainer
-        public function __construct($ID,$ModulID,$InstitutionsID,$sName,$bIsDeleted){
+        public $teilnehmer = array(); //as User + fortschritt+ istrainer
+        public function __construct($ID,$ModulID,$InstitutionsID,$sName,$bIsDeleted,$teilnehmer){
             $this->ID = $ID;
             $this->ModulID = $ModulID;
             $this->InstitutionsID = $InstitutionsID;
             $this->sName = $sName;
             $this->bIsDeleted = $bIsDeleted;
-            $res = $ODB->query("SELECT * FROM users INNER JOIN usertogroup ON users.ID = usertogroup.UserID WHERE usertogroup.GroupID = ".$this->ID." ORDER BY users.sFirstName ASC");
-            $Teilnehmer = mysqli_fetch_array($res);
+            while (($row = mysqli_fetch_row($teilnehmer)) != NULL){
+             
+               $this->teilnehmer[] = new teilnehmer($row[0],$row[1],$row[2],$row[3],
+                                                $row[4],$row[5],$row[6],$row[7],$row[8],
+                                                $row[9],$row[10],$row[11],$row[12]);
+            }
         }
         public function getID(){
             return $this->ID;
@@ -151,23 +242,22 @@
         private $sIcon;
         private $bIsDeleted;
         private $bIsLive;
-        private $chapter;
-        public function __construct($ID,$sID,$sName,$sDescriptionsLanguage,$sIcon,$bIsDeleted,$bIsLive){
+        public $chapter = array();
+        public function __construct($ID,$sID,$sName,$sDescription,$sLanguage,$sIcon,$bIsDeleted,$bIsLive,$chapters){
+   
             $this->ID= $ID;
             $this->sID= $sID;
             $this->sName= $sName;
-            $this->sDescription= $sDescription;
+            $this->$sDescription= $sDescription;
             $this->sLanguage= $sLanguage;
             $this->sIcon= $sIcon;
             $this->bIsDeleted= $bIsDeleted;
             $this->bIsLive= $bIsLive;
-            $res= $ODB->query("SELECT * FROM chapters WHERE ModulID = ".$this->ID." ORDER BY iIndex");
             
-            
-            while ($row = mysqli_fetch_row($res) != NULL){
-                array_push($chapter,new chapter($row['ID'],$row['sID'],$row['iIndex'],$row['sTitle'],
-                                                $row['sText'],$row['sNote'],$row['ModulID'],$row['bInterpreter'],$row['bIsMandatoryHandIn'],
-                                                $row['bIsLive'],$row['bLiveInterpretation'],$row['bShowCloud'],$row['bIsDeleted']));
+            while (($row = mysqli_fetch_row($chapters)) != NULL){
+                $this->chapter[] =new chapter($row[0],$row[1],$row[2],$row[3],
+                                                $row[4],$row[5],$row[6],$row[7],$row[8],
+                                                $row[9],$row[10],$row[11],$row[12]); 
             }
             
             
@@ -193,7 +283,7 @@
         private $bLiveInterpretation;
         private $bShowCloud;
         private $bIsDeleted;
-        public function __construct($ID,$sID,$iIndex,$sTitle,$sText,$sNote,$ModulID,$bInterpret,$bIsMandato,$bIsLive,$bLiveInter,$bShowCloud,$bIsDeleted){
+        public function __construct($ID,$sID,$iIndex,$sTitle,$sText,$sNote,$ModulID,$bInterpreter,$bIsMandatoryHandIn,$bIsLive,$bLiveInterpretation,$bShowCloud,$bIsDeleted){
             $this->ID= $ID;
             $this->sID= $sID;
             $this->iIndex= $iIndex;
@@ -208,9 +298,50 @@
             $this->bShowCloud= $bShowCloud;
             $this->bIsDeleted= $bIsDeleted;  
         }
+        public function getID(){
+            return $this->ID;
+        }
+          public function getsID(){
+            return $this->sID;
+        }
+          public function getiIndex(){
+            return $this->iIndex;
+        }
+          public function getsTitle(){
+            return $this->sTitle;
+        }
+          public function getsText(){
+            return $this->sText;
+        }
+          public function getsNote(){
+            return $this->sNote;
+        }
+          public function getModulID(){
+            return $this->ModulID;
+        }
+          public function getbInterpreter(){
+            return $this->bInterpreter;
+        }
+          public function getbIsMandatoryHandIn(){
+            return $this->bIsMandatoryHandIn;
+        }
+          public function getbIsLive(){
+            return $this->bIsLive;
+        }
+          public function getbLiveInterpretation(){
+            return $this->bLiveInterpretation;
+        }
+          public function getbShowCloud(){
+            return $this->bShowCloud;
+        }
+          public function getbIsDeleted(){
+            return $this->bIsDeleted;
+        }
+        
     }
     
         
- global $ODB;
- $ODB = new Database();    
+ 
+    global $ODB;
+    $ODB = new Database();  
 ?>

@@ -10,7 +10,8 @@
 	  exit;
 	 }
 	 // select loggedin users detail
-	 $query = "SELECT * FROM users WHERE ID=".$_SESSION['user'];
-	 $res=$ODB->query($query);
-	 $userRow=mysqli_fetch_array($res);
+    $myGroup = $ODB->getGroupFromID(6);
+    for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){ 
+	   echo($ODB->getGroupFromID(6)->teilnehmer[$i]->getsFirstName()."<br>");
+    }
 ?>

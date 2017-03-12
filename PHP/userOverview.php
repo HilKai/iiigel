@@ -24,8 +24,8 @@
         $myTrainer = $myGroups[$i]->getTrainer();
         $oneTrainer = reset($myTrainer);
         $myBox = file_get_contents('../HTML/groupBox.html');
-            $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%');
-            $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]->getID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$myGroups[$i]->getProgressFromUserID($_SESSION['user']));
+            $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%');
+            $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$myGroups[$i]->getProgressFromUserID($_SESSION['user']),(100*($myGroups[$i]->getProgressFromUserID($_SESSION['user']))/(sizeof ($ODB->getModuleFromID($myGroups[$i]->getModulID()) -> chapter))));
             $myBox = str_replace($search,$replace,$myBox);
         
         $toAdd = $toAdd . $myBox;

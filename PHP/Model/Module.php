@@ -20,7 +20,7 @@ class Module {
         $this->sIcon = $sIcon;
         $this->bIsDeleted = $bIsDeleted;
         $this->bIsLive = $bIsLive;
-        $this->chapters = $aChapters;
+        $this->chapter = $aChapters;
     }
 
 

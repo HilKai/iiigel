@@ -1,6 +1,7 @@
 <?php
 
 class Teilnehmer { //nur für User in Modulen
+    //ToDo: shouldn't that be a subclass of User?
     private $ID;
     private $sID;
     private $sUsername;

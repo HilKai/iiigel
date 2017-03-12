@@ -10,7 +10,7 @@ class Module {
     private $bIsLive;
     public $chapter = array();
 
-    public function __construct($ID, $sID, $sName, $sDescription, $sLanguage, $sIcon, $bIsDeleted, $bIsLive, $chapters) {
+    public function __construct($ID, $sID, $sName, $sDescription, $sLanguage, $sIcon, $bIsDeleted, $bIsLive, $aChapters) {
 
         $this->ID = $ID;
         $this->sID = $sID;
@@ -20,14 +20,7 @@ class Module {
         $this->sIcon = $sIcon;
         $this->bIsDeleted = $bIsDeleted;
         $this->bIsLive = $bIsLive;
-
-        while (($row = mysqli_fetch_row($chapters)) != NULL) {
-            $this->chapter[] = new Chapter($row[0], $row[1], $row[2], $row[3],
-                $row[4], $row[5], $row[6], $row[7], $row[8],
-                $row[9], $row[10], $row[11], $row[12]);
-        }
-
-
+        $this->chapters = $aChapters;
     }
 
 

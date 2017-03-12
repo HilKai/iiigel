@@ -35,4 +35,23 @@ class Group {
     public function getbIsDeleted() {
         return $this->bIsDeleted;
     }
+    
+    public function getTrainer(){ //returns the Trainer of a Group
+        $myTrainer =[];
+        for ($i=0;$i< sizeof($this->teilnehmer);$i++){
+            if ($this->teilnehmer[$i]->getbIsTrainer() == true){
+                $myTrainer[] = $this->teilnehmer[$i];
+            }
+        }
+        return $myTrainer;
+    }
+    
+    public function getProgressFromUserID($ID){
+        for ($i=0;$i< sizeof($this->teilnehmer);$i++){
+            if ($this->teilnehmer[$i]->getID = $ID){
+                return $this->teilnehmer[$i]->getiFortschritt();   
+            }
+        }
+      
+    }
 }

@@ -1,4 +1,8 @@
 <?php
+    foreach (glob("model/*.php") as $filename)
+    {
+        include_once( $filename);
+    }
     class Database
     {
         private $db_connection;
@@ -22,6 +26,16 @@
                 throw new exception('Mehr als ein User mit dieser ID');        
             }
         }
+        public function getInstitutionFromId($ID){
+            $res = $this->query("SELECT * FROM Institutions WHERE Institutions.ID ='$ID'");
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return new Institution($row['ID'],$row['sID'],$row['sName'],$row['bIsDeleted']);
+            } else {
+                throw new exception('Mehr als eine Institution mit dieser ID');        
+            }
+        }
+        
         public function getUserFromUsername($Username){
             $res = $this->query("SELECT * FROM Users WHERE Users.sUserName ='$Username'");
             if (mysqli_num_rows($res)==1){
@@ -62,10 +76,10 @@
         
         
         public function getGroupsFromUserID($ID){
-            $oGroupResult = $this->query("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`="$ID"");
+            $oGroupResult = $this->query("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`='$ID'");
             $aGroups = [];
-            while (($row = mysqli_fetch_row($oChaptersResult)) != NULL) {
-                $aGroups[] = getGroupFromID($row[0]); 
+            while (($row = mysqli_fetch_row($oGroupResult)) != NULL) {
+                $aGroups[] = $this->getGroupFromID($row[0]); 
             }
             return $aGroups;
                 

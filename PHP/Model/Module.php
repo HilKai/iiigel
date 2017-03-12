@@ -15,7 +15,7 @@ class Module {
         $this->ID = $ID;
         $this->sID = $sID;
         $this->sName = $sName;
-        $this->$sDescription = $sDescription;
+        $this->sDescription = $sDescription;
         $this->sLanguage = $sLanguage;
         $this->sIcon = $sIcon;
         $this->bIsDeleted = $bIsDeleted;

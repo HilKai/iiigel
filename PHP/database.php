@@ -59,6 +59,18 @@
                 throw new exception('Mehr als eine Gruppe mit dieser ID');        
             }
         }
+        
+        
+        public function getGroupsFromUserID($ID){
+            $oGroupResult = $this->query("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`="$ID"");
+            $aGroups = [];
+            while (($row = mysqli_fetch_row($oChaptersResult)) != NULL) {
+                $aGroups[] = getGroupFromID($row[0]); 
+            }
+            return $aGroups;
+                
+        }
+        
         public function getModuleFromID($ID){
             $res = $this->query("SELECT * FROM Modules WHERE Modules.ID ='$ID'");
             $iNumResults = mysqli_num_rows($res);

@@ -7,7 +7,7 @@
     {
         private $db_connection;
 
-        private function query($statement) {
+        public function query($statement) {
             return mysqli_query($this->db_connection, $statement);
         }
 

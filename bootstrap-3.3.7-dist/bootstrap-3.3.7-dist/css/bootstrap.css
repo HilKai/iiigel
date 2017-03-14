@@ -10,7 +10,12 @@ html {
       -ms-text-size-adjust: 100%;
 }
 body {
-  margin: 0;
+	background-image: url("../Images/FN_091.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+	width: 100%;
+	height: 100%;
 }
 article,
 aside,

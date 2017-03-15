@@ -26,7 +26,7 @@
                 throw new exception('Mehr als ein User mit dieser ID');        
             }
         }
-        public function getInstitutionFromId($ID){
+        public function getInstitutionFromID($ID){
             $res = $this->query("SELECT * FROM Institutions WHERE Institutions.ID ='$ID'");
             if (mysqli_num_rows($res)==1){
                 $row = mysqli_fetch_array($res);

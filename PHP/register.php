@@ -32,6 +32,10 @@
 		$passwort = strip_Tags($passwort);
 		$passwort = htmlspecialchars($passwort);
 		
+		$passwortRepeat = trim($_POST['passwortRepeat']);
+		$passwortRepeat = strip_Tags($passwortRepeat);
+		$passwortRepeat = htmlspecialchars($passwortRepeat);
+		
 		if (strlen($username)<3) {
 			$error = true;
 			$usernameError = "Ihr Benutzername muss länger als 3 Zeichen sein";
@@ -91,6 +95,16 @@
 			if (strlen($passwort)<6){
 				$error = true;
 				$passError = "Das eingegebene Passwort ist zu kurz. Es muss länger als 6 Zeichen sein.";
+			}
+		}
+		
+		if (empty($passwortRepeat)) {
+			$error = true;
+			$passRepeatError = "Bitte wiederholen sie ihr Passwort";
+		}else {
+			if ($passwortRepeat != $passwort){
+				$error = true;
+				$passRepeatError = "Die beiden Passwörter stimmen nicht überein.";
 			}
 		}
         
@@ -190,10 +204,16 @@
                                 <span class="text-danger"><?php if(isset($emailError)) echo $emailError; ?></span>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
+                                <label for="exampleInputPassword1">Passwort</label>
                                 <input type="password" name="passwort" class="form-control" id="exampleInputPassword1" placeholder="Password">
                                 <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
                             </div>
+							
+							<div class="form-group">
+						<label for="exampleInputPassword1">Passwort wiederholen</label>
+						<input type="password" name="passwortRepeat" class="form-control" id="exampleInputPassword1" placeholder="Password">
+						 <span class="text-danger"><?php if(isset($passRepeatError)) echo $passRepeatError; ?></span>
+					</div>
 
                             <a href="index.php"> Bereits einen Account? Hier anmelden! </a>
                             <div class="form-group">

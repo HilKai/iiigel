@@ -1,17 +1,23 @@
 body {
 	background-color: #e1e1e1;
+	background-image: url("../Images/FN_091.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+	width: 100%;
+	height: 100%;
 }
 
 	#WrappingContainer {
 		width: 80%;
-		border-radius: 10px;
 		margin: 20px auto;
-		background-color: #fff;
 		padding: 0;
 	}
 	
 		#ProfileContainer {
-			margin: 40px;
+			padding: 40px;
+            border-radius: 8px;
+            background-color: #fff;
 		}
 		
 			#ProfilePic {
@@ -41,13 +47,13 @@ body {
 			}
 
 				#ProfileOptions a  {
-					color: #636363;
+					color: #e31465;
 					font-size: 20px;
 				}
 			
 					#ProfileOptions a:hover  {
 						text-decoration: none;
-						color: #957A74;
+						color: #636363;
 					}
 					
 					
@@ -56,8 +62,8 @@ body {
 				}
 		
 		#Container {
-			margin: 40px;
 			padding-top:20px;
+            
 		}
 		
 			#ModulOverviewHeading {
@@ -74,45 +80,48 @@ body {
 			}
 				
 				.modul {
-                    height: 400px;
-					margin:5px 5px 5px 0px;
-					border-style: solid;
-					border-width: 2px;
-					border-radius: 15px;
-					box-shadow:15px 17px 23px -8px #EAEAEA;
-					box-shadow: inset 25px 10px 20px 30px rgba(250,250,250,0.61);
-					box-shadow: inset -47px 38px 53px -24px rgba(247,247,247,1);
+                    height: 45%;
+                    margin: 5px 20px 5px 0px;
+                    padding: 10px;
+                    border-radius: 8px;
+                    background-color: #fff; 
 				}
 				
 					.chapterTitel{
-						margin:6px;
-						font-family: 'Open Sans condensed', sans-serif;
-						text-align:center;
+				        margin: 6px;
+                        font-family: 'Open Sans condensed', sans-serif;
+                        font-size: 45px;
+                        text-align: center;
+                        height: 15%;
 					}
 					
 					.chapterImage{
 						border-radius: 10px;
-						width : 90%;
+						width : 60%;
 						margin: 0 auto;
+                        padding: 20px;
 						
 					}
 					
 					.chapterBarOuter{
 						margin:0 auto;
 						width: 90%;
-						margin-top: 3px;
+						margin-top: 10px;
 						margin-bottom: 10px;	
 					}
 					
 					.chapterBar{
 						width : 95 %;
 						margin: 0 auto;
-						background-color: #957A74;
+						background-color:  #e31465;
 					}
+
 					.chapterInfo{
 						font-family: 'Open Sans', sans-serif;
+                        font-size: 15px;
 						margin:0 auto;
-						text-align:center;
+						text-align:left;
+                        padding-left: 15px;
 					}
 .noPadding {
 	padding:0 !important;

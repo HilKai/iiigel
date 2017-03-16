@@ -1,5 +1,10 @@
 body {
-	background-color: #e1e1e1;
+	background-image: url("../Images/FN_091.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+	width: 100%;
+	height: 100%;
 }
 
 	#WrappingContainer {
@@ -45,7 +50,7 @@ body {
 				}
 				
 					.chapterBar {
-						background-color: #957A74;
+						background-color:#e31465;
 					}
 			
 				.chapter {
@@ -107,7 +112,7 @@ body {
 			}
 			
 		#OkButton {
-			background-color: #957A74;	
+			background-color: #e31465;	
 			color: #fff;
 		}
 

@@ -7,12 +7,47 @@
     {
         private $db_connection;
 
-        public function query($statement) {
+        private function query($statement) {
             return mysqli_query($this->db_connection, $statement);
         }
 
         public function __construct(){
             $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');   
+        }
+        
+        
+        
+        public function isEmailTaken($sEmail){
+            $query = "SELECT sEMail FROM users WHERE users.sEMail = '$sEmail'";
+			$result = $this->query($query);
+			$iAmountOfThisEmail = mysqli_num_rows($result);
+            if ($iAmountOfThisEmail != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function isUsernameTaken($sUsername){
+            $query = "SELECT sUsername FROM users WHERE users.sUsername = '$sUsername'";
+            $result = $this->query($query);
+            $iNumberOfUsersWithThisUsername = mysqli_num_rows($result);
+		    if ($iNumberOfUsersWithThisUsername != 0) {
+                return true;
+            } else {
+                return false;  
+            }
+        }
+        
+        public function addUser($username,$vorname,$nachname,$email,$hash_passwort){   
+		   $query = "INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword) VALUES('$username','$vorname','$nachname','$email','$hash_passwort')";
+		   $res = $this->query($query);
+            if ($res){
+                return true;
+            } else {
+                return false;
+            }
+			
         }
         
         public function getUserFromId($ID){

@@ -23,5 +23,49 @@ class Module {
         $this->chapter = $aChapters;
     }
 
-
+    public function getID() {
+        return $this->ID;
+    }
+    
+    public function getsID() {
+        return $this->sID;
+    }
+    
+    public function getsName() {
+        return $this->sName;
+    }
+    
+    public function getsDescription() {
+        return $this->sDescription;
+    }
+    
+    public function getsLanguage() {
+        return $this->sLanguage;
+    }
+    
+    public function getsIcon() {
+        return $this->sIcon;
+    }
+    
+    public function getbIsDeleted() {
+        return $this->bIsDeleted;
+    }
+    
+    public function getbIsLive() {
+        return $this->bIsLive;
+    }
+    
+    public function getchapterbyIndex($index) {
+        return $this->chapter[$index];
+    }
+    
+    public function getChapterTextbyIndex($index) {
+        return $this->chapter[$index]->getsText();
+    }
+    
+    public function getChapterHeadlineByIndex($index) {
+         return $this->chapter[$index]->getsTitle();
+    }
+    
+   
 }

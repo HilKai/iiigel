@@ -11,6 +11,7 @@
 	}
 	
 	if ( isset($_POST['btn-signup']) ) {
+        $error = false;
 		/*PREVENT SQL INJECTION*/
 		$username = trim($_POST['username']);
 		$username = strip_Tags($username);
@@ -70,20 +71,13 @@
 			$error = true;
 			$emailError = "Bitte geben Sie eine gültige E-Mail Adresse ein.";
 		} else {
-			$query = "SELECT sEMail FROM users WHERE users.sEMail = '$email'";
-			$result = $ODB->query($query);
-			$count = mysqli_num_rows($result);
-				if ($count != 0) {
-					$error = true;
-					$emailError = "Ihre angegebene E-Mail ist bereits vergeben.";
-				}
+            if ($ODB->isEmailTaken($email) == true){
+                $error = true;
+                $emailError = "Ihre angegebene E-Mail ist bereits vergeben.";
+            }
 		}
 	
-		$query = "SELECT sUsername FROM users WHERE users.sUsername = '$username'";
-		$result = $ODB->query($query);
-		$count = mysqli_num_rows($result);
-			
-		if ($count != 0) {
+        if ($ODB->isUsernameTaken($username)== true){
 			$error = true;
 			$usernameError = "Dieser Username ist bereits vergeben.";
 		}
@@ -118,10 +112,7 @@
 			
 
 		if( !$error ) {
-	   
-		   $query = "INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword) VALUES('$username','$vorname','$nachname','$email','$hash_passwort')";
-		   $res = $ODB->query($query);
-			
+		   $res = $ODB->addUser($username,$vorname,$nachname,$email,$hash_passwort);
 		   if ($res) {
 				$errTyp = "success";
 				$errMSG = "Sie haben sich erfolgreich registriert. Sie können sich jetzt einloggen";
@@ -135,11 +126,8 @@
 				$errTyp = "danger";
 				$errMSG = "Something went wrong, try again later..."; 
 		   } 
-			
-		}
+	   } 
 	}
-	
-	
 ?>
 
     <html>
@@ -164,7 +152,7 @@
         <div id="WrappingContainer" class="container">
 
             <div id="register_Container" class="col-md-6 col-md-offset-3">
-                <h3 style="margin-top:10px;">Registrieren</h3>
+                <h3 style="margin-top:10px;">Registrieren <span class="glyphicon glyphicon-user"></span></h3> 
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
                     <?php
 						if (isset($errMSG)) {
@@ -199,21 +187,21 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
+                                <label for="exampleInputEmail1">Email Adresse</label>
                                 <input type="email" name="email" class="form-control" value="<?php if(isset($email)) echo $email; ?>" id="exampleInputEmail1" placeholder="Email">
                                 <span class="text-danger"><?php if(isset($emailError)) echo $emailError; ?></span>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Passwort</label>
-                                <input type="password" name="passwort" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <input type="password" name="passwort" class="form-control" id="exampleInputPassword1" placeholder="Passwort">
                                 <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
                             </div>
-							
-							<div class="form-group">
-						<label for="exampleInputPassword1">Passwort wiederholen</label>
-						<input type="password" name="passwortRepeat" class="form-control" id="exampleInputPassword1" placeholder="Password">
-						 <span class="text-danger"><?php if(isset($passRepeatError)) echo $passRepeatError; ?></span>
-					</div>
+
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Passwort wiederholen</label>
+                                <input type="password" name="passwortRepeat" class="form-control" id="exampleInputPassword1" placeholder="Passwort">
+                                <span class="text-danger"><?php if(isset($passRepeatError)) echo $passRepeatError; ?></span>
+                            </div>
 
                             <a href="index.php"> Bereits einen Account? Hier anmelden! </a>
                             <div class="form-group">

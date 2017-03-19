@@ -1,6 +1,7 @@
 .body {
 	background-color: #e1e1e1;
 	background-image: url("../Images/FN_091.jpg");
+
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment:fixed;
@@ -9,7 +10,11 @@
 }
 
 #WrappingContainer {
-	margin:0 auto;
+	
+    width:100%;
+    height:100%;
+    display:table;
+    position:absolute;
 }
 
 #WrappingContainer p {
@@ -149,5 +154,23 @@
 	-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 	box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 	overflow:hidden;
-	margin-top:50px;
+	margin-top:10px;
+}
+
+#login_Container {
+	Background-color:#fff;
+	border-radius:8px;
+	-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
+	-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
+	box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
+	overflow:hidden;
+    margin-right:auto;
+    margin-left:auto;
+     margin:0 auto;
+    
+}
+#middle {
+    display: table-cell;
+    vertical-align: middle;
+   
 }

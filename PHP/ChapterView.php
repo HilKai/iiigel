@@ -7,6 +7,7 @@
 
     $myModuleID = 1;
     $myChapterID = 1;
+
 	 
 	 // if session is not set this will redirect to login page
 	 if( !isset($_SESSION['user']) ) {
@@ -15,10 +16,12 @@
 	 }
     
     //
+
     $myModule = $ODB->getModuleFromID($myModuleID);
     $search = array('%ChapterHeadline%','ChapterText');
     $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$myModule->getChapterTextbyIndex($myChapterID));
     $myPage = str_replace($search,$replace,$myPage);
+
 
     $toAdd = ""; //Hinzugefügter HTML Code
    for ($i=0; $i< sizeof($myModule->chapter);$i++){  

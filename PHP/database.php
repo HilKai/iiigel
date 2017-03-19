@@ -6,17 +6,110 @@
     class Database
     {
         private $db_connection;
+		private $stmtGetUserFromID;
+		private $stmtGetInstitutionFromID;
+		private $stmtGetUserFromUsername;
+		private $stmtGetGroupFromID;
+		private $stmtGetGroupsFromUserID;
+		private $stmtGetModuleFromID;
 
-        public function query($statement) {
+        private function query($statement) {
             return mysqli_query($this->db_connection, $statement);
         }
 
         public function __construct(){
-            $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');   
+            $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE users.sEMail = ?");
+			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ?");
+			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
+			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM Institutions WHERE Institutions.ID = ?");
+			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM Users WHERE Users.sUserName = ?");
+			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM Groups WHERE Groups.ID = ?");
+			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
+			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM Modules WHERE Modules.ID = ?");
+        }
+		
+        public function replaceTags ($_sContent){
+             $sMyDocument = str_replace(' ', '&nbsp;',  str_replace("\n",'<br>', str_replace("]\n",']' ,str_replace('<', '&lt;', str_replace('>', '&gt;', $_sContent)))));
+
+            $sTags =$this->query('SELECT sTagFrom,sTagIn,sParam FROM tags');     
+            for ($x = 0; $x <= mysqli_num_rows($sTags);$x++) {
+                $aRow =  mysqli_fetch_row($sTags);
+                if (isset($aRow['sParam'])<> true) {
+                    $sMyDocument =  str_replace ($aRow['sTagFrom'],$aRow['sTagIn'],$sMyDocument);
+                } else {
+                    $iOffset = 0;
+                    $i = 1;
+                    $myCount =substr_count($sMyDocument, $aRow['sTagFrom']); 
+                    if ($myCount > 0){
+                        while ( $i <= $myCount ){ 
+                            if ($i > 0){$iOffset = strpos($sMyDocument,$aRow['sTagFrom']);}
+                            $i = $i +1;
+                            if (substr($sMyDocument,$iOffset+strlen($aRow['sTagFrom']) ,1)=='{'){
+
+                                $sMyParam = substr($sMyDocument,strpos($sMyDocument,'{' , $iOffset)+1,strpos ($sMyDocument,'}',$iOffset)-1-strpos($sMyDocument,'{' , $iOffset));
+                                $sTest = $sMyParam;
+                                $iParamOffset = 0;
+                                $sMyWorkStr ='';
+                                for ($e = 0; $e <= substr_count($sMyParam, ';')+1;$e++){                               
+                                    if (strpos($sMyParam,';') > 0) {    
+                                        $sOneParam = substr($sMyParam,$iParamOffset,strpos($sMyParam,';',$iParamOffset)-$iParamOffset);
+                                        $iParamOffset = strpos($sMyParam,$sOneParam,$iParamOffset);
+                                        $sMyParam = preg_replace('/'.preg_quote($sOneParam .';', '/').'/','',$sMyParam);
+                                    } else {
+                                        $sOneParam = substr($sMyParam,0,strlen($sMyParam)-1);
+                                        $sMyParam= preg_replace('/'.preg_quote($sOneParam, '/').'/','',$sMyParam);
+                                    }
+                                    if (strpos('#' . $aRow['sParam'],substr($sOneParam,0,strpos($sOneParam,'=')))> 0){
+                                        $ishortOffset = strpos($sOneParam,'"')+1;   
+                                        $sMyWorkStr = $sMyWorkStr . substr($sOneParam,0,strpos($sOneParam,'"',$ishortOffset)+1) . ' '; 
+                                    }
+
+                                }
+                            }
+                            $sToReplace = $aRow['sTagIn'];
+                            $sTrReplace = str_replace('>',' ' . $sMyWorkStr,$sToReplace);
+                            $sTrReplace = $sTrReplace . ">";
+
+                            $iReplaceOffset = strpos($sMyDocument,'}',$iOffset)+1-$iOffset;
+                            $sMyDocument = str_replace(substr($sMyDocument,$iOffset,$iReplaceOffset),$sTrReplace,$sMyDocument);
+                        }
+                    }
+                }
         }
         
-        public function getUserFromId($ID){
-            $res = $this->query("SELECT * FROM Users WHERE Users.ID ='$ID'");
+        return $sMyDocument;
+    }
+           
+        
+        public function isEmailTaken($sEmail){
+			$this->stmtisEmailTaken->bind_param("s",$sEmail);	
+			$this->stmtisEmailTaken->execute();
+			$res = $this->stmtisEmailTaken->get_result();
+			$iAmountOfThisEmail = mysqli_num_rows($result);
+            if ($iAmountOfThisEmail != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function isUsernameTaken($sUsername){
+            $this->stmtisUsernameTaken->bind_param("s",$Username);	
+			$this->stmtisUsernameTaken->execute();
+			$res = $this->stmtisUsernameTaken->get_result();
+            $iNumberOfUsersWithThisUsername = mysqli_num_rows($result);
+			if ($iNumberOfUsersWithThisUsername != 0) {
+                return true;
+            } else {
+                return false;  
+            }
+        }
+        
+        public function getUserFromId($ID){	
+			$this->stmtGetUserFromID->bind_param("i",$ID);	
+			$this->stmtGetUserFromID->execute();
+			$res = $this->stmtGetUserFromID->get_result();
             if (mysqli_num_rows($res)==1){
                 $row = mysqli_fetch_array($res);
                     return new User($row['ID'],$row['sID'],$row['sUsername'],$row['sFirstName'],
@@ -24,10 +117,13 @@
                                     $row['sProfilePicture'],$row['bIsVerified'],$row['bIsAdmin'],$row['bIsOnline']);
             } else {
                 throw new exception('Mehr als ein User mit dieser ID');        
-            }
+            }	
+            
         }
         public function getInstitutionFromID($ID){
-            $res = $this->query("SELECT * FROM Institutions WHERE Institutions.ID ='$ID'");
+			$this->stmtGetInstitutionFromID->bind_param("i",$ID);	
+			$this->stmtGetInstitutionFromID->execute();
+            $res = $this->stmtGetInstitutionFromID->get_result();
             if (mysqli_num_rows($res)==1){
                 $row = mysqli_fetch_array($res);
                     return new Institution($row['ID'],$row['sID'],$row['sName'],$row['bIsDeleted']);
@@ -37,7 +133,9 @@
         }
         
         public function getUserFromUsername($Username){
-            $res = $this->query("SELECT * FROM Users WHERE Users.sUserName ='$Username'");
+            $this->stmtGetUserFromUsername->bind_param("s",$Username);	
+			$this->stmtGetUserFromUsername->execute();
+            $res = $this->stmtGetUserFromUsername->get_result();
             if (mysqli_num_rows($res)==1){
                 $row = mysqli_fetch_array($res);
                     return new User($row['ID'],$row['sID'],$row['sUsername'],$row['sFirstName'],
@@ -48,7 +146,9 @@
             }
         }
         public function getGroupFromID($ID){
-         $res = $this->query("SELECT * FROM Groups WHERE Groups.ID ='$ID'");
+			$this->stmtGetGroupFromID->bind_param("i",$ID);	
+			$this->stmtGetGroupFromID->execute();
+            $res = $this->stmtGetGroupFromID->get_result();
             $iNumResults = mysqli_num_rows($res);
             if ($iNumResults == 1) {
                 $oTeilnehmerOfGroupResult = $this->query(
@@ -76,9 +176,11 @@
         
         
         public function getGroupsFromUserID($ID){
-            $oGroupResult = $this->query("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`='$ID'");
+            $this->stmtGetGroupsFromUserID->bind_param("i",$ID);	
+			$this->stmtGetGroupsFromUserID->execute();
+            $res = $this->stmtGetGroupsFromUserID->get_result();
             $aGroups = [];
-            while (($row = mysqli_fetch_row($oGroupResult)) != NULL) {
+            while (($row = mysqli_fetch_row($res)) != NULL) {
                 $aGroups[] = $this->getGroupFromID($row[0]); 
             }
             return $aGroups;
@@ -86,14 +188,16 @@
         }
         
         public function getModuleFromID($ID){
-            $res = $this->query("SELECT * FROM Modules WHERE Modules.ID ='$ID'");
+            $this->stmtGetModuleFromID->bind_param("i",$ID);	
+			$this->stmtGetModuleFromID->execute();
+            $res = $this->stmtGetModuleFromID->get_result();
             $iNumResults = mysqli_num_rows($res);
 
             if ($iNumResults == 1) {
                 $oModuleRow = mysqli_fetch_array($res);
                 $oChaptersResult = $this->query("SELECT * FROM chapters WHERE ModulID = " . $ID . " ORDER BY iIndex");
                 $aChapters = [];
-                while (($row = mysqli_fetch_row($oChaptersResult)) != NULL) {
+                while (($row = mysqli_fetch_row($res)) != NULL) {
                     //ToDo: switch to non-indice based access of db-column
                     $aChapters[] = new Chapter($row[0], $row[1], $row[2], $row[3],
                         $row[4], $row[5], $row[6], $row[7], $row[8],
@@ -108,6 +212,7 @@
                 throw new exception('Mehr als ein Modul mit dieser ID');        
             }
         }
+		
     }
 
 

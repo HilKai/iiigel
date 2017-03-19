@@ -42,7 +42,7 @@
         }
         
         public function isUsernameTaken($sUsername){
-            $this->stmtisUsernameTaken->bind_param("s",$sUsername);	
+            $this->stmtisUsernameTaken->bind_param("s",$Username);	
 			$this->stmtisUsernameTaken->execute();
 			$res = $this->stmtisUsernameTaken->get_result();
             $iNumberOfUsersWithThisUsername = mysqli_num_rows($result);
@@ -80,7 +80,7 @@
         }
         
         public function getUserFromUsername($Username){
-            $this->stmtGetUserFromUsername->bind_param("s",$sUsername);	
+            $this->stmtGetUserFromUsername->bind_param("s",$Username);	
 			$this->stmtGetUserFromUsername->execute();
             $res = $this->stmtGetUserFromUsername->get_result();
             if (mysqli_num_rows($res)==1){

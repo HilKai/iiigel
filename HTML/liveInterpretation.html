@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../Styles\userOverview.css" type="text/css">
+    <!-- Schrift -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+
+<body>
+    <div  class="panel panel-default" style=>
+        <div id="AnzeigeBox" class="panel-body"></div>
+    </div>
+    
+    <div  class="form-group ">
+
+        <textarea class="form-control" rows="5" id="InputBox">
+            <b> wuhu schrieb deinen code hier unten hin und oben wird er angezeigt </b>
+        </textarea>
+    </div>
+
+</body>
+
+<script type="text/javascript">
+        
+   var wpcomment = document.getElementById('InputBox');
+
+    wpcomment.onkeyup = wpcomment.onkeypress = function(){
+        document.getElementById('AnzeigeBox').innerHTML = this.value;
+    }
+       
+</script>    
+    
+</html>

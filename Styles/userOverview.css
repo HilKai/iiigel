@@ -59,6 +59,8 @@ body {
 					
 				#LogOutButton {
 					display: inline-block;
+                    float:left;
+                    margin: 0px 0px 10px 0px;
 				}
 		
 		#Container {

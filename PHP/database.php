@@ -32,8 +32,8 @@
         public function replaceTags ($_sContent){
             $sMyDocument = str_replace('<', '&lt;', str_replace('>', '&gt;', $_sContent));
             $sTags = $this->query('SELECT sTagFrom,sTagIn FROM tags');        
-            for ($x = 0; $x <= $GLOBALS['oDb']->count($sTags);$x++) {
-                $aRow = $GLOBALS['oDb']->get($sTags);
+            for ($x = 0; $x <= mysqli_num_rows($sTags);$x++) {
+                $aRow = mysqli_fetch_row($sTags);
                 $sMyDocument =  str_replace ($aRow['sTagFrom'],$aRow['sTagIn'],$sMyDocument);
             } 
             return $sMyDocument;

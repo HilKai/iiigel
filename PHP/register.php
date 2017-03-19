@@ -126,11 +126,8 @@
 				$errTyp = "danger";
 				$errMSG = "Something went wrong, try again later..."; 
 		   } 
-			
-		} 
+	   } 
 	}
-	
-	
 ?>
 
     <html>
@@ -155,7 +152,7 @@
         <div id="WrappingContainer" class="container">
 
             <div id="register_Container" class="col-md-6 col-md-offset-3">
-                <h3 style="margin-top:10px;">Registrieren</h3>
+                <h3 style="margin-top:10px;">Registrieren <span class="glyphicon glyphicon-user"></span></h3> 
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
                     <?php
 						if (isset($errMSG)) {
@@ -190,19 +187,19 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
+                                <label for="exampleInputEmail1">Email Adresse</label>
                                 <input type="email" name="email" class="form-control" value="<?php if(isset($email)) echo $email; ?>" id="exampleInputEmail1" placeholder="Email">
                                 <span class="text-danger"><?php if(isset($emailError)) echo $emailError; ?></span>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Passwort</label>
-                                <input type="password" name="passwort" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <input type="password" name="passwort" class="form-control" id="exampleInputPassword1" placeholder="Passwort">
                                 <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
                             </div>
 
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Passwort wiederholen</label>
-                                <input type="password" name="passwortRepeat" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <input type="password" name="passwortRepeat" class="form-control" id="exampleInputPassword1" placeholder="Passwort">
                                 <span class="text-danger"><?php if(isset($passRepeatError)) echo $passRepeatError; ?></span>
                             </div>
 

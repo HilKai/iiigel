@@ -91,7 +91,7 @@
 			$this->stmtisEmailTaken->bind_param("s",$sEmail);	
 			$this->stmtisEmailTaken->execute();
 			$res = $this->stmtisEmailTaken->get_result();
-			$iAmountOfThisEmail = mysqli_num_rows($result);
+			$iAmountOfThisEmail = mysqli_num_rows($res);
             if ($iAmountOfThisEmail != 0) {
                 return true;
             } else {
@@ -100,10 +100,10 @@
         }
         
         public function isUsernameTaken($sUsername){
-            $this->stmtisUsernameTaken->bind_param("s",$Username);	
+            $this->stmtisUsernameTaken->bind_param("s",$sUsername);	
 			$this->stmtisUsernameTaken->execute();
 			$res = $this->stmtisUsernameTaken->get_result();
-            $iNumberOfUsersWithThisUsername = mysqli_num_rows($result);
+            $iNumberOfUsersWithThisUsername = mysqli_num_rows($res);
 			if ($iNumberOfUsersWithThisUsername != 0) {
                 return true;
             } else {

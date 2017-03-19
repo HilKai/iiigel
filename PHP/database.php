@@ -29,7 +29,17 @@
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM Modules WHERE Modules.ID = ?");
         }
 		
-		  public function isEmailTaken($sEmail){
+        public function replaceTags ($_sContent){
+            $sMyDocument = str_replace('<', '&lt;', str_replace('>', '&gt;', $_sContent));
+            $sTags = $this->query('SELECT sTagFrom,sTagIn FROM tags');        
+            for ($x = 0; $x <= $GLOBALS['oDb']->count($sTags);$x++) {
+                $aRow = $GLOBALS['oDb']->get($sTags);
+                $sMyDocument =  str_replace ($aRow['sTagFrom'],$aRow['sTagIn'],$sMyDocument);
+            } 
+            return $sMyDocument;
+           }
+        
+        public function isEmailTaken($sEmail){
 			$this->stmtisEmailTaken->bind_param("s",$sEmail);	
 			$this->stmtisEmailTaken->execute();
 			$res = $this->stmtisEmailTaken->get_result();

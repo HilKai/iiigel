@@ -6,20 +6,33 @@
     class Database
     {
         private $db_connection;
+		private $stmtGetUserFromID;
+		private $stmtGetInstitutionFromID;
+		private $stmtGetUserFromUsername;
+		private $stmtGetGroupFromID;
+		private $stmtGetGroupsFromUserID;
+		private $stmtGetModuleFromID;
 
         private function query($statement) {
             return mysqli_query($this->db_connection, $statement);
         }
 
         public function __construct(){
-            $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');   
+            $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE users.sEMail = ?");
+			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ?");
+			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
+			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM Institutions WHERE Institutions.ID = ?");
+			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM Users WHERE Users.sUserName = ?");
+			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM Groups WHERE Groups.ID = ?");
+			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
+			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM Modules WHERE Modules.ID = ?");
         }
-        
-        
-        
-        public function isEmailTaken($sEmail){
-            $query = "SELECT sEMail FROM users WHERE users.sEMail = '$sEmail'";
-			$result = $this->query($query);
+		
+		  public function isEmailTaken($sEmail){
+			$this->stmtisEmailTaken->bind_param("s",$sEmail);	
+			$this->stmtisEmailTaken->execute();
+			$res = $this->stmtisEmailTaken->get_result();
 			$iAmountOfThisEmail = mysqli_num_rows($result);
             if ($iAmountOfThisEmail != 0) {
                 return true;
@@ -29,29 +42,21 @@
         }
         
         public function isUsernameTaken($sUsername){
-            $query = "SELECT sUsername FROM users WHERE users.sUsername = '$sUsername'";
-            $result = $this->query($query);
+            $this->stmtisUsernameTaken->bind_param("s",$sUsername);	
+			$this->stmtisUsernameTaken->execute();
+			$res = $this->stmtisUsernameTaken->get_result();
             $iNumberOfUsersWithThisUsername = mysqli_num_rows($result);
-		    if ($iNumberOfUsersWithThisUsername != 0) {
+			if ($iNumberOfUsersWithThisUsername != 0) {
                 return true;
             } else {
                 return false;  
             }
         }
         
-        public function addUser($username,$vorname,$nachname,$email,$hash_passwort){   
-		   $query = "INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword) VALUES('$username','$vorname','$nachname','$email','$hash_passwort')";
-		   $res = $this->query($query);
-            if ($res){
-                return true;
-            } else {
-                return false;
-            }
-			
-        }
-        
-        public function getUserFromId($ID){
-            $res = $this->query("SELECT * FROM Users WHERE Users.ID ='$ID'");
+        public function getUserFromId($ID){	
+			$this->stmtGetUserFromID->bind_param("i",$ID);	
+			$this->stmtGetUserFromID->execute();
+			$res = $this->stmtGetUserFromID->get_result();
             if (mysqli_num_rows($res)==1){
                 $row = mysqli_fetch_array($res);
                     return new User($row['ID'],$row['sID'],$row['sUsername'],$row['sFirstName'],
@@ -59,10 +64,13 @@
                                     $row['sProfilePicture'],$row['bIsVerified'],$row['bIsAdmin'],$row['bIsOnline']);
             } else {
                 throw new exception('Mehr als ein User mit dieser ID');        
-            }
+            }	
+            
         }
         public function getInstitutionFromID($ID){
-            $res = $this->query("SELECT * FROM Institutions WHERE Institutions.ID ='$ID'");
+			$this->stmtGetInstitutionFromID->bind_param("i",$ID);	
+			$this->stmtGetInstitutionFromID->execute();
+            $res = $this->stmtGetInstitutionFromID->get_result();
             if (mysqli_num_rows($res)==1){
                 $row = mysqli_fetch_array($res);
                     return new Institution($row['ID'],$row['sID'],$row['sName'],$row['bIsDeleted']);
@@ -72,7 +80,9 @@
         }
         
         public function getUserFromUsername($Username){
-            $res = $this->query("SELECT * FROM Users WHERE Users.sUserName ='$Username'");
+            $this->stmtGetUserFromUsername->bind_param("s",$sUsername);	
+			$this->stmtGetUserFromUsername->execute();
+            $res = $this->stmtGetUserFromUsername->get_result();
             if (mysqli_num_rows($res)==1){
                 $row = mysqli_fetch_array($res);
                     return new User($row['ID'],$row['sID'],$row['sUsername'],$row['sFirstName'],
@@ -83,7 +93,9 @@
             }
         }
         public function getGroupFromID($ID){
-         $res = $this->query("SELECT * FROM Groups WHERE Groups.ID ='$ID'");
+			$this->stmtGetGroupFromID->bind_param("i",$ID);	
+			$this->stmtGetGroupFromID->execute();
+            $res = $this->stmtGetGroupFromID->get_result();
             $iNumResults = mysqli_num_rows($res);
             if ($iNumResults == 1) {
                 $oTeilnehmerOfGroupResult = $this->query(
@@ -111,9 +123,11 @@
         
         
         public function getGroupsFromUserID($ID){
-            $oGroupResult = $this->query("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`='$ID'");
+            $this->stmtGetGroupsFromUserID->bind_param("i",$ID);	
+			$this->stmtGetGroupsFromUserID->execute();
+            $res = $this->stmtGetGroupsFromUserID->get_result();
             $aGroups = [];
-            while (($row = mysqli_fetch_row($oGroupResult)) != NULL) {
+            while (($row = mysqli_fetch_row($res)) != NULL) {
                 $aGroups[] = $this->getGroupFromID($row[0]); 
             }
             return $aGroups;
@@ -121,14 +135,16 @@
         }
         
         public function getModuleFromID($ID){
-            $res = $this->query("SELECT * FROM Modules WHERE Modules.ID ='$ID'");
+            $this->stmtGetModuleFromID->bind_param("i",$ID);	
+			$this->stmtGetModuleFromID->execute();
+            $res = $this->stmtGetModuleFromID->get_result();
             $iNumResults = mysqli_num_rows($res);
 
             if ($iNumResults == 1) {
                 $oModuleRow = mysqli_fetch_array($res);
                 $oChaptersResult = $this->query("SELECT * FROM chapters WHERE ModulID = " . $ID . " ORDER BY iIndex");
                 $aChapters = [];
-                while (($row = mysqli_fetch_row($oChaptersResult)) != NULL) {
+                while (($row = mysqli_fetch_row($res)) != NULL) {
                     //ToDo: switch to non-indice based access of db-column
                     $aChapters[] = new Chapter($row[0], $row[1], $row[2], $row[3],
                         $row[4], $row[5], $row[6], $row[7], $row[8],
@@ -143,6 +159,7 @@
                 throw new exception('Mehr als ein Modul mit dieser ID');        
             }
         }
+		
     }
 
 

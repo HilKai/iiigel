@@ -43,11 +43,11 @@ class Chapter {
     }
 
     public function getsTitle() {
-        return $this->sTitle;
+      return utf8_encode( $this->sTitle);
     }
 
     public function getsText() {
-        return $this->sText;
+       return utf8_encode( $this->sText);
     }
 
     public function getsNote() {

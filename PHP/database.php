@@ -30,14 +30,19 @@
         }
 		
         public function replaceTags ($_sContent){
-             $sMyDocument = str_replace(' ', '&nbsp;',  str_replace("\n",'<br>', str_replace("]\n",']' ,str_replace('<', '&lt;', str_replace('>', '&gt;', $_sContent)))));
-
-            $sTags =$this->query('SELECT sTagFrom,sTagIn,sParam FROM tags');     
+            
+             $sMyDocument = str_replace(' ', '&nbsp;',  str_replace('\r','<br>', str_replace('\n','<br>', str_replace("]\n",']' ,str_replace('<', '&lt;', str_replace('>', '&gt;', $_sContent))))));
+            
+            $sTags =$this->query('SELECT sTagFrom,sTagInto,sParam FROM transcribedtags');  
             for ($x = 0; $x <= mysqli_num_rows($sTags);$x++) {
-                $aRow =  mysqli_fetch_row($sTags);
-                if (isset($aRow['sParam'])<> true) {
-                    $sMyDocument =  str_replace ($aRow['sTagFrom'],$aRow['sTagIn'],$sMyDocument);
+                $aRow =  mysqli_fetch_assoc($sTags);
+                
+                if ($aRow['sParam']=="") {
+
+                    $sMyDocument =  str_replace ($aRow['sTagFrom'],$aRow['sTagInto'],$sMyDocument);
+                    
                 } else {
+                    
                     $iOffset = 0;
                     $i = 1;
                     $myCount =substr_count($sMyDocument, $aRow['sTagFrom']); 
@@ -67,7 +72,7 @@
 
                                 }
                             }
-                            $sToReplace = $aRow['sTagIn'];
+                            $sToReplace = $aRow['sTagInto'];
                             $sTrReplace = str_replace('>',' ' . $sMyWorkStr,$sToReplace);
                             $sTrReplace = $sTrReplace . ">";
 
@@ -76,10 +81,10 @@
                         }
                     }
                 }
+            }
+       
+            return $sMyDocument;
         }
-        
-        return $sMyDocument;
-    }
            
         
         public function isEmailTaken($sEmail){
@@ -197,7 +202,7 @@
                 $oModuleRow = mysqli_fetch_array($res);
                 $oChaptersResult = $this->query("SELECT * FROM chapters WHERE ModulID = " . $ID . " ORDER BY iIndex");
                 $aChapters = [];
-                while (($row = mysqli_fetch_row($res)) != NULL) {
+                while (($row = mysqli_fetch_row($oChaptersResult)) != NULL) {
                     //ToDo: switch to non-indice based access of db-column
                     $aChapters[] = new Chapter($row[0], $row[1], $row[2], $row[3],
                         $row[4], $row[5], $row[6], $row[7], $row[8],

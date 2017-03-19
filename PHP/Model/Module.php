@@ -60,11 +60,19 @@ class Module {
     }
     
     public function getChapterTextbyIndex($index) {
-        return $this->chapter[$index]->getsText();
+        if (sizeof($this->chapter)> $index){
+            return $this->chapter[$index]->getsText();
+        } else {
+            return null;
+        }     
     }
     
     public function getChapterHeadlineByIndex($index) {
-         return $this->chapter[$index]->getsTitle();
+        if (sizeof($this->chapter)> $index){
+            return $this->chapter[$index]->getsTitle();
+        } else {
+            return null;
+        }
     }
     
    

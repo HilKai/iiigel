@@ -5,8 +5,8 @@
 	 include_once("database.php");
     
 
-    $myModuleID = 1;
-    $myChapterID = 1;
+    $myModuleID = $_GET['moduleID'];
+    $myChapterID = $_GET['chapterID'];
 
 	 
 	 // if session is not set this will redirect to login page
@@ -18,16 +18,16 @@
     //
 
     $myModule = $ODB->getModuleFromID($myModuleID);
-    $search = array('%ChapterHeadline%','ChapterText');
-    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$myModule->getChapterTextbyIndex($myChapterID));
+    $search = array('%ChapterHeadline%','%ChapterText%');
+    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$ODB->replaceTags($myModule->getChapterTextbyIndex($myChapterID)));
     $myPage = str_replace($search,$replace,$myPage);
 
 
     $toAdd = ""; //Hinzugefügter HTML Code
    for ($i=0; $i< sizeof($myModule->chapter);$i++){  
-            $myRow = file_get_contents('../HTML/ChapterDropdownListItem.html');
-            $search = array('%ChapterTitle%');
-            $replace = array($myModule ->chapter[$i]->getsTitle());
+            $myRow = file_get_contents('../HTML/ChapterViewListItem.html');
+            $search = array('%ChapterTitle%','%Link%');
+            $replace = array($myModule ->chapter[$i]->getsTitle(),"/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$i."" );
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;

@@ -165,20 +165,21 @@ CREATE TABLE `modules` (
   `sLanguage` varchar(50) NOT NULL,
   `sIcon` varchar(255) NOT NULL,
   `bIsDeleted` tinyint(1) NOT NULL,
-  `bIsLive` tinyint(1) NOT NULL
+  `bIsLive` tinyint(1) NOT NULL,
+  `sSlug` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `modules`
 --
 
-INSERT INTO `modules` (`ID`, `sID`, `sName`, `sDescription`, `sLanguage`, `sIcon`, `bIsDeleted`, `bIsLive`) VALUES
-(1, NULL, 'SmallBasic', '', 'Microsoft Small Basic', '', 0, 1),
-(2, NULL, 'HTML/CSS', '', 'Hypertext Markup Language/Cascading Style Sheets', '', 0, 1),
-(3, NULL, 'Javascript', '', 'Javascript', '', 0, 1),
-(4, NULL, 'Delphi', '', 'Embarcadero Delphi', '', 0, 0),
-(5, NULL, 'Python', '', 'Python', '', 0, 1),
-(6, NULL, 'Java', '', 'Java', '', 0, 0);
+INSERT INTO `modules` (`ID`, `sID`, `sName`, `sDescription`, `sLanguage`, `sIcon`, `bIsDeleted`, `bIsLive`, `sSlug`) VALUES
+(1, NULL, 'SmallBasic', '', 'Microsoft Small Basic', '', 0, 1, 'small-basic'),
+(2, NULL, 'HTML/CSS', '', 'Hypertext Markup Language/Cascading Style Sheets', '', 0, 1, 'html-css'),
+(3, NULL, 'Javascript', '', 'Javascript', '', 0, 1, 'javascript'),
+(4, NULL, 'Delphi', '', 'Embarcadero Delphi', '', 0, 0, 'delphi'),
+(5, NULL, 'Python', '', 'Python', '', 0, 1, 'python'),
+(6, NULL, 'Java', '', 'Java', '', 0, 0, 'java');
 
 -- --------------------------------------------------------
 

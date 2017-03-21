@@ -1,0 +1,7 @@
+# rewrite all urls that are not pointing to a file in the file-system to routing.php
+RewriteEngine On
+# if requested url does not exist pass it as path info to index.php
+RewriteRule ^$ index.php?/ [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*) PHP/routing.php?/$1 [QSA,L]

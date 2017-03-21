@@ -1,0 +1,61 @@
+body {
+	background-color: #e1e1e1;
+	background-image: url("../Images/FN_091.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+	width: 100%;
+	height: 100%;
+}
+
+	#WrappingContainer {
+		width: 80%;
+		margin: 20px auto;
+		padding: 0;
+	}
+	
+		#ProfileContainer {
+			padding: 40px;
+            border-radius: 8px;
+            background-color: #fff;
+            font-family: 'Open Sans', sans-serif;
+		}
+
+             #ProfileTextContainer {
+                padding-left: 40px; 
+                 margin-left: 40px;
+		      }
+
+                #Heading  {
+                    margin: 0px 0px 20px 0px;
+                    padding-bottom: 10px;
+                    font-family: 'Open Sans Condensed', sans-serif;
+                    font-size: 75px;
+                }
+
+                #PinkButton {
+                    background-color: #e31465;	
+                  float: left;
+                    color: #fff;
+                    margin:  25px 10px 10px 0px;
+                    
+                }
+
+                    #PinkButton:hover {
+                        background-color:#755F5A;
+                    }
+
+        
+#Button {
+    float: left;
+    margin: 25px 0px 0px 0px;
+}
+
+.noPadding {
+	padding:0 !important;
+
+}				
+
+.form {
+    width: 80%;
+}

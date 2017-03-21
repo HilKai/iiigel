@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="../Styles\editProfile.css" type="text/css">
+        <!-- Schrift -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <div id="WrappingContainer" class="container">
+
+            <div id="ProfileContainer" class="row">
+
+                <div class="col-md-3 noPadding">
+
+                    <img id="ProfilePic" class="img-responsive img-circle" src="../ProfilePics/profilePic.jpg" alt="ProfilePicture">
+
+                </div>
+                
+                <div id="ProfileTextContainer" class="col-md-8">
+
+                    <div id="" class="row">
+                        <div class="col-md-12 noPadding">
+                            <h1 id="Heading"> Profil bearbeiten</h1>
+                        </div>
+                    </div>
+                    
+                    <div id="" class="row">
+                        <div class="col-md-6 noPadding">
+                            <form>
+                               <div class="form-group">
+                                    <label for="exampleInputFile"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Profilbild hochladen</label>
+                                    <input type="file" id="exampleInputFile">
+                               </div> 
+                            </form>
+                        </div>
+                        
+                        <div class="col-md-2 noPadding">
+                            <button id="PasswortButton" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> Passwort ändern</button>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 noPadding">
+                            <form>
+                              <div class="form-group">
+                                    <label for="exampleInputPrename">Vorname</label>
+                                    <input type="text" class="form-control form" placeholder="%Vorname%">
+                              </div>
+                              <div class="form-group">
+                                    <label for="exampleInputUsername">Benutzername</label>
+                                    <input type="text" class="form-control form" placeholder="%Benutzername%">
+                              </div>
+                            </form>    
+                        </div>
+                        <div class="col-md-6 noPadding">
+                            <form>
+                              <div class="form-group">
+                                    <label for="exampleInputLastname">Nachname</label>
+                                    <input type="text" class="form-control form" placeholder="%Nachname%">
+                              </div> 
+                              <div class="form-group">
+                                    <label for="exampleInputMail"><span class="glyphicon glyphicon-envelope"></span> E-Mail Adresse</label>
+                                    <input type="email" class="form-control form" placeholder="%E-Mail%">
+                              </div>
+                            </form>    
+                        </div>
+                    </div>
+                    
+                    <div id="" class="row">
+                        <div class="col-md-2 noPadding">
+                                <a  href="userOverview.html"><button id="PinkButton" class="btn btn-default" href="userOverview.html">Speichern</button></a>
+                            </div>
+                            <div class="col-md-2 noPadding">
+                                <a  href="userOverview.html"><button id="Button" class="btn btn-default">Abbrechen</button></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div> 
+    
+            </div>
+            
+        </div>    
+
+    </body>
+
+</html>

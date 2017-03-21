@@ -111,12 +111,12 @@ body {
 				overflow-x: hidden;
 			}
 			
-		#OkButton {
+		#PinkButton {
 			background-color: #e31465;	
 			color: #fff;
 		}
 
-			#OkButton:hover {
+			#PinkButton:hover {
 				background-color:#755F5A;
 			}
 			

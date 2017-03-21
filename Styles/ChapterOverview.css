@@ -1,11 +1,17 @@
-.body {
-	background-color:#e1e1e1;
+body {
+	background-color: #e1e1e1;
+	background-image: url("../Images/FN_091.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+	width: 100%;
+	height: 100%;
 }
 
 #WrappingContainer {
 	margin:0 auto;
 	margin-top:20px;
-
+    width:80%;
 }
 
 #WrappingContainer p {
@@ -60,7 +66,7 @@
 			}
 
 	#right_Container {
-		margin-left:10px;
+		
 	}
 
 		#Chapter_Overview {
@@ -131,3 +137,8 @@
 	overflow:hidden;
 	margin-top:50px;
 }
+
+.noPadding {
+	padding:0 !important;
+
+}	

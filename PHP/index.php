@@ -68,9 +68,9 @@
     </head>
 
     <body class="body">
-        <div id="WrappingContainer" class="container row vertical-align">
+        <div id="WrappingContainer" class="container  ">
             
-            <div id="login_Container" class="col-md-12 col-md-offset-3">
+            <div id="login_Container" class="col-md-6 col-md-offset-3">
 
                 <h3 style="margin-top:10px;">Login <span class="glyphicon glyphicon-log-in"></span></h3>
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">

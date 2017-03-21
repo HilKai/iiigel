@@ -3,7 +3,9 @@
 	<head>
         <meta charset="utf-8"/>
 		<link rel="stylesheet" href="../Styles/ChapterOverview.css" type="text/css"> 
+        <link rel="stylesheet" href="../Styles/ChapterContent.css" type="text/css"> 
 		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
 		
 		<!-------------------------------BOOTSTRAP--------------------------------->
 		
@@ -26,7 +28,7 @@
 	<body class="body">
 		<div id="WrappingContainer" class="container">
 			
-				<div id="header" class="row">
+				<div id="header" class="row ">
 				
 					<div class="col-md-1 col-md-offset-1">
 						<a href="#"><span class="glyphicon glyphicon-th-list" aria-hidden="true" style="font-size:25px;margin-top:30px"></span> </a>
@@ -49,15 +51,15 @@
 					
 				</div>
 				
-				<div class="row">
+				<div class="row nopadding">
 				
-					<div id="Chapter_window" class="col-md-7 col-md-offset-1 myBox">
+					<div id="Chapter_window" class="col-md-9 nopadding myBox">
 						<p>
 							%ChapterText%
 						</p>
 					</div>
 					
-					<div id="right_Container" class="col-md-3">
+					<div id="right_Container" class="col-md-2 col-md-offset-1 nopadding">
 						<div id="Chapter_Overview" class="col-md-12 hidden-xs hidden-sm">
 
 							%ChapterDropDownItems%

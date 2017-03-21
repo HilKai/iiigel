@@ -217,6 +217,33 @@
                 throw new exception('Mehr als ein Modul mit dieser ID');        
             }
         }
+
+        public function getModuleBySlug($sSlug){
+            $stmt = $this->db_connection->prepare("SELECT * FROM modules WHERE `sSlug` = ?");
+            $stmt->bind_param('s', $sSlug);
+            $stmt->execute();
+            $res = $stmt->get_result();
+            $iNumResults = mysqli_num_rows($res);
+
+            if ($iNumResults == 1) {
+                $aModule = mysqli_fetch_array($res);
+                $ID = $aModule['ID'];
+                $oChaptersResult = $this->query("SELECT * FROM chapters WHERE ModulID = " . $ID . " ORDER BY iIndex");
+                $aChapters = [];
+                while (($aChapter = mysqli_fetch_array($oChaptersResult)) != NULL) {
+                    $aChapters[] = new Chapter($aChapter['ID'], $aChapter['sID'], $aChapter['iIndex'], $aChapter['sTitle'],
+                        $aChapter['sText'], $aChapter['sNote'], $aChapter['ModulID'], $aChapter['bInterpreter'], $aChapter['bIsMandatoryHandIn'],
+                        $aChapter['bIsLive'], $aChapter['bLiveInterpretation'], $aChapter['bShowCloud'], $aChapter['bIsDeleted']);
+                }
+                return new Module($aModule['ID'], $aModule['sID'], $aModule['sName'],
+                    $aModule['sDescription'], $aModule['sLanguage'], $aModule['sIcon'],
+                    $aModule['bIsDeleted'], $aModule['bIsLive'], $aChapters);
+            } else if ($iNumResults == 0) {
+                throw new exception('Kein Modul mit dieser ID in der Datenbank');
+            } else {
+                throw new exception('Mehr als ein Modul mit dieser ID');
+            }
+        }
 		
     }
 

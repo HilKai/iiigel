@@ -12,6 +12,10 @@
 		private $stmtGetGroupFromID;
 		private $stmtGetGroupsFromUserID;
 		private $stmtGetModuleFromID;
+        private $stmtSetProfilePic;
+        private $stmtGetProfilePicFromUserID;
+        private $stmtsetFortschrittFromUserinGroup;
+        private $stmtsetFortschrittforallUsersinGroup;
 
         private function query($statement) {
             return mysqli_query($this->db_connection, $statement);
@@ -27,6 +31,10 @@
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM Groups WHERE Groups.ID = ?");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM Modules WHERE Modules.ID = ?");
+            $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePic = ? WHERE UserID = ?");
+            $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE UserID = ?");
+            $this->stmtsetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1 WHERE GroupID = ? AND UserID = ?");
+            $this->stmtsetFortschrittforallUsersinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = ? ");
         }
 		
         public function replaceTags ($_sContent){
@@ -217,6 +225,36 @@
                 throw new exception('Mehr als ein Modul mit dieser ID');        
             }
         }
+        
+        public function setProfilePic($sProfilePic,$ID){
+            $this->stmtSetProfilePic->bind_param("si",$sProfilePic,$ID);
+            $this->stmtSetProfilePic->execute();  
+        }
+        
+        public function getProfilePicFromID($ID){
+            $this->stmtGetProfilePicFromID ->bind_param("i",$ID);
+            $this->stmtGetProfilePicFromID->execute();
+            $res = $this->stmtGetProfilePicFromID->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return $row['sProfilePicture'];
+            } else {
+                throw new exception('Mehr als ein User mit dieser ID');        
+            }
+        }
+        
+        public function setFortschrittFromUserinGroup($GroupID, $UserID){
+            $this->stmtSetFortschrittFromUserinGroup->bind_param("ii",$GroupID,$UserID);
+            $this->stmtSetFortschrittFromUserinGroup->execute();
+        }
+        
+        public function setFortschrittforallUsersinGroup($Fortschritt){
+            $this->stmtsetFortschrittforallUsersinGroup->bind_param("i",$Fortschritt);
+            $this->stmtsetFortschrittforallUsersinGroup->execute();
+        }
+        
+        // 1. update befehle für Coco zB setName, setEmail und co
+        // 2. UserId, ModulID/GruppenID und Text als Parameter -> Hand In soll erstellt werden
 		
     }
 

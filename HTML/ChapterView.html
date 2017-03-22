@@ -1,102 +1,114 @@
 <html>
 
 	<head>
-        <meta charset="utf-8"/>
-		<link rel="stylesheet" href="../Styles/ChapterOverview.css" type="text/css"> 
-        <link rel="stylesheet" href="../Styles/ChapterContent.css" type="text/css"> 
-		<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
-		
-		<!-------------------------------BOOTSTRAP--------------------------------->
-		
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../Styles/ChapterOverview.css" type="text/css">
+    <link rel="stylesheet" href="../Styles/ChapterContent.css" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-		<!-- Optional theme -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" 
-		integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-------------------------------BOOTSTRAP--------------------------------->
 
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-		
-		<!---------------------------------GOOGLE FONTS--------------------->
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-		
-	</head>
-	
-	<body class="body">
-		<div id="WrappingContainer" class="container">
-			
-				<div id="header" class="row ">
-				
-					<div class="col-md-1 col-md-offset-1">
-						<a href="#"><span class="glyphicon glyphicon-th-list" aria-hidden="true" style="font-size:25px;margin-top:30px"></span> </a>
-					</div>
-					
-					<div class="col-md-5">
-						<p id="ChapterHeadline" style="float:left;">
-							%ChapterHeadline%
-					
-						</p>
-					</div>
-					
-					<div class="col-md-2 col-md-offset-3">
-						<a href="../PHP/logout.php?logout">
-							<button id="LogOutButton" class="btn btn-default"> 
+    <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!---------------------------------GOOGLE FONTS--------------------->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+</head>
+
+<body class="body">
+    <div id="WrappingContainer" class="container">
+
+        <div id="header" class="row ">
+
+            <div class="col-md-1 col-md-offset-1">
+                <a href="#"><span class="glyphicon glyphicon-th-list" aria-hidden="true" style="font-size:25px;margin-top:30px"></span> </a>
+            </div>
+
+            <div class="col-md-5">
+                <p id="ChapterHeadline" style="float:left;">
+                    %ChapterHeadline%
+
+                </p>
+            </div>
+
+            <div class="col-md-2 col-md-offset-3">
+                <a href="../PHP/logout.php?logout">
+                    <button id="LogOutButton" class="btn btn-default"> 
 								<span class="glyphicon glyphicon-log-out"></span> Abmelden
-							</button> 
-						</a>
-					</div>
-					
-				</div>
-				
-				<div class="row nopadding">
-				
-					<div id="Chapter_window" class="col-md-9 nopadding myBox">
-						<p>
-							%ChapterText%
-						</p>
-					</div>
-					
-					<div id="right_Container" class="col-md-2 col-md-offset-1 nopadding">
-						<div id="Chapter_Overview" class="col-md-12 hidden-xs hidden-sm">
+							</button>
+                </a>
+            </div>
 
-							%ChapterDropDownItems%
+        </div>
 
-						</div>
-						
-						<div class="col-md-5">
-							<a href="#"> <button id="LogOutButton" class="btn btn-default col-md-12"> Abgabe </button> </a>
-						</div>
-						
-						<div class="col-md-5 col-md-offset-1">
-							<a href="#"> <button id="LogOutButton" class="btn btn-default col-md-12"> Abgabe </button> </a>
-						</div>
-						
-						<div class="col-md-5">
-							<a href="#"> <button id="LogOutButton" class="btn btn-default col-md-12"> Abgabe </button> </a>
-						</div>
-						
-						<div class="col-md-5 col-md-offset-1">
-							<a href="#"> <button id="LogOutButton" class="btn btn-default col-md-12"> Abgabe </button> </a>
-						</div>
-					</div>
-					
-					
-					
-				
-					
-				</div>
-				
-				
-				
-				<div id="footer" class="row">
-					<div class="col-xs-12"></div>
-				</div>
-		</div>
-		
-		
-	</body>
+        <div class="row nopadding">
+
+            <div id="Chapter_window" class="col-md-9 nopadding myBox">
+                <p>
+                    %ChapterText%
+                </p>
+            </div>
+
+            <div id="right_Container" class="col-md-2 col-md-offset-1 nopadding">
+                <div id="Chapter_Overview" class="col-md-12 hidden-xs hidden-sm">
+
+                    %ChapterDropDownItems%
+
+                </div>
+
+                <div id="Buttons" class="row nopaddings">
+                    %Buttons%
+                </div>
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <textarea class="form-control col-xs-12" rows="7" style="max-width:100%;"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" name="SubmitButton" class="btn btn-info" data-dismiss="modal">Submit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="footer" class="row">
+            <div class="col-xs-12"></div>
+        </div>
+    </div>
+
+
+</body>
 
 </html>

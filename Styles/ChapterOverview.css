@@ -1,6 +1,6 @@
 body {
 	background-color: #e1e1e1;
-	background-image: url("../Images/FN_091.jpg");
+	background-image: url("../Images/FN_001.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment:fixed;
@@ -23,7 +23,7 @@ body {
 	#Chapter_window {
 		background-color:#fff;
 		float:left;
-		border-radius:10px;
+		border-radius:5px;
 		margin-bottom:20px;
 		-webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.68);
 		-moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.68);
@@ -32,8 +32,8 @@ body {
 
 		#Chapter_window p {
 			font-family: 'Open Sans', sans-serif;
-			font-size: 15;
-			text-align:justify;
+			font-size: 12;
+			text-align: justify;
 		}
 		/*---------------------------------------Scrollbox---------------------------*/
 
@@ -53,11 +53,11 @@ body {
 
 			::-webkit-scrollbar-track {
 				background: #f5f5f5;
-				border-radius: 10px;
+				border-radius: 5px;
 			}
 
 			::-webkit-scrollbar-thumb {
-				border-radius: 10px;
+				border-radius: 5px;
 				background: #ccc;  
 			}
 
@@ -73,8 +73,7 @@ body {
 			padding:0;
 			background-color:#fff;
 			float:left;
-			border-radius:10px;
-			text-align:center;
+			border-radius:5px;
 			overflow:hidden;
 			-webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.68);
 			-moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.68);
@@ -130,7 +129,7 @@ body {
 
 #register_Container {
 	Background-color:#fff;
-	border-radius:8px;
+	border-radius:5px;
 	-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 	-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 	box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);

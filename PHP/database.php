@@ -6,16 +6,32 @@
     class Database
     {
         private $db_connection;
+        private $stmtisEmailTaken;
+        private $stmtisUsernameTaken;
+        private $stmtisUsernameFromID;
+        private $stmtisEMailFromID;
+        
 		private $stmtGetUserFromID;
 		private $stmtGetInstitutionFromID;
 		private $stmtGetUserFromUsername;
 		private $stmtGetGroupFromID;
 		private $stmtGetGroupsFromUserID;
 		private $stmtGetModuleFromID;
-        private $stmtSetProfilePic;
         private $stmtGetProfilePicFromUserID;
-        private $stmtsetFortschrittFromUserinGroup;
-        private $stmtsetFortschrittforallUsersinGroup;
+        
+        private $stmtSetProfilePic;
+        private $stmtSetFortschrittFromUserinGroup;
+        private $stmtSetFortschrittforallUsersinGroup;
+        private $stmtSetUsernameFromID;
+        private $stmtSetFirstNameFromID;
+        private $stmtSetLastNameFromID;
+        private $stmtSetEMailFromID;
+        private $stmtSetPasswordFromID;
+        
+        private $stmtaddUser;
+        private $stmtaddHandIn;
+        
+       
 
         private function query($statement) {
             return mysqli_query($this->db_connection, $statement);
@@ -23,6 +39,8 @@
 
         public function __construct(){
             $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+            
+            //----- SELECTS -----
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE users.sEMail = ?");
 			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ?");
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
@@ -31,10 +49,22 @@
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM Groups WHERE Groups.ID = ?");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM Modules WHERE Modules.ID = ?");
-            $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePic = ? WHERE UserID = ?");
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE UserID = ?");
-            $this->stmtsetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1 WHERE GroupID = ? AND UserID = ?");
-            $this->stmtsetFortschrittforallUsersinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = ? ");
+            $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
+            $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
+            //----- UPDATES ------
+            $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePic = ? WHERE UserID = ?");
+            $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
+            $this->stmtSetFortschrittforallUsersinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = ? WHERE GroupID = ?");
+            $this->stmtSetUsernameFromID = $this->db_connection->prepare("UPDATE users SET sUsername = ? WHERE ID = ?");
+            $this->stmtSetFirstNameFromID = $this->db_connection->prepare("UPDATE users SET sFirstName = ? WHERE ID = ?");
+            $this->stmtSetLastNameFromID = $this->db_connection->prepare("UPDATE users SET sLastName = ? WHERE ID = ?");
+            $this->stmtSetEMailFromID = $this->db_connection->prepare("UPDATE users SET sEMail = ? WHERE ID = ?");
+            $this->stmtSetPasswordFromID = $this->db_connection->prepare("UPDATE users SET sPassword = ? WHERE ID = ?");
+            
+            //----- INSERTS -----
+            $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword) VALUES                                                     (?,?,?,?,?)");
+            $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
         }
 		
         public function replaceTags ($_sContent){
@@ -94,6 +124,17 @@
             return $sMyDocument;
         }
            
+        public function isUsernameTaken($sUsername){
+            $this->stmtisUsernameTaken->bind_param("s",$sUsername);	
+			$this->stmtisUsernameTaken->execute();
+			$res = $this->stmtisUsernameTaken->get_result();
+            $iNumberOfUsersWithThisUsername = mysqli_num_rows($res);
+			if ($iNumberOfUsersWithThisUsername != 0) {
+                return true;
+            } else {
+                return false;  
+            }
+        }
         
         public function isEmailTaken($sEmail){
 			$this->stmtisEmailTaken->bind_param("s",$sEmail);	
@@ -107,16 +148,42 @@
             }
         }
         
-        public function isUsernameTaken($sUsername){
-            $this->stmtisUsernameTaken->bind_param("s",$sUsername);	
-			$this->stmtisUsernameTaken->execute();
-			$res = $this->stmtisUsernameTaken->get_result();
-            $iNumberOfUsersWithThisUsername = mysqli_num_rows($res);
-			if ($iNumberOfUsersWithThisUsername != 0) {
+        public function isUsernameFromID($ID,$Username){
+            $this->stmtisUsernameFromID->bind_param("s",$Username);
+            $this->stmtisUsernameFromID->execute();
+            $res = $this->stmtisUsernameFromID->get_result();
+            $row = mysqli_fetch_array($res);
+            if (mysqli_num_rows($res)!=1) {
+                return true;
+            } elseif ($row['ID']==$ID){
                 return true;
             } else {
-                return false;  
+                return true;
             }
+        }
+        
+        public function isEMailFromID($ID,$EMail){
+            $this->stmtisEMailFromID->bind_param("s",$EMail);
+            $this->stmtisEMailFromID->execute();
+            $res = $this->stmtisEMailFromID->get_result();
+            $row = mysqli_fetch_array($res);
+            if (mysqli_num_rows($res)!=1) {
+                return true;
+            } elseif ($row['ID']==$ID){
+                return true;
+            } else {
+                return true;
+            }
+        }
+        
+        public function addUser($Username,$FirstName,$LastName,$Email,$Password){
+            $this->stmtaddUser->bind_param("sssss",$Username,$FirstName,$LastName,$Email,$Password);
+            return $this->stmtaddUser->execute();
+        }
+        
+        public function addHandInFromUserID($UserID,$GroupID,$ChapterID,$Text){
+            $this->stmtaddHandIn->bind_param("iiis",$UserID,$GroupID,$ChapterID,$Text);
+            $this->stmtaddHandIn->execute();
         }
         
         public function getUserFromId($ID){	
@@ -133,6 +200,9 @@
             }	
             
         }
+        
+        
+        
         public function getInstitutionFromID($ID){
 			$this->stmtGetInstitutionFromID->bind_param("i",$ID);	
 			$this->stmtGetInstitutionFromID->execute();
@@ -248,13 +318,90 @@
             $this->stmtSetFortschrittFromUserinGroup->execute();
         }
         
-        public function setFortschrittforallUsersinGroup($Fortschritt){
-            $this->stmtsetFortschrittforallUsersinGroup->bind_param("i",$Fortschritt);
-            $this->stmtsetFortschrittforallUsersinGroup->execute();
+        public function setFortschrittforallUsersinGroup($Fortschritt,$GroupID){
+            $this->stmtSetFortschrittforallUsersinGroup->bind_param("ii",$Fortschritt,$GroupID);
+            $this->stmtSetFortschrittforallUsersinGroup->execute();
         }
         
-        // 1. update befehle für Coco zB setName, setEmail und co
-        // 2. UserId, ModulID/GruppenID und Text als Parameter -> Hand In soll erstellt werden
+        public function setUsernameFromID($Username,$ID){
+            $this->stmtSetUsernameFromID->bind_param("si",$Username,$ID);
+            $this->stmtSetUsernameFromID->execute();
+        }
+        
+        public function setFirstNameFromID($FirstName,$ID){
+            $this->stmtSetFirstNameFromID->bind_param("si",$FirstName,$ID);
+            $this->stmtSetFirstNameFromID->execute();
+        }
+        
+        public function setLastNameFromID($LastName,$ID){
+            $this->stmtSetLastNameFromID->bind_param("si",$LastName,$ID);
+            $this->stmtSetLastNameFromID->execute();
+        }
+        
+        public function setEMailFromID($Email,$ID){
+            $this->stmtSetEMailFromID->bind_param("si",$Email,$ID);
+            $this->stmtSetEmailFromID->execute();
+        }
+        
+        public function setPasswordFromID($Password,$ID){
+            $this->stmtSetPasswordFromID->bind_param("si",$Password,$ID);
+            $this->stmtSetPasswordFromID->execute();
+        }
+        
+        public function uplaodPicture($ID){
+            $upload_folder = "uploads/img/";    //Ordner für Bilder
+            $filename = pathinfo($_FILES['datei']['name'], PATHINFO_FILENAME); //Gibt Dateinamen zurück
+            $extension = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));    //Gibt Endung der Datei zurück zB php
+
+            //Überprüfung der Dateiendung
+            $allowed_extensions = array('png', 'jpg', 'jpeg', 'gif');
+            if(!in_array($extension, $allowed_extensions)) {
+                die("Ungültige Dateiendung. Nur png, jpg, jpeg und gif-Dateien sind erlaubt");
+            }
+
+            //Überprüfung der Dateigröße
+            $max_size = 500*1024; //500 KB
+            if($_FILES['datei']['size'] > $max_size) {
+                die("Bitte keine Dateien größer 500kb hochladen");
+            }
+
+            //Überprüfung dass das Bild keine Fehler enthält zB HTML Code, der alles zerstört
+            if(function_exists('exif_imagetype')) { //Die exif_imagetype-Funktion erfordert die exif-Erweiterung auf dem Server
+              $allowed_types = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
+              $detected_type = exif_imagetype($_FILES['datei']['tmp_name']);
+              if(!in_array($detected_type, $allowed_types)) {
+                die("Nur der Upload von Bilddateien ist gestattet");
+              }
+            }
+
+            //Pfad zum Upload
+            $new_path = $upload_folder.$filename.'.'.$extension;
+
+            //Neuer Dateiname falls die Datei bereits existiert
+            if(file_exists($new_path)) { //Falls Datei existiert, hänge eine Zahl an den Dateinamen
+             $id = 1;
+             do {
+             $new_path = $upload_folder.$filename.'_'.$id.'.'.$extension;
+             $id++;
+             } while(file_exists($new_path));
+            }
+
+            //Alles okay, verschiebe Datei an neuen Pfad
+            move_uploaded_file($_FILES['datei']['tmp_name'], $new_path);
+            echo 'Bild erfolgreich hochgeladen: <a href="'.$new_path.'">'.$new_path.'</a>';
+            setProfilePic($new_path,$ID);
+        }
+        
+        public function editProfile($ID,$Username,$FirstName,$LastName,$Email,$Password){
+            setUsernameFromID($Username,$ID);
+            setFirstNameFromID($FirstName,$ID);
+            setLastNameFromID($Lastname,$ID);
+            setEmailFromID($Email,$ID);
+            setPasswordFromID($Password,$ID);
+            uploadPicture($ID);
+        }
+        
+       
 		
     }
 

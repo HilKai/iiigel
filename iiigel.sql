@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 23. Mrz 2017 um 15:05
+-- Erstellungszeit: 23. Mrz 2017 um 18:46
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -122,7 +122,8 @@ INSERT INTO `groups` (`ID`, `ModulID`, `InstitutionsID`, `sName`, `bIsDeleted`) 
 CREATE TABLE `handins` (
   `ID` int(11) NOT NULL,
   `sID` varchar(60) DEFAULT NULL,
-  `Date` date NOT NULL,
+  `Date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UserID` int(11) NOT NULL,
   `GroupID` int(11) NOT NULL,
   `ChapterID` int(11) NOT NULL,
   `bIsAccepted` tinyint(1) NOT NULL,
@@ -292,8 +293,8 @@ INSERT INTO `usertogroup` (`UserID`, `GroupID`, `iFortschritt`, `bIsTrainer`) VA
 (11, 6, 0, 1),
 (6, 6, 0, 0),
 (8, 5, 0, 1),
-(10, 4, 0, 0),
-(9, 4, 0, 1),
+(10, 4, 5, 0),
+(9, 4, 5, 1),
 (12, 5, 0, 0),
 (13, 6, 0, 0);
 
@@ -405,7 +406,7 @@ ALTER TABLE `transcribedtags`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -32,17 +32,14 @@
     $toAdd = "";
 
 
-   if ($_POST){
+    if ($_POST){
         for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
             if(isset($_POST['levelUp'.$i])){
-                   if($myGroup->teilnehmer[$i]->getiFortschritt()<sizeof($myModule->chapter)){
-                       
-                            $id =$myGroup ->teilnehmer[$i]->getID();
-                            $ODB->setFortschrittFromUserinGroup($id,$currentGroupID);
-                            header("Refresh:0");
-                            
-
-                   }
+                if($myGroup->teilnehmer[$i]->getiFortschritt()<sizeof($myModule->chapter)){
+                    $id =$myGroup ->teilnehmer[$i]->getID();
+                    $ODB->setFortschrittFromUserinGroup($id,$currentGroupID);
+                    header("Refresh:0");     
+                }
             }
         }
    }

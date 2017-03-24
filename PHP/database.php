@@ -10,6 +10,8 @@
         private $stmtisUsernameTaken;
         private $stmtisUsernameFromID;
         private $stmtisEMailFromID;
+        private $stmtisUserinGroup;
+        private $stmtisTrainerofGroup;
         
 		private $stmtGetUserFromID;
 		private $stmtGetInstitutionFromID;
@@ -18,6 +20,7 @@
 		private $stmtGetGroupsFromUserID;
 		private $stmtGetModuleFromID;
         private $stmtGetProfilePicFromUserID;
+        private $stmtGetIDFromUsername;
         
         private $stmtSetProfilePic;
         private $stmtSetFortschrittFromUserinGroup;
@@ -52,6 +55,9 @@
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE UserID = ?");
             $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
             $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
+            $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? ");
+            $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
+            $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
             //----- UPDATES ------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePic = ? WHERE UserID = ?");
             $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
@@ -176,6 +182,28 @@
             }
         }
         
+        public function isUserinGroup($UserID,$GroupID){
+            $this->stmtisUserinGroup->bind_param("ii",$UserID,$GroupID); 
+            $this->stmtisUserinGroup->execute();
+            $res = $this->stmtisUserinGroup->get_result();
+            if (mysqli_num_rows($res)==1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function isTrainerofGroup($UserID,$GroupID){
+            $this->stmtisTrainerofGroup->bind_param("ii",$UserID,$GroupID); 
+            $this->stmtisTrainerofGroup->execute();
+            $res = $this->stmtisTrainerofGroup->get_result();
+            if (mysqli_num_rows($res)==1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
         public function addUser($Username,$FirstName,$LastName,$Email,$Password){
             $this->stmtaddUser->bind_param("sssss",$Username,$FirstName,$LastName,$Email,$Password);
             return $this->stmtaddUser->execute();
@@ -184,6 +212,18 @@
         public function addHandInFromUserID($UserID,$GroupID,$ChapterID,$Text){
             $this->stmtaddHandIn->bind_param("iiis",$UserID,$GroupID,$ChapterID,$Text);
             $this->stmtaddHandIn->execute();
+        }
+        
+        public function getIDFromUsername($Username){
+            $this->stmtGetIDFromUsername->bind_param("s",$Username); 
+            $this->stmtGetIDFromUsername->execute();
+            $res = $this->stmtGetIDFromUsername->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return $row['ID'];
+            } else {
+                throw new exception('Mehr als ein User mit dieser ID');        
+            }
         }
         
         public function getUserFromId($ID){	

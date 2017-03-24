@@ -30,6 +30,14 @@
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;
+       
+       if($_GET){
+        if(isset($_GET['levelUp'])&&($myGroup->teilnehmer[$i]->getiFortschritt()!=sizeof($myModule->chapter))){
+                    $id = $ODB->getIDFromUsername($myGroup ->teilnehmer[$i]->getsUsername());
+                    $ODB->setFortschrittFromUserinGroup($myGroupID,$id);
+         }
+    }
+       
     }
     $myPage=str_replace('%Tablerow%',$toAdd,$myPage);
 
@@ -42,8 +50,24 @@
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;
+       
+       if($_GET){
+            if(isset($_GET['levelUpforAll'])){
+                $ODB->setFortschrittforallUsersinGroup($myRow,$myGroupID); //--------------------- funktioniert noch nicht :-(
+                echo"Test";
+            }
+        }
+       
+        
     }
     $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
     
     echo $myPage;
+
+    
+
+    
+       
+    
+    
 ?>

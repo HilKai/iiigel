@@ -5,16 +5,22 @@
 	 include_once("database.php");
     
 
-    $myGroupID = 1;
+    $currentGroupID = $_GET['groupID'];
+    
 	 
 	 // if session is not set this will redirect to login page
 	 if( !isset($_SESSION['user']) ) {
 	  header("Location: index.php");
 	  exit;
 	 }
+
+    if( !$ODB->isTrainerofGroup($_SESSION['user'],$currentGroupID) ) {
+	  header("Location: index.php");
+	  exit;
+	 }
     
     //
-    $myGroup = $ODB->getGroupFromID($myGroupID);
+    $myGroup = $ODB->getGroupFromID($currentGroupID);
     $myModule = $ODB->getModuleFromID($myGroup->getModulID());
     $search = array('%Gruppenname%', '%Institution%');
     $replace = array($myGroup->getsName(), $ODB->getInstitutionFromID($myGroup-> getInstitutionsID())->getsName());

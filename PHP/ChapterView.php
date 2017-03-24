@@ -7,6 +7,24 @@
 
     $myModuleID = $_GET['moduleID'];
     $myChapterID = $_GET['chapterID'];
+    $currentGroupID = $_GET['groupID'];
+
+    
+	 // if session is not set this will redirect to login page
+    if( !isset($_SESSION['user']) ) {
+        header("Location: index.php");
+        exit;
+	 }
+
+    //redirects User if he is not in this group
+
+    if(!$ODB->isUserinGroup($_SESSION['user']),$currentGroupID)){
+        header("Location: index.php");
+        exit;   
+    }
+
+
+
 
     if ( isset($_POST['NextButton']) ) {
     }
@@ -14,12 +32,6 @@
      if ( isset($_POST['AbgabeButton']) ) {
          
     }
-
-	 // if session is not set this will redirect to login page
-	 if( !isset($_SESSION['user']) ) {
-	  header("Location: index.php");
-	  exit;
-	 }
     
     //
 

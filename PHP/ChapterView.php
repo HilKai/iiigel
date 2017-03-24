@@ -18,7 +18,7 @@
 
     //redirects User if he is not in this group
 
-    if(!$ODB->isUserinGroup($_SESSION['user']),$currentGroupID)){
+    if(!$ODB->isUserinGroup($_SESSION['user'],$currentGroupID)){
         header("Location: index.php");
         exit;   
     }

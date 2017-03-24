@@ -33,12 +33,15 @@
 
 
     if ($_POST){
+    
         for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
-            if(isset($_POST['levelUp'.$i])){
-                if($myGroup->teilnehmer[$i]->getiFortschritt()<sizeof($myModule->chapter)){
-                    $id =$myGroup ->teilnehmer[$i]->getID();
-                    $ODB->setFortschrittFromUserinGroup($id,$currentGroupID);
-                    header("Refresh:0");     
+            if(isset($_POST['levelUp'])){
+                if($myGroup->teilnehmer[$i]->getID() ==  $_POST['levelUp']) {
+                    if($myGroup->teilnehmer[$i]->getiFortschritt()<sizeof($myModule->chapter)){
+                        $id =$myGroup ->teilnehmer[$i]->getID();
+                        $ODB->setFortschrittFromUserinGroup($id,$currentGroupID);
+                        header("Refresh:0");     
+                    }
                 }
             }
         }
@@ -47,8 +50,8 @@
     
    for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
         $myRow = file_get_contents('../HTML/trainerModulTablerow.html');
-            $search = array('%Prename%', '%Lastname%', '%Progress%', '%ProgressPercent%','%index%');
-            $replace = array($myGroup ->teilnehmer[$i]->getsFirstName(), $myGroup ->teilnehmer[$i]->getsLastName(), $myGroup->teilnehmer[$i]->getiFortschritt(), (100*($myGroup->teilnehmer[$i]->getiFortschritt()))/(sizeof($myModule->chapter)),$i);
+            $search = array('%Prename%', '%Lastname%', '%Progress%', '%ProgressPercent%','%ID%');
+            $replace = array($myGroup ->teilnehmer[$i]->getsFirstName(), $myGroup ->teilnehmer[$i]->getsLastName(), $myGroup->teilnehmer[$i]->getiFortschritt(), (100*($myGroup->teilnehmer[$i]->getiFortschritt()))/(sizeof($myModule->chapter)),$myGroup->teilnehmer[$i]->getID());
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;

@@ -353,7 +353,7 @@
             }
         }
         
-        public function setFortschrittFromUserinGroup($GroupID, $UserID){
+        public function setFortschrittFromUserinGroup($UserID,$GroupID ){
             $this->stmtSetFortschrittFromUserinGroup->bind_param("ii",$GroupID,$UserID);
             $this->stmtSetFortschrittFromUserinGroup->execute();
         }

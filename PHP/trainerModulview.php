@@ -19,6 +19,8 @@
 	  exit;
 	 }
     
+
+
     //
     $myGroup = $ODB->getGroupFromID($currentGroupID);
     $myModule = $ODB->getModuleFromID($myGroup->getModulID());
@@ -28,23 +30,36 @@
 
     // select modul member details
     $toAdd = "";
+
+
+   if ($_POST){
+        for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
+            if(isset($_POST['levelUp'.$i])){
+                   if($myGroup->teilnehmer[$i]->getiFortschritt()<sizeof($myModule->chapter)){
+                       
+                            $id =$myGroup ->teilnehmer[$i]->getID();
+                            $ODB->setFortschrittFromUserinGroup($id,$currentGroupID);
+                            header("Refresh:0");
+                            
+
+                   }
+            }
+        }
+   }
+ 
     
    for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
         $myRow = file_get_contents('../HTML/trainerModulTablerow.html');
-            $search = array('%Prename%', '%Lastname%', '%Progress%', '%ProgressPercent%');
-            $replace = array($myGroup ->teilnehmer[$i]->getsFirstName(), $myGroup ->teilnehmer[$i]->getsLastName(), $myGroup->teilnehmer[$i]->getiFortschritt(), (100*($myGroup->teilnehmer[$i]->getiFortschritt()))/(sizeof($myModule->chapter)));
+            $search = array('%Prename%', '%Lastname%', '%Progress%', '%ProgressPercent%','%index%');
+            $replace = array($myGroup ->teilnehmer[$i]->getsFirstName(), $myGroup ->teilnehmer[$i]->getsLastName(), $myGroup->teilnehmer[$i]->getiFortschritt(), (100*($myGroup->teilnehmer[$i]->getiFortschritt()))/(sizeof($myModule->chapter)),$i);
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;
        
-       if($_GET){
-        if(isset($_GET['levelUp'])&&($myGroup->teilnehmer[$i]->getiFortschritt()!=sizeof($myModule->chapter))){
-                    $id = $ODB->getIDFromUsername($myGroup ->teilnehmer[$i]->getsUsername());
-                    $ODB->setFortschrittFromUserinGroup($myGroupID,$id);
-         }
+    
     }
        
-    }
+    
     $myPage=str_replace('%Tablerow%',$toAdd,$myPage);
 
     //create DropDown Chapter List

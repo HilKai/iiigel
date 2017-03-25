@@ -77,18 +77,18 @@
 
                 <div id="AllLevelUp">
                     <p>Setze alle Benutzer auf mindestens: </p>
-
-                    <div id="DropdownContainer" class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            Kapitel
+                    <form  name="form" id="form" method="post">
+                        <div id="DropdownContainer" class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Kapitel
                             <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenu1">
-                            %ChapterDropDownItems%
-                        </ul>
-                    </div>
-                    <form method="get">
-                        <button id="PinkButton" class="btn btn-default" name = "levelUpforAll" type = "submit">OK!</button>
+                            </button>
+                            <ul class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenu1">
+                                %ChapterDropDownItems%
+                            </ul>
+                        </div>
+                    
+                        <button id="PinkButton" class="btn btn-default" value="test" name = "levelUpforAll" type = "submit">OK!</button>
                     </form>
                         
                 </div>
@@ -102,3 +102,14 @@
 </body>
 
 </html>
+
+ <script>
+
+        $(document).ready(function(){
+            $(".dropdown-menu li a").click(function(){
+            $("#dropdownMenu1").text($(this).text());
+            document.form.PinkButton.value = $(this).closest('li').index();;
+    
+            });
+        });
+    </script>

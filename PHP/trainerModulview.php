@@ -6,7 +6,6 @@
     
 
     $currentGroupID = $_GET['groupID'];
-    
 	 
 	 // if session is not set this will redirect to login page
 	 if( !isset($_SESSION['user']) ) {
@@ -19,7 +18,8 @@
 	  exit;
 	 }
     
-
+       
+    
 
     //
     $myGroup = $ODB->getGroupFromID($currentGroupID);
@@ -32,12 +32,17 @@
     $toAdd = "";
 
 
+
     if ($_POST){
-    
-        for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
-            if(isset($_POST['levelUp'])){
+        
+        if(isset($_POST['levelUpforAll'])){
+            $ODB->setFortschrittforallUsersinGroup($_POST['levelUpforAll'],$currentGroupID); //--------------------- funktioniert noch nicht :-(
+            header("Refresh:0");   
+        }
+        if(isset($_POST['levelUp'])){
+            for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
                 if($myGroup->teilnehmer[$i]->getID() ==  $_POST['levelUp']) {
-                    if($myGroup->teilnehmer[$i]->getiFortschritt()<sizeof($myModule->chapter)){
+                    if($myGroup->teilnehmer[$i]->getiFortschritt()<sizeof($myModule->chapter)-1){
                         $id =$myGroup ->teilnehmer[$i]->getID();
                         $ODB->setFortschrittFromUserinGroup($id,$currentGroupID);
                         header("Refresh:0");     
@@ -51,7 +56,7 @@
    for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
         $myRow = file_get_contents('../HTML/trainerModulTablerow.html');
             $search = array('%Prename%', '%Lastname%', '%Progress%', '%ProgressPercent%','%ID%');
-            $replace = array($myGroup ->teilnehmer[$i]->getsFirstName(), $myGroup ->teilnehmer[$i]->getsLastName(), $myGroup->teilnehmer[$i]->getiFortschritt(), (100*($myGroup->teilnehmer[$i]->getiFortschritt()))/(sizeof($myModule->chapter)),$myGroup->teilnehmer[$i]->getID());
+            $replace = array($myGroup ->teilnehmer[$i]->getsFirstName(), $myGroup ->teilnehmer[$i]->getsLastName(), $myGroup->teilnehmer[$i]->getiFortschritt(), (100*($myGroup->teilnehmer[$i]->getiFortschritt()))/(sizeof($myModule->chapter)-1),$myGroup->teilnehmer[$i]->getID());
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;
@@ -72,12 +77,7 @@
         
         $toAdd = $toAdd . $myRow;
        
-       if($_GET){
-            if(isset($_GET['levelUpforAll'])){
-                $ODB->setFortschrittforallUsersinGroup($myRow,$myGroupID); //--------------------- funktioniert noch nicht :-(
-                echo"Test";
-            }
-        }
+     
        
         
     }

@@ -56,7 +56,7 @@
    for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
         $myRow = file_get_contents('../HTML/trainerModulTablerow.html');
             $search = array('%Prename%', '%Lastname%', '%Progress%', '%ProgressPercent%','%ID%');
-            $replace = array($myGroup ->teilnehmer[$i]->getsFirstName(), $myGroup ->teilnehmer[$i]->getsLastName(), $myGroup->teilnehmer[$i]->getiFortschritt(), (100*($myGroup->teilnehmer[$i]->getiFortschritt()))/(sizeof($myModule->chapter)-1),$myGroup->teilnehmer[$i]->getID());
+            $replace = array($myGroup ->teilnehmer[$i]->getsFirstName(), $myGroup ->teilnehmer[$i]->getsLastName(), $myGroup->teilnehmer[$i]->getiFortschritt()+1, (100*($myGroup->teilnehmer[$i]->getiFortschritt()))/(sizeof($myModule->chapter)-1),$myGroup->teilnehmer[$i]->getID());
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;

@@ -25,7 +25,7 @@
         $oneTrainer = reset($myTrainer);
         $myBox = file_get_contents('../HTML/groupBox.html');
             $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModuleName%');
-            $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$myGroups[$i]->getProgressFromUserID($_SESSION['user']),(100*($myGroups[$i]->getProgressFromUserID($_SESSION['user']))/(sizeof ($ODB->getModuleFromID($myGroups[$i]->getModulID()) -> chapter))),"ChapterView.php?moduleID=" . $myGroups[$i]->getModulID() . "&chapterID=" . $myGroups[$i]->getProgressFromUserID($_SESSION['user'])."&groupID=". $myGroups[$i]->getID() ,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName());
+            $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$myGroups[$i]->getProgressFromUserID($_SESSION['user'])+1,(100*($myGroups[$i]->getProgressFromUserID($_SESSION['user'])+1)/(sizeof ($ODB->getModuleFromID($myGroups[$i]->getModulID()) -> chapter))),"ChapterView.php?moduleID=" . $myGroups[$i]->getModulID() . "&chapterID=" . $myGroups[$i]->getProgressFromUserID($_SESSION['user'])."&groupID=". $myGroups[$i]->getID() ,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName());
             $myBox = str_replace($search,$replace,$myBox);
         
         $toAdd = $toAdd . $myBox;

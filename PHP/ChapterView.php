@@ -38,7 +38,9 @@
     $myModule = $ODB->getModuleFromID($myModuleID);
    
     $search = array('%ChapterHeadline%','%ChapterText%');
-    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$ODB->replaceTags($myModule->getChapterTextbyIndex($myChapterID)));
+    $chapterText = $ODB->replaceTags($myModule->getChapterTextbyIndex($myChapterID));
+    $text = "<p class='chapterView'> ".$chapterText."</p>";
+    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$text);
     $myPage = str_replace($search,$replace,$myPage);
 
    
@@ -63,7 +65,7 @@
    for ($i=0; $i< sizeof($myModule->chapter);$i++){  
             $myRow = file_get_contents('../HTML/ChapterViewListItem.html');
             $search = array('%ChapterTitle%','%Link%');
-            $replace = array($myModule ->chapter[$i]->getsTitle(),"/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$i );
+            $replace = array($myModule ->chapter[$i]->getsTitle(),"/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$i."&groupID=".$currentGroupID );
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;

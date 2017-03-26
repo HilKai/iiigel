@@ -44,7 +44,7 @@
             $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
             
             //----- SELECTS -----
-			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE users.sEMail = ?");
+			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
 			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ?");
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
 			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM Institutions WHERE Institutions.ID = ?");
@@ -54,7 +54,7 @@
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM Modules WHERE Modules.ID = ?");
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE UserID = ?");
             $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
-            $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
+            $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
             $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? ");
             $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
@@ -154,31 +154,31 @@
             }
         }
         
-        public function isUsernameFromID($ID,$Username){
+        public function isViableUsername($ID,$Username){
             $this->stmtisUsernameFromID->bind_param("s",$Username);
             $this->stmtisUsernameFromID->execute();
             $res = $this->stmtisUsernameFromID->get_result();
             $row = mysqli_fetch_array($res);
-            if (mysqli_num_rows($res)!=1) {
+            if (mysqli_num_rows($res)==0) {
                 return true;
             } elseif ($row['ID']==$ID){
                 return true;
             } else {
-                return true;
+                return false;
             }
         }
         
-        public function isEMailFromID($ID,$EMail){
+        public function isViableEMail($ID,$EMail){
             $this->stmtisEMailFromID->bind_param("s",$EMail);
             $this->stmtisEMailFromID->execute();
             $res = $this->stmtisEMailFromID->get_result();
             $row = mysqli_fetch_array($res);
-            if (mysqli_num_rows($res)!=1) {
+            if (mysqli_num_rows($res)==0) {
                 return true;
             } elseif ($row['ID']==$ID){
                 return true;
             } else {
-                return true;
+                return false;
             }
         }
         
@@ -379,8 +379,8 @@
         }
         
         public function setEMailFromID($Email,$ID){
-            $this->stmtSetEMailFromID->bind_param("si",$Email,$ID);
-            $this->stmtSetEmailFromID->execute();
+            $this->stmtSetEMailFromID ->bind_param("si",$Email,$ID);
+            $this->stmtSetEMailFromID ->execute();
         }
         
         public function setPasswordFromID($Password,$ID){

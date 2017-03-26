@@ -124,6 +124,7 @@
                             <form action="upload.php" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="exampleInputFile"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Profilbild hochladen</label>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
                                     <input type="file" name="datei" value="Hochladen" id="exampleInputFile">
                                 </div>
                             </form>
@@ -166,12 +167,14 @@
 
                             </div>
                         </div>
-
-                        <div id="" class="row">
+                         <div id="" class="row">
                             <div class="col-md-2 noPadding">
-                                <button id="PinkButton" type="submit" class="btn btn-block btn-primary" name="btn-save">Speichern</button>
+                                <form action = "uplaod.php" method="post" enctype="multipart/form-data">
+                                    <button id="PinkButton" type="submit" class="btn btn-block btn-primary" name="btn-save">Speichern</button>
+                                </form>
                             </div>
-                            </form>
+                        </div>    
+                     </form>
                             <form action="index.php">
                                 <div class="col-md-2">
                                     <button id="Button" type="submit" class="btn btn-default">Zurück</button>

@@ -48,7 +48,7 @@ class Group {
     
     public function getProgressFromUserID($ID){
         for ($i=0;$i< sizeof($this->teilnehmer);$i++){
-            if ($this->teilnehmer[$i]->getID = $ID){
+            if ($this->teilnehmer[$i]->getID() == $ID){
                 return $this->teilnehmer[$i]->getiFortschritt();   
             }
         }

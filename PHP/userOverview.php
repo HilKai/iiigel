@@ -23,9 +23,16 @@
     for ($i=0; $i< sizeof($myGroups);$i++){ 
         $myTrainer = $myGroups[$i]->getTrainer();
         $oneTrainer = reset($myTrainer);
-        $myBox = file_get_contents('../HTML/groupBox.html');
+        if ($ODB->isTrainerofGroup($_SESSION['user'], $myGroups[$i]->getID())) {
+            $link = "trainerModulview.php?groupID=".$myGroups[$i]->getID(); 
+            $myBox = file_get_contents('../HTML/groupBoxTrainer.html');
+        } else {
+            $link = "ChapterView.php?moduleID=" . $myGroups[$i]->getModulID() . "&chapterID=" . $myGroups[$i]->getProgressFromUserID($_SESSION['user'])."&groupID=". $myGroups[$i]->getID() ;
+            $myBox = file_get_contents('../HTML/groupBoxTN.html');
+        }
+        
             $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModuleName%');
-            $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$myGroups[$i]->getProgressFromUserID($_SESSION['user'])+1,(100*($myGroups[$i]->getProgressFromUserID($_SESSION['user'])+1)/(sizeof ($ODB->getModuleFromID($myGroups[$i]->getModulID()) -> chapter))),"ChapterView.php?moduleID=" . $myGroups[$i]->getModulID() . "&chapterID=" . $myGroups[$i]->getProgressFromUserID($_SESSION['user'])."&groupID=". $myGroups[$i]->getID() ,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName());
+            $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$myGroups[$i]->getProgressFromUserID($_SESSION['user'])+1,(100*($myGroups[$i]->getProgressFromUserID($_SESSION['user'])+1)/(sizeof ($ODB->getModuleFromID($myGroups[$i]->getModulID()) -> chapter))), $link,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName());
             $myBox = str_replace($search,$replace,$myBox);
         
         $toAdd = $toAdd . $myBox;

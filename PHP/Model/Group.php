@@ -54,4 +54,12 @@ class Group {
         }
       
     }
+    
+    public function getAverageProgressFromGroup(){
+        $levelcounter = 0;
+        for ($i=0;$i< sizeof($this->teilnehmer);$i++){
+            $levelcounter = $levelcounter + $this->teilnehmer[$i]->getiFortschritt();  
+        }
+        return $levelcounter/sizeof($this->teilnehmer);
+    }
 }

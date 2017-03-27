@@ -230,7 +230,7 @@
             } else {
                 throw new exception('Mehr als ein User mit dieser ID');        
             }
-        }
+        } 
         
         public function getUserFromId($ID){	
 			$this->stmtGetUserFromID->bind_param("i",$ID);	

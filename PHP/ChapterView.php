@@ -7,7 +7,7 @@
 
     $myModuleID = $_GET['moduleID'];
     $myChapterID = $_GET['chapterID'];
-    $myUserID = $_GET['userID'];
+    $myUserID = $_SESSION['userID'];
     $currentGroupID = $_GET['groupID'];
 
     
@@ -37,6 +37,7 @@
     //
 
     $myModule = $ODB->getModuleFromID($myModuleID);
+    $myUser = $ODB->getUserFromId($myUserID);
    
    
     $search = array('%ChapterHeadline%','%ChapterText%');
@@ -50,7 +51,6 @@
 
     if($myModule->chapter[$myChapterID]->getbIsMandatoryHandIn()) {
         $toAdd = file_get_contents('../HTML/ChapterViewButtonAbgabe.html');
-        
     }else{
         $toAdd = file_get_contents('../HTML/ChapterViewButtonNextChapter.html');  
         $search = array('%Link%');
@@ -60,7 +60,7 @@
     }
     
     $toAdd = "";
-    if($myUser->user[$myUserID]->getbIsTrainer()) {
+    if($myUser->teilnehmer[$myUserID]->getbIsTrainer()) {
         $toAdd = file_get_contents('../HTML/ChapterViewTrainerChapterToggle.html');
         $search = array('%Toggle%');
         $replace = array($toAdd);

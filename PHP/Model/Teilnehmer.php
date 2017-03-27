@@ -15,7 +15,7 @@ class Teilnehmer { //nur für User in Modulen
     private $bIsOnline;
     private $iFortschritt;
     private $bIsTrainer;
-
+ 
     public function __construct($ID, $sID, $sUsername, $sFirstName, $sLastName, $sEMail, $sHashedPassword, $sProfilePicture, $bIsVerified, $bIsAdmin, $bIsOnline, $iFortschritt, $bIsTrainer) {
         $this->ID = $ID;
         $this->sID = $sID;

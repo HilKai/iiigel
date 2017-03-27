@@ -7,6 +7,7 @@
 
     $myModuleID = $_GET['moduleID'];
     $myChapterID = $_GET['chapterID'];
+    $myUserID = $_GET['userID'];
     $currentGroupID = $_GET['groupID'];
 
     
@@ -37,6 +38,7 @@
 
     $myModule = $ODB->getModuleFromID($myModuleID);
    
+   
     $search = array('%ChapterHeadline%','%ChapterText%');
     $chapterText = $ODB->replaceTags($myModule->getChapterTextbyIndex($myChapterID));
     $text = "<p class='chapterView'> ".$chapterText."</p>";
@@ -56,6 +58,16 @@
         $replace = array("/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$iactIndex );
         $toAdd = str_replace($search,$replace,$toAdd); 
     }
+    
+    $toAdd = "";
+    if($myUser->user[$myUserID]->getbIsTrainer()) {
+        $toAdd = file_get_contents('../HTML/ChapterViewTrainerChapterToggle.html');
+        $search = array('%Toggle%');
+        $replace = array($toAdd);
+        $toAdd = str_replace($search,$replace,$toAdd); 
+    }
+
+
 
     $search = array('%Buttons%');;
     $replace = array($toAdd);

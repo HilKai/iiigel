@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../Styles\trainerModulview.css" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Schrift -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="WrappingContainer" class="container">
+
+        <div id="Container" class="row">
+
+            <div class="col-md-10 noPadding">
+                <h1 id="ModulHeading">%Gruppenname%</h1>
+            </div>
+
+            <div class="col-md-2 noPadding">
+                <a href="../PHP/logout.php?logout">
+                    <button id="LogOutButton" class="btn btn-default"> <span class="glyphicon glyphicon-log-out"></span> Abmelden</button>
+                </a>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <p id="Institution"><span class="glyphicon glyphicon-education"></span> %Institution%</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="OverviewContainer" class="row">
+
+            <div class="col-md-8 noPadding">
+
+                <table id="Table" class="table">
+                    <thead>
+                        <tr>
+                            <th>Vorname</th>
+                            <th>Nachname</th>
+                            <th>Fortschritt</th>
+                            <th class="chapter">Kapitel</th>
+                            <th></th>
+                            <!--Kapitelhochsetzen-->
+                            <th></th>
+                            <!--Abgabe-Benachrichtigung-->
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        %Tablerow%
+                        <tr>
+                            <td id="AddUser" class="cursorHover" colspan="6"><span class="glyphicon glyphicon-plus"></span><span class="glyphicon glyphicon-user"></span></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="btn-group" role="group">
+                    <button id="ChapterViewButton" class="btn btn-default"> <span class="glyphicon glyphicon-list"></span> Kapitel</button>
+                    <button id="TrainerViewButton" class="btn btn-default active"> <span class="glyphicon glyphicon-eye-open"></span> Trainer</button>
+                </div>
+
+                <div id="AllLevelUp">
+                    <p>Setze alle Benutzer auf mindestens: </p>
+                    <form  name="form" id="form" method="post">
+                        <div id="DropdownContainer" class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Kapitel
+                            <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenu1">
+                                %ChapterDropDownItems%
+                            </ul>
+                        </div>
+                    
+                        <button id="PinkButton" class="btn btn-default" value="test" name = "levelUpforAll" type = "submit">OK!</button>
+                    </form>
+                        
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+ <script>
+
+        $(document).ready(function(){
+            $(".dropdown-menu li a").click(function(){
+            $("#dropdownMenu1").text($(this).text());
+            document.form.PinkButton.value = $(this).closest('li').index();;
+    
+            });
+        });
+		
+		window.setInterval(isHandIn, 3000);
+		
+		function isHandIn (){
+			alert("duuup");
+		}
+    </script>

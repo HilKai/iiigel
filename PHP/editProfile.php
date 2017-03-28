@@ -62,7 +62,7 @@
                 $error = true;
                 $emailError = "Bitte geben Sie eine gültige E-Mail Adresse ein.";
             } else {
-                if ($ODB->isViableUsername($_SESSION['user'], $email) == false){
+                if ($ODB->isViableEMail($_SESSION['user'], $email) == false){
                     $error = true;
                     $emailError = "Ihre angegebene E-Mail ist bereits vergeben.";
                 }

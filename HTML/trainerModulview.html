@@ -116,8 +116,15 @@
 		window.setInterval(isHandIn, 3000);
 		
 		function isHandIn (){
-            $.ajax({url: "getHandIn.php", success: function(result){
-                alert(result);
+            $groupID = "%GroupID%";
+            $.ajax({url: "getHandIn.php?groupID="+$groupID, success: function(result){
+                //alert(result);
+                $userHandInID = result;
+                for (var i = 0; i < document.getElementsByClassName("notification").length; i++) {
+                    //alert(document.getElementsByClassName("notification")[i].value);
+                    if (document.getElementsByClassName("notification")[i].value == $userHandInID) document.getElementsByClassName("notification")[i].style.color = "#ff00000";
+                }
+                document.form.Bla.value = "#ff00000";
             }});
 		}
     </script>

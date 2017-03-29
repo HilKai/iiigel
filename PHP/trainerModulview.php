@@ -27,8 +27,8 @@
     //
     $myGroup = $ODB->getGroupFromID($currentGroupID);
     $myModule = $ODB->getModuleFromID($myGroup->getModulID());
-    $search = array('%Gruppenname%', '%Institution%');
-    $replace = array($myGroup->getsName(), $ODB->getInstitutionFromID($myGroup-> getInstitutionsID())->getsName());
+    $search = array('%Gruppenname%', '%Institution%','%GroupID%');
+    $replace = array($myGroup->getsName(), $ODB->getInstitutionFromID($myGroup-> getInstitutionsID())->getsName(), $currentGroupID);
     $myPage = str_replace($search,$replace,$myPage);
 
     // select modul member details

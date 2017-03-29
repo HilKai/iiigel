@@ -117,6 +117,10 @@ body {
 				background-color:#755F5A;
 			}
 			
+        .notification {
+            color:#ddd;
+        }
+
 			
 .noPadding {
 	padding:0 !important;

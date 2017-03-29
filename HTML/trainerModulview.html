@@ -108,8 +108,16 @@
         $(document).ready(function(){
             $(".dropdown-menu li a").click(function(){
             $("#dropdownMenu1").text($(this).text());
-            document.form.PinkButton.value = $(this).closest('li').index();;
+            document.form.PinkButton.value = $(this).closest('li').index();
     
             });
         });
+		
+		window.setInterval(isHandIn, 3000);
+		
+		function isHandIn (){
+            $.ajax({url: "getHandIn.php", success: function(result){
+                alert(result);
+            }});
+		}
     </script>

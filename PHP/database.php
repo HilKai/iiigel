@@ -12,6 +12,7 @@
         private $stmtisEMailFromID;
         private $stmtisUserinGroup;
         private $stmtisTrainerofGroup;
+		private $stmtisNewHandIn;
         
 		private $stmtGetUserFromID;
 		private $stmtGetInstitutionFromID;
@@ -21,6 +22,7 @@
 		private $stmtGetModuleFromID;
         private $stmtGetProfilePicFromUserID;
         private $stmtGetIDFromUsername;
+		
         
         private $stmtSetProfilePic;
         private $stmtSetFortschrittFromUserinGroup;
@@ -58,6 +60,7 @@
             $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? ");
             $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
+			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             //----- UPDATES ------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePic = ? WHERE UserID = ?");
             $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
@@ -209,6 +212,17 @@
                 return false;
             }
         }
+		
+		public function isNewHandIn($UserID,$GroupID){
+			$this->stmtisNewHandIn->bind_param("ii",$UserID,$GroupID);
+			$this->stmtisNewHandIn->execute();
+			$res = $this->stmtisNewHandIn->get_result();
+			if (mysqli_num_rows($res) == 1) {
+				return true;
+			} else{
+				return false;			
+			}
+		}
         
         public function addUser($Username,$FirstName,$LastName,$Email,$Password){
             $this->stmtaddUser->bind_param("sssss",$Username,$FirstName,$LastName,$Email,$Password);
@@ -341,6 +355,8 @@
                 throw new exception('Mehr als ein Modul mit dieser ID');        
             }
         }
+		
+		
         
         public function setProfilePic($sProfilePic,$ID){
             $this->stmtSetProfilePic->bind_param("si",$sProfilePic,$ID);

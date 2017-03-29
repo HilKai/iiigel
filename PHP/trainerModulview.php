@@ -3,6 +3,9 @@
 	 session_start();
 	 $myPage = file_get_contents('../HTML/trainerModulview.html');
 	 include_once("database.php");
+	 $grey = "#ddd";
+	 $red = "#ff0000";
+	 $color = $grey;
     
 
     $currentGroupID = $_GET['groupID'];
@@ -83,12 +86,5 @@
     }
     $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
     
-    echo $myPage;
-
-    
-
-    
-       
-    
-    
-?>
+    echo $myPage;  
+?>				

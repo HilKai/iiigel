@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 28. Mrz 2017 um 22:03
+-- Erstellungszeit: 30. Mrz 2017 um 20:06
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -293,10 +293,12 @@ INSERT INTO `usertogroup` (`UserID`, `GroupID`, `iFortschritt`, `bIsTrainer`) VA
 (11, 6, 0, 1),
 (6, 6, 0, 0),
 (8, 5, 0, 1),
-(10, 4, 5, 0),
+(10, 4, 0, 1),
 (9, 4, 5, 1),
 (12, 5, 0, 0),
-(13, 6, 0, 0);
+(13, 6, 0, 0),
+(10, 1, 0, 0),
+(6, 4, 0, 0);
 
 -- --------------------------------------------------------
 

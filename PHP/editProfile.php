@@ -107,7 +107,7 @@
 
                 <div class="col-md-3 noPadding">
 
-                    <img id="ProfilePic" class="img-responsive img-circle" src=%ProfilePicture% alt="ProfilePic">
+                    <img id="ProfilePic" class="img-responsive img-circle" src="<?php echo $ODB->getProfilePicFromID($myUser->getID()); ?>" alt="ProfilePic">
 
                 </div>
 

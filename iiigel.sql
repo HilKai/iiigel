@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 31. Mrz 2017 um 22:43
+-- Erstellungszeit: 31. Mrz 2017 um 23:41
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -130,6 +130,19 @@ CREATE TABLE `handins` (
   `bIsUnderReview` tinyint(1) NOT NULL,
   `sText` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `handins`
+--
+
+INSERT INTO `handins` (`ID`, `sID`, `Date`, `UserID`, `GroupID`, `ChapterID`, `bIsAccepted`, `bIsUnderReview`, `sText`) VALUES
+(1, NULL, '2017-03-31 21:32:07', 6, 1, 0, 0, 0, 'bla'),
+(2, NULL, '2017-03-31 21:33:14', 8, 1, 0, 0, 0, 'bla'),
+(3, NULL, '2017-03-31 21:34:17', 9, 1, 0, 0, 0, ''),
+(4, NULL, '2017-03-31 21:34:54', 10, 1, 0, 0, 0, ''),
+(5, NULL, '2017-03-31 21:36:13', 8, 4, 0, 0, 0, ''),
+(6, NULL, '2017-03-31 21:36:22', 6, 4, 0, 0, 0, ''),
+(7, NULL, '2017-03-31 21:36:27', 9, 4, 0, 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -294,11 +307,15 @@ INSERT INTO `usertogroup` (`UserID`, `GroupID`, `iFortschritt`, `bIsTrainer`) VA
 (6, 6, 0, 0),
 (8, 5, 0, 1),
 (10, 4, 0, 1),
-(9, 4, 5, 1),
+(9, 4, 5, 0),
 (12, 5, 0, 0),
 (13, 6, 0, 0),
 (10, 1, 0, 0),
-(6, 4, 0, 0);
+(6, 4, 0, 0),
+(6, 1, 0, 0),
+(8, 1, 0, 0),
+(8, 4, 0, 0),
+(9, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -388,7 +405,7 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT für Tabelle `handins`
 --
 ALTER TABLE `handins`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT für Tabelle `institutions`
 --

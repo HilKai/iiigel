@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 30. Mrz 2017 um 20:06
+-- Erstellungszeit: 31. Mrz 2017 um 22:43
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -262,10 +262,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMail`, `sHashedPassword`, `sProfilePicture`, `bIsVerified`, `bIsAdmin`, `bIsOnline`) VALUES
-(6, NULL, 'JasminaK', 'Jasmina', 'Karakas', 'jasmina_karakas@hotmail.de', '$2y$11$VcNjGJh31/EQnYGyneAucOCxQ2hOjc3wPLU4kXbopNBk6VxfF.lWK', '', 0, 0, 0),
-(7, NULL, 'CorinnaH', 'Corinna', 'Heinze', 'hei.cor@web.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '', 0, 0, 0),
-(8, NULL, 'NeleM', 'Nele', 'Mersch', 'nele.mersch5@gmail.com', '$2y$11$.ra3YIUNjUkepTWlXvwqFeSNfvdww7li/lS5GBMwyZcmRz6epCur2', '', 0, 0, 0),
-(9, NULL, 'KaiH', 'Kai', 'Hilgers', 'Kai.Hilgers.Info@gmx.de', '$2y$11$n5mwk39o61P6y/VtiEZq3utUPxyh8Py9cyLPeiTJtTvpyOAOsMGhi', '', 0, 0, 0),
+(6, NULL, 'JasminaK', 'Jasmina', 'Karakas', 'jasmina_karakas@hotmail.de', '$2y$11$VcNjGJh31/EQnYGyneAucOCxQ2hOjc3wPLU4kXbopNBk6VxfF.lWK', '../ProfilePics/Coco_Jassi.jpg', 0, 0, 0),
+(7, NULL, 'CorinnaH', 'Corinna', 'Heinze', 'hei.cor@web.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/Coco_Jassi_1.jpg', 0, 0, 0),
+(8, NULL, 'NeleM', 'Nele', 'Mersch', 'nele.mersch5@gmail.com', '$2y$11$.ra3YIUNjUkepTWlXvwqFeSNfvdww7li/lS5GBMwyZcmRz6epCur2', '../ProfilePics/Nele.jpg', 0, 0, 0),
+(9, NULL, 'KaiH', 'Kai', 'Hilgers', 'Kai.Hilgers.Info@gmx.de', '$2y$11$n5mwk39o61P6y/VtiEZq3utUPxyh8Py9cyLPeiTJtTvpyOAOsMGhi', '../ProfilePics/Kai.jpg', 0, 0, 0),
 (10, NULL, 'TestUser', 'Test', 'User', 'test@user.de', '$2y$11$vg01oIhh4o/7GpEQ8Xr8fOIr7yZ0qwGcg4lunthTSxVMFyjFn0Gpm', '', 0, 0, 0),
 (11, NULL, 'RogerH', 'Roger', 'Hermasch', 'roger.hermasch@t-online.de', '$2y$11$NqUdz4ws1zLKwE8LLyxhmef2VA971vmle148vhZWn/1z5F9L.TtOa', '', 0, 0, 0),
 (12, NULL, 'PatrickL', 'Patrick', 'Liesen', 'patrick@mail4liesen.de', '$2y$11$m/RbWwrA4suAlhsp/Iur9OW4I04qxLCCzZHTITY26GnVoIfOR4nFe', '', 0, 0, 0),

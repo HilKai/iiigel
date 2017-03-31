@@ -107,7 +107,7 @@
 
                 <div class="col-md-3 noPadding">
 
-                    <img id="ProfilePic" class="img-responsive img-circle" src="../ProfilePics/profilePic.jpg" alt="ProfilePicture">
+                    <img id="ProfilePic" class="img-responsive img-circle" src=%ProfilePicture% alt="ProfilePic">
 
                 </div>
 
@@ -121,13 +121,14 @@
 
                     <div id="" class="row">
                         <div class="col-md-6 noPadding">
-                            <form action="upload.php" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
-                                    <label for="exampleInputFile"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Profilbild hochladen</label>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
-                                    <input type="file" name="datei" value="Hochladen" id="exampleInputFile">
+                                    <form action = "upload.php" method="post" enctype="multipart/form-data">
+                                        <label for="exampleInputFile"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Profilbild hochladen</label>
+                                        <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
+                                        <input type="file" name="datei" value="Hochladen" id="exampleInputFile">
+                                        <button id = "PinkButton" type="submit" class="btn btn-block btn-primary" style="width: 100px;height:35px" name="Hochladen">Hochladen</button>
+                                    </form>  
                                 </div>
-                            </form>
                         </div>
 
                         <div class="col-md-2 noPadding">
@@ -169,7 +170,7 @@
                         </div>
                          <div id="" class="row">
                             <div class="col-md-2 noPadding">
-                                <form action = "uplaod.php" method="post" enctype="multipart/form-data">
+                                <form method="post">
                                     <button id="PinkButton" type="submit" class="btn btn-block btn-primary" name="btn-save">Speichern</button>
                                 </form>
                             </div>

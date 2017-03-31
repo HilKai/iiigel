@@ -91,6 +91,10 @@
                         <button id="PinkButton" class="btn btn-default" value="test" name = "levelUpforAll" type = "submit">OK!</button>
                     </form>
                         
+                    <audio id ="PingAudio">
+                      <source src="../Sounds/pip.wav" type="audio/wav">
+                    </audio>
+                    
                 </div>
 
             </div>
@@ -113,18 +117,29 @@
             });
         });
 		
-		window.setInterval(isHandIn, 3000);
+        $(document).ready(function(){
+            $(".notification").click(function(){
+                   $(this).css("color", "#ddd");
+             });
+        });
+        
+		window.setInterval(isHandIn, 1000);
 		
 		function isHandIn (){
             $groupID = "%GroupID%";
             $.ajax({url: "getHandIn.php?groupID="+$groupID, success: function(result){
                 //alert(result);
                 $userHandInID = result;
+                audio = document.getElementById("PingAudio");
+                audio.loop = false;
                 for (var i = 0; i < document.getElementsByClassName("notification").length; i++) {
-                    //alert(document.getElementsByClassName("notification")[i].value);
-                    if (document.getElementsByClassName("notification")[i].value == $userHandInID) document.getElementsByClassName("notification")[i].style.color = "#ff00000";
+                    if ((document.getElementsByClassName("notification")[i].id == $userHandInID)&&(document.getElementsByClassName("notification")[i].style.color != "rgb(227, 20, 101)")) {
+                        document.getElementsByClassName("notification")[i].style.color = "#e31465";
+                        audio.play();
+
+                    }
                 }
-                document.form.Bla.value = "#ff00000";
+                //document.form.Bla.value = "#ff00000";
             }});
 		}
     </script>

@@ -32,7 +32,6 @@
         private $stmtSetLastNameFromID;
         private $stmtSetEMailFromID;
         private $stmtSetPasswordFromID;
-        private $stmtAcceptHandIn;
         
         private $stmtaddUser;
         private $stmtaddHandIn;
@@ -55,7 +54,7 @@
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM Groups WHERE Groups.ID = ?");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM Modules WHERE Modules.ID = ?");
-            $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE ID = ?");
+            $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE UserID = ?");
             $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
             $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
             $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? ");
@@ -63,7 +62,7 @@
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
 			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             //----- UPDATES ------
-            $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
+            $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePic = ? WHERE UserID = ?");
             $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
             $this->stmtSetFortschrittforallUsersinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = ? WHERE GroupID = ? AND iFortschritt < ?");
             $this->stmtSetUsernameFromID = $this->db_connection->prepare("UPDATE users SET sUsername = ? WHERE ID = ?");
@@ -71,7 +70,6 @@
             $this->stmtSetLastNameFromID = $this->db_connection->prepare("UPDATE users SET sLastName = ? WHERE ID = ?");
             $this->stmtSetEMailFromID = $this->db_connection->prepare("UPDATE users SET sEMail = ? WHERE ID = ?");
             $this->stmtSetPasswordFromID = $this->db_connection->prepare("UPDATE users SET sPassword = ? WHERE ID = ?");
-            $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             
             //----- INSERTS -----
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword) VALUES                                                     (?,?,?,?,?)");
@@ -165,11 +163,14 @@
             $res = $this->stmtisUsernameFromID->get_result();
             $row = mysqli_fetch_array($res);
             if (mysqli_num_rows($res)==0) {
-                return true;
+                //return true;
+                echo"true";
             } elseif ($row['ID']==$ID){
-                return true;
+                //return true;
+                echo "true";
             } else {
-                return false;
+                //return false;
+                echo"false";
             }
         }
         
@@ -179,11 +180,14 @@
             $res = $this->stmtisEMailFromID->get_result();
             $row = mysqli_fetch_array($res);
             if (mysqli_num_rows($res)==0) {
-                return true;
+                //return true;
+                echo"true";
             } elseif ($row['ID']==$ID){
-                return true;
+                //return true;
+                echo"true";
             } else {
-                return false;
+                //return false;
+                echo"false";
             }
         }
         
@@ -351,11 +355,18 @@
                 throw new exception('Mehr als ein Modul mit dieser ID');        
             }
         }
+		
+		
+        
+        public function setProfilePic($sProfilePic,$ID){
+            $this->stmtSetProfilePic->bind_param("si",$sProfilePic,$ID);
+            $this->stmtSetProfilePic->execute();  
+        }
         
         public function getProfilePicFromID($ID){
-            $this->stmtGetProfilePicFromUserID ->bind_param("i",$ID);
-            $this->stmtGetProfilePicFromUserID->execute();
-            $res = $this->stmtGetProfilePicFromUserID->get_result();
+            $this->stmtGetProfilePicFromID ->bind_param("i",$ID);
+            $this->stmtGetProfilePicFromID->execute();
+            $res = $this->stmtGetProfilePicFromID->get_result();
             if (mysqli_num_rows($res)==1){
                 $row = mysqli_fetch_array($res);
                     return $row['sProfilePicture'];
@@ -399,15 +410,63 @@
             $this->stmtSetPasswordFromID->execute();
         }
         
-        public function setProfilePic($sProfilePic,$ID){
-            $this->stmtSetProfilePic->bind_param("si",$sProfilePic,$ID);
-            $this->stmtSetProfilePic->execute();  
-        }
+       /* public function uplaodPicture($ID){
+            if(isset($_POST["btn-save"])) {
+                $upload_folder = ".../uploads/img/";    //Ordner für Bilder
+                $filename = pathinfo($_FILES['datei']['name'], PATHINFO_FILENAME); //Gibt Dateinamen zurück
+                $extension = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));    //Gibt Endung der Datei zurück zB php
+
+                //Überprüfung der Dateiendung
+                $allowed_extensions = array('png', 'jpg', 'jpeg', 'gif');
+                if(!in_array($extension, $allowed_extensions)) {
+                    die("Ungültige Dateiendung. Nur png, jpg, jpeg und gif-Dateien sind erlaubt");
+                }
+
+                //Überprüfung der Dateigröße
+                $max_size = 500*1024; //500 KB
+                if($_FILES['datei']['size'] > $max_size) {
+                    die("Bitte keine Dateien größer 500kb hochladen");
+                }
+
+                //Überprüfung dass das Bild keine Fehler enthält zB HTML Code, der alles zerstört
+                if(function_exists('exif_imagetype')) { //Die exif_imagetype-Funktion erfordert die exif-Erweiterung auf dem Server
+                  $allowed_types = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
+                  $detected_type = exif_imagetype($_FILES['datei']['tmp_name']);
+                  if(!in_array($detected_type, $allowed_types)) {
+                    die("Nur der Upload von Bilddateien ist gestattet");
+                  }
+                }
+
+                //Pfad zum Upload
+                $new_path = $upload_folder.$filename.'.'.$extension;
+
+                //Neuer Dateiname falls die Datei bereits existiert
+                if(file_exists($new_path)) { //Falls Datei existiert, hänge eine Zahl an den Dateinamen
+                 $id = 1;
+                 do {
+                 $new_path = $upload_folder.$filename.'_'.$id.'.'.$extension;
+                 $id++;
+                 } while(file_exists($new_path));
+                }
+
+                //Alles okay, verschiebe Datei an neuen Pfad
+
+                move_uploaded_file($_FILES['datei']['tmp_name'], $new_path);
+                echo 'Bild erfolgreich hochgeladen: <a href="'.$new_path.'">'.$new_path.'</a>';
+                setProfilePic($new_path,$ID);
+                
+            }
+                
+        }*/
         
-       public function acceptHandIn($UserID,$GroupID){
-           $this->stmtAcceptHandIn->bind_param("ii",$UserID,$GroupID);
-           $this->stmtAcceptHandIn->execute();
-       }
+        public function editProfile($ID,$Username,$FirstName,$LastName,$Email,$Password){
+            setUsernameFromID($Username,$ID);
+            setFirstNameFromID($FirstName,$ID);
+            setLastNameFromID($Lastname,$ID);
+            setEmailFromID($Email,$ID);
+            setPasswordFromID($Password,$ID);
+            uploadPicture($ID);
+        }
         
        
 		

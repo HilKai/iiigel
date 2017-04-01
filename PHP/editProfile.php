@@ -122,11 +122,11 @@
                     <div id="" class="row">
                         <div class="col-md-6 noPadding">
                                 <div class="form-group">
+                                     <label for="exampleInputFile" class="label noPadding"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Profilbild hochladen</label>
                                     <form action = "upload.php" method="post" enctype="multipart/form-data">
-                                        <label for="exampleInputFile"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Profilbild hochladen</label>
                                         <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
                                         <input type="file" name="datei" value="Hochladen" id="exampleInputFile">
-                                        <button id = "PinkButton" type="submit" class="btn btn-block btn-primary" style="width: 100px;height:35px" name="Hochladen">Hochladen</button>
+                                        <button id="Hochladen" type="submit" class="btn btn-default" name="Hochladen">Hochladen</button>
                                     </form>  
                                 </div>
                         </div>
@@ -168,20 +168,24 @@
 
                             </div>
                         </div>
-                         <div id="" class="row">
-                            <div class="col-md-2 noPadding">
-                                <form method="post">
-                                    <button id="PinkButton" type="submit" class="btn btn-block btn-primary" name="btn-save">Speichern</button>
-                                </form>
-                            </div>
-                        </div>    
-                     </form>
-                            <form action="index.php">
-                                <div class="col-md-2">
-                                    <button id="Button" type="submit" class="btn btn-default">Zurück</button>
-                                </div>
+                    </form>  
+                    
+                    <div id="" class="row">
+                        <div class="col-md-2 noPadding">
+                            <form method="post">
+                                <button id="PinkButton" type="submit" class="btn btn-block btn-primary" name="btn-save">Speichern</button>
                             </form>
                         </div>
+
+                        <div class="col-md-2">
+                            <form action="index.php">
+                                <button id="Button" type="submit" class="btn btn-default">Zurück</button>
+                            </form>
+                        </div>
+
+                    </div>    
+
+                </div>
 
 
 

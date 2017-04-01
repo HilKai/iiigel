@@ -33,6 +33,11 @@ body {
                     font-size: 75px;
                 }
 
+.label {
+    color: #000;
+    font-size: 15px;
+}
+
                 #PinkButton {
                     background-color: #e31465;	
                   float: left;
@@ -58,4 +63,17 @@ body {
 
 .form {
     width: 80%;
+}
+
+.label {
+    
+}
+
+#Hochladen {
+    margin: 5px 0px 0px 165px;
+    font-size: 10px;
+    width: 100px;
+    height: 30px;
+     background-color: #e31465;	
+    color: #fff;
 }

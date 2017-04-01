@@ -5,7 +5,7 @@
  $currentGroup = $ODB->getGroupFromID($currentGroupID);
 
   foreach ($currentGroup->teilnehmer as $tn) {
-      if ($ODB->isNewHandIn($tn->getID(),$currentGroup->getID())) echo $tn->getID() ;
+      if ($ODB->isNewHandIn($tn->getID(),$currentGroup->getID())) echo $tn->getID().","  ;
   }  
     
 ?>

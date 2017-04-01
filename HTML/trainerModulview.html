@@ -129,15 +129,19 @@
             $groupID = "%GroupID%";
             $.ajax({url: "getHandIn.php?groupID="+$groupID, success: function(result){
                 //alert(result);
-                $userHandInID = result;
+                $size = result.match(/,/g).length;
+                $text = result.split(",");
                 audio = document.getElementById("PingAudio");
                 audio.loop = false;
-                for (var i = 0; i < document.getElementsByClassName("notification").length; i++) {
-                    if ((document.getElementsByClassName("notification")[i].id == $userHandInID)&&(document.getElementsByClassName("notification")[i].style.color != "rgb(227, 20, 101)")) {
-                        document.getElementsByClassName("notification")[i].style.color = "#e31465";
-                        audio.play();
-
+                for (var e=0; e< $size; e++) {
+                    $userHandInID = $text[e];
+                    for (var i = 0; i < document.getElementsByClassName("notification").length; i++) {
+                        if ((document.getElementsByClassName("notification")[i].id == $userHandInID)&&(document.getElementsByClassName("notification")[i].style.color != "rgb(227, 20, 101)")) {
+                            document.getElementsByClassName("notification")[i].style.color = "#e31465";
+                            audio.play();
+                        }
                     }
+                    
                 }
                 //document.form.Bla.value = "#ff00000";
             }});

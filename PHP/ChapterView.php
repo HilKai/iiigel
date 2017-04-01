@@ -7,7 +7,7 @@
 
     $myModuleID = $_GET['moduleID'];
     $myChapterID = $_GET['chapterID'];
-    $myUserID = $_SESSION['userID'];
+    $myUserID = $_SESSION['user'];
     $currentGroupID = $_GET['groupID'];
 
     
@@ -47,7 +47,7 @@
     $myPage = str_replace($search,$replace,$myPage);
 
    
-    $toAdd = "";
+    $toAdd = ""; //hinzugefügter HTML Code
 
     if($myModule->chapter[$myChapterID]->getbIsMandatoryHandIn()) {
         $toAdd = file_get_contents('../HTML/ChapterViewButtonAbgabe.html');
@@ -58,13 +58,26 @@
         $replace = array("/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$iactIndex );
         $toAdd = str_replace($search,$replace,$toAdd); 
     }
-    
-    $toAdd = "";
-    if($myUser->teilnehmer[$myUserID]->getbIsTrainer()) {
+   
+    //Toggle Button ersetzen je nachdem, ob man Trainer ist oder nicht
+    if($ODB->isTrainerofGroup($myUserID,$currentGroupID)) {
         $toAdd = file_get_contents('../HTML/ChapterViewTrainerChapterToggle.html');
         $search = array('%Toggle%');
         $replace = array($toAdd);
         $toAdd = str_replace($search,$replace,$toAdd); 
+    }else {
+        $toAdd = "";
+        $search = array('%Toggle%');
+        $replace = array($toAdd);
+        $toAdd = str_replace($search,$replace,$toAdd); 
+    }
+
+//Link setzen im Toggle Button
+    if($ODB->isTrainerofGroup($myUserID,$currentGroupID)) {
+        $toAdd = file_get_contents('../HTML/ChapterViewTrainerChapterToggle.html');
+        $search = array('%TogglelinkT%');
+        $replace = array("/iiigel/PHP/trainerModulview.php?groupID=".$currentGroupID );
+        $toAdd = str_replace($search,$replace,$toAdd);
     }
 
 
@@ -73,7 +86,7 @@
     $replace = array($toAdd);
     $myPage = str_replace($search,$replace,$myPage);
 
-    $toAdd = ""; //Hinzugefügter HTML Code
+  
    for ($i=0; $i< sizeof($myModule->chapter);$i++){  
             $myRow = file_get_contents('../HTML/ChapterViewListItem.html');
             $search = array('%ChapterTitle%','%Link%');

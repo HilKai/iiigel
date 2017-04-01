@@ -7,8 +7,10 @@
 	 $red = "#ff0000";
 	 $color = $grey;
     
-
-    $currentGroupID = $_GET['groupID'];
+    $myModuleID = $_GET['moduleID'];
+ $currentGroupID = $_GET['groupID'];
+    $myUserID = $_SESSION['user'];
+   
 	 
 	 // if session is not set this will redirect to login page
 	 if( !isset($_SESSION['user']) ) {
@@ -19,9 +21,7 @@
     if( !$ODB->isTrainerofGroup($_SESSION['user'],$currentGroupID) ) {
 	  header("Location: index.php");
 	  exit;
-	 }
-    
-       
+	 }   
     
 
     //
@@ -66,6 +66,15 @@
        
     
     }
+
+//Link setzen im Toggle Button
+   
+        $myButton = file_get_contents('../HTML/trainerModulview.html');
+        $link = "/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=1";
+        $search = array('%TogglelinkK%');
+        $replace = array($link);
+        $myButton = str_replace($search,$replace,$myButton); 
+    
        
     
     $myPage=str_replace('%Tablerow%',$toAdd,$myPage);
@@ -87,4 +96,4 @@
     $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
     
     echo $myPage;  
-?>				
+?>

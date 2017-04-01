@@ -71,13 +71,13 @@
             <div class="col-md-4">
 
                 <div class="btn-group" role="group">
-                    <button id="ChapterViewButton" class="btn btn-default"> <span class="glyphicon glyphicon-list"></span> Kapitel</button>
-                    <button id="TrainerViewButton" class="btn btn-default active"> <span class="glyphicon glyphicon-eye-open"></span> Trainer</button>
+                    <button id="ChapterViewButton" class="btn btn-default"> <span class="glyphicon glyphicon-list"></span> <a href="%TogglelinkK%"> Kapitel</a></button>
+                    <button id="TrainerViewButton" class="btn btn-default active"> <span class="glyphicon glyphicon-eye-open"></span> <a href="%TogglelinkT%"> Trainer </a></button>
                 </div>
 
                 <div id="AllLevelUp">
                     <p>Setze alle Benutzer auf mindestens: </p>
-                    <form  name="form" id="form" method="post">
+                    <form name="form" id="form" method="post">
                         <div id="DropdownContainer" class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 Kapitel
@@ -87,14 +87,14 @@
                                 %ChapterDropDownItems%
                             </ul>
                         </div>
-                    
-                        <button id="PinkButton" class="btn btn-default" value="test" name = "levelUpforAll" type = "submit">OK!</button>
+
+                        <button id="PinkButton" class="btn btn-default" value="test" name="levelUpforAll" type="submit">OK!</button>
                     </form>
-                        
-                    <audio id ="PingAudio">
+
+                    <audio id="PingAudio">
                       <source src="../Sounds/pip.wav" type="audio/wav">
                     </audio>
-                    
+
                 </div>
 
             </div>
@@ -107,43 +107,46 @@
 
 </html>
 
- <script>
-
-        $(document).ready(function(){
-            $(".dropdown-menu li a").click(function(){
+<script>
+    $(document).ready(function() {
+        $(".dropdown-menu li a").click(function() {
             $("#dropdownMenu1").text($(this).text());
             document.form.PinkButton.value = $(this).closest('li').index();
-    
-            });
+
         });
-		
-        $(document).ready(function(){
-            $(".notification").click(function(){
-                   $(this).css("color", "#ddd");
-             });
+    });
+
+    $(document).ready(function() {
+        $(".notification").click(function() {
+            $(this).css("color", "#ddd");
         });
-        
-		window.setInterval(isHandIn, 1000);
-		
-		function isHandIn (){
-            $groupID = "%GroupID%";
-            $.ajax({url: "getHandIn.php?groupID="+$groupID, success: function(result){
+    });
+
+    window.setInterval(isHandIn, 1000);
+
+    function isHandIn() {
+        $groupID = "%GroupID%";
+        $.ajax({
+            url: "getHandIn.php?groupID=" + $groupID,
+            success: function(result) {
                 //alert(result);
                 $size = result.match(/,/g).length;
                 $text = result.split(",");
                 audio = document.getElementById("PingAudio");
                 audio.loop = false;
-                for (var e=0; e< $size; e++) {
+                for (var e = 0; e < $size; e++) {
                     $userHandInID = $text[e];
                     for (var i = 0; i < document.getElementsByClassName("notification").length; i++) {
-                        if ((document.getElementsByClassName("notification")[i].id == $userHandInID)&&(document.getElementsByClassName("notification")[i].style.color != "rgb(227, 20, 101)")) {
+                        if ((document.getElementsByClassName("notification")[i].id == $userHandInID) && (document.getElementsByClassName("notification")[i].style.color != "rgb(227, 20, 101)")) {
                             document.getElementsByClassName("notification")[i].style.color = "#e31465";
                             audio.play();
                         }
                     }
-                    
+
                 }
                 //document.form.Bla.value = "#ff00000";
-            }});
-		}
-    </script>
+            }
+        });
+    }
+
+</script>

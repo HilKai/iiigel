@@ -124,7 +124,7 @@
                                 <div class="form-group">
                                      <label for="exampleInputFile" class="label noPadding"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Profilbild hochladen</label>
                                     <form action = "upload.php" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
+                                        <!--<input type="hidden" name="MAX_FILE_SIZE" value="800000" />-->
                                         <input type="file" name="datei" value="Hochladen" id="exampleInputFile">
                                         <button id="Hochladen" type="submit" class="btn btn-default" name="Hochladen">Hochladen</button>
                                     </form>  

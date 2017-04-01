@@ -9,22 +9,70 @@ body {
 }
 
 /* Custom, iPhone Retina */ 
-    @media only screen and (min-width : 320px) {
+    @media only screen and (max-width : 320px) and (min-width: 0px) {
+        #WrappingContainer {
+            margin: 0px auto;
+            padding: 0;
+            width: 100%;
+        }
         
+        #PicContainer {
+            margin-left: 50px;
+        }
+        
+       #ProfilePic {
+            width: 100px;
+            height: 100px;
+        }  
     }
 
     /* Extra Small Devices, Phones */ 
-    @media only screen and (min-width : 480px) {
-
+    @media only screen and (max-width:768px) and (min-width:480px) {
+        #WrappingContainer {
+            margin: 0px auto;
+            padding: 0;
+        }
+        
+         #PicContainer {
+            margin-left: 50px;
+        }
+        
+        #ProfilePic {
+            width: 100px;
+            height: 100px;
+        } 
     }
 
     /* Small Devices, Tablets */
-    @media only screen and (min-width : 768px) {
-
+    @media only screen and (max-width : 992px) and (min-width:768px) {
+        #WrappingContainer {
+            margin: 20px auto;
+            padding: 0;
+        }
+        
+        #PicContainer {
+            margin-left: 50px;
+        }
+        
+        #ProfilePic {
+            width: 100px;
+            height: 100px;
+        } 
     }
 
+
     /* Medium Devices, Desktops */
-    @media only screen and (min-width : 992px) {
+    @media only screen and (max-width : 1200px) and (min-width : 992px) {
+        #WrappingContainer {
+            margin: 20px auto;
+            padding: 0;
+        }
+
+         #PicContainer {
+            margin-left: 0px;
+        }
+        
+        
         #ProfilePic {
             width: 200px;
             height: 200px;
@@ -42,6 +90,11 @@ body {
     /* Large Devices, Wide Screens */
     @media only screen and (min-width : 1200px) {
 
+        #WrappingContainer {
+            margin: 20px auto;
+            padding: 0;
+	    }
+        
         #ProfilePic {
             width: 260px;
             height: 260px;
@@ -53,11 +106,6 @@ body {
         
     }
 
-
-	#WrappingContainer {
-		margin: 20px auto;
-		padding: 0;
-	}
 	
 		#ProfileContainer {
 			padding: 40px;
@@ -126,4 +174,5 @@ body {
     height: 30px;
      background-color: #e31465;	
     color: #fff;
+    margin-top: 2px;
 }

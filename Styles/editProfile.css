@@ -8,8 +8,53 @@ body {
 	height: 100%;
 }
 
+/* Custom, iPhone Retina */ 
+    @media only screen and (min-width : 320px) {
+        
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (min-width : 480px) {
+
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (min-width : 768px) {
+
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (min-width : 992px) {
+        #ProfilePic {
+            width: 200px;
+            height: 200px;
+        }  
+        
+        #Hochladen {
+            margin: 5px 0px 0px 140px;
+        }
+        
+        #PinkButton {
+            width: 100px;
+        }
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+
+        #ProfilePic {
+            width: 260px;
+            height: 260px;
+        }
+        
+        #Hochladen {
+            margin: 5px 0px 0px 190px;
+        }
+        
+    }
+
+
 	#WrappingContainer {
-		width: 80%;
 		margin: 20px auto;
 		padding: 0;
 	}
@@ -22,7 +67,7 @@ body {
 		}
 
              #ProfileTextContainer {
-                padding-left: 40px; 
+                padding-left: 30px; 
                  margin-left: 40px;
 		      }
 
@@ -43,12 +88,18 @@ body {
                   float: left;
                     color: #fff;
                     margin:  25px 10px 10px 0px;
+                    width: 100px;
                     
                 }
 
                     #PinkButton:hover {
                         background-color:#755F5A;
                     }
+
+                #PasswortButton {
+                    margin-bottom: 15px;
+                    margin-top: 15px;
+                }
 
         
 #Button {
@@ -70,7 +121,6 @@ body {
 }
 
 #Hochladen {
-    margin: 5px 0px 0px 165px;
     font-size: 10px;
     width: 100px;
     height: 30px;

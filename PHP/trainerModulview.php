@@ -7,8 +7,8 @@
 	 $red = "#ff0000";
 	 $color = $grey;
     
-    $myModuleID = $_GET['moduleID'];
- $currentGroupID = $_GET['groupID'];
+    
+    $currentGroupID = $_GET['groupID'];
     $myUserID = $_SESSION['user'];
    
 	 
@@ -34,7 +34,7 @@
     // select modul member details
     $toAdd = "";
 
-
+    $myModuleID = $myModule->getID();
 
     if ($_POST){
         
@@ -69,11 +69,11 @@
 
 //Link setzen im Toggle Button
    
-        $myButton = file_get_contents('../HTML/trainerModulview.html');
-        $link = "/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=1";
+        
+        $link = "/iiigel/PHP/ChapterView.php?moduleID=".$myModuleID."&chapterID=0&groupID=".$currentGroupID;
         $search = array('%TogglelinkK%');
         $replace = array($link);
-        $myButton = str_replace($search,$replace,$myButton); 
+        $myPage = str_replace($search,$replace,$myPage); 
     
        
     

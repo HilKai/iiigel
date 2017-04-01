@@ -39,6 +39,26 @@
     $myModule = $ODB->getModuleFromID($myModuleID);
     $myUser = $ODB->getUserFromId($myUserID);
    
+ //Link setzen im Toggle Button
+    
+       
+        $link = "/iiigel/PHP/trainerModulview.php?groupID=".$currentGroupID;
+        $search = array('%TogglelinkT%');
+        $replace = array($link);
+        $myPage = str_replace($search,$replace,$myPage); 
+   
+    //Toggle Button ersetzen je nachdem, ob man Trainer ist oder nicht
+    if($ODB->isTrainerofGroup($myUserID,$currentGroupID)) {
+        $toAdd = file_get_contents('../HTML/ChapterViewTrainerChapterToggle.html');
+        $search = array('%Toggle%');
+        $replace = array($toAdd);
+        $toAdd = str_replace($search,$replace,$toAdd); 
+    }else {
+        $toAdd = "";
+        $search = array('%Toggle%');
+        $replace = array($toAdd);
+        $toAdd = str_replace($search,$replace,$toAdd); 
+    }
    
     $search = array('%ChapterHeadline%','%ChapterText%');
     $chapterText = $ODB->replaceTags($myModule->getChapterTextbyIndex($myChapterID));
@@ -54,35 +74,14 @@
     }else{
         $toAdd = file_get_contents('../HTML/ChapterViewButtonNextChapter.html');  
         $search = array('%Link%');
-        $iactIndex = $myModule->chapter[$myChapterID]->getiIndex()+1;
-        $replace = array("/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$iactIndex );
+        $iactIndex = $myModule->chapter[$myChapterID]->getiIndex();
+        $replace = array("/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$iactIndex."&groupID=".$currentGroupID);
         $toAdd = str_replace($search,$replace,$toAdd); 
     }
+
    
-    //Toggle Button ersetzen je nachdem, ob man Trainer ist oder nicht
-    if($ODB->isTrainerofGroup($myUserID,$currentGroupID)) {
-        $toAdd = file_get_contents('../HTML/ChapterViewTrainerChapterToggle.html');
-        $search = array('%Toggle%');
-        $replace = array($toAdd);
-        $toAdd = str_replace($search,$replace,$toAdd); 
-    }else {
-        $toAdd = "";
-        $search = array('%Toggle%');
-        $replace = array($toAdd);
-        $toAdd = str_replace($search,$replace,$toAdd); 
-    }
 
-//Link setzen im Toggle Button
-    if($ODB->isTrainerofGroup($myUserID,$currentGroupID)) {
-        $toAdd = file_get_contents('../HTML/ChapterViewTrainerChapterToggle.html');
-        $search = array('%TogglelinkT%');
-        $replace = array("/iiigel/PHP/trainerModulview.php?groupID=".$currentGroupID );
-        $toAdd = str_replace($search,$replace,$toAdd);
-    }
-
-
-
-    $search = array('%Buttons%');;
+    $search = array('%Buttons%');
     $replace = array($toAdd);
     $myPage = str_replace($search,$replace,$myPage);
 

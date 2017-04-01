@@ -25,19 +25,20 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
+
 </head>
 
 <body class="body">
     <div id="WrappingContainer" class="container">
 
         <div id="header" class="row ">
-
             <div class="col-md-1 ">
-                <a href="#"><span class="glyphicon glyphicon-th-list" aria-hidden="true" style="font-size:25px;margin-top:30px"></span> </a>
+                <a href="#"><span class="glyphicon glyphicon-education" aria-hidden="true" style="font-size:32px;margin-top:30px;color:#000;margin-right:0px;"></span> </a>
             </div>
 
+
             <div class="col-md-5">
-                <p id="ChapterHeadline" style="float:left;">
+                <p id="ChapterHeadline" style="float:left;margin-left:0px;">
                     %ChapterHeadline%
 
                 </p>
@@ -47,7 +48,7 @@
                 %Toggle%
             </div>
 
-            <div class="col-md-1" style="margin-left:67px;">
+            <div class="col-md-1">
                 <a href="../PHP/logout.php?logout">
                     <button id="LogOutButton" class="btn btn-default"> 
 								<span class="glyphicon glyphicon-log-out"></span> Abmelden
@@ -55,19 +56,26 @@
                 </a>
             </div>
 
+            <div class="col-md-1 col-md-offset-1" style="margin-left:105px;">
+                <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;padding-left:60px;color:#000;"></span> </a>
+            </div>
+
         </div>
 
         <div class="row nopadding">
 
-            <div id="Chapter_window" class="col-md-9 nopadding myBox">
+            <div id="Chapter_window" class="col-md-12 nopadding myBox">
                 <p>
                     %ChapterText%
                 </p>
             </div>
 
+            <div id="Button_C" class="row nopaddings col-md-2 col-md-offset-10">
+                %Buttons%
+            </div>
 
 
-            <div id="right_Container" class="col-md-2 col-md-offset-1 nopadding">
+            <!---<div id="right_Container" class="col-md-2 col-md-offset-1 nopadding">
                 <div id="Chapter_Overview" class="col-md-12 hidden-xs hidden-sm">
 
                     %ChapterDropDownItems%
@@ -78,7 +86,7 @@
                 </div>
 
 
-            </div>
+            </div>--->
 
 
 

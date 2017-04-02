@@ -24,6 +24,11 @@ body {
             font-size: 40px;
         }
         
+        .modul {
+            margin: 5px 20px 5px 0px;
+             font-size: 30px;
+        }
+        
     }
 
     /* Custom, iPhone Retina */ 
@@ -47,13 +52,23 @@ body {
          #Name  {
             font-size: 40px;
         }
+        
+        .modul {
+            margin: 5px 20px 5px 0px;
+        }
+        
+        #TrainerIcon {
+            margin-top: 6px;
+            margin-left: 20px;
+            font-size: 30px;
+        }
     }
 
     /* Extra Small Devices, Phones */ 
     @media only screen and (max-width:768px) and (min-width:480px) {
          #WrappingContainer {
             background-color:coral;
-             margin: 0px auto;
+            margin: 0px auto;
             padding: 0;
         }
         
@@ -70,9 +85,23 @@ body {
             font-size: 60px;
         }
         
+        #Container {
+            margin:0;
+            background-color: #fff;
+        }
+        
         .modul {
             margin: 5px 20px 5px 0px;
         }
+        
+        
+        #TrainerIcon {
+            margin-top: 6px;
+            margin-left: 20px;
+             font-size: 30px;
+        }
+        
+        
     }
 
     /* Small Devices, Tablets */
@@ -96,7 +125,13 @@ body {
         }
         
         .modul {
-            margin: 0px;
+            margin: 5px 20px 5px 0px;
+        }
+        
+        #TrainerIcon {
+            margin-top: -2px;
+            margin-left: -2px;
+             font-size: 30px;
         }
         
         #ProfilePic {
@@ -129,6 +164,12 @@ body {
         
         .modul {
             margin: 5px 20px 5px 0px;
+        }
+        
+         #TrainerIcon {
+            margin-top: -2px;
+            margin-left: -2px;
+            font-size: 45px;
         }
         
         .chapterTitel {
@@ -168,6 +209,12 @@ body {
         
         .chapterTitel {
             font-size: 45px;
+        }
+        
+         #TrainerIcon {
+            margin-top: -2px;
+            margin-left: -2px;
+              font-size: 45px;
         }
         
     }
@@ -241,6 +288,12 @@ body {
 				
 				
 			}
+
+                .modulHeading {
+                    font-family: 'Open Sans Condensed', sans-serif;
+                    font-size: 40px;
+                    margin-left: 50px;
+                }
 				
 				.modul {
                     height: 45%;
@@ -284,9 +337,6 @@ body {
                     position: absolute;
                     width: 50px;
                     height: 50px;
-                    font-size: 45px;
-                    margin-top: 2px;
-                    margin-left: -2px;
                 }
 
 					.chapterTitel{

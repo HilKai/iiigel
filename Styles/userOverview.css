@@ -24,35 +24,9 @@ body {
             font-size: 40px;
         }
         
-        #Container {
-            margin:0;
-            background-color: #fff;
-        }
-        
-         #Modul1 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul3 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul5 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul7 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
         .modul {
             margin: 5px 20px 5px 0px;
              font-size: 30px;
-            height: 400px;
-        }
-        
-        .chapterTitel {
-            font-size: 40px;
         }
         
     }
@@ -79,40 +53,14 @@ body {
             font-size: 40px;
         }
         
-        #Container {
-            margin:0;
-            background-color: #fff;
-        }
-        
-         #Modul1 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul3 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul5 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul7 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
         .modul {
             margin: 5px 20px 5px 0px;
-            height: 400px;
         }
         
         #TrainerIcon {
             margin-top: 6px;
             margin-left: 20px;
             font-size: 30px;
-        }
-        
-        .chapterTitel {
-            font-size: 40px;
         }
     }
 
@@ -142,25 +90,8 @@ body {
             background-color: #fff;
         }
         
-         #Modul1 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul3 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul5 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul7 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
         .modul {
             margin: 5px 20px 5px 0px;
-            height: 400px;
         }
         
         
@@ -168,10 +99,6 @@ body {
             margin-top: 6px;
             margin-left: 20px;
              font-size: 30px;
-        }
-        
-        .chapterTitel {
-            font-size: 40px;
         }
         
         
@@ -197,26 +124,8 @@ body {
             margin-bottom: 10px;
         }
         
-        #Modul1 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul3 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul5 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        #Modul7 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        
         .modul {
             margin: 5px 20px 5px 0px;
-            height: 360px;
         }
         
         #TrainerIcon {
@@ -230,14 +139,6 @@ body {
             height: 130px;
             margin-left: 30px;
         } 
-        
-        .chapterTitel {
-            font-size: 50px;
-        }
-        
-        .chapterInfo {
-            font-size: 20px !important;
-        }
     }
 
     /* Medium Devices, Desktops */
@@ -261,13 +162,8 @@ body {
             font-size: 75px;
         }
         
-        #Modul3 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
         .modul {
             margin: 5px 20px 5px 0px;
-            height: 355px;
         }
         
          #TrainerIcon {
@@ -277,7 +173,7 @@ body {
         }
         
         .chapterTitel {
-            font-size: 40px;
+            font-size: 38px;
         }
     }
 
@@ -302,14 +198,8 @@ body {
             background-color: aqua;
         }
         
-        #Modul3 {
-            margin: 5px 0px 5px 0px !important; 
-        }
-        
-        
         .modul {
             margin: 5px 20px 5px 0px;
-            height: 335px;
         }
 
         #ProfilePic {
@@ -330,6 +220,7 @@ body {
     }
 
 	#WrappingContainer {
+		margin: 20px auto;
 		padding: 0;
 	}
 	
@@ -405,6 +296,7 @@ body {
                 }
 				
 				.modul {
+                    height: 45%;
                     padding: 10px;
                     border-radius: 8px;
                     background-color: #fff; 
@@ -451,13 +343,20 @@ body {
 				        margin: 6px;
                         font-family: 'Open Sans condensed', sans-serif;
                         text-align: center;
-                        height: 70px;
+                        height: 15%;
+					}
+					
+					.chapterTitelNat{
+				        margin: 6px;
+						margin-left:15px;
+                        font-family: 'Raleway', sans-serif;
+                        font-size: 30px;
+                        height: 15%;
 					}
 					
 					.chapterImage{
 						border-radius: 10px;
-						width : 150px;
-                        height: 150px;
+						width : 60%;
 						margin: 0 auto;
                         padding: 20px;
 						

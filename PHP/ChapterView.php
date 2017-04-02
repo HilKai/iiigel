@@ -41,31 +41,33 @@
    
  //Link setzen im Toggle Button
     
-       
-        $link = "/iiigel/PHP/trainerModulview.php?groupID=".$currentGroupID;
-        $search = array('%TogglelinkT%');
-        $replace = array($link);
-        $myPage = str_replace($search,$replace,$myPage); 
+     
    
     //Toggle Button ersetzen je nachdem, ob man Trainer ist oder nicht
     if($ODB->isTrainerofGroup($myUserID,$currentGroupID)) {
         $toAdd = file_get_contents('../HTML/ChapterViewTrainerChapterToggle.html');
         $search = array('%Toggle%');
         $replace = array($toAdd);
-        $toAdd = str_replace($search,$replace,$toAdd); 
+        $myPage = str_replace($search,$replace,$myPage); 
     }else {
         $toAdd = "";
         $search = array('%Toggle%');
         $replace = array($toAdd);
-        $toAdd = str_replace($search,$replace,$toAdd); 
+        $myPage = str_replace($search,$replace,$myPage); 
     }
+
+  
+        $link = "/iiigel/PHP/trainerModulview.php?groupID=".$currentGroupID;
+        $search = array('%TogglelinkT%');
+        $replace = array($link);
+        $myPage = str_replace($search,$replace,$myPage); 
    
     $search = array('%ChapterHeadline%','%ChapterText%');
     $chapterText = $ODB->replaceTags($myModule->getChapterTextbyIndex($myChapterID));
-    $text = "<p class='chapterView'> ".$chapterText."</p>";
+    $text = '<div class="chapterView col-md-12">  '.$chapterText.' </div>';
     $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$text);
     $myPage = str_replace($search,$replace,$myPage);
-
+   
    
     $toAdd = ""; //hinzugefügter HTML Code
 
@@ -96,5 +98,5 @@
     }
     $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
     
-    echo $myPage;
+echo $myPage;
 ?>

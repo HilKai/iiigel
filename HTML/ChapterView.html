@@ -26,6 +26,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
 
+
 </head>
 
 <body class="body">
@@ -37,11 +38,17 @@
             </div>
 
 
-            <div class="col-md-5">
+            <div class="col-md-3">
                 <p id="ChapterHeadline" style="float:left;margin-left:0px;">
                     %ChapterHeadline%
 
                 </p>
+            </div>
+
+            <div class="progress chapterBarOuter col-md-2" style="margin-top:30px;">
+                <div class="progress-bar chapterBar" role="progressbar" aria-valuenow="%ProgressPercent%" aria-valuemin="0" aria-valuemax="100" style="width:%ProgressPercent%%">
+
+                </div>
             </div>
 
             <div class="btn-group col-md-3" role="group">
@@ -52,11 +59,11 @@
                 <a href="../PHP/logout.php?logout">
                     <button id="LogOutButton" class="btn btn-default"> 
 								<span class="glyphicon glyphicon-log-out"></span> Abmelden
-							</button>
+				    </button>
                 </a>
             </div>
 
-            <div class="col-md-1 col-md-offset-1" style="margin-left:105px;">
+            <div class="col-md-1 col-md-offset-1" style="">
                 <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;padding-left:60px;color:#000;"></span> </a>
             </div>
 
@@ -65,9 +72,9 @@
         <div class="row nopadding">
 
             <div id="Chapter_window" class="col-md-12 nopadding myBox">
-                <p>
-                    %ChapterText%
-                </p>
+
+                %ChapterText%
+
             </div>
 
             <div id="Button_C" class="row nopaddings col-md-2 col-md-offset-10">
@@ -104,11 +111,20 @@
                     </div>
                     <form>
                         <div class="modal-body">
-                            <textarea class="form-control col-xs-12" rows="7" style="max-width:100%;"></textarea>
+                            <div class="panel panel-default">
+                                <div id="AnzeigeBox" class="panel-body"></div>
+                            </div>
+
+                            <div class="form-group ">
+                                <textarea class="form-control" rows="5" id="InputBox" style="maxwidth:100%">
+                                    <b> wuhu schreib deinen Code hier unten hin und oben wird er angezeigt </b>
+                                </textarea>
+                            </div>
+
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" name="SubmitButton" class="btn btn-info" data-dismiss="modal">Submit</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" name="SubmitButton" class="btn btn-info" data-dismiss="modal">Abgeben</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
                         </div>
                     </form>
                 </div>
@@ -124,5 +140,13 @@
 
 
 </body>
+<script type="text/javascript">
+    var wpcomment = document.getElementById('InputBox');
+
+    wpcomment.onkeyup = wpcomment.onkeypress = function() {
+        document.getElementById('AnzeigeBox').innerHTML = this.value;
+    }
+
+</script>
 
 </html>

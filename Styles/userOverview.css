@@ -7,41 +7,129 @@ body {
 	width: 100%;
 	height: 100%;
 }
+  
+    @media only screen and (max-width : 320px) and (min-width: 0px) {
+        #WrappingContainer {
+            background-color:slateblue;
+            margin: 0px auto;
+            padding: 0;
+            width: 320px;
+        }
+        
+        #ProfileContainer {
+             border-radius: 0px;
+        }
+        
+        #Name  {
+            font-size: 40px;
+        }
+        
+    }
 
     /* Custom, iPhone Retina */ 
-    @media only screen and (min-width : 320px) {
+    @media only screen and (max-width : 480px) and (min-width: 320px) {
+        #WrappingContainer {
+            background-color:hotpink;
+            margin: 0px auto;
+            padding: 0;
+            width: 100%;
+        }    
+        
+        #ProfileContainer {
+             border-radius: 0px;
+        }
+        
        #ProfilePic {
             width: 100px;
             height: 100px;
-        }  
+        }
+        
+         #Name  {
+            font-size: 40px;
+        }
     }
 
     /* Extra Small Devices, Phones */ 
-    @media only screen and (min-width : 480px) {
-        #ProfilePic {
-            width: 100px;
-            height: 100px;
-        } 
-    }
-
-    /* Small Devices, Tablets */
-    @media only screen and (min-width : 768px) {
-        #WrappingContainer {
-            background-color: aqua;
+    @media only screen and (max-width:768px) and (min-width:480px) {
+         #WrappingContainer {
+            background-color:coral;
+             margin: 0px auto;
+            padding: 0;
+        }
+        
+        #ProfileContainer {
+             border-radius: 0px;
         }
         
         #ProfilePic {
             width: 100px;
             height: 100px;
         } 
+        
+         #Name  {
+            font-size: 60px;
+        }
+        
+        .modul {
+            margin: 5px 20px 5px 0px;
+        }
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (max-width : 992px) and (min-width:768px){
+        #WrappingContainer {
+            margin: 20px auto;
+            padding: 0;
+            background-color: aqua;
+        }
+        
+        #ProfileContainer {
+             border-radius: 8px;
+        }
+        
+        #Name  {
+            font-size: 75px;
+        }
+        
+        #Container1 {
+            margin-bottom: 10px;
+        }
+        
+        .modul {
+            margin: 0px;
+        }
+        
+        #ProfilePic {
+            width: 130px;
+            height: 130px;
+            margin-left: 30px;
+        } 
     }
 
     /* Medium Devices, Desktops */
-    @media only screen and (min-width : 992px) {
+    @media only screen and (max-width : 1200px) and (min-width : 992px)  {
+        #WrappingContainer {
+            background-color:khaki;
+            margin: 20px auto;
+            padding: 0;
+        }
+        
+        #ProfileContainer {
+             border-radius: 8px;
+        }
+        
         #ProfilePic {
             width: 200px;
             height: 200px;
-        }  
+        } 
+        
+        #Name  {
+            font-size: 75px;
+        }
+        
+        .modul {
+            margin: 5px 20px 5px 0px;
+        }
         
         .chapterTitel {
             font-size: 38px;
@@ -51,8 +139,26 @@ body {
     /* Large Devices, Wide Screens */
     @media only screen and (min-width : 1200px) {
         
+        #WrappingContainer {
+            background-color:lavenderblush;
+            margin: 20px auto;
+            padding: 0;
+        }
+        
+        #ProfileContainer {
+             border-radius: 8px;
+        }
+        
+        #Name  {
+            font-size: 75px;
+        }
+        
         .contaier {
             background-color: aqua;
+        }
+        
+        .modul {
+            margin: 5px 20px 5px 0px;
         }
 
         #ProfilePic {
@@ -73,7 +179,6 @@ body {
 	
 		#ProfileContainer {
 			padding: 40px;
-            border-radius: 8px;
             background-color: #fff;
 		}
 		
@@ -90,7 +195,6 @@ body {
 				margin: 0;
 				padding-bottom: 10px;
 				font-family: 'Open Sans Condensed', sans-serif;
-				font-size: 75px;
 			}
 			
 			#UserDataContainer {
@@ -140,7 +244,6 @@ body {
 				
 				.modul {
                     height: 45%;
-                    margin: 5px 20px 5px 0px;
                     padding: 10px;
                     border-radius: 8px;
                     background-color: #fff; 

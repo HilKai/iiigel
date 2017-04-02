@@ -38,6 +38,7 @@
 
     $myModule = $ODB->getModuleFromID($myModuleID);
     $myUser = $ODB->getUserFromId($myUserID);
+     $myGroups = $ODB->getGroupsFromUserID($_SESSION['user']);
    
  //Link setzen im Toggle Button
     
@@ -86,6 +87,17 @@
     $search = array('%Buttons%');
     $replace = array($toAdd);
     $myPage = str_replace($search,$replace,$myPage);
+
+  /* if ($ODB->isTrainerofGroup($myUserID,$currentGroupID)) {
+            $Progress=($myGroups[$currentGroupID]->getAverageProgressFromGroup())/sizeof($ODB->getModuleFromID($currentGroupID->getModulID())->chapter);
+            $ProgressPercent= 100*(($currentGroupID->getAverageProgressFromGroup())/sizeof($ODB->getModuleFromID($myGroups[$i]->getModulID())->chapter));
+        } else {
+            $Progress=$currentGroupID->getProgressFromUserID($_SESSION['user'])+1;
+            $ProgressPercent=(100*($currentGroupID->getProgressFromUserID($_SESSION['user'])+1)/(sizeof ($ODB->getModuleFromID($currentGroupID->getModulID()) -> chapter)));
+        }
+            $search = array( '%Progress%', '%ProgressPercent%');
+            $replace = array($Progress,$ProgressPercent);
+            $myPage = str_replace($search,$replace,$Page);*/
 
   
    for ($i=0; $i< sizeof($myModule->chapter);$i++){  

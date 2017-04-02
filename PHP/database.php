@@ -1,7 +1,11 @@
 <?php
-    foreach (glob("model/*.php") as $filename)
+    foreach (glob("Model/*.php") as $filename)
     {
-        include_once( $filename);
+        include_once("Model/User.php");
+        include_once("Model/Teilnehmer.php");
+        include_once("Model/Institution.php");
+        include_once("Model/Group.php");
+        include_once("Model/Chapter.php");
     }
     class Database
     {
@@ -44,18 +48,18 @@
         }
 
         public function __construct(){
-            //$this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
-            $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+            $this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
+           // $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
             
             //----- SELECTS -----
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
 			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ?");
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
-			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM Institutions WHERE Institutions.ID = ?");
-			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM Users WHERE Users.sUserName = ?");
-			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM Groups WHERE Groups.ID = ?");
+			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ?");
+			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ?");
+			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ?");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
-			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM Modules WHERE Modules.ID = ?");
+			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM modules WHERE ID = ?");
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE ID = ?");
             $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
             $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
@@ -81,7 +85,7 @@
 		
         public function replaceTags ($_sContent){
             
-             $sMyDocument = str_replace(' ', '&nbsp;',  str_replace('\r','<br>', str_replace('\n','<br>', str_replace("]\n",']' ,str_replace('<', '&lt;', str_replace('>', '&gt;', $_sContent))))));
+             $sMyDocument = str_replace(' ', '&nbsp;',  str_replace('\r','<br>', str_replace('\n','', str_replace("]\n",']' ,str_replace('<', '&lt;', str_replace('>', '&gt;', $_sContent))))));
             
             $sTags =$this->query('SELECT sTagFrom,sTagInto,sParam FROM transcribedtags');  
             for ($x = 0; $x <= mysqli_num_rows($sTags);$x++) {
@@ -166,14 +170,11 @@
             $res = $this->stmtisUsernameFromID->get_result();
             $row = mysqli_fetch_array($res);
             if (mysqli_num_rows($res)==0) {
-                //return true;
-                echo"true";
+                return true;
             } elseif ($row['ID']==$ID){
-                //return true;
-                echo "true";
+                return true;
             } else {
-                //return false;
-                echo"false";
+                return false;
             }
         }
         
@@ -183,14 +184,11 @@
             $res = $this->stmtisEMailFromID->get_result();
             $row = mysqli_fetch_array($res);
             if (mysqli_num_rows($res)==0) {
-                //return true;
-                echo"true";
+                return true;
             } elseif ($row['ID']==$ID){
-                //return true;
-                echo"true";
+                return true;
             } else {
-                //return false;
-                echo"false";
+                return false;
             }
         }
         

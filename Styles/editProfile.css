@@ -4,8 +4,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment:fixed;
-	width: 100%;
-	height: 100%;
+	
 }
 
 /* Custom, iPhone Retina */ 
@@ -13,7 +12,41 @@ body {
         #WrappingContainer {
             margin: 0px auto;
             padding: 0;
-            width: 100%;
+            width: 320px;
+        }
+        
+        #ProfileContainer {
+            border-radius: 0px;
+        }
+        
+        #Heading  {
+            font-size: 40px;
+        }
+        
+        #PicContainer {
+            margin-left: 50px;
+        }
+        
+       #ProfilePic {
+            width: 100px;
+            height: 100px;
+        }  
+    }
+
+/* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 480px) and (min-width: 320px) {
+        #WrappingContainer {
+            margin: 0px auto;
+            padding: 0;
+            min-width: 340px;
+        }
+        
+        #ProfileContainer {
+            border-radius: 0px;
+        }
+        
+        #Heading  {
+            font-size: 40px;
         }
         
         #PicContainer {
@@ -33,6 +66,14 @@ body {
             padding: 0;
         }
         
+        #ProfileContainer {
+            border-radius: 0px;
+        }
+        
+        #Heading  {
+            font-size: 75px;
+        }
+        
          #PicContainer {
             margin-left: 50px;
         }
@@ -48,6 +89,14 @@ body {
         #WrappingContainer {
             margin: 20px auto;
             padding: 0;
+        }
+        
+        #ProfileContainer {
+            border-radius: 8px;
+        }
+        
+        #Heading  {
+            font-size: 75px;
         }
         
         #PicContainer {
@@ -66,6 +115,14 @@ body {
         #WrappingContainer {
             margin: 20px auto;
             padding: 0;
+        }
+        
+        #ProfileContainer {
+            border-radius: 8px;
+        }
+        
+        #Heading  {
+            font-size: 75px;
         }
 
          #PicContainer {
@@ -95,6 +152,14 @@ body {
             padding: 0;
 	    }
         
+        #ProfileContainer {
+            border-radius: 8px;
+        }
+        
+        #Heading  {
+            font-size: 75px;
+        }
+        
         #ProfilePic {
             width: 260px;
             height: 260px;
@@ -109,7 +174,6 @@ body {
 	
 		#ProfileContainer {
 			padding: 40px;
-            border-radius: 8px;
             background-color: #fff;
             font-family: 'Open Sans', sans-serif;
 		}
@@ -123,7 +187,6 @@ body {
                     margin: 0px 0px 20px 0px;
                     padding-bottom: 10px;
                     font-family: 'Open Sans Condensed', sans-serif;
-                    font-size: 75px;
                 }
 
 .label {

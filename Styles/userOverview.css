@@ -10,7 +10,7 @@ body {
   
     @media only screen and (max-width : 320px) and (min-width: 0px) {
         #WrappingContainer {
-            background-color:slateblue;
+            /*background-color:slateblue;*/
             margin: 0px auto;
             padding: 0;
             width: 320px;
@@ -60,7 +60,7 @@ body {
     /* Custom, iPhone Retina */ 
     @media only screen and (max-width : 480px) and (min-width: 320px) {
         #WrappingContainer {
-            background-color:hotpink;
+            /*background-color:hotpink;*/
             margin: 0px auto;
             padding: 0;
             width: 100%;
@@ -119,7 +119,7 @@ body {
     /* Extra Small Devices, Phones */ 
     @media only screen and (max-width:768px) and (min-width:480px) {
          #WrappingContainer {
-            background-color:coral;
+            /*background-color:coral;*/
             margin: 0px auto;
             padding: 0; 
         }
@@ -243,7 +243,7 @@ body {
     /* Medium Devices, Desktops */
     @media only screen and (max-width : 1200px) and (min-width : 992px)  {
         #WrappingContainer {
-            background-color:khaki;
+            /*background-color:khaki;*/
             margin: 20px auto;
             padding: 0;
         }
@@ -285,7 +285,7 @@ body {
     @media only screen and (min-width : 1200px) {
         
         #WrappingContainer {
-            background-color:lavenderblush;
+            /*background-color:lavenderblush;*/
             margin: 20px auto;
             padding: 0;
         }

@@ -13,7 +13,7 @@ body {
             /*background-color:slateblue;*/
             margin: 0px auto;
             padding: 0;
-            width: 320px;
+            min-width: 460px;
         }
         
         #ProfileContainer {
@@ -63,7 +63,7 @@ body {
             /*background-color:hotpink;*/
             margin: 0px auto;
             padding: 0;
-            width: 100%;
+            min-width: 460px;
         }    
         
         #ProfileContainer {
@@ -182,7 +182,7 @@ body {
         #WrappingContainer {
             margin: 20px auto;
             padding: 0;
-            background-color: aqua;
+            /*background-color: aqua;*/
         }
         
         #ProfileContainer {
@@ -222,7 +222,7 @@ body {
         #TrainerIcon {
             margin-top: -2px;
             margin-left: -2px;
-             font-size: 30px;
+             font-size: 40px;
         }
         
         #ProfilePic {

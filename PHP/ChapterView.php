@@ -44,7 +44,6 @@
     }
 
      if ( isset($_POST['AbgabeButton'])){
-        $ODB->createHandin($myUserID,$myModuleID,$myChapterID,$_POST['modalData']); 
     }
     
      

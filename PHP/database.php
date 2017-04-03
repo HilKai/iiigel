@@ -229,7 +229,7 @@
             return $this->stmtaddUser->execute();
         }
         
-        public function addHandInFromUserID($UserID,$GroupID,$ChapterID,$Text){
+        public function addHandIn($UserID,$GroupID,$ChapterID,$Text){
             $this->stmtaddHandIn->bind_param("iiis",$UserID,$GroupID,$ChapterID,$Text);
             $this->stmtaddHandIn->execute();
         }

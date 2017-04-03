@@ -40,7 +40,7 @@
         if ($currentProgress  == $myChapterID){ //Überprüft ob der User genau in diesem Chapter ist
             $ODB->setFortschrittFromUserinGroup($myUserID,$currentGroupID);     
         }
-       header("Location: /iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=". ($myChapterID+1)."&groupID=".$currentGroupID );
+       header("Location: ../PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=". ($myChapterID+1)."&groupID=".$currentGroupID );
     }
 
      if ( isset($_POST['AbgabeButton'])){
@@ -63,7 +63,7 @@
     }
 
   
-        $link = "/iiigel/PHP/trainerModulview.php?groupID=".$currentGroupID;
+        $link = "../PHP/trainerModulview.php?groupID=".$currentGroupID;
         $search = array('%TogglelinkT%');
         $replace = array($link);
         $myPage = str_replace($search,$replace,$myPage); 
@@ -84,7 +84,7 @@
             $toAdd =  file_get_contents('../HTML/ChapterViewButtonNextChapter.html');  
             $search = array('%Link%');
             $iactIndex = $myModule->chapter[$myChapterID]->getiIndex();
-            $replace = array("/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$iactIndex."&groupID=".$currentGroupID);
+            $replace = array("../PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$iactIndex."&groupID=".$currentGroupID);
             $toAdd = str_replace($search,$replace,$toAdd); 
         }
     }
@@ -110,7 +110,7 @@
    for ($i=0; $i< sizeof($myModule->chapter);$i++){  
             $myRow = file_get_contents('../HTML/ChapterViewListItem.html');
             $search = array('%ChapterTitle%','%Link%');
-            $replace = array($myModule ->chapter[$i]->getsTitle(),"/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$i."&groupID=".$currentGroupID );
+            $replace = array($myModule ->chapter[$i]->getsTitle(),"../PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$i."&groupID=".$currentGroupID );
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;

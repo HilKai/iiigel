@@ -70,7 +70,7 @@
 //Link setzen im Toggle Button
    
         
-        $link = "/iiigel/PHP/ChapterView.php?moduleID=".$myModuleID."&chapterID=0&groupID=".$currentGroupID;
+        $link = "../PHP/ChapterView.php?moduleID=".$myModuleID."&chapterID=0&groupID=".$currentGroupID;
         $search = array('%TogglelinkK%');
         $replace = array($link);
         $myPage = str_replace($search,$replace,$myPage); 

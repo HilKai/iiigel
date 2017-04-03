@@ -109,21 +109,20 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Modal Header</h4>
                     </div>
-                    <form>
+                    <form method="post" id="modalForm">
                         <div class="modal-body">
                             <div class="panel panel-default">
                                 <div id="AnzeigeBox" class="panel-body"></div>
                             </div>
 
                             <div class="form-group ">
-                                <textarea class="form-control" rows="5" id="InputBox" style="maxwidth:100%">
-                                    <b> wuhu schreib deinen Code hier unten hin und oben wird er angezeigt </b>
+                                <textarea name="modalData"class="form-control" rows="5" id="InputBox" style="maxwidth:100%" form="modalForm">
                                 </textarea>
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" name="SubmitButton" class="btn btn-info" data-dismiss="modal">Abgeben</button>
+                            <button type="submit" name="AbgabeButton" class="btn btn-info">Abgeben</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
                         </div>
                     </form>

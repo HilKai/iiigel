@@ -9,7 +9,6 @@
     $myChapterID = $_GET['chapterID'];
     $myUserID = $_SESSION['user'];
     $currentGroupID = $_GET['groupID'];
-
     
 	 // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
@@ -25,22 +24,28 @@
     }
 
 
-
-
-    if ( isset($_POST['NextButton']) ) {
-    }
-
-     if ( isset($_POST['AbgabeButton']) ) {
-         
-    }
+  
     
     //
 
     $myModule = $ODB->getModuleFromID($myModuleID);
     $myUser = $ODB->getUserFromId($myUserID);
-     $myGroups = $ODB->getGroupsFromUserID($_SESSION['user']);
+    $myGroups = $ODB->getGroupsFromUserID($_SESSION['user']);
+    $activeGroup = $ODB->getGroupFromID($currentGroupID);
+    $currentProgress =$activeGroup->getProgressFromUserID($_SESSION['user']);
    
- //Link setzen im Toggle Button
+    if ( isset($_POST['NextButton']) ) {
+       
+ 
+        if ($currentProgress  == $myChapterID){ //Überprüft ob der User genau in diesem Chapter ist
+            $ODB->setFortschrittFromUserinGroup($myUserID,$currentGroupID);     
+        }
+       header("Location: /iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=". ($myChapterID+1)."&groupID=".$currentGroupID );
+    }
+
+     if ( isset($_POST['AbgabeButton'])){
+        $ODB->createHandin($myUserID,$myModuleID,$myChapterID,$_POST['modalData']); 
+    }
     
      
    
@@ -72,14 +77,16 @@
    
     $toAdd = ""; //hinzugefügter HTML Code
 
-    if($myModule->chapter[$myChapterID]->getbIsMandatoryHandIn()) {
+    if(($myModule->chapter[$myChapterID]->getbIsMandatoryHandIn()) && ($currentProgress <= $myChapterID)) {
         $toAdd = file_get_contents('../HTML/ChapterViewButtonAbgabe.html');
     }else{
-        $toAdd = file_get_contents('../HTML/ChapterViewButtonNextChapter.html');  
-        $search = array('%Link%');
-        $iactIndex = $myModule->chapter[$myChapterID]->getiIndex();
-        $replace = array("/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$iactIndex."&groupID=".$currentGroupID);
-        $toAdd = str_replace($search,$replace,$toAdd); 
+        if (sizeof($myModule->chapter) > $myChapterID +1 ){
+            $toAdd =  file_get_contents('../HTML/ChapterViewButtonNextChapter.html');  
+            $search = array('%Link%');
+            $iactIndex = $myModule->chapter[$myChapterID]->getiIndex();
+            $replace = array("/iiigel/PHP/chapterView.php?moduleID=".$myModuleID."&chapterID=".$iactIndex."&groupID=".$currentGroupID);
+            $toAdd = str_replace($search,$replace,$toAdd); 
+        }
     }
 
    

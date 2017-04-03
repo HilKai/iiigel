@@ -203,7 +203,7 @@
                                 <span class="text-danger"><?php if(isset($passRepeatError)) echo $passRepeatError; ?></span>
                             </div>
 
-                            <a href="index.php"> Bereits einen Account? Hier anmelden! </a>
+                            <a href="../index.php"> Bereits einen Account? Hier anmelden! </a>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-block btn-primary" name="btn-signup">Registrieren</button>
                             </div>

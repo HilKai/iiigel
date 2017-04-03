@@ -168,17 +168,17 @@
 
                             </div>
                         </div>
-                    </form>  
+                   
                     
                     <div id="" class="row">
                         <div class="col-md-2 noPadding">
-                            <form method="post">
+                       
                                 <button id="PinkButton" type="submit" class="btn btn-block btn-primary pinkButton" name="btn-save">Speichern</button>
                             </form>
                         </div>
 
                         <div class="col-md-2">
-                            <form action="index.php">
+                            <form action="../index.php">
                                 <button id="Button" type="submit" class="btn btn-default">Zurück</button>
                             </form>
                         </div>

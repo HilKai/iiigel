@@ -14,12 +14,12 @@
 	 
 	 // if session is not set this will redirect to login page
 	 if( !isset($_SESSION['user']) ) {
-	  header("Location: index.php");
+	  header("Location: ../index.php");
 	  exit;
 	 }
 
     if( !$ODB->isTrainerofGroup($_SESSION['user'],$currentGroupID) ) {
-	  header("Location: index.php");
+	  header("Location: ../index.php");
 	  exit;
 	 }   
     

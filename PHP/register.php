@@ -121,7 +121,7 @@
 				unset($nachname);
 				unset($email);
 				unset($passwort);
-				header("Location: index.php");
+				header("Location: ../index.php");
 		   } else {
 				$errTyp = "danger";
 				$errMSG = "Something went wrong, try again later..."; 

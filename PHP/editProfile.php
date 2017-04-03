@@ -6,7 +6,7 @@
 
     // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
     }
     $myUser = $ODB->getUserFromID($_SESSION['user']);

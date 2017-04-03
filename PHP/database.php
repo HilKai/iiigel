@@ -1,12 +1,11 @@
 <?php
-    foreach (glob("Model/*.php") as $filename)
-    {
+
         include_once("Model/User.php");
         include_once("Model/Teilnehmer.php");
         include_once("Model/Institution.php");
         include_once("Model/Group.php");
         include_once("Model/Chapter.php");
-    }
+        include_once("Model/Module.php");
     class Database
     {
         private $db_connection;
@@ -48,8 +47,8 @@
         }
 
         public function __construct(){
-            $this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
-           // $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+           // $this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
+            $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
             
             //----- SELECTS -----
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");

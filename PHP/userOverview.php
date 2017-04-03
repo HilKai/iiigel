@@ -35,8 +35,8 @@
             $ProgressPercent=(100*($myGroups[$i]->getProgressFromUserID($_SESSION['user'])+1)/(sizeof ($ODB->getModuleFromID($myGroups[$i]->getModulID()) -> chapter)));
         }
         
-            $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModuleName%');
-            $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$Progress,$ProgressPercent, $link,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName());
+            $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModuleName%', '%ID%');
+            $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$Progress,$ProgressPercent, $link,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName(), "Modul".$i);
             $myBox = str_replace($search,$replace,$myBox);
         
         $toAdd = $toAdd . $myBox;

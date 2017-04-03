@@ -30,48 +30,47 @@
 </head>
 
 <body class="body">
-    <div id="WrappingContainer" class="container">
+    <div id="WrappingContainer" class="container noPadding">
 
         <div id="header" class="row ">
-            <div class="col-md-1 ">
-                <a href="#"><span class="glyphicon glyphicon-education" aria-hidden="true" style="font-size:32px;margin-top:30px;color:#000;margin-right:0px;"></span> </a>
-            </div>
-
-
-            <div class="col-md-3">
+            <div class="col-md-4 col-xs-12">
+                <a href="#"><span id="Glyphicon" class="glyphicon glyphicon-education" aria-hidden="true" style="font-size:32px;margin-top:30px;color:#000;margin-right:0px;"></span> </a>
                 <p id="ChapterHeadline" style="float:left;margin-left:0px;">
                     %ChapterHeadline%
 
                 </p>
             </div>
 
-            <div class="progress chapterBarOuter col-md-2" style="margin-top:30px;">
+
+
+
+            <div id="Progress" class="progress chapterBarOuter col-md-2 col-xs-0 hidden-xs" >
                 <div class="progress-bar chapterBar" role="progressbar" aria-valuenow="%ProgressPercent%" aria-valuemin="0" aria-valuemax="100" style="width:%ProgressPercent%%">
 
                 </div>
             </div>
 
-            <div class="btn-group col-md-3" role="group">
+            <div class="btn-group col-md-3 col-xs-7" role="group">
                 %Toggle%
             </div>
 
-            <div class="col-md-1">
+            <div class="col-md-1 col-xs-3">
                 <a href="../PHP/logout.php?logout">
                     <button id="LogOutButton" class="btn btn-default"> 
-								<span class="glyphicon glyphicon-log-out"></span> Abmelden
+								<span class="glyphicon glyphicon-log-out" style="color:#000;"></span> <a id="LogOutText" style="color:#000;">Abmelden</a>
 				    </button>
                 </a>
             </div>
 
-            <div class="col-md-1 col-md-offset-1" style="">
-                <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;padding-left:60px;color:#000;"></span> </a>
+            <div class="col-md-1 col-md-offset-1 col-xs-2" style="">
+                <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;float: right;color:#000;"></span> </a>
             </div>
 
         </div>
 
-        <div class="row nopadding">
+        <div id="ChaCont" class="row nopadding">
 
-            <div id="Chapter_window" class="col-md-12 nopadding myBox">
+            <div id="Chapter_window" class="col-md-12 col-xs-12 nopadding myBox">
 
                 %ChapterText%
 

@@ -44,6 +44,7 @@
     }
 
      if ( isset($_POST['AbgabeButton'])){
+        $ODB->addHandIn($myUserID,$activeGroup->getID(),$myChapterID,$_POST['modalData']); 
     }
     
      

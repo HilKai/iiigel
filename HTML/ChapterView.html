@@ -44,13 +44,13 @@
 
 
 
-            <div id="Progress" class="progress chapterBarOuter col-md-2 col-xs-0 hidden-xs" >
+            <div id="Progress" class="progress chapterBarOuter col-md-2 col-xs-0 hidden-xs">
                 <div class="progress-bar chapterBar" role="progressbar" aria-valuenow="%ProgressPercent%" aria-valuemin="0" aria-valuemax="100" style="width:%ProgressPercent%%">
 
                 </div>
             </div>
 
-            <div class="btn-group col-md-3 col-xs-7" role="group">
+            <div class="btn-group col-md-3 col-xs-7" role="group" style="padding-left:20px;">
                 %Toggle%
             </div>
 
@@ -62,13 +62,13 @@
                 </a>
             </div>
 
-            <div class="col-md-1 col-md-offset-1 col-xs-2" style="">
-                <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;float: right;color:#000;"></span> </a>
+            <div class="col-md-1 col-md-offset-1 col-xs-2">
+                <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;float: right;color:#000;cursor:pointer" onclick="openNav()"></span> </a>
             </div>
 
         </div>
 
-        <div id="ChaCont" class="row nopadding">
+        <div id="main" class="row nopadding">
 
             <div id="Chapter_window" class="col-md-12 col-xs-12 nopadding myBox">
 
@@ -80,8 +80,8 @@
                 %Buttons%
             </div>
 
-
-            <!---<div id="right_Container" class="col-md-2 col-md-offset-1 nopadding">
+        </div>
+        <!---<div id="right_Container" class="col-md-2 col-md-offset-1 nopadding">
                 <div id="Chapter_Overview" class="col-md-12 hidden-xs hidden-sm">
 
                     %ChapterDropDownItems%
@@ -94,10 +94,32 @@
 
             </div>--->
 
+        <div id="right_Container" class="sidenav col-md-2 col-md-offset-1 nopadding" style="position:absolute;visibility:hidden;margin-right:140px;margin-top:100px">
 
+            <div id="Chapter_Overview" class="col-md-12 ">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> %ChapterDropDownItems%
 
+            </div>
 
         </div>
+
+        <script>
+            function openNav() {
+                document.getElementById("right_Container").style.width = "250px";
+                document.getElementById("right_Container").style.visibility = "visible";
+                document.getElementById("main").style.marginRight = "250px";
+            }
+
+            function closeNav() {
+                document.getElementById("right_Container").style.width = "0";
+                document.getElementById("main").style.marginRight = "0";
+
+            }
+
+        </script>
+
+
+
 
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -115,7 +137,7 @@
                             </div>
 
                             <div class="form-group ">
-                                <textarea name="modalData"class="form-control" rows="5" id="InputBox" style="maxwidth:100%" form="modalForm">
+                                <textarea name="modalData" class="form-control" rows="5" id="InputBox" style="maxwidth:100%" form="modalForm">
                                 </textarea>
                             </div>
 

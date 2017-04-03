@@ -1,321 +1,261 @@
-/*Media-Querrys*/    
-    @media only screen and (max-width : 320px) and (min-width: 0px) {
+/*Media-Querrys*/
 
-       body {
+@media only screen and (max-width: 320px) and (min-width: 0px) {
+    body {
         background-color: #e1e1e1;
-        /*background-image: url("") !important;*/ 
-       }
-        
-       #WrappingContainer {
-            width: 300px;
-        }    
-        
-       #header {
-            width: 300px;
-           margin: 0 auto;
-        }
-        
-        #ChapterViewButton {
-            width: 40px;
-        }
-        
-        #TrainerViewButton {
-            width: 40px;
-        }
-        
-            #ChapterViewButton a{
-                visibility: hidden;
-            }
-
-            #TrainerViewButton a{
-                visibility: hidden;
-            }
-        
-        #LogOutButton {
-            width: 40px
-        }
-        
-            #LogOutText {
-                visibility: hidden;
-            }
-        
-        #ChaCont {
-            margin: 0 auto;
-        }
-        
-        #Chapter_window {
-            width: 300px;
-            margin-top: 20px;
-        }   
-        
+        /*background-image: url("") !important;*/
     }
+    #WrappingContainer {
+        width: 300px;
+    }
+    #header {
+        width: 300px;
+        margin: 0 auto;
+    }
+    #ChapterViewButton {
+        width: 40px;
+    }
+    #TrainerViewButton {
+        width: 40px;
+    }
+    #ChapterViewButton a {
+        visibility: hidden;
+    }
+    #TrainerViewButton a {
+        visibility: hidden;
+    }
+    #LogOutButton {
+        width: 40px
+    }
+    #LogOutText {
+        visibility: hidden;
+    }
+    #ChaCont {
+        margin: 0 auto;
+    }
+    #Chapter_window {
+        width: 300px;
+        margin-top: 20px;
+    }
+}
 
-    /* Custom, iPhone Retina */ 
-    @media only screen and (max-width : 380px) and (min-width: 320px) {
 
-        body {
+/* Custom, iPhone Retina */
+
+@media only screen and (max-width: 380px) and (min-width: 320px) {
+    body {
         background-color: #e1e1e1;
-        /*background-image: url("") !important;*/ 
-       }
-        
-       #WrappingContainer {
-            width: 300px;
-        }    
-        
-       #header {
-            width: 300px;
-           margin: 0 auto;
-        }
-        
-        #ChapterViewButton {
-            width: 40px;
-        }
-        
-        #TrainerViewButton {
-            width: 40px;
-        }
-        
-            #ChapterViewButton a{
-                visibility: hidden;
-            }
-
-            #TrainerViewButton a{
-                visibility: hidden;
-            }
-        
-        #LogOutButton {
-            width: 40px
-        }
-        
-            #LogOutText {
-                visibility: hidden;
-            }
-        
-        #ChaCont {
-            margin: 0 auto;
-        }
-        
-        #Chapter_window {
-            width: 300px;
-            margin-top: 20px;
-        }    
-        
+        /*background-image: url("") !important;*/
     }
+    #WrappingContainer {
+        width: 300px;
+    }
+    #header {
+        width: 300px;
+        margin: 0 auto;
+    }
+    #ChapterViewButton {
+        width: 40px;
+    }
+    #TrainerViewButton {
+        width: 40px;
+    }
+    #ChapterViewButton a {
+        visibility: hidden;
+    }
+    #TrainerViewButton a {
+        visibility: hidden;
+    }
+    #LogOutButton {
+        width: 40px
+    }
+    #LogOutText {
+        visibility: hidden;
+    }
+    #ChaCont {
+        margin: 0 auto;
+    }
+    #Chapter_window {
+        width: 300px;
+        margin-top: 20px;
+    }
+}
 
-    @media only screen and (max-width : 480px) and (min-width: 380px) {
-
-        body {
+@media only screen and (max-width: 480px) and (min-width: 380px) {
+    body {
         background-color: #e1e1e1;
-        /*background-image: url("") !important;*/ 
-       }
-        
-       #WrappingContainer {
-            width: 350px;
-        }    
-        
-       #header {
-            width: 350px;
-           margin: 0 auto;
-        }
-        
-        #ChapterViewButton {
-            width: 40px;
-        }
-        
-        #TrainerViewButton {
-            width: 40px;
-        }
-        
-            #ChapterViewButton a{
-                visibility: hidden;
-            }
-
-            #TrainerViewButton a{
-                visibility: hidden;
-            }
-        
-        #LogOutButton {
-            width: 40px
-        }
-        
-            #LogOutText {
-                visibility: hidden;
-            }
-        
-        #ChaCont {
-            margin: 0 auto;
-        }
-        
-        #Chapter_window {
-            width: 350px;
-            margin-top: 20px;
-        }    
-        
+        /*background-image: url("") !important;*/
     }
+    #WrappingContainer {
+        width: 350px;
+    }
+    #header {
+        width: 350px;
+        margin: 0 auto;
+    }
+    #ChapterViewButton {
+        width: 40px;
+    }
+    #TrainerViewButton {
+        width: 40px;
+    }
+    #ChapterViewButton a {
+        visibility: hidden;
+    }
+    #TrainerViewButton a {
+        visibility: hidden;
+    }
+    #LogOutButton {
+        width: 40px
+    }
+    #LogOutText {
+        visibility: hidden;
+    }
+    #ChaCont {
+        margin: 0 auto;
+    }
+    #Chapter_window {
+        width: 350px;
+        margin-top: 20px;
+    }
+}
 
 
+/* Extra Small Devices, Phones */
 
-    /* Extra Small Devices, Phones */ 
-    @media only screen and (max-width:560px) and (min-width:480px) {
-
-       body {
+@media only screen and (max-width:560px) and (min-width:480px) {
+    body {
         background-color: #e1e1e1;
-        /*background-image: url("") !important;*/ 
-       }
-        
-       #WrappingContainer {
-            width: 430px;
-        }    
-        
-       #header {
-            width: 430px;
-           margin: 0 auto;
-        }
-        
-        #ChaCont {
-            margin: 0 auto;
-        }
-        
-        #Chapter_window {
-            width: 430px;
-            margin-top: 20px;
-        }    
+        /*background-image: url("") !important;*/
     }
+    #WrappingContainer {
+        width: 430px;
+    }
+    #header {
+        width: 430px;
+        margin: 0 auto;
+    }
+    #ChaCont {
+        margin: 0 auto;
+    }
+    #Chapter_window {
+        width: 430px;
+        margin-top: 20px;
+    }
+}
 
-     @media only screen and (max-width:660px) and (min-width:560px) {
-
-       body {
+@media only screen and (max-width:660px) and (min-width:560px) {
+    body {
         background-color: #e1e1e1;
-        /*background-image: url("") !important;*/ 
-       }
-        
-       #WrappingContainer {
-            width: 530px;
-        }    
-        
-       #header {
-            width: 530px;
-           margin: 0 auto;
-        }
-        
-        #ChaCont {
-            margin: 0 auto;
-        }
-        
-        #Chapter_window {
-            width: 530px;
-            margin-top: 20px;
-        }    
+        /*background-image: url("") !important;*/
     }
+    #WrappingContainer {
+        width: 530px;
+    }
+    #header {
+        width: 530px;
+        margin: 0 auto;
+    }
+    #ChaCont {
+        margin: 0 auto;
+    }
+    #Chapter_window {
+        width: 530px;
+        margin-top: 20px;
+    }
+}
 
-    @media only screen and (max-width:700px) and (min-width:660px) {
-
-       body {
+@media only screen and (max-width:700px) and (min-width:660px) {
+    body {
         background-color: #e1e1e1;
-        /*background-image: url("") !important;*/ 
-       }
-        
-       #WrappingContainer {
-            width: 630px;
-        }    
-        
-       #header {
-            width: 630px;
-           margin: 0 auto;
-        }
-        
-        #ChaCont {
-            margin: 0 auto;
-        }
-        
-        #Chapter_window {
-            width: 630px;
-            margin-top: 20px;
-        }    
+        /*background-image: url("") !important;*/
     }
+    #WrappingContainer {
+        width: 630px;
+    }
+    #header {
+        width: 630px;
+        margin: 0 auto;
+    }
+    #ChaCont {
+        margin: 0 auto;
+    }
+    #Chapter_window {
+        width: 630px;
+        margin-top: 20px;
+    }
+}
 
-
-    @media only screen and (max-width:768px) and (min-width:700px) {
-
-       body {
+@media only screen and (max-width:768px) and (min-width:700px) {
+    body {
         background-color: #e1e1e1;
         /*background-image: url("") !important; */
-       }
-        
-       #WrappingContainer {
-            width: 670px;
-        }    
-        
-       #header {
-            width: 670px;
-           margin: 0 auto;
-        }
-        
-        #ChaCont {
-            margin: 0 auto;
-        }
-        
-        #Chapter_window {
-            width: 670px;
-            margin-top: 20px;
-        }    
-        
     }
-
-    /* Small Devices, Tablets */
-    @media only screen and (max-width : 840px) and (min-width:768px){
-        #WrappingContainer {
-            width: 720px;
-        }    
-        
-       #header {
-            width: 720px;
-           margin: 0 auto;
-        }
-        
-        #ChaCont {
-            margin: 0 auto;
-        }
-        
-        #Chapter_window {
-            width: 720px;
-            margin-top: 20px;
-        }
-        
-             #Progress {
-            visibility: hidden !important;
-            height: 0px !important;
-            margin: 0px !important;
-        }
-            
-        
+    #WrappingContainer {
+        width: 670px;
     }
-
-    /* Small Devices, Tablets */
-    @media only screen and (max-width : 992px) and (min-width:840px){
-        #Chapter_window {
-            width: 780px;
-            margin-top: 20px;
-        }
-        
-              #Progress {
-            visibility: hidden !important;
-            height: 0px !important;
-            margin: 0px !important;
-            
-        }
-        
+    #header {
+        width: 670px;
+        margin: 0 auto;
     }
-
-    /* Medium Devices, Desktops */
-    @media only screen and (max-width : 1200px) and (min-width : 992px)  {
-
+    #ChaCont {
+        margin: 0 auto;
     }
-
-    /* Large Devices, Wide Screens */
-    @media only screen and (min-width : 1200px) {
-        
+    #Chapter_window {
+        width: 670px;
+        margin-top: 20px;
     }
+}
+
+
+/* Small Devices, Tablets */
+
+@media only screen and (max-width: 840px) and (min-width:768px) {
+    #WrappingContainer {
+        width: 720px;
+    }
+    #header {
+        width: 720px;
+        margin: 0 auto;
+    }
+    #ChaCont {
+        margin: 0 auto;
+    }
+    #Chapter_window {
+        width: 720px;
+        margin-top: 20px;
+    }
+    #Progress {
+        visibility: hidden !important;
+        height: 0px !important;
+        margin: 0px !important;
+    }
+}
+
+
+/* Small Devices, Tablets */
+
+@media only screen and (max-width: 992px) and (min-width:840px) {
+    #Chapter_window {
+        width: 780px;
+        margin-top: 20px;
+    }
+    #Progress {
+        visibility: hidden !important;
+        height: 0px !important;
+        margin: 0px !important;
+    }
+}
+
+
+/* Medium Devices, Desktops */
+
+@media only screen and (max-width: 1200px) and (min-width: 992px) {}
+
+
+/* Large Devices, Wide Screens */
+
+@media only screen and (min-width: 1200px) {}
 
 body {
     background-color: #e1e1e1;
@@ -339,16 +279,16 @@ body {
 }
 
 #Glyphicon {
-    font-size: 32px ;
+    font-size: 32px;
     margin-top: 25px !important;
     color: #000;
     margin-right: 0px;
-    float: left  !important;
-    margin-right: 10px  !important;
+    float: left !important;
+    margin-right: 10px !important;
 }
 
 #Progress {
-    margin-top:30px;
+    margin-top: 30px;
 }
 
 #Chapter_window {
@@ -400,7 +340,11 @@ body {
     background: #999;
 }
 
-#right_Container {}
+#right_Container {
+    font-size: 15px;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
 
 #Chapter_Overview {
     padding: 0;
@@ -449,13 +393,9 @@ body {
 }
 
 .btn:hover {
-    background: #80a7bf;
-    background-image: -webkit-linear-gradient(top, #80a7bf, #aac3d4);
-    background-image: -moz-linear-gradient(top, #80a7bf, #aac3d4);
-    background-image: -ms-linear-gradient(top, #80a7bf, #aac3d4);
-    background-image: -o-linear-gradient(top, #80a7bf, #aac3d4);
-    background-image: linear-gradient(to bottom, #80a7bf, #aac3d4);
-    text-decoration: none;
+    background-color: #ccc;
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 }
 
 #button_c {
@@ -478,4 +418,53 @@ body {
 
 .noPadding {
     padding: 0 !important;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+.sidenav a:hover,
+.offcanvas a:focus {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+#main {
+    transition: margin-right .5s;
+    padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+    }
 }

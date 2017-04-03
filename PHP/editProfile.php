@@ -174,25 +174,25 @@
                         <div class="col-md-2 noPadding">
                        
                                 <button id="PinkButton" type="submit" class="btn btn-block btn-primary pinkButton" name="btn-save">Speichern</button>
-                            </form>
-                        </div>
-
+                            </div>
+                        
+                        
+                        </form>
                         <div class="col-md-2">
-                            <form action="../index.php">
+                            <form action="../PHP/userOverview.php">
                                 <button id="Button" type="submit" class="btn btn-default">Zurück</button>
                             </form>
                         </div>
 
-                    </div>    
-
-                </div>
-
-
-
+                    </div> 
+                    
+                
 
                 </div>
 
             </div>
+
+         </div>
 
     </body>
 

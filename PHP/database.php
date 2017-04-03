@@ -47,8 +47,8 @@
         }
 
         public function __construct(){
-           // $this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
-            $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+            $this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
+            //$this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
             
             //----- SELECTS -----
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");

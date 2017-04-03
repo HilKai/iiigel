@@ -8,11 +8,11 @@
 
     // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
     }
     // select loggedin users detail
-    $myUser = $ODB->getUserFromID($_SESSION['user']);
+    $myUser = $ODB->getUserFromID($_SESSION['user']); 
     $myGroups = $ODB->getGroupsFromUserID($_SESSION['user']);
     $search = array('%Vorname%', '%Nachname%', '%UserName%', '%EMail%','%ProfilePicture%');
     $replace = array($myUser->getsFirstName(), $myUser->getsLastName(), $myUser->getsUsername(), $myUser->getsEMail(),$ODB->getProfilePicFromID($myUser->getID()));

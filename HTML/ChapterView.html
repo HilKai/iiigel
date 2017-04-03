@@ -26,48 +26,54 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
 
+
 </head>
 
 <body class="body">
-    <div id="WrappingContainer" class="container">
+    <div id="WrappingContainer" class="container noPadding">
 
         <div id="header" class="row ">
-            <div class="col-md-1 ">
-                <a href="#"><span class="glyphicon glyphicon-education" aria-hidden="true" style="font-size:32px;margin-top:30px;color:#000;margin-right:0px;"></span> </a>
-            </div>
-
-
-            <div class="col-md-5">
+            <div class="col-md-4 col-xs-12">
+                <a href="#"><span id="Glyphicon" class="glyphicon glyphicon-education" aria-hidden="true" style="font-size:32px;margin-top:30px;color:#000;margin-right:0px;"></span> </a>
                 <p id="ChapterHeadline" style="float:left;margin-left:0px;">
                     %ChapterHeadline%
 
                 </p>
             </div>
 
-            <div class="btn-group col-md-3" role="group">
+
+
+
+            <div id="Progress" class="progress chapterBarOuter col-md-2 col-xs-0 hidden-xs" >
+                <div class="progress-bar chapterBar" role="progressbar" aria-valuenow="%ProgressPercent%" aria-valuemin="0" aria-valuemax="100" style="width:%ProgressPercent%%">
+
+                </div>
+            </div>
+
+            <div class="btn-group col-md-3 col-xs-7" role="group">
                 %Toggle%
             </div>
 
-            <div class="col-md-1">
+            <div class="col-md-1 col-xs-3">
                 <a href="../PHP/logout.php?logout">
                     <button id="LogOutButton" class="btn btn-default"> 
-								<span class="glyphicon glyphicon-log-out"></span> Abmelden
-							</button>
+								<span class="glyphicon glyphicon-log-out" style="color:#000;"></span> <a id="LogOutText" style="color:#000;">Abmelden</a>
+				    </button>
                 </a>
             </div>
 
-            <div class="col-md-1 col-md-offset-1" style="margin-left:105px;">
-                <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;padding-left:60px;color:#000;"></span> </a>
+            <div class="col-md-1 col-md-offset-1 col-xs-2" style="">
+                <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;float: right;color:#000;"></span> </a>
             </div>
 
         </div>
 
-        <div class="row nopadding">
+        <div id="ChaCont" class="row nopadding">
 
-            <div id="Chapter_window" class="col-md-12 nopadding myBox">
-                <p>
-                    %ChapterText%
-                </p>
+            <div id="Chapter_window" class="col-md-12 col-xs-12 nopadding myBox">
+
+                %ChapterText%
+
             </div>
 
             <div id="Button_C" class="row nopaddings col-md-2 col-md-offset-10">
@@ -102,13 +108,21 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Modal Header</h4>
                     </div>
-                    <form>
+                    <form method="post" id="modalForm">
                         <div class="modal-body">
-                            <textarea class="form-control col-xs-12" rows="7" style="max-width:100%;"></textarea>
+                            <div class="panel panel-default">
+                                <div id="AnzeigeBox" class="panel-body"></div>
+                            </div>
+
+                            <div class="form-group ">
+                                <textarea name="modalData"class="form-control" rows="5" id="InputBox" style="maxwidth:100%" form="modalForm">
+                                </textarea>
+                            </div>
+
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" name="SubmitButton" class="btn btn-info" data-dismiss="modal">Submit</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" name="AbgabeButton" class="btn btn-info">Abgeben</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
                         </div>
                     </form>
                 </div>
@@ -124,5 +138,13 @@
 
 
 </body>
+<script type="text/javascript">
+    var wpcomment = document.getElementById('InputBox');
+
+    wpcomment.onkeyup = wpcomment.onkeypress = function() {
+        document.getElementById('AnzeigeBox').innerHTML = this.value;
+    }
+
+</script>
 
 </html>

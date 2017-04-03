@@ -6,7 +6,7 @@
 
     // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit;
     }
     $myUser = $ODB->getUserFromID($_SESSION['user']);
@@ -168,31 +168,31 @@
 
                             </div>
                         </div>
-                    </form>  
+                   
                     
                     <div id="" class="row">
                         <div class="col-md-2 noPadding">
-                            <form method="post">
+                       
                                 <button id="PinkButton" type="submit" class="btn btn-block btn-primary pinkButton" name="btn-save">Speichern</button>
-                            </form>
-                        </div>
-
+                            </div>
+                        
+                        
+                        </form>
                         <div class="col-md-2">
-                            <form action="index.php">
+                            <form action="../PHP/userOverview.php">
                                 <button id="Button" type="submit" class="btn btn-default">Zurück</button>
                             </form>
                         </div>
 
-                    </div>    
-
-                </div>
-
-
-
+                    </div> 
+                    
+                
 
                 </div>
 
             </div>
+
+         </div>
 
     </body>
 

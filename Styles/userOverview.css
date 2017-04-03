@@ -121,7 +121,7 @@ body {
          #WrappingContainer {
             background-color:coral;
             margin: 0px auto;
-            padding: 0;
+            padding: 0; 
         }
         
         #ProfileContainer {

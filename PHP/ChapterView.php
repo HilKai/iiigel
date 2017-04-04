@@ -106,11 +106,24 @@
             $replace = array($Progress,$ProgressPercent);
             $myPage = str_replace($search,$replace,$Page);*/
 
-  
+    $toAdd = "";
    for ($i=0; $i< sizeof($myModule->chapter);$i++){  
             $myRow = file_get_contents('../HTML/ChapterViewListItem.html');
-            $search = array('%ChapterTitle%','%Link%');
-            $replace = array($myModule ->chapter[$i]->getsTitle(),"../PHP/ChapterView.php?moduleID=".$myModuleID."&chapterID=".$i."&groupID=".$currentGroupID );
+            $search = array('%ChapterTitle%','%Link%','%style%');
+            if ($i < $currentProgress){
+                  $style =  'background-color:#fdfdfd; text-align:center;';
+               
+            } else {
+                if ($i == $currentProgress){
+                     $style = 'background-color:#3169ff;text-align:center;';    
+                } else {
+                    $style = 'background-color:#dedede;text-align:center;' ;      
+                }
+            }
+            if ($i == $myChapterID){
+                $style = 'background-color:#547ce6; text-align:center;';  
+            }
+            $replace = array($myModule ->chapter[$i]->getsTitle(),"../PHP/ChapterView.php?moduleID=".$myModuleID."&chapterID=".$i."&groupID=".$currentGroupID,$style );
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;

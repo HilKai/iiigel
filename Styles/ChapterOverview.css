@@ -21,7 +21,7 @@
     #ChapterViewButton a {
         visibility: hidden;
     }
-    #TrainerViewButton a {
+    #TrainerText {
         visibility: hidden;
     }
     #LogOutButton {
@@ -63,7 +63,7 @@
     #ChapterViewButton a {
         visibility: hidden;
     }
-    #TrainerViewButton a {
+    #TrainerText {
         visibility: hidden;
     }
     #LogOutButton {
@@ -102,7 +102,7 @@
     #ChapterViewButton a {
         visibility: hidden;
     }
-    #TrainerViewButton a {
+    #TrainerText {
         visibility: hidden;
     }
     #LogOutButton {

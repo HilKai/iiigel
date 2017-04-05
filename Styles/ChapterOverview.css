@@ -308,7 +308,7 @@ body {
 }
 
 
-/*---------------------------------------Scrollbox---------------------------*/
+/*---------------------------------------Scrollbox---------------------------
 
 .myBox {
     border: none;
@@ -319,7 +319,7 @@ body {
 }
 
 
-/* Scrollbar styles */
+/* Scrollbar styles 
 
 ::-webkit-scrollbar {
     width: 12px;
@@ -339,6 +339,7 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #999;
 }
+*/
 
 #right_Container {
     font-size: 15px;
@@ -392,7 +393,7 @@ body {
     float: right;
     color: #000;
     font-size: 20px;
-    margin-top: 29px; 
+    margin-top: 29px;
 }
 
 .btn {
@@ -433,8 +434,9 @@ body {
     position: fixed;
     z-index: 1;
     top: 0;
-    left: 0;
+    right: 0;
     overflow-x: hidden;
+    transition: 0.5s;
     padding-top: 60px;
 }
 

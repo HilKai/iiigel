@@ -94,17 +94,17 @@
     $search = array('%Buttons%');
     $replace = array($toAdd);
     $myPage = str_replace($search,$replace,$myPage);
-
-  /* if ($ODB->isTrainerofGroup($myUserID,$currentGroupID)) {
-            $Progress=($myGroups[$currentGroupID]->getAverageProgressFromGroup())/sizeof($ODB->getModuleFromID($currentGroupID->getModulID())->chapter);
-            $ProgressPercent= 100*(($currentGroupID->getAverageProgressFromGroup())/sizeof($ODB->getModuleFromID($myGroups[$i]->getModulID())->chapter));
-        } else {
-            $Progress=$currentGroupID->getProgressFromUserID($_SESSION['user'])+1;
-            $ProgressPercent=(100*($currentGroupID->getProgressFromUserID($_SESSION['user'])+1)/(sizeof ($ODB->getModuleFromID($currentGroupID->getModulID()) -> chapter)));
-        }
-            $search = array( '%Progress%', '%ProgressPercent%');
-            $replace = array($Progress,$ProgressPercent);
-            $myPage = str_replace($search,$replace,$Page);*/
+    $ProgressPercent= 0;
+    if ($ODB->isTrainerofGroup($myUserID,$currentGroupID)) {
+        $Progress=($activeGroup->getAverageProgressFromGroup())/sizeof($myModule->chapter);
+        $ProgressPercent= 100*(($activeGroup->getAverageProgressFromGroup())/sizeof($myModule->chapter));
+    } else {
+        $Progress= $currentProgress;
+        $ProgressPercent=100*(($currentProgress)/(sizeof ($myModule->chapter)));
+    }
+   $search = array( '%Progress%', '%ProgressPercent%');
+   $replace = array($Progress,$ProgressPercent);
+   $myPage = str_replace($search,$replace,$myPage);
 
     $toAdd = "";
    for ($i=0; $i< sizeof($myModule->chapter);$i++){  

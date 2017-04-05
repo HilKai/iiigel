@@ -294,7 +294,7 @@ body {
 #Chapter_window {
     background-color: #fff;
     float: left;
-    border-radius: 10px;
+    border-radius: 2px;
     margin-bottom: 20px;
     -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.68);
     -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.68);
@@ -328,11 +328,11 @@ body {
 
 ::-webkit-scrollbar-track {
     background: #f5f5f5;
-    border-radius: 10px;
+    border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
+    border-radius: 2px;
     background: #ccc;
 }
 
@@ -350,7 +350,7 @@ body {
     padding: 0;
     background-color: #fff;
     float: left;
-    border-radius: 10px;
+    border-radius: 2px;
     text-align: left;
     overflow: hidden;
     -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.68);
@@ -408,7 +408,7 @@ body {
 
 #register_Container {
     Background-color: #fff;
-    border-radius: 8px;
+    border-radius: 2px;
     -webkit-box-shadow: 0px 0px 24px 0px rgba(0, 0, 0, 0.68);
     -moz-box-shadow: 0px 0px 24px 0px rgba(0, 0, 0, 0.68);
     box-shadow: 0px 0px 24px 0px rgba(0, 0, 0, 0.68);

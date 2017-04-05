@@ -186,7 +186,7 @@ body {
         }
         
         #ProfileContainer {
-             border-radius: 8px;
+             border-radius: 2px;
         }
         
         #Name  {
@@ -249,7 +249,7 @@ body {
         }
         
         #ProfileContainer {
-             border-radius: 8px;
+             border-radius: 2px;
         }
         
         #ProfilePic {
@@ -291,7 +291,7 @@ body {
         }
         
         #ProfileContainer {
-             border-radius: 8px;
+             border-radius: 2px;
         }
         
         #Name  {
@@ -406,7 +406,7 @@ body {
 				
 				.modul {
                     padding: 10px;
-                    border-radius: 8px;
+                    border-radius: 2px;
                     background-color: #fff; 
 				}
 				

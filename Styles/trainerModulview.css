@@ -10,6 +10,14 @@
             margin: 0 !important;
         }
         
+         #Home {
+            float:left !important;
+        }
+        
+        #LogOutButton {
+            float:left !important;
+        }
+        
         #LeftContainer{
             margin: 0 !important;
             padding: 0 !important;
@@ -36,6 +44,14 @@
             margin: 0 !important;
         }
         
+         #Home {
+            float:left !important;
+        }
+        
+        #LogOutButton {
+            float:left !important;
+        }
+        
         #LeftContainer{
             margin: 0 !important;
             padding: 0 !important;
@@ -58,6 +74,14 @@
         
         #WrappingContainer {
             width: 80%;
+        }
+        
+         #Home {
+            float:left !important;
+        }
+        
+        #LogOutButton {
+            float:left !important;
         }
         
         #LeftContainer{
@@ -83,6 +107,14 @@
         
         #WrappingContainer {
             width: 80%;
+        }
+        
+        #Home {
+            float:left !important;
+        }
+        
+        #LogOutButton {
+            float:left !important;
         }
         
         #LeftContainer{
@@ -128,6 +160,7 @@ body {
     background-attachment:fixed;
 	width: 100%;
 	height: 100%;
+    font-family: 'Open Sans Condensed', sans-serif;
 }
 
 	#WrappingContainer {
@@ -147,10 +180,23 @@ body {
 				font-family: 'Open Sans Condensed', sans-serif;
 				font-size: 60px;
 			}
+
+            #Home {
+                float: right;
+                color: #636363;
+                font-size: 20px;
+                margin-top: 4px; 
+                margin-right: 10px;
+            }
+
+                #Home :hover {
+                    color: #000;
+                }
 			
 			#LogOutButton {
 				display: inline-block;
                 float:right;
+                color: #636363;
 			}
 			
 		#Institution {

@@ -26,7 +26,7 @@
 	#Chapter_window {
 		background-color:#fff;
 		float:left;
-		border-radius:10px;
+		border-radius:2px;
 		-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 		-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 		box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
@@ -54,11 +54,11 @@
 
 			::-webkit-scrollbar-track {
 				background: #f5f5f5;
-				border-radius: 10px;
+				border-radius: 2px;
 			}
 
 			::-webkit-scrollbar-thumb {
-				border-radius: 10px;
+				border-radius:2px;
 				background: #ccc;  
 			}
 
@@ -74,7 +74,7 @@
 			padding:0;
 			background-color:#fff;
 			float:left;
-			border-radius:10px;
+			border-radius:2px;
 			text-align:center;
 			-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 			-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
@@ -149,7 +149,7 @@
 
 #register_Container {
 	Background-color:#fff;
-	border-radius:8px;
+	border-radius:2px;
 	-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 	-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 	box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
@@ -159,7 +159,7 @@
 
 #login_Container {
 	Background-color:#fff;
-	border-radius:8px;
+	border-radius:2px;
 	-webkit-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 	-moz-box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);
 	box-shadow: 0px 0px 24px 0px rgba(0,0,0,0.68);

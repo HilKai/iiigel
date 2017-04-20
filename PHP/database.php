@@ -43,6 +43,7 @@
         private $stmtaddUser;
         private $stmtaddHandIn;
         
+        private $stmtdeleteUser;
        
 
         private function query($statement) {
@@ -87,6 +88,9 @@
             //----- INSERTS -----
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword) VALUES                                                     (?,?,?,?,?)");
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
+            
+            //----- DELETES -----
+            $this->stmtdeleteUser = $this->db_connection->prepare("DELETE FROM users WHERE ID = ?");
         }
 		
         public function replaceTags ($_sContent){
@@ -233,7 +237,7 @@
         
         public function addUser($Username,$FirstName,$LastName,$Email,$Password){
             $this->stmtaddUser->bind_param("sssss",$Username,$FirstName,$LastName,$Email,$Password);
-            return $this->stmtaddUser->execute();
+            $this->stmtaddUser->execute();
         }
         
         public function addHandIn($UserID,$GroupID,$ChapterID,$Text){
@@ -382,12 +386,13 @@
             $res = $this->stmtGetAllInstitutions->get_result();
             $anz = $this->countInstitutions();
             $row = [];
+            $ins = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res); 
-                return new Institution($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sName'],$row[$i]['bIsDeleted']);
-                //echo $row[$i]['ID']." ".$row[$i]['sID']." ".$row[$i]['sName']." ".$row[$i]['bIsDeleted']."<br>";
-            }
-                
+                $ins[$i] = new Institution($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sName'],$row[$i]['bIsDeleted']);
+            } 
+            
+            return $ins;
             
         }
         
@@ -396,15 +401,15 @@
             $res = $this->stmtGetAllUsers->get_result();
             $anz = $this->countUsers();
             $row = [];
+            $users = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res);
-                return new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
-                                $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
-                                $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsAdmin'],$row[$i]['bIsOnline']); 
-                /*echo $row[$i]['ID']." ".$row[$i]['sID']." ".$row[$i]['sUsername']." ".$row[$i]['sFirstName']." ".
-                     $row[$i]['sLastName']." ".$row[$i]['sEMail']." ".$row[$i]['sHashedPassword']." ".
-                     $row[$i]['sProfilePicture']." ".$row[$i]['bIsVerified']." ".$row[$i]['bIsAdmin']." ".$row[$i]['bIsOnline']."<br>";*/
+                $users[$i] =  new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
+                                   $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
+                                   $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsAdmin'],$row[$i]['bIsOnline']); 
             }
+            
+            return $users;
             
         }
         
@@ -465,7 +470,10 @@
             $this->stmtAcceptHandIn->execute();
         }
         
-       
+       public function deleteUser($ID){
+           $this->stmtdeleteUser->bind_param("i",$ID);
+           $this->stmtdeleteUser->execute();
+       }
 		
     }
 

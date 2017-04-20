@@ -14,7 +14,6 @@
     define('MB', 1048576);
     define('GB', 1073741824);
     define('TB', 1099511627776);
-    
 
     $myUser = $ODB->getUserFromID($_SESSION['user']);
     $upload_folder = "../ProfilePics/";
@@ -65,10 +64,12 @@
     }
 
     //Alles okay, verschiebe Datei an neuen Pfad
-
+    
     //move_uploaded_file($_FILES['datei']['tmp_name'], $new_path);
     rename($_FILES['datei']['tmp_name'],$new_path);
+    chmod($new_path, 0644);
     echo 'Bild erfolgreich hochgeladen';
+    
     $ODB->setProfilePic($new_path,$myUser->getID());
 
     header("Location: editProfile.php");

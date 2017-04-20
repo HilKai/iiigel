@@ -53,6 +53,18 @@
                 }
             }
         }
+        
+        if(isset($_POST['acceptHandIn'])){
+            for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
+                if($myGroup->teilnehmer[$i]->getID() ==  $_POST['acceptHandIn']) {
+                        $id =$myGroup ->teilnehmer[$i]->getID();
+                        $ODB->acceptHandIn($id,$currentGroupID);
+                        header("Refresh:0");     
+                }
+            }
+            
+        }
+        
    }
  
     

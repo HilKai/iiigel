@@ -11,6 +11,8 @@
         header("Location: ../index.php");
         exit;
     }
+
+    
     // select loggedin users detail
     $myUser = $ODB->getUserFromID($_SESSION['user']); 
     $myGroups = $ODB->getGroupsFromUserID($_SESSION['user']);
@@ -41,6 +43,7 @@
         
         $toAdd = $toAdd . $myBox;
     }
+
     $myPage=str_replace('%Module%',$toAdd,$myPage);
     echo $myPage;
          

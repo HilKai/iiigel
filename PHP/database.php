@@ -25,7 +25,10 @@
 		private $stmtGetModuleFromID;
         private $stmtGetProfilePicFromUserID;
         private $stmtGetIDFromUsername;
-		
+        private $stmtCountInstitutions;
+        private $stmtCountUsers;
+        private $stmtGetAllInstitutions;
+		private $stmtGetAllUsers;
         
         private $stmtSetProfilePic;
         private $stmtSetFortschrittFromUserinGroup;
@@ -66,6 +69,10 @@
             $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
 			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
+            $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
+            $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users");
+            $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
+            $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             //----- UPDATES ------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
             $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
@@ -355,8 +362,51 @@
                 throw new exception('Mehr als ein Modul mit dieser ID');        
             }
         }
-		
-		
+        
+        public function countInstitutions(){
+            $this->stmtCountInstitutions->execute();
+            $res = $this->stmtCountInstitutions->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
+        public function countUsers(){
+            $this->stmtCountUsers->execute();
+            $res = $this->stmtCountUsers->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
+        public function getAllInstitutions(){
+            $this->stmtGetAllInstitutions->execute();
+            $res = $this->stmtGetAllInstitutions->get_result();
+            $anz = $this->countInstitutions();
+            $row = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                return new Institution($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sName'],$row[$i]['bIsDeleted']);
+                //echo $row[$i]['ID']." ".$row[$i]['sID']." ".$row[$i]['sName']." ".$row[$i]['bIsDeleted']."<br>";
+            }
+                
+            
+        }
+        
+        public function getAllUsers(){
+            $this->stmtGetAllUsers->execute();
+            $res = $this->stmtGetAllUsers->get_result();
+            $anz = $this->countUsers();
+            $row = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                return new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
+                                $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
+                                $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsAdmin'],$row[$i]['bIsOnline']); 
+                /*echo $row[$i]['ID']." ".$row[$i]['sID']." ".$row[$i]['sUsername']." ".$row[$i]['sFirstName']." ".
+                     $row[$i]['sLastName']." ".$row[$i]['sEMail']." ".$row[$i]['sHashedPassword']." ".
+                     $row[$i]['sProfilePicture']." ".$row[$i]['bIsVerified']." ".$row[$i]['bIsAdmin']." ".$row[$i]['bIsOnline']."<br>";*/
+            }
+            
+        }
         
         public function setProfilePic($sProfilePic,$ID){
             $this->stmtSetProfilePic->bind_param("si",$sProfilePic,$ID);

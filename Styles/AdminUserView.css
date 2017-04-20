@@ -248,6 +248,10 @@ body {
 				margin-top: 30px;
 			}
 
+            #Table tr{
+                color: #636363 !important;
+            }
+
                 .centerLeft {
                     text-align: left;
                 }
@@ -268,7 +272,12 @@ body {
 			
 				.tableIcon {
                     text-align: center;
+                    color: #636363 !important;
 				}
+
+                .tableIcon :hover {
+                    color: #ddd !important;
+                }
 			
 				
 				#AddUser {

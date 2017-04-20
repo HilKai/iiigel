@@ -1,0 +1,66 @@
+body {
+    background-image: url("../Images/FN_091.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#WrappingContainer {
+    border-radius: 2px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+/*------------HEADER-------------*/
+
+.searchField {
+    border: 0px;
+    border-bottom: 1px;
+    float: left;
+    padding-left: 10px;
+    padding-top: 17px;
+    font-size: 20px;
+}
+
+.searchIcon {
+    float: left;
+    margin-left: 40px;
+    padding-top: 20px;
+    font-size: 20px;
+}
+
+.line {
+    margin-left: 70px;
+    margin-top: 0px;
+}
+
+.headline {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 60px;
+    float: left;
+}
+
+
+/*----------BODY-----------------*/
+
+#institutionsOverview {
+    margin-left: 25px;
+}
+
+#AddInstitution {
+    text-align: center;
+    color: #ddd;
+}
+
+.cursorHover:hover span {
+    cursor: pointer;
+}
+
+.noPadding {
+    padding: 0 !important;
+}

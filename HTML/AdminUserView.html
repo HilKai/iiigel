@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../Styles\AdminUserView.css" type="text/css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Schrift -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="WrappingContainer" class="container">
+
+        <div id="Container" class="row">
+
+            <div class="col-md-9 col-xs-12 noPadding">
+                <h1 id="ModulHeading">Benutzer Verwaltung</h1>
+            </div>
+            
+            <div class="col-md-1 col-xs-1 noPadding">
+                <a id="Home" href="../PHP/userOverview.php">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
+            </div>
+
+            <div class="col-md-2 col-xs-11 noPadding">
+                <a href="../PHP/logout.php?logout">
+                    <button id="LogOutButton" class="btn btn-default"> <span class="glyphicon glyphicon-log-out"></span> Abmelden</button>
+                </a>
+            </div>
+
+        </div>
+        
+        <div id="SearchContainer" class="row">
+            <form class="col-md-12 noPadding">
+                <input class="search form" type="text" name="search" placeholder="Suche..">   
+                <button id="GoButton" class="btn btn-default"> <span class="glyphicon glyphicon-search"></span> Los!</button>
+            </form> 
+        </div>    
+
+        <div id="OverviewContainer" class="row">
+
+            <div class="col-md-12 noPadding">
+
+                <table id="Table" class="table">
+                    <thead>
+                        <tr>
+                            <th class="chapter centerLeft">Username</th>
+                            <th class="centerLeft">Vorname</th>
+                            <th class="centerLeft">Nachname</th>
+                            <th class="hidden-xs centerLeft">E-Mail Adresse</th>
+                            <th class="center">Bearbeiten</th>
+                            <!--Kapitelhochsetzen-->
+                            <th class="center">Löschen</th>
+                            <!--Abgabe-Benachrichtigung-->
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        %Tablerow%
+                    </tbody>
+                </table>
+            </div>
+
+            </div>
+
+        </div>
+
+</body>
+
+</html>

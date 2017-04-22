@@ -27,8 +27,10 @@
         private $stmtGetIDFromUsername;
         private $stmtCountInstitutions;
         private $stmtCountUsers;
+        private $stmtCountInstitutionsFromUser;
         private $stmtGetAllInstitutions;
 		private $stmtGetAllUsers;
+        private $stmtgetInstitutionsFromUserID;
         
         private $stmtSetProfilePic;
         private $stmtSetFortschrittFromUserinGroup;
@@ -41,6 +43,7 @@
         private $stmtAcceptHandIn;
         
         private $stmtaddUser;
+        private $addInstitution;
         private $stmtaddHandIn;
         
         private $stmtdeleteUser;
@@ -72,8 +75,10 @@
 			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
             $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users");
+            $this->stmtCountInstitutionsFromUser = $this->db_connection->prepare("SELECT COUNT(InstitutionID) FROM usertoinstitution WHERE UserID = ?");
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
+            $this->stmtgetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
             //----- UPDATES ------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
             $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
@@ -88,6 +93,7 @@
             //----- INSERTS -----
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword) VALUES                                                     (?,?,?,?,?)");
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
+            $this->stmtaddInstitutions = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
             
             //----- DELETES -----
             $this->stmtdeleteUser = $this->db_connection->prepare("DELETE FROM users WHERE ID = ?");
@@ -240,6 +246,11 @@
             $this->stmtaddUser->execute();
         }
         
+        public function addInstitution($sName){
+            $this->stmtaddInstitutions->bind_param("s",$sName);
+            $this->stmtaddInstitutions->execute();
+        }
+        
         public function addHandIn($UserID,$GroupID,$ChapterID,$Text){
             $this->stmtaddHandIn->bind_param("iiis",$UserID,$GroupID,$ChapterID,$Text);
             $this->stmtaddHandIn->execute();
@@ -381,6 +392,14 @@
             return $row['COUNT(ID)'];
         }
         
+        public function countInstitutionsFromUser($UserID){
+            $this->stmtCountInstitutionsFromUser->bind_param("i",$UserID);
+            $this->stmtCountInstitutionsFromUser->execute();
+            $res = $this->stmtCountInstitutionsFromUser->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(InstitutionID)'];
+        }
+        
         public function getAllInstitutions(){
             $this->stmtGetAllInstitutions->execute();
             $res = $this->stmtGetAllInstitutions->get_result();
@@ -411,6 +430,21 @@
             
             return $users;
             
+        }
+        
+        public function getInstitutionsFromUserID($UserID){
+            $this->stmtgetInstitutionsFromUserID->bind_param("i",$UserID);
+            $this->stmtgetInstitutionsFromUserID->execute();
+            $res = $this->stmtgetInstitutionsFromUserID->get_result();
+            $anz = $this->countInstitutionsFromUser($UserID);
+            $row = [];
+            $ins = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                $ins[$i] = $row[$i]['InstitutionID'];
+            } 
+            
+            return $ins;
         }
         
         public function setProfilePic($sProfilePic,$ID){

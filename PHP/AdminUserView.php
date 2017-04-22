@@ -12,10 +12,12 @@
 
     $toAdd = "";
 
-    for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
+    $allUsers = $ODB->getAllUsers();
+
+    for ($i=0; $i< sizeof($allUsers);$i++){   
         $myRow = file_get_contents('../HTML/AdminUserViewTablerow.html');
-            $search = array('%Prename%', '%Lastname%', '%Mail%', '%Institution%');
-            $replace = array($myGroup ->teilnehmer[$i]->getsFirstName(), $myGroup ->teilnehmer[$i]->getsLastName(), , );
+            $search = array('%Username%', '%Prename%', '%Lastname%', '%Mail%');
+            $replace = array($allUsers[$i]->getsUsername(), $allUsers[$i]->getsFirstName(), $allUsers[$i]->getsLastName(), $allUsers[$i]->getsEMail());
             $myRow = str_replace($search,$replace,$myRow);
         
         $toAdd = $toAdd . $myRow;

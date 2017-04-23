@@ -1,0 +1,241 @@
+body {
+	background-color: #e1e1e1;
+	background-image: url("../Images/FN_091.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+	
+}
+
+/* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 320px) and (min-width: 0px) {
+        #WrappingContainer {
+            margin: 0px auto;
+            padding: 0;
+            width: 340px;
+        }
+        
+        #ProfileContainer {
+            border-radius: 0px;
+        }
+        
+        #Heading  {
+            font-size: 40px;
+        }
+        
+        #PicContainer {
+            margin-left: 50px;
+        }
+        
+       #ProfilePic {
+            width: 100px;
+            height: 100px;
+        }  
+    }
+
+/* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 480px) and (min-width: 320px) {
+        #WrappingContainer {
+            margin: 0px auto;
+            padding: 0;
+            min-width: 340px;
+        }
+        
+        #ProfileContainer {
+            border-radius: 0px;
+        }
+        
+        #Heading  {
+            font-size: 40px;
+        }
+        
+        #PicContainer {
+            margin-left: 50px;
+        }
+        
+       #ProfilePic {
+            width: 100px;
+            height: 100px;
+        }  
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (max-width:768px) and (min-width:480px) {
+        #WrappingContainer {
+            margin: 0px auto;
+            padding: 0;
+        }
+        
+        #ProfileContainer {
+            border-radius: 0px;
+        }
+        
+        #Heading  {
+            font-size: 75px;
+        }
+        
+         #PicContainer {
+            margin-left: 50px;
+        }
+        
+        #ProfilePic {
+            width: 100px;
+            height: 100px;
+        } 
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (max-width : 992px) and (min-width:768px) {
+        #WrappingContainer {
+            margin: 20px auto;
+            padding: 0;
+        }
+        
+        #ProfileContainer {
+            border-radius: 8px;
+        }
+        
+        #Heading  {
+            font-size: 75px;
+        }
+        
+        #PicContainer {
+            margin-left: 50px;
+        }
+        
+        #ProfilePic {
+            width: 100px;
+            height: 100px;
+        } 
+    }
+
+
+    /* Medium Devices, Desktops */
+    @media only screen and (max-width : 1200px) and (min-width : 992px) {
+        #WrappingContainer {
+            margin: 20px auto;
+            padding: 0;
+        }
+        
+        #ProfileContainer {
+            border-radius: 8px;
+        }
+        
+        #Heading  {
+            font-size: 75px;
+        }
+
+         #PicContainer {
+            margin-left: 0px;
+        }
+        
+        
+        #ProfilePic {
+            width: 200px;
+            height: 200px;
+        }  
+        
+        #Hochladen {
+            margin: 5px 0px 0px 140px;
+        }
+        
+        #PinkButton {
+            width: 100px;
+        }
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+
+        #WrappingContainer {
+            margin: 20px auto;
+            padding: 0;
+	    }
+        
+        #ProfileContainer {
+            border-radius: 8px;
+        }
+        
+        #Heading  {
+            font-size: 75px;
+        }
+        
+        #ProfilePic {
+            width: 260px;
+            height: 260px;
+        }
+        
+        #Hochladen {
+            margin: 5px 0px 0px 190px;
+        }
+        
+    }
+
+	
+		#ProfileContainer {
+			padding: 40px;
+            background-color: #fff;
+            font-family: 'Open Sans', sans-serif;
+		}
+
+             #ProfileTextContainer {
+                padding-left: 30px; 
+                 margin-left: 40px;
+		      }
+
+                #Heading  {
+                    margin: 0px 0px 20px 0px;
+                    padding-bottom: 10px;
+                    font-family: 'Open Sans Condensed', sans-serif;
+                }
+
+.label {
+    color: #000;
+    font-size: 15px;
+}
+
+                #PinkButton {
+                    background-color: #e31465;	
+                  float: left;
+                    color: #fff;
+                    margin:  25px 10px 10px 0px;
+                    width: 100px;
+                    
+                }
+
+                    #PinkButton:hover {
+                        background-color:#755F5A;
+                    }
+
+                #PasswortButton {
+                    margin-bottom: 15px;
+                    margin-top: 15px;
+                }
+
+        
+#Button {
+    float: left;
+    margin: 25px 0px 0px 0px;
+}
+
+.noPadding {
+	padding:0 !important;
+
+}				
+
+.form {
+    width: 80%;
+}
+
+.label {
+    
+}
+
+#Hochladen {
+    font-size: 10px;
+    width: 100px;
+    height: 30px;
+     background-color: #e31465;	
+    color: #fff;
+    margin-top: 2px;
+}

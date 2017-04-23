@@ -16,7 +16,6 @@
         if(isset($_POST['DeleteUser'])){      
                  for ($i=0; $i< sizeof($allUsers);$i++){  
                     if($allUsers[$i]->getID() ==  $_POST['DeleteUser']) {
-                        echo "pipsi";
                         $ODB->deleteUser($allUsers[$i]->getID());
                         header("Refresh:0");     
                     }

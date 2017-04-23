@@ -5,13 +5,12 @@
     include_once("Model/user.php");
 
     // if session is not set this will redirect to login page
-    if( !isset($_SESSION['user']) ) {
+    /*if( !isset($_SESSION['user']) ) {
         header("Location: ../index.php");
         exit;
-    }
+    }*/
 
-    $myUser = $_GET['userID'];
-
+    $myUser = $ODB->getUserFromID($_GET['userID']);
 	
 	if ( isset($_POST['btn-save']) ) {
         $error = false;
@@ -38,7 +37,7 @@
                 $error = true;
                 $usernameError = "Ihr Benutzername muss länger als 3 Zeichen sein";
             }
-             if ($ODB->isViableUsername($_SESSION['user'], $username) == false){
+             if ($ODB->isViableUsername($myUser, $username) == false){
 			     $error = true;
 			     $usernameError = "Dieser Username ist bereits vergeben.";
 		    }
@@ -63,7 +62,7 @@
                 $error = true;
                 $emailError = "Bitte geben Sie eine gültige E-Mail Adresse ein.";
             } else {
-                if ($ODB->isViableEMail($_SESSION['user'], $email) == false){
+                if ($ODB->isViableEMail($myUser, $email) == false){
                     $error = true;
                     $emailError = "Ihre angegebene E-Mail ist bereits vergeben.";
                 }
@@ -71,15 +70,16 @@
         }
         
         if( !$error ) {
-           if (!empty($username)) {$ODB->setUsernameFromID($username,$_SESSION['user']);};
-           if (!empty($vorname)) {$ODB->setFirstNameFromID($vorname,$_SESSION['user']);};
-           if (!empty($nachname)) {$ODB->setLastNameFromID($nachname,$_SESSION['user']);};
-           if (!empty($email)) {$ODB->setEMailFromID($email,$_SESSION['user']);};
+           if (!empty($username)) {$ODB->setUsernameFromID($username,$myUser);};
+           if (!empty($vorname)) {$ODB->setFirstNameFromID($vorname,$myUser);};
+           if (!empty($nachname)) {$ODB->setLastNameFromID($nachname,$myUser);};
+           if (!empty($email)) {$ODB->setEMailFromID($email,$myUser);};
             unset($username);
             unset($vorname);
             unset($nachname);
             unset($email);
-		    header("Location: editProfile.php");
+            $userID = $myUser->getID();
+		    header("Location: AdminEditUser.php?userID=".$userID."");
 	   } 
 
 		
@@ -180,7 +180,7 @@
                         
                         </form>
                         <div class="col-md-2">
-                            <form action="../PHP/userOverview.php">
+                            <form action="../PHP/AdminUserView.php">
                                 <button id="Button" type="submit" class="btn btn-default">Zurück</button>
                             </form>
                         </div>

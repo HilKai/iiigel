@@ -10,7 +10,10 @@
         exit;
     }*/
 
-    $myUser = $ODB->getUserFromID($_GET['userID']);
+    global $myUser;
+$myUser = $ODB->getUserFromID($_GET['userID']);
+    global $userID;
+$userID= $myUser->getID();
 	
 	if ( isset($_POST['btn-save']) ) {
         $error = false;
@@ -78,7 +81,6 @@
             unset($vorname);
             unset($nachname);
             unset($email);
-            $userID = $myUser->getID();
 		    header("Location: AdminEditUser.php?userID=".$userID."");
 	   } 
 
@@ -139,7 +141,7 @@
 
 
 
-                    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
+                    <form method="post" action="<?php echo "AdminEditUser.php?userID=".$userID.""; ?>" autocomplete="off">
                         <div class="row">
                             <div class="col-md-6 noPadding">
                                 <div class="form-group">

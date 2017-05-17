@@ -74,29 +74,26 @@
                 </table>
             </div>
             
-            <!-- Trigger the modal with a button -->
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
 
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Abgabe</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>Hier könnte deine Abgabe stehen...</p>
+                  </div>
+                  <div class="modal-footer">
+                    <form action="post"><button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button></form>
+                  </div>
+                </div>
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Abgabe</h4>
-      </div>
-      <div class="modal-body">
-        <p>Hier könnte deine Abgabe stehen...</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
+              </div>
+            </div>
 
             <div id="LeftContainer" class="col-md-4">
 
@@ -170,8 +167,8 @@
                         if ((document.getElementsByClassName("notification")[i].id == $userHandInID) && (document.getElementsByClassName("notification")[i].style.color != "rgb(227, 20, 101)")) {
                             document.getElementsByClassName("notification")[i].style.color = "#e31465";
                             audio.play();
-                            document.getElementsByClassName("notification")[i].setAttribute(data-toggle,"modal");
-                            document.getElementsByClassName("notification")[i].setAttribute(data-target,"#myModal");
+                            document.getElementsByClassName("notification")[i].setAttribute("data-toggle","modal");
+                            document.getElementsByClassName("notification")[i].setAttribute("data-target","#myModal");
                         }
                     }
 
@@ -179,6 +176,22 @@
                 //document.form.Bla.value = "#ff00000";
             }
         });
+    }
+    
+    function modalValue(tnId) {
+        document.getElementById("ModalBtn").value = tnId;
+    }
+    
+    function acceptHandIn(obj) {
+       var tnID = obj.value;
+       $groupID = "%GroupID%";
+        
+        $.ajax({
+            url: "acceptHandIn.php?groupID=" + $groupID +"&"+"tnID=" + tnID ,
+        
+        });
+        
+        location.reload();
     }
 
 </script>

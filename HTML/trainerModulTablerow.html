@@ -1,4 +1,5 @@
  <form method="post" autocomplete="off">
+     
     <tr value="%ID%">
     <td>%Prename%</td>
     <td>%Lastname%</td>
@@ -9,7 +10,8 @@
         </div>
     </td>
     <td class="chapter">%Progress%</td>
-    <td class="levelUp cursorHover"><button type="submit" name = "levelUp"  value="%ID%" style="background-color: transparent; border-color: transparent" class="glyphicon glyphicon-circle-arrow-up"></button></td>
-    <td class="cursorHover" ><button  id="%ID%" class="notification glyphicon glyphicon-bell" type="button" value="%ID%" data-toggle="" data-target=""></button></td>
-     </tr>
-</form>
+    <td class="levelUp cursorHover"><button type="submit" name = "levelUp"  value="%ID%" style="background-color: transparent; border-color: transparent" class="glyphicon glyphicon-circle-arrow-up"></button></td>   
+    <td class="cursorHover" ><span  id="%ID%" name="" class="notification glyphicon glyphicon-bell" type="button" value="%ID%" data-toggle="" data-target="" onclick="modalValue(%ID%)"></span></td>
+    </tr>
+     
+</form> 

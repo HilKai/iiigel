@@ -47,6 +47,7 @@
         private $stmtaddHandIn;
         
         private $stmtdeleteUser;
+        private $stmtdeleteHandIn;
        
 
         private function query($statement) {
@@ -97,6 +98,7 @@
             
             //----- DELETES -----
             $this->stmtdeleteUser = $this->db_connection->prepare("DELETE FROM users WHERE ID = ?");
+            $this->stmtdeleteHandIn = $this->db_connection->prepare("DELETE FROM handins WHERE ID = ?");
         }
 		
         public function replaceTags ($_sContent){
@@ -507,6 +509,11 @@
        public function deleteUser($ID){
            $this->stmtdeleteUser->bind_param("i",$ID);
            $this->stmtdeleteUser->execute();
+       }
+        
+       public function deleteHandIn($ID){
+           $this->stmtdeleteHandIn->bind_param("i",$ID);
+           $this->stmtdeleteHandIn->execute();
        }
 		
     }

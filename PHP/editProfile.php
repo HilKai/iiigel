@@ -107,7 +107,7 @@
 
                 <div id="PicContainer" class="col-md-3 col-xs-2 hidden-xs noPadding">
 
-                    <img id="ProfilePic" class="img-responsive img-circle" src="<?php echo $ODB->getProfilePicFromID($myUser->getID()); ?>" alt="ProfilePic">
+                    <div id="ProfilePic" class="img-responsive img-circle" style="background-image: url(<?php echo $ODB->getProfilePicFromID($myUser->getID()); ?>); background-size: 230px;"> </div>
 
                 </div>
 

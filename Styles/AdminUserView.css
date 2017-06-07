@@ -253,9 +253,7 @@ body {
             }
 
 
-             #Link{
-                color: #636363 !important;
-            }
+
                 .centerLeft {
                     text-align: left;
                 }
@@ -281,6 +279,7 @@ body {
 
                 .tableIcon :hover {
                     color: #ddd !important;
+                    text-decoration: none;
                 }
 			
 				

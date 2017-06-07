@@ -8,7 +8,7 @@ class Module {
     private $sIcon;
     private $bIsDeleted;
     private $bIsLive;
-    public $chapter = array();
+    public  $chapter = array();
 
     public function __construct($ID, $sID, $sName, $sDescription, $sLanguage, $sIcon, $bIsDeleted, $bIsLive, $aChapters) {
 

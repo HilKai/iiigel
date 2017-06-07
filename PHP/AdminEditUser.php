@@ -11,10 +11,10 @@
     }*/
 
     global $myUser;
-$myUser = $ODB->getUserFromID($_GET['userID']);
+    $myUser = $ODB->getUserFromID($_GET['userID']);
     global $userID;
-$userID= $myUser->getID();
-	
+    $userID= $myUser->getID();
+
 	if ( isset($_POST['btn-save']) ) {
         $error = false;
 		/*PREVENT SQL INJECTION*/
@@ -40,7 +40,7 @@ $userID= $myUser->getID();
                 $error = true;
                 $usernameError = "Ihr Benutzername muss länger als 3 Zeichen sein";
             }
-             if ($ODB->isViableUsername($myUser, $username) == false){
+             if ($ODB->isViableUsername($userID, $username) == false){
 			     $error = true;
 			     $usernameError = "Dieser Username ist bereits vergeben.";
 		    }
@@ -65,7 +65,7 @@ $userID= $myUser->getID();
                 $error = true;
                 $emailError = "Bitte geben Sie eine gültige E-Mail Adresse ein.";
             } else {
-                if ($ODB->isViableEMail($myUser, $email) == false){
+                if ($ODB->isViableEMail($userID, $email) == false){
                     $error = true;
                     $emailError = "Ihre angegebene E-Mail ist bereits vergeben.";
                 }
@@ -73,10 +73,10 @@ $userID= $myUser->getID();
         }
         
         if( !$error ) {
-           if (!empty($username)) {$ODB->setUsernameFromID($username,$myUser);};
-           if (!empty($vorname)) {$ODB->setFirstNameFromID($vorname,$myUser);};
-           if (!empty($nachname)) {$ODB->setLastNameFromID($nachname,$myUser);};
-           if (!empty($email)) {$ODB->setEMailFromID($email,$myUser);};
+           if (!empty($username)) {$ODB->setUsernameFromID($username,$userID);};
+           if (!empty($vorname)) {$ODB->setFirstNameFromID($vorname,$userID);};
+           if (!empty($nachname)) {$ODB->setLastNameFromID($nachname,$userID);};
+           if (!empty($email)) {$ODB->setEMailFromID($email,$userID);};
             unset($username);
             unset($vorname);
             unset($nachname);
@@ -139,9 +139,7 @@ $userID= $myUser->getID();
                         </div>
                     </div>
 
-
-
-                    <form method="post" action="<?php echo "AdminEditUser.php?userID=".$userID.""; ?>" autocomplete="off">
+                    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])."?userID=".$userID."";?>" autocomplete="off">
                         <div class="row">
                             <div class="col-md-6 noPadding">
                                 <div class="form-group">

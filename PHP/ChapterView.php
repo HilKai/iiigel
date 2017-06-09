@@ -111,17 +111,17 @@
             $myRow = file_get_contents('../HTML/ChapterViewListItem.html');
             $search = array('%ChapterTitle%','%Link%','%style%');
             if ($i < $currentProgress){
-                  $style =  'background-color:#fdfdfd; text-align:center;';
+                  $style =  'background-color:#fdfdfd;';
                
             } else {
                 if ($i == $currentProgress){
-                     $style = 'background-color:#3169ff;text-align:center;';    
+                     $style = 'background-color:#bcd2ee;';    
                 } else {
-                    $style = 'background-color:#dedede;text-align:center;' ;      
+                    $style = 'background-color:#dedede;' ;      
                 }
             }
             if ($i == $myChapterID){
-                $style = 'background-color:#547ce6; text-align:center;';  
+                $style = 'background-color:#bcd2ee;';  
             }
             $replace = array($myModule ->chapter[$i]->getsTitle(),"../PHP/ChapterView.php?moduleID=".$myModuleID."&chapterID=".$i."&groupID=".$currentGroupID,$style );
             $myRow = str_replace($search,$replace,$myRow);

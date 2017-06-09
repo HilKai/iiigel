@@ -5892,7 +5892,9 @@ button.close {
       -ms-transform: translate(0, -25%);
        -o-transform: translate(0, -25%);
           transform: translate(0, -25%);
+    
 }
+
 .modal.in .modal-dialog {
   -webkit-transform: translate(0, 0);
       -ms-transform: translate(0, 0);

@@ -36,6 +36,7 @@
     #Chapter_window {
         width: 300px;
         margin-top: 20px;
+        word-wrap: break-word;
     }
 }
 
@@ -374,10 +375,6 @@ body {
     background-color: #8ba1bf;
 }
 
-.chapter_nav :active {
-    background-color: #7e92ac;
-}
-
 .chapter_nav_last {
     height: 30px;
 }
@@ -456,8 +453,8 @@ body {
 
 .sidenav .closebtn {
     position: absolute;
-    top: 0;
-    right: 25px;
+    margin-top: 0px;
+    right: 15px;
     font-size: 36px;
     margin-left: 50px;
 }

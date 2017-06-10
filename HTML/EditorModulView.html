@@ -5,10 +5,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../Styles\AdminUserView.css" type="text/css">
+    <link rel="stylesheet" href="../Styles\EditModulView.css" type="text/css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../JQuery/jquery2.js"></script>
+    <script src="../JQuery/jquery1.js"></script>
+    <script>
+      $( function() {
+        $( "#sortable" ).sortable();
+        $( "#sortable" ).disableSelection();
+      } );
+    </script>
     <!-- Schrift -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -51,8 +59,12 @@
                             <!--Kapitelhochsetzen-->
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="sortable">
                         %Tablerow%
+                         <tr>
+                            <td id="AddUser" class="cursorHover" colspan="6"><span class="glyphicon glyphicon-plus"></span></td>
+
+                        </tr>
                     </tbody>
                 </table>
             </div>

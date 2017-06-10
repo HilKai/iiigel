@@ -1,0 +1,363 @@
+/* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 320px) and (min-width: 0px) {
+        body {
+	       background-image: url("");
+        }
+        
+        #WrappingContainer {
+            min-width: 360px !important;
+            border-radius: 0px !important;
+            margin: 0 !important;
+        }
+        
+         #Home {
+            float:left !important;
+        }
+        
+        #LogOutButton {
+            float:left !important;
+        }
+        
+        #LeftContainer{
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        #ChapterViewButton {
+            margin: 0 !important;
+        }
+        
+        #AllLevelUp {
+                margin: 20px 0px 0px 0px !important;
+        }
+    }
+
+/* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 480px) and (min-width: 320px) {
+        body {
+	       background-image: url("");
+        }
+        
+        #WrappingContainer {
+             min-width: 360px !important;
+            border-radius: 0px !important;
+            margin: 0 !important;
+        }
+        
+         #Home {
+            float:left !important;
+        }
+        
+        #LogOutButton {
+            float:left !important;
+        }
+        
+        #LeftContainer{
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+         #ChapterViewButton {
+            margin: 0 !important;
+        }
+        
+        #AllLevelUp {
+                margin: 20px 0px 0px 0px !important;
+        }
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (max-width:768px) and (min-width:480px) {
+        body {
+	       background-image: url("../Images/FN_091.jpg");
+        }
+        
+        #WrappingContainer {
+            width: 80%;
+        }
+        
+         #Home {
+            float:left !important;
+        }
+        
+        #LogOutButton {
+            float:left !important;
+        }
+        
+        #LeftContainer{
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+         #ChapterViewButton {
+            margin: 0 !important;
+        }
+        
+        #AllLevelUp {
+                margin: 20px 0px 0px 0px !important;
+        }
+    }
+
+
+    @media only screen and (max-width : 992px) and (min-width : 768px) {
+        
+        body {
+	       background-image: url("../Images/FN_091.jpg");
+        }
+        
+        #WrappingContainer {
+            width: 80%;
+        }
+        
+        #Home {
+            float:left !important;
+        }
+        
+        #LogOutButton {
+            float:left !important;
+        }
+        
+        #LeftContainer{
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+         #ChapterViewButton {
+            margin: 0 !important;
+        }
+        
+        #AllLevelUp {
+                margin: 20px 0px 0px 0px !important;
+        }
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (max-width : 1200px) and (min-width : 992px) {
+        body {
+	       background-image: url("../Images/FN_091.jpg");
+        }
+        
+        #WrappingContainer {
+            width: 80%;
+        }
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+        body {
+	       background-image: url("../Images/FN_091.jpg");
+        }
+        
+        #WrappingContainer {
+            width: 80%;
+        }
+        
+    }
+
+body {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+	width: 100%;
+	height: 100%;
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+	#WrappingContainer {
+		border-radius: 2px;
+		margin: 20px auto;
+		background-color: #fff;
+		padding: 0;
+		font-family: 'Open Sans', sans-serif;
+	}
+	
+		#Container {
+			margin:  40px 40px 20px 40px;
+		}
+	
+			#ModulHeading {
+				margin: 0;
+				font-family: 'Open Sans Condensed', sans-serif;
+				font-size: 60px;
+			}
+
+            #Home {
+                float: right;
+                color: #636363;
+                font-size: 20px;
+                margin-top: 4px; 
+                margin-right: 10px;
+            }
+
+                #Home :hover {
+                    color: #000;
+                }
+			
+			#LogOutButton {
+				display: inline-block;
+                float:right;
+                color: #636363;
+			}
+			
+		#Institution {
+			font-size: 20px;
+			color: #636363;
+		}
+
+
+        #SearchContainer {
+            margin: 40px 40px 0px 40px;
+        }
+
+            .search[type=text] {
+                width: 130px;
+                height: 40px;
+                border-top-left-radius: 3px;
+                border-bottom-left-radius: 3px;
+                -webkit-transition: width 0.4s ease-in-out;
+                transition: width 0.4s ease-in-out;
+                padding:0px 0px 0px 5px; 
+                margin: 0;
+            }
+
+            /* When the input field gets focus, change its width to 100% */
+            .search[type=text]:focus {
+                 width: calc(100% - 80px); 
+            }
+
+            #GoButton {
+                margin: -2px 0px 0px -5px;
+                border: 0px;
+                padding: :0;
+                height: 40px;
+                width: 70px;
+                border-top-left-radius: 0px;
+                border-bottom-left-radius: 0px;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+                background-color:#e31465;
+                color: #fff;
+            }
+
+
+		#OverviewContainer {
+			margin: 0px 40px 40px 40px;
+		}
+		
+			#Table {
+				margin-top: 30px;
+			}
+
+            #Table tr{
+                color: #636363 !important;
+            }
+
+                #Table tr:hover {
+                    cursor: pointer;
+                }
+
+
+
+                .centerLeft {
+                    text-align: left;
+                }
+
+                .center{
+                    text-align: center;
+                }
+			
+				.chapterBarOuter {
+					height: 15px;
+					margin-bottom:0;
+				}
+				
+					.chapterBar {
+						background-color:#e31465;
+					}
+
+			
+				.tableIcon {
+                    text-align: center;
+                    color: #636363 !important;
+				}
+
+                .tableIcon :hover {
+                    color: #ddd !important;
+                    text-decoration: none;
+                }
+			
+				
+				#AddUser {
+					text-align: center;
+					color: #ddd;
+				}	
+		
+		#ChapterViewButton {
+			display: inline-block;
+			background-color: #fff;
+			margin-left:20px;
+            color:black !important;
+		}
+
+            #ChapterViewButton a {
+                color: #000;
+            }
+		
+			#ChapterViewButton:hover {
+				background-color: #ccc;
+				-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+				box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+			}
+
+		#TrainerViewButton {
+			display: inline-block;
+			background-color: #f1f1f1;
+            color:black !important;
+		}
+		
+
+             #TrainerViewButton a {
+                color: #000;
+            }
+			#TrainerViewButton:hover{
+				cursor: default;
+			}
+			
+		#LevelAllUp {
+			font-family: 'Open Sans', sans-serif;
+			font-size: 20px;
+		}
+
+		#AllLevelUp {
+			margin: 20px 0px 0px 20px;
+			font-size:small;
+		}
+		
+		#DropdownContainer{
+			display: inline-block;
+		}
+		
+			.scrollable-menu {
+				height: auto;
+				max-height: 150px;
+				overflow-x: hidden;
+			}
+			
+		#PinkButton {
+			background-color: #e31465;	
+			color: #fff;
+		}
+
+			#PinkButton:hover {
+				background-color:#755F5A;
+			}
+
+
+			
+.noPadding {
+	padding:0 !important;
+}
+
+.cursorHover:hover span{
+	cursor:pointer;
+}			

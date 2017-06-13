@@ -292,6 +292,18 @@ body {
 					color: #ddd;
 				}	
 		
+			#EditContainer {
+				margin-top: 36px;
+				padding-left: 40px;
+				
+			}
+
+				#EditContainer h1 {
+					font-size: 23px;
+					padding-bottom: 5px;
+					margin: 0;
+				}
+
 		#ChapterViewButton {
 			display: inline-block;
 			background-color: #fff;
@@ -352,12 +364,29 @@ body {
 				background-color:#755F5A;
 			}
 
+#ModulText {
+	padding: 30px 0px 0px 0px;
+}
+
+	.input {
+		margin: 46px 0px 8px 0px !important;
+	}
+
+
 
 			
 .noPadding {
 	padding:0 !important;
 }
 
+.noMargin {
+	margin: 0 !important;
+}
+
 .cursorHover:hover span{
 	cursor:pointer;
-}			
+}		
+
+.bold {
+	font-weight: bold;
+}

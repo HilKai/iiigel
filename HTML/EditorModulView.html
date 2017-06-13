@@ -48,7 +48,7 @@
 
         <div id="OverviewContainer" class="row">
 
-            <div class="col-md-5 noPadding">
+            <div class="col-md-6 noPadding">
 
                 <table id="Table" class="table">
                     <thead>
@@ -69,8 +69,26 @@
                 </table>
             </div>
             
-            <div class="col-md-6 noPadding">
-                <p>%ModulText%</p>
+            <div id="EditContainer" class="col-md-6">
+				<div id="PicContainer" class=" row noPadding noMargin">
+
+                    <img id="Pic" class="col-md-7 noPadding" src="../Images/module/%Modulname%.png" style=" width:130px; height:130px; border: 1px solid #ccc!important; border-radius: 6px;" alt="ModulePicture">
+
+					
+					<div class="form-group col-md-5">
+                            <label for="exampleInputFile" class="label noPadding"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Profilbild hochladen</label>
+                            <form action = "upload.php" method="post" enctype="multipart/form-data">
+                            <!--<input type="hidden" name="MAX_FILE_SIZE" value="800000" />-->
+                            <input type="file" name="datei" value="Hochladen" id="exampleInputFile"  class="input" style="float:left;">
+                         	<button id="Hochladen" type="submit" class=" btn btn-default " name="Hochladen">Hochladen</button>
+                         </form>  
+                    </div>
+                </div>
+				
+				<div id="ModulText">
+					<h1>Modulbeschreibung</h1>
+                	<p>%ModulText%</p>
+				</div>						
             </div>
             
             

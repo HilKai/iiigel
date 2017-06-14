@@ -1,0 +1,158 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../Styles/chapterEditor.css" type="text/css">
+    <link rel="stylesheet" href="../Styles/ChapterContent.css" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-------------------------------BOOTSTRAP--------------------------------->
+    <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!---------------------------------GOOGLE FONTS--------------------->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+
+
+</head>
+
+<body class="body">
+    <div id="WrappingContainer" class="container noPadding">
+
+        <div id="header" class="row ">
+            <div class="col-md-4 col-xs-12">
+                <a href="#"><span id="Glyphicon" class="glyphicon glyphicon-education" aria-hidden="true" style="font-size:32px;margin-top:30px;color:#000;margin-right:0px;"></span> </a>
+                <p id="ChapterHeadline" style="float:left;margin-left:0px;">
+                    %ChapterHeadline%
+
+                </p>
+            </div>
+
+
+
+
+
+            <div class="col-md-5 col-xs-1 noPadding">
+                <a id="Home" href="../PHP/userOverview.php">
+                    <span class="glyphicon glyphicon-home"></span>
+                </a>
+            </div>
+
+            <div class="col-md-1 col-xs-3">
+                <a href="../PHP/logout.php?logout">
+                    <button id="LogOutButton" class="btn btn-default"> <span class="glyphicon glyphicon-log-out" style="color:#000;"></span> <a id="LogOutText" href="../PHP/logout.php?logout" style="color:#000;">Abmelden</a></button>
+                </a>
+            </div>
+
+            <div class="col-md-1 col-md-offset-1 col-xs-2">
+                <a href="javascript:void(0)"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;float: right;color:#000;cursor:pointer" onclick="openorclose();"></span> </a>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div id="Chapter_window" class="col-md-6 col-xs-6 nopadding myBox">
+                %ChapterText%
+            </div>
+            <div class="col-md-1 col-xs-1 nopadding myBox"></div>
+            <div id="Chapter_window" class="col-md-5 col-xs-5 nopadding myBox">
+                <form>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/headline]'); return false;"> [/headline]  </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[big]      '); return false;"> [big]        </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/big]     '); return false;"> [/big]       </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[code]     '); return false;"> [code]       </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/code]    '); return false;"> [/code]      </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[tasks]    '); return false;"> [tasks]      </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/tasks]   '); return false;"> [/tasks]     </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[task]     '); return false;"> [task]       </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/task]    '); return false;"> [/task]      </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[break]    '); return false;"> [break]      </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[li]       '); return false;"> [li]         </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/li]      '); return false;"> [/li]        </button>
+                    <textarea id="editor_textarea" class="col-md-12 col-xs-12 myBox" onkeyup="update()">
+                        %ChapterTextRaw%                   
+                    </textarea>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    var changed = false;
+    window.setInterval(commitChanges, 5000);
+
+    function update() {
+        changed = true;
+        var cursorPosition = $('#myTextarea').prop("selectionStart");
+
+        $.ajax({
+            url: "textToChapter.php?text=" + document.getElementById("editor_textarea").value,
+            success: function(result) {
+                document.getElementById("Chapter_window").innerHTML = '<div class="chapterView col-md-12">  ' + result + ' </div>';
+            }
+        });
+
+    }
+
+    function commitChanges() {
+        if (changed = true) {
+            changed = false;
+            $modulID = "%ModulID";
+            $chapterID = "%ChapterID%";
+            $.ajax({
+                url: "updateChapter.php?modulID=" + $groupID + "&" + "chapterID=" + $ChapterID + "&" + "text=" + document.getElementById("editor_textarea").value,
+
+            });
+        }
+    }
+
+    function insertAtCursor(myField, myValue) {
+
+        //IE support
+        if (document.selection) {
+            myField.focus();
+            sel = document.selection.createRange();
+            sel.text = myValue;
+        }
+        // Microsoft Edge
+        else if (window.navigator.userAgent.indexOf("Edge") > -1) {
+            var startPos = myField.selectionStart;
+            var endPos = myField.selectionEnd;
+
+            myField.value = myField.value.substring(0, startPos) + myValue +
+                myField.value.substring(endPos, myField.value.length);
+
+            var pos = startPos + myValue.length;
+            myField.focus();
+            myField.setSelectionRange(pos, pos);
+        }
+        //MOZILLA and others
+        else if (myField.selectionStart || myField.selectionStart == '0') {
+            var startPos = myField.selectionStart;
+            var endPos = myField.selectionEnd;
+            myField.value = myField.value.substring(0, startPos) +
+                myValue +
+                myField.value.substring(endPos, myField.value.length);
+        } else {
+            myField.value += myValue;
+        }
+        update();
+    }
+
+</script>
+
+</html>

@@ -28,7 +28,7 @@
     $chapterText = $myModule->getChapterTextbyIndex($myChapterID);
     $myPage = str_replace("%ChapterTextRaw%",$chapterText,$myPage);
     $chapterText = $ODB->replaceTags($chapterText);
-    $text = '<div class="chapterView col-md-12">  '.$chapterText.'"</div>';
+    $text = '<div class="chapterView col-md-12">  '.$chapterText.'</div>';
     $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$text);
     $myPage = str_replace($search,$replace,$myPage);
    

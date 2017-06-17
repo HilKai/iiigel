@@ -70,19 +70,20 @@
             <div class="col-md-1 col-xs-1 nopadding myBox"></div>
             <div id="Chapter_window" class="col-md-5 col-xs-5 nopadding myBox">
                 <form>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/headline]'); return false;"> [/headline]  </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[big]      '); return false;"> [big]        </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/big]     '); return false;"> [/big]       </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[code]     '); return false;"> [code]       </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/code]    '); return false;"> [/code]      </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[tasks]    '); return false;"> [tasks]      </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/tasks]   '); return false;"> [/tasks]     </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[task]     '); return false;"> [task]       </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/task]    '); return false;"> [/task]      </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[break]    '); return false;"> [break]      </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[li]       '); return false;"> [li]         </button>
-                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/li]      '); return false;"> [/li]        </button>
-                    <textarea id="editor_textarea" class="col-md-12 col-xs-12 myBox" onkeyup="update()">
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[headline]'); return false;" class="btn btn-default noMarginTop"> [headline]</button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/headline]'); return false;" class="btn btn-default noMarginTop"> [/headline]</button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[big]'); return false;" class="btn btn-default noMarginTop"> [big]        </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/big]'); return false;" class="btn btn-default noMarginTop"> [/big]       </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[code]'); return false;" class="btn btn-default noMarginTop" > [code]       </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/code]'); return false;" class="btn btn-default noMarginTop" > [/code]      </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[tasks]'); return false;" class="btn btn-default noMarginTop" > [tasks]      </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/tasks]'); return false;" class="btn btn-default noMarginTop" > [/tasks]     </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[task]'); return false;" class="btn btn-default noMarginTop" > [task]       </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/task]'); return false;" class="btn btn-default noMarginTop" > [/task]      </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[break]'); return false;" class="btn btn-default noMarginTop" > [break]      </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[li]'); return false;" class="btn btn-default noMarginTop" > [li]         </button>
+                    <button onclick="insertAtCursor(document.getElementById('editor_textarea'),'[/li]'); return false;" class="btn btn-default noMarginTop" > [/li]        </button>
+                    <textarea id="editor_textarea" class="col-md-12 col-xs-12 noPadding myBox" onkeyup="update()">
                         %ChapterTextRaw%                   
                     </textarea>
                 </form>

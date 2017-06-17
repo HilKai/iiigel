@@ -1,7 +1,4 @@
-pre{
-    white-space: pre-wrap;
-    word-break: keep-all; /*this stops the word breaking*/
-}
+
 
 /*Media-Querrys*/
 
@@ -432,6 +429,11 @@ body {
     padding: 0 !important;
 }
 
+.noMarginTop {
+    margin-top: 0 !important;
+}
+
+
 .sidenav {
     height: 100%;
     width: 0;
@@ -480,7 +482,10 @@ body {
     }
 }
 #editor_textarea {
+    font-size: 20px;
     resize: none;
+    overflow: auto;
+    width: 100%;
     height: 100%;
 }
 
@@ -489,3 +494,6 @@ body {
     height: 100%;
      word-wrap: break-word;
 }
+
+
+

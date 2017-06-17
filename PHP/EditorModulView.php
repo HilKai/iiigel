@@ -3,11 +3,11 @@
 	 session_start();
 	 $myPage = file_get_contents('../HTML/EditorModulView.html');
 	 include_once("database.php");
-	 $myModulID = 1;
+	 $myModulID = $_GET['modulID'];
      $myModul = $ODB->getModuleFromID($myModulID);
 
      $toAdd = "";
-	var_dump($_POST);
+	 //var_dump($_POST);
 	 if (isset($_POST['btn-save']) ) {
 		 $newModulName = trim($_POST['modulname']);
 		 $newModulName = strip_Tags($newModulName);
@@ -32,8 +32,8 @@
 
      for ($i=0; $i< sizeof($myModul->chapter);$i++){   
             $myRow = file_get_contents('../HTML/EditorModulViewTablerow.html');
-            $search = array('%ChapterNum%', '%ChapterName%');
-            $replace = array($myModul->chapter[$i]->getiIndex(), $myModul->chapter[$i]->getsTitle());
+            $search = array('%ChapterNum%', '%ChapterName%', '%modulID%');
+            $replace = array($myModul->chapter[$i]->getiIndex(), $myModul->chapter[$i]->getsTitle(),$myModulID);
             $myRow = str_replace($search,$replace,$myRow);
          
         

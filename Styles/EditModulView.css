@@ -181,6 +181,16 @@ body {
 				font-size: 60px;
 			}
 
+				#EditModulName span {
+					color: #636363 !important;
+					font-size: 40px;
+				}
+
+					#EditModulName span:hover {
+						color: #ddd !important;
+                    	text-decoration: none;
+                	}
+
             #Home {
                 float: right;
                 color: #636363;
@@ -298,12 +308,6 @@ body {
 				
 			}
 
-				#EditContainer h1 {
-					font-size: 23px;
-					padding-bottom: 5px;
-					margin: 0;
-				}
-
 		#ChapterViewButton {
 			display: inline-block;
 			background-color: #fff;
@@ -358,14 +362,18 @@ body {
 		#PinkButton {
 			background-color: #e31465;	
 			color: #fff;
+			width: 120px;
+			height: 40px;
+			margin-top: 30px;
 		}
 
 			#PinkButton:hover {
 				background-color:#755F5A;
 			}
 
+
 #ModulText {
-	padding: 30px 0px 0px 0px;
+	
 }
 
 	.input {
@@ -389,4 +397,11 @@ body {
 
 .bold {
 	font-weight: bold;
+}
+.textarea {
+	height: 200px !important;
+}
+
+.form {
+	
 }

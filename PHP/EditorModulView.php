@@ -3,9 +3,25 @@
 	 session_start();
 	 $myPage = file_get_contents('../HTML/EditorModulView.html');
 	 include_once("database.php");
-     $myModul = $ODB->getModuleFromID(1);
+	 $myModulID = 1;
+     $myModul = $ODB->getModuleFromID($myModulID);
 
      $toAdd = "";
+	var_dump($_POST);
+	 if (isset($_POST['btn-save']) ) {
+		 $newModulName = trim($_POST['modulname']);
+		 $newModulName = strip_Tags($newModulName);
+		 $newModulName = htmlspecialchars($newModulName);
+		 
+		 //if (!empty($newModulName)) {$ODB->setModulNameFromID($newModulName,$myModulID);};
+		 
+		 
+		 $newModulDescription = trim($_POST['moduldescription']);
+		 $newModulDescription = strip_Tags($newModulDescription);
+		 $newModulDescription = htmlspecialchars($newModulDescription);
+		 
+		 //$ODB->setModulDescriptionFromID($newModulDescription,$myModulID);
+	 }
 
      $modulName =  $myModul->getsName();
      $modulDescription = $myModul->getsDescription();

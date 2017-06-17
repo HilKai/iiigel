@@ -29,7 +29,9 @@
         <div id="Container" class="row">
 
             <div class="col-md-9 col-xs-12 noPadding">
-                <h1 id="ModulHeading">%Modulname%</h1>
+                <h1 id="ModulHeading">
+					%Modulname%
+				</h1>
             </div>
             
             <div class="col-md-1 col-xs-1 noPadding">
@@ -70,25 +72,39 @@
             </div>
             
             <div id="EditContainer" class="col-md-6">
-				<div id="PicContainer" class=" row noPadding noMargin">
+						
+					<div id="PicContainer" class=" row noPadding noMargin">
 
-                    <img id="Pic" class="col-md-7 noPadding" src="../Images/module/%Modulname%.png" style=" width:130px; height:130px; border: 1px solid #ccc!important; border-radius: 6px;" alt="ModulePicture">
+						<img id="Pic" class="col-md-7 noPadding" src="../Images/module/%Modulname%.png" style=" width:130px; height:130px; border: 1px solid #ccc!important; border-radius: 6px;" alt="ModulePicture">
 
+
+						<div class="form-group col-md-5">
+								<label for="exampleInputFile" class="label noPadding"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Profilbild hochladen</label>
+								<form action = "upload.php" method="post" enctype="multipart/form-data">
+								<!--<input type="hidden" name="MAX_FILE_SIZE" value="800000" />-->
+								<input type="file" name="datei" value="Hochladen" id="exampleInputFile"  class="input" style="float:left;">
+								<button id="Hochladen" type="submit" class=" btn btn-default " name="Hochladen">Hochladen</button>
+							 </form>  
+						</div>
+					</div>
+
+				<form  id="myForm" action = "EditorModulView.php" method="post" autocomplete="off">
+					<div class="form-group">
+							<label for="exampleInputPrename">Modulname</label>
+							<input type="text" name="modulname" class="form-control form" value="%Modulname%" >
+					</div>
 					
-					<div class="form-group col-md-5">
-                            <label for="exampleInputFile" class="label noPadding"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Profilbild hochladen</label>
-                            <form action = "upload.php" method="post" enctype="multipart/form-data">
-                            <!--<input type="hidden" name="MAX_FILE_SIZE" value="800000" />-->
-                            <input type="file" name="datei" value="Hochladen" id="exampleInputFile"  class="input" style="float:left;">
-                         	<button id="Hochladen" type="submit" class=" btn btn-default " name="Hochladen">Hochladen</button>
-                         </form>  
-                    </div>
-                </div>
+					<div id="ModulText">
+						<div class="form-group">
+							<label for="exampleInputPrename">Modulbeschreibung</label>
+							<textarea id="moduldescription" name="moduldescription" class="form-control textarea" >%ModulText%</textarea>
+						</div>
+					</div>	
+			
+					
+					<button id="PinkButton" type="submit" class="btn btn-block btn-primary pinkButton" name="btn-save">Speichern</button>
+				</form>
 				
-				<div id="ModulText">
-					<h1>Modulbeschreibung</h1>
-                	<p>%ModulText%</p>
-				</div>						
             </div>
             
             

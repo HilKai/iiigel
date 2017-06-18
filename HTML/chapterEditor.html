@@ -112,11 +112,9 @@
     function commitChanges() {
         if (changed = true) {
             changed = false;
-            $modulID = "%ModulID";
             $chapterID = "%ChapterID%";
             $.ajax({
-                url: "updateChapter.php?modulID=" + $groupID + "&" + "chapterID=" + $ChapterID + "&" + "text=" + document.getElementById("editor_textarea").value,
-
+                url: "updateChapter.php?chapterID=" + $ChapterID + "&" + "text=" + document.getElementById("editor_textarea").value,
             });
         }
     }

@@ -40,10 +40,13 @@
         private $stmtSetLastNameFromID;
         private $stmtSetEMailFromID;
         private $stmtSetPasswordFromID;
+        private $stmtSetModuleNameFromID;
+        private $stmtSetModuleDescriptionFromID;
+        private $stmtSetChapterTextFromID;
         private $stmtAcceptHandIn;
         
         private $stmtaddUser;
-        private $addInstitution;
+        private $stmtaddInstitution;
         private $stmtaddHandIn;
         
         private $stmtdeleteUser;
@@ -55,8 +58,8 @@
         }
 
         public function __construct(){
-            //$this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
-            $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+            $this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
+            //$this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
             
             //----- SELECTS -----
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
@@ -89,12 +92,15 @@
             $this->stmtSetLastNameFromID = $this->db_connection->prepare("UPDATE users SET sLastName = ? WHERE ID = ?");
             $this->stmtSetEMailFromID = $this->db_connection->prepare("UPDATE users SET sEMail = ? WHERE ID = ?");
             $this->stmtSetPasswordFromID = $this->db_connection->prepare("UPDATE users SET sPassword = ? WHERE ID = ?");
+            $this->stmtSetModuleNameFromID = $this->db_connection->prepare("UPDATE modules SET sName = ? WHERE ID = ?");
+            $this->stmtSetModuleDescriptionFromID = $this->db_connection->prepare("UPDATE modules SET sDescription = ? WHERE ID = ? ");
+            $this->stmtSetChapterTextFromID = $this->db_connection->prepare("UPDATE chapters SET sText = ? WHERE ID = ?");
             $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             
             //----- INSERTS -----
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword,sProfilePicture) VALUES                                                     (?,?,?,?,?,'../ProfilePics/generalpic.png')");
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
-            $this->stmtaddInstitutions = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
+            $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
             
             //----- DELETES -----
             $this->stmtdeleteUser = $this->db_connection->prepare("DELETE FROM users WHERE ID = ?");
@@ -249,8 +255,8 @@
         }
         
         public function addInstitution($sName){
-            $this->stmtaddInstitutions->bind_param("s",$sName);
-            $this->stmtaddInstitutions->execute();
+            $this->stmtaddInstitution->bind_param("s",$sName);
+            $this->stmtaddInstitution->execute();
         }
         
         public function addHandIn($UserID,$GroupID,$ChapterID,$Text){
@@ -501,20 +507,35 @@
             $this->stmtSetPasswordFromID->execute();
         }
         
+        public function setModuleNameFromID($ModuleName,$ID){
+            $this->stmtSetModuleNameFromID->bind_param("si",$ModuleName,$ID);
+            $this->stmtSetModuleNameFromID->execute();
+        }
+        
+        public function setModuleDescriptionFromID($ModuleDescription,$ID){
+            $this->stmtSetModuleDescriptionFromID->bind_param("si",$ModuleDescription,$ID);    
+            $this->stmtSetModuleDescriptionFromID->execute();
+        }
+        
+        public function setChapterTextFromID($Text,$ID){
+            $this->stmtSetChapterTextFromID->bind_param("si",$Text,$ID);
+            $this->stmtSetChapterTextFromID->execute();
+        }
+        
         public function acceptHandIn($UserID,$GroupID){
             $this->stmtAcceptHandIn->bind_param("ii",$UserID,$GroupID);
             $this->stmtAcceptHandIn->execute();
         }
         
-       public function deleteUser($ID){
-           $this->stmtdeleteUser->bind_param("i",$ID);
-           $this->stmtdeleteUser->execute();
-       }
+        public function deleteUser($ID){
+            $this->stmtdeleteUser->bind_param("i",$ID);
+            $this->stmtdeleteUser->execute();
+        }
         
-       public function deleteHandIn($ID){
-           $this->stmtdeleteHandIn->bind_param("i",$ID);
-           $this->stmtdeleteHandIn->execute();
-       }
+        public function deleteHandIn($ID){
+            $this->stmtdeleteHandIn->bind_param("i",$ID);
+            $this->stmtdeleteHandIn->execute();
+        }
 		
     }
 

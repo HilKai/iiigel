@@ -30,6 +30,7 @@
         private $stmtCountInstitutionsFromUser;
         private $stmtGetAllInstitutions;
 		private $stmtGetAllUsers;
+        private $stmtGetModuleImageFromID;
         private $stmtgetInstitutionsFromUserID;
         
         private $stmtSetProfilePic;
@@ -43,11 +44,13 @@
         private $stmtSetModuleNameFromID;
         private $stmtSetModuleDescriptionFromID;
         private $stmtSetChapterTextFromID;
+        private $stmtSetModuleImageFromID;
         private $stmtAcceptHandIn;
         
         private $stmtaddUser;
         private $stmtaddInstitution;
         private $stmtaddHandIn;
+        private $stmtaddChaptertoModule;
         
         private $stmtdeleteUser;
         private $stmtdeleteHandIn;
@@ -68,6 +71,11 @@
             //----- SELECTS -----
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
 			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ?");
+            $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
+            $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
+            $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
+            $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
+			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
 			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ?");
 			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ?");
@@ -76,12 +84,9 @@
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM modules WHERE ID = ?");
 			$this->stmtGetChapterFromID = $this->db_connection->prepare("SELECT * FROM chapters WHERE ID = ?");
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE ID = ?");
-            $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
-            $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
             $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? ");
-            $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
-            $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
-			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
+            $this->stmtGetModuleImageFromID = $this->db_connection->prepare("SELECT sPfadBild FROM modules WHERE ID = ?");
+           
             $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
             $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users");
             $this->stmtCountInstitutionsFromUser = $this->db_connection->prepare("SELECT COUNT(InstitutionID) FROM usertoinstitution WHERE UserID = ?");
@@ -100,12 +105,14 @@
             $this->stmtSetModuleNameFromID = $this->db_connection->prepare("UPDATE modules SET sName = ? WHERE ID = ?");
             $this->stmtSetModuleDescriptionFromID = $this->db_connection->prepare("UPDATE modules SET sDescription = ? WHERE ID = ? ");
             $this->stmtSetChapterTextFromID = $this->db_connection->prepare("UPDATE chapters SET sText = ? WHERE ID = ?");
+            $this->stmtSetModuleImageFromID = $this->db_connection->prepare("UPDATE modules SET sPfadBild = ? WHERE ID = ?");
             $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             
             //----- INSERTS -----
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword,sProfilePicture) VALUES                                                     (?,?,?,?,?,'../ProfilePics/generalpic.png')");
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
             $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
+            $this->stmtaddChaptertoModule = $this->db_connection->prepare("INSERT INTO chapters (iIndex,sTitle,sText,ModulID) VALUES (?,?,?,?)"); 
             
             //----- DELETES -----
             $this->stmtdeleteUser = $this->db_connection->prepare("DELETE FROM users WHERE ID = ?");
@@ -269,6 +276,11 @@
             $this->stmtaddHandIn->execute();
         }
         
+        public function addChaptertoModule($Index,$Title,$Text,$ModulID){
+            $this->stmtaddChaptertoModule->bind_param("issi",$Index,$Title,$Text,$ModulID);
+            $this->stmtaddChaptertoModule->execute();
+        }
+        
         public function getIDFromUsername($Username){
             $this->stmtGetIDFromUsername->bind_param("s",$Username); 
             $this->stmtGetIDFromUsername->execute();
@@ -390,8 +402,8 @@
                 throw new exception('Mehr als ein Modul mit dieser ID');        
             }
         }
-        
-       public function getChapterFromID($ID){
+
+         public function getChapterFromID($ID){
 			$this->stmtGetChapterFromID->bind_param("i",$ID);	
 			$this->stmtGetChapterFromID->execute();
             $res = $this->stmtGetChapterFromID->get_result();
@@ -402,7 +414,31 @@
                 throw new exception('Mehr als ein Chapter mit dieser ID');        
             }
         }
-                
+
+        public function getProfilePicFromID($ID){
+            $this->stmtGetProfilePicFromUserID ->bind_param("i",$ID);
+            $this->stmtGetProfilePicFromUserID->execute();
+            $res = $this->stmtGetProfilePicFromUserID->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return $row['sProfilePicture'];
+            } else {
+                throw new exception('Mehr als ein User mit dieser ID');        
+            }
+        }
+        
+        public function getModuleImageFromID($ID){
+            $this->stmtGetModuleImageFromID->bind_param("i",$ID);
+            $this->stmtGetModuleImageFromID->execute();
+            $res = $this->stmtGetModuleImageFromID->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return $row['sPfadBild'];
+            } else {
+                throw new exception('Mehr als ein Modul mit dieser ID');        
+            }
+        }
+        
         public function countInstitutions(){
             $this->stmtCountInstitutions->execute();
             $res = $this->stmtCountInstitutions->get_result();
@@ -477,18 +513,6 @@
             $this->stmtSetProfilePic->execute();  
         }
         
-        public function getProfilePicFromID($ID){
-            $this->stmtGetProfilePicFromUserID ->bind_param("i",$ID);
-            $this->stmtGetProfilePicFromUserID->execute();
-            $res = $this->stmtGetProfilePicFromUserID->get_result();
-            if (mysqli_num_rows($res)==1){
-                $row = mysqli_fetch_array($res);
-                    return $row['sProfilePicture'];
-            } else {
-                throw new exception('Mehr als ein User mit dieser ID');        
-            }
-        }
-        
         public function setFortschrittFromUserinGroup($UserID,$GroupID ){
             $this->stmtSetFortschrittFromUserinGroup->bind_param("ii",$GroupID,$UserID);
             $this->stmtSetFortschrittFromUserinGroup->execute();
@@ -537,6 +561,11 @@
         public function setChapterTextFromID($Text,$ID){
             $this->stmtSetChapterTextFromID->bind_param("si",$Text,$ID);
             $this->stmtSetChapterTextFromID->execute();
+        }
+        
+        public function setModuleImageFromID($PfadBild,$ID){
+            $this->stmtSetModuleImageFromID->bind_param("si",$PfadBild,$ID);
+            $this->stmtSetModuleImageFromID->execute();
         }
         
         public function acceptHandIn($UserID,$GroupID){

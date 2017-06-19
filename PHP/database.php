@@ -80,7 +80,7 @@
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM modules WHERE ID = ?");
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE ID = ?");
             $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? ");
-            $this->stmtGetModuleImageFromID = $this->db_connection->prepare("SELECT sPfadBild WHERE ID = ?");
+            $this->stmtGetModuleImageFromID = $this->db_connection->prepare("SELECT sPfadBild FROM modules WHERE ID = ?");
            
             $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
             $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users");

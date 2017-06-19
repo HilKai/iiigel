@@ -7,6 +7,7 @@
 
     $myModuleID = $_GET['moduleID'];
     $myChapterID = $_GET['chapterID'];
+	$myChapterID = $myChapterID-1;
     $myUserID = $_SESSION['user'];
     
 	 // if session is not set this will redirect to login page

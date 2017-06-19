@@ -2,7 +2,7 @@
     ob_start();
     session_start();
     include_once("database.php");
-    include_once("Model/User.php");
+    include_once("Model/Module.php");
 
     // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
@@ -15,8 +15,8 @@
     define('GB', 1073741824);
     define('TB', 1099511627776);
 
-    $myUser = $ODB->getUserFromID($_SESSION['user']);
-    $upload_folder = "../ProfilePics/";
+    $myModule = $ODB->getModuleFromID($_SESSION['module']);
+    $upload_folder = "../Images/module/";
     $filename = pathinfo($_FILES['datei']['name'], PATHINFO_FILENAME); //Gibt Dateinamen zurück
     $extension = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));    //Gibt Endung der Datei zurück zB php
 
@@ -70,8 +70,8 @@
     chmod($new_path, 0644);
     echo 'Bild erfolgreich hochgeladen';
     
-    $ODB->setProfilePic($new_path,$myUser->getID());
+    $ODB->setModuleImageFromID($new_path,$myModule->getID());
 
-    header("Location: editProfile.php");
+    header("Location: EditorModulView.php");
 
 ?>

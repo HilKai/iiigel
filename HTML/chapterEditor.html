@@ -99,13 +99,14 @@
     function update() {
         changed = true;
         var cursorPosition = $('#myTextarea').prop("selectionStart");
-
         $.ajax({
-            url: "textToChapter.php?text=" + document.getElementById("editor_textarea").value,
-            success: function(result) {
-                document.getElementById("Chapter_window").innerHTML = '<div class="chapterView col-md-12">  ' + result + ' </div>';
-            }
-        });
+                type: "POST",
+                url: "textToChapter.php",
+                data: {text:document.getElementById("editor_textarea").value},
+                success: function(result) {
+                    document.getElementById("Chapter_window").innerHTML = '<div class="chapterView col-md-12">  ' + result + ' </div>';
+                }
+            });
 
     }
 
@@ -114,7 +115,9 @@
             changed = false;
             $chapterID = "%ChapterID%";
             $.ajax({
-                url: "updateChapter.php?chapterID=" + $ChapterID + "&" + "text=" + document.getElementById("editor_textarea").value,
+                type: "POST",
+                url: "updateChapter.php",
+                data: { chapterID:$chapterID, text:document.getElementById("editor_textarea").value}
             });
         }
     }

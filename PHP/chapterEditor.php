@@ -24,12 +24,12 @@
 
     $myModule = $ODB->getModuleFromID($myModuleID);
     $myUser = $ODB->getUserFromId($myUserID);
-    $search = array('%ChapterHeadline%','%ChapterText%');
-    $chapterText = $myModule->getChapterTextbyIndex($myChapterID);
+    $search = array('%ChapterHeadline%','%ChapterText%','%ChapterID%');
+    $chapterText = $ODB->getChapterFromID($myChapterID)->getsText();
     $myPage = str_replace("%ChapterTextRaw%",$chapterText,$myPage);
     $chapterText = $ODB->replaceTags($chapterText);
     $text = '<div class="chapterView col-md-12">  '.$chapterText.'</div>';
-    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$text);
+    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$text,$myChapterID);
     $myPage = str_replace($search,$replace,$myPage);
    
     

@@ -1,5 +1,5 @@
 <?php
-    inlcude_once("database.php");
-    $ODB->setChapterTextFromID($_GET['text'],$_GET['chapterID']);
-    
+    include_once("database.php");
+
+    $ODB->setChapterTextFromID($_POST['text'],$_POST['chapterID']);
 ?>

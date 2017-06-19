@@ -53,13 +53,17 @@
         private $stmtdeleteHandIn;
        
 
-        private function query($statement) {
+        public function query($statement) {
             return mysqli_query($this->db_connection, $statement);
         }
 
         public function __construct(){
             //$this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
             $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+            if (!$this->db_connection->set_charset("utf8")) {
+                printf("Error loading character set utf8: %s\n", $this->db_connection->error);
+                exit();
+            }
             
             //----- SELECTS -----
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
@@ -70,6 +74,7 @@
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ?");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM modules WHERE ID = ?");
+			$this->stmtGetChapterFromID = $this->db_connection->prepare("SELECT * FROM chapters WHERE ID = ?");
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE ID = ?");
             $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
             $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
@@ -386,6 +391,18 @@
             }
         }
         
+       public function getChapterFromID($ID){
+			$this->stmtGetChapterFromID->bind_param("i",$ID);	
+			$this->stmtGetChapterFromID->execute();
+            $res = $this->stmtGetChapterFromID->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                return new Chapter($row['ID'],$row['sID'],$row['iIndex'],$row['sTitle'],$row['sText'],$row['sNote'],$row['ModulID'],$row[ 'sInterpreter'], $row[ 'bIsMandatoryHandIn'], $row[ 'bIsLive'],$row[ 'bLiveInterpretation'],$row[ 'bShowCloud'],$row[ 'bIsDeleted'] );
+            } else {
+                throw new exception('Mehr als ein Chapter mit dieser ID');        
+            }
+        }
+                
         public function countInstitutions(){
             $this->stmtCountInstitutions->execute();
             $res = $this->stmtCountInstitutions->get_result();

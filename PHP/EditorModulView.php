@@ -4,7 +4,6 @@
 	 $myPage = file_get_contents('../HTML/EditorModulView.html');
 	 include_once("database.php");
 	 $myModulID = $_GET['modulID'];
-     $myModul = $ODB->getModuleFromID($myModulID);
 
      $toAdd = "";
 	 //var_dump($_POST);
@@ -22,6 +21,7 @@
 		 
 		 $ODB->setModuleDescriptionFromID($newModulDescription,$myModulID);
 	 }
+     $myModul = $ODB->getModuleFromID($myModulID);
 
      $modulName =  $myModul->getsName();
      $modulDescription = $myModul->getsDescription();

@@ -413,6 +413,13 @@
         public function getModuleImageFromID($ID){
             $this->stmtGetModuleImageFromID->bind_param("i",$ID);
             $this->stmtGetModuleImageFromID->execute();
+            $res = $this->stmtGetModuleImageFromID->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return $row['sPfadBild'];
+            } else {
+                throw new exception('Mehr als ein Modul mit dieser ID');        
+            }
         }
         
         public function countInstitutions(){

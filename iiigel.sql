@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 04. Apr 2017 um 16:36
+-- Erstellungszeit: 19. Jun 2017 um 19:49
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -179,20 +179,21 @@ CREATE TABLE `modules` (
   `sLanguage` varchar(50) NOT NULL,
   `sIcon` varchar(255) NOT NULL,
   `bIsDeleted` tinyint(1) NOT NULL,
-  `bIsLive` tinyint(1) NOT NULL
+  `bIsLive` tinyint(1) NOT NULL,
+  `sPfadBild` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `modules`
 --
 
-INSERT INTO `modules` (`ID`, `sID`, `sName`, `sDescription`, `sLanguage`, `sIcon`, `bIsDeleted`, `bIsLive`) VALUES
-(1, NULL, 'SmallBasic', '', 'Microsoft Small Basic', '', 0, 1),
-(2, NULL, 'HTML/CSS', '', 'Hypertext Markup Language/Cascading Style Sheets', '', 0, 1),
-(3, NULL, 'Javascript', '', 'Javascript', '', 0, 1),
-(4, NULL, 'Delphi', '', 'Embarcadero Delphi', '', 0, 0),
-(5, NULL, 'Python', '', 'Python', '', 0, 1),
-(6, NULL, 'Java', '', 'Java', '', 0, 0);
+INSERT INTO `modules` (`ID`, `sID`, `sName`, `sDescription`, `sLanguage`, `sIcon`, `bIsDeleted`, `bIsLive`, `sPfadBild`) VALUES
+(1, NULL, 'SmallBasic', '', 'Microsoft Small Basic', '', 0, 1, '../Images/module/SmallBasic.png'),
+(2, NULL, 'HTML/CSS', '', 'Hypertext Markup Language/Cascading Style Sheets', '', 0, 1, '../Images/module/Html.png'),
+(3, NULL, 'Javascript', '', 'Javascript', '', 0, 1, '../Images/module/Javascript.png'),
+(4, NULL, 'Delphi', '', 'Embarcadero Delphi', '', 0, 0, '../Images/module/Delphi.png'),
+(5, NULL, 'Python', '', 'Python', '', 0, 1, '../Images/module/Python.png'),
+(6, NULL, 'Java', '', 'Java', '', 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -280,8 +281,9 @@ INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMai
 (9, NULL, 'KaiH', 'Kai', 'Hilgers', 'Kai.Hilgers.Info@gmx.de', '$2y$11$n5mwk39o61P6y/VtiEZq3utUPxyh8Py9cyLPeiTJtTvpyOAOsMGhi', '../ProfilePics/Kai.jpg', 0, 0, 0),
 (10, NULL, 'TestUser', 'Test', 'User', 'test@user.de', '$2y$11$vg01oIhh4o/7GpEQ8Xr8fOIr7yZ0qwGcg4lunthTSxVMFyjFn0Gpm', '', 0, 0, 0),
 (11, NULL, 'RogerH', 'Roger', 'Hermasch', 'roger.hermasch@t-online.de', '$2y$11$NqUdz4ws1zLKwE8LLyxhmef2VA971vmle148vhZWn/1z5F9L.TtOa', '', 0, 0, 0),
-(12, NULL, 'PatrickL', 'Patrick', 'Liesen', 'patrick@mail4liesen.de', '$2y$11$m/RbWwrA4suAlhsp/Iur9OW4I04qxLCCzZHTITY26GnVoIfOR4nFe', '', 0, 0, 0),
-(13, NULL, 'JanSc', 'Jan', 'Schumann', 'janschumann55@gmail.com', '$2y$11$XnR2UOOHEBcRo9ZRmwt6FOt59s4.3IkKTqhgzOBJZ5yY0JRiLaMue', '', 0, 0, 0);
+(13, NULL, 'JanSc', 'Jan', 'Schumann', 'janschumann55@gmail.com', '$2y$11$XnR2UOOHEBcRo9ZRmwt6FOt59s4.3IkKTqhgzOBJZ5yY0JRiLaMue', '', 0, 0, 0),
+(14, NULL, 'JanLukasL', 'Jan Lukas', 'Liesen', 'janlukas@mail4liesen.de', '$2y$11$rP3OnevHp0FFkW9HLGUGbuRx9cvXMUfhuXsjqxPiaN66opMF6f4d6', '../ProfilePics/generalpic.png', 0, 0, 0),
+(17, NULL, 'Nat', 'Felix', 'Nattermann', 'nat@gag-mg.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/generalpic.png', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -338,7 +340,8 @@ INSERT INTO `usertoinstitution` (`UserID`, `InstitutionID`, `bIsInstitutionleade
 (7, 1, 0),
 (8, 1, 0),
 (11, 1, 0),
-(12, 1, 0);
+(12, 1, 0),
+(6, 2, 0);
 
 --
 -- Indizes der exportierten Tabellen
@@ -424,7 +427,7 @@ ALTER TABLE `transcribedtags`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -34,8 +34,9 @@
 
      $modulName =  $myModul->getsName();
      $modulDescription = $myModul->getsDescription();
-     $search = array('%Modulname%','%ModulText%', '%ModulID%');
-     $replace = array($modulName, $modulDescription, $myModulID);
+	 //$imagePath = $ODB->getModuleImageFromID($myModulID);
+     $search = array('%Modulname%','%ModulText%', '%ModulID%', '%ImagePath%');
+     $replace = array($modulName, $modulDescription, $myModulID, $imagePath );
 
      $myPage=str_replace($search,$replace,$myPage);
 

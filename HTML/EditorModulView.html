@@ -80,15 +80,17 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Füge ein neues Kapitel hinzu</h4>
                   </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                        <label for="exampleInputPrename">Kapitelname</label>
-                    	<input type="text" name="vorname" class="form-control form" value="<?php if(isset($vorname))  echo $vorname; ?>"  placeholder="" >
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <form action="post"><button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="addChapter(this)">Hinzufügen</button></form>
-                  </div>
+				  <form  id="myForm2" action = "EditorModulView.php?modulID=%ModulID%" method="post" autocomplete="off">  	
+					  <div class="modal-body">
+						<div class="form-group">
+							<label for="exampleInputPrename">Kapitelname</label>
+							<input type="text" name="chapterName" class="form-control form" value="chapterName" >
+						</div>
+					  </div>
+					  <div class="modal-footer">
+						<button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" name="addChapter" onclick="">Hinzufügen</button>
+					  </div>
+					</form>	  
                 </div>
 
               </div>

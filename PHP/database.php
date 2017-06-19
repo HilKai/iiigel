@@ -53,7 +53,7 @@
         private $stmtdeleteHandIn;
        
 
-        public function query($statement) {
+        private function query($statement) {
             return mysqli_query($this->db_connection, $statement);
         }
 

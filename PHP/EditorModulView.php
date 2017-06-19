@@ -13,20 +13,20 @@
 		 $newModulName = strip_Tags($newModulName);
 		 $newModulName = htmlspecialchars($newModulName);
 		 
-		 //if (!empty($newModulName)) {$ODB->setModulNameFromID($newModulName,$myModulID);};
+		if (!empty($newModulName)) {$ODB->setModuleNameFromID($newModulName,$myModulID);};
 		 
 		 
 		 $newModulDescription = trim($_POST['moduldescription']);
 		 $newModulDescription = strip_Tags($newModulDescription);
 		 $newModulDescription = htmlspecialchars($newModulDescription);
 		 
-		 //$ODB->setModulDescriptionFromID($newModulDescription,$myModulID);
+		 $ODB->setModuleDescriptionFromID($newModulDescription,$myModulID);
 	 }
 
      $modulName =  $myModul->getsName();
      $modulDescription = $myModul->getsDescription();
-     $search = array('%Modulname%','%ModulText%');
-     $replace = array($modulName, $modulDescription);
+     $search = array('%Modulname%','%ModulText%', '%ModulID%');
+     $replace = array($modulName, $modulDescription, $myModulID);
 
      $myPage=str_replace($search,$replace,$myPage);
 

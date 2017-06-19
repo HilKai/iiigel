@@ -64,11 +64,34 @@
                     <tbody id="sortable">
                         %Tablerow%
                          <tr>
-                            <td id="AddUser" class="cursorHover" colspan="6"><span class="glyphicon glyphicon-plus"></span></td>
-
+                            <td id="AddUser" class="cursorHover" colspan="6"><span class="glyphicon glyphicon-plus" data-toggle="modal" data-target="#myModal"></span></td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+			
+			<!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Füge ein neues Kapitel hinzu</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputPrename">Kapitelname</label>
+                    	<input type="text" name="vorname" class="form-control form" value="<?php if(isset($vorname))  echo $vorname; ?>"  placeholder="" >
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <form action="post"><button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="addChapter(this)">Hinzufügen</button></form>
+                  </div>
+                </div>
+
+              </div>
             </div>
             
             <div id="EditContainer" class="col-md-6">
@@ -88,7 +111,7 @@
 						</div>
 					</div>
 
-				<form  id="myForm" action = "EditorModulView.php" method="post" autocomplete="off">
+				<form  id="myForm" action = "EditorModulView.php?modulID=%ModulID%" method="post" autocomplete="off">
 					<div class="form-group">
 							<label for="exampleInputPrename">Modulname</label>
 							<input type="text" name="modulname" class="form-control form" value="%Modulname%" >
@@ -116,3 +139,18 @@
 </body>
 
 </html>
+
+<script>
+	function addChapter() {
+	
+       	$modulID = "%ModulID%";
+        
+        $.ajax({
+            url: "EditorModulView.php?modulID=" + $modulID ,
+        
+        });
+        
+        location.reload();
+		
+	}
+</script>

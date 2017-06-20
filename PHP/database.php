@@ -45,6 +45,7 @@
         private $stmtSetModuleDescriptionFromID;
         private $stmtSetChapterTextFromID;
         private $stmtSetModuleImageFromID;
+        private $stmtSetChapterIndexFromID;
         private $stmtAcceptHandIn;
         
         private $stmtaddUser;
@@ -106,6 +107,7 @@
             $this->stmtSetModuleDescriptionFromID = $this->db_connection->prepare("UPDATE modules SET sDescription = ? WHERE ID = ? ");
             $this->stmtSetChapterTextFromID = $this->db_connection->prepare("UPDATE chapters SET sText = ? WHERE ID = ?");
             $this->stmtSetModuleImageFromID = $this->db_connection->prepare("UPDATE modules SET sPfadBild = ? WHERE ID = ?");
+            $this->stmtSetChapterIndexFromID = $this->db_connection->prepare("UPDATE chapters SET iIndex = ? WHERE ID = ?");
             $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             
             //----- INSERTS -----
@@ -566,6 +568,11 @@
         public function setModuleImageFromID($PfadBild,$ID){
             $this->stmtSetModuleImageFromID->bind_param("si",$PfadBild,$ID);
             $this->stmtSetModuleImageFromID->execute();
+        }
+        
+        public function setChapterIndexFromID($Index,$ID){
+            $this->stmtSetChapterIndexFromID->bind_param("ii",$Index,$ID);
+            $this->stmtSetChapterIndexFromID->execute();
         }
         
         public function acceptHandIn($UserID,$GroupID){

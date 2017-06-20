@@ -32,6 +32,7 @@
 		private $stmtGetAllUsers;
         private $stmtGetModuleImageFromID;
         private $stmtgetInstitutionsFromUserID;
+        private $stmtGetHighestIndexFromChapter;
         
         private $stmtSetProfilePic;
         private $stmtSetFortschrittFromUserinGroup;
@@ -55,7 +56,7 @@
         
         private $stmtdeleteUser;
         private $stmtdeleteHandIn;
-       
+        
 
         private function query($statement) {
             return mysqli_query($this->db_connection, $statement);
@@ -94,6 +95,7 @@
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtgetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
+            $this->stmtgetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
             //----- UPDATES ------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
             $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
@@ -439,6 +441,14 @@
             } else {
                 throw new exception('Mehr als ein Modul mit dieser ID');        
             }
+        }
+        
+        public function getHighestIndexFromChapter($ModulID){
+            $this->stmtgetHighestIndexFromChapter->bind_param("i",$ModulID);
+            $this->stmtgetHighestIndexFromChapter->execute();
+            $res = $this->stmtgetHighestIndexFromChapter->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['MAX(iIndex)'];
         }
         
         public function countInstitutions(){

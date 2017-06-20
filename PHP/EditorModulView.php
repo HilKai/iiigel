@@ -26,7 +26,6 @@
      $myModul = $ODB->getModuleFromID($myModulID);
 
 	 if (isset($_POST['addChapter']) ) {
-		 var_dump($_POST);
 		 
 		 $myModul = $ODB->getModuleFromID($myModulID);
 	 }
@@ -35,7 +34,6 @@
      $modulName =  $myModul->getsName();
      $modulDescription = $myModul->getsDescription();
 	 $imagePath = $ODB->getModuleImageFromID($myModulID);
-var_dump($imagePath);
      $search = array('%Modulname%','%ModulText%', '%ModulID%', '%ImagePath%');
      $replace = array($modulName, $modulDescription, $myModulID, $imagePath );
 
@@ -43,8 +41,8 @@ var_dump($imagePath);
 
      for ($i=0; $i< sizeof($myModul->chapter);$i++){   
             $myRow = file_get_contents('../HTML/EditorModulViewTablerow.html');
-            $search = array('%ChapterNum%', '%ChapterName%', '%modulID%');
-            $replace = array($myModul->chapter[$i]->getiIndex(), $myModul->chapter[$i]->getsTitle(),$myModulID);
+            $search = array('%ChapterNum%', '%ChapterName%', '%modulID%', '%ChapterID%');
+            $replace = array($myModul->chapter[$i]->getiIndex(), $myModul->chapter[$i]->getsTitle(),$myModulID,$myModul->chapter[$i]->getID());
             $myRow = str_replace($search,$replace,$myRow);
          
         

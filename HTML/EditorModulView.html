@@ -14,7 +14,7 @@
     <script>
       $( function() {
         $( "#sortable" ).sortable({
-			change: function (event, ui) {var data = $(this).sortable('toArray');
+			update: function (event, ui) {var data = $(this).sortable('toArray');
 		 	console.log(data)
 			var counter = 1;
 			for (var i = 0; i< data.length; i++) {

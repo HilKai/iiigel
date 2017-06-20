@@ -33,6 +33,7 @@
         private $stmtGetModuleImageFromID;
         private $stmtgetInstitutionsFromUserID;
         private $stmtGetHighestIndexFromChapter;
+        private $stmtSearchUsers;
         
         private $stmtSetProfilePic;
         private $stmtSetFortschrittFromUserinGroup;
@@ -95,7 +96,8 @@
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtgetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
-            $this->stmtgetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
+            $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
+            $this->stmtSearchUsers = $this->db_connection->prepare("SELECT sUsername FROM users WHERE sUsername LIKE ?");
             //----- UPDATES ------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
             $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
@@ -444,9 +446,9 @@
         }
         
         public function getHighestIndexFromChapter($ModulID){
-            $this->stmtgetHighestIndexFromChapter->bind_param("i",$ModulID);
-            $this->stmtgetHighestIndexFromChapter->execute();
-            $res = $this->stmtgetHighestIndexFromChapter->get_result();
+            $this->stmtGetHighestIndexFromChapter->bind_param("i",$ModulID);
+            $this->stmtGetHighestIndexFromChapter->execute();
+            $res = $this->stmtGetHighestIndexFromChapter->get_result();
             $row = mysqli_fetch_array($res);
             return $row['MAX(iIndex)'];
         }
@@ -518,6 +520,20 @@
             } 
             
             return $ins;
+        }
+        
+        public function searchUsers($Username){
+            $this->stmtSearchUsers->bind_param("s",$Username);
+            $this->stmtSearchUsers->execute();
+            $res = $this->stmtSearchUsers->get_result();
+            $row = [];
+            $users = [];
+            for ($i=0;$i<$res;$i++){
+                $row[i] = mysqli_fetch_array($res);
+                $users[$i] = $row[$i]['sUsername'];
+            }
+            
+            return $users;
         }
         
         public function setProfilePic($sProfilePic,$ID){

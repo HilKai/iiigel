@@ -7,6 +7,7 @@
 
      $toAdd = "";
 	 if (isset($_POST['btn-save']) ) {
+		 //var_dump($_POST);
 		 $newModulName = trim($_POST['modulname']);
 		 $newModulName = strip_Tags($newModulName);
 		 $newModulName = htmlspecialchars($newModulName);
@@ -19,6 +20,19 @@
 		 $newModulDescription = htmlspecialchars($newModulDescription);
 		 
 		 $ODB->setModuleDescriptionFromID($newModulDescription,$myModulID);
+		 
+		 
+		 $sortedIdx = trim($_POST['sortedIdx']);
+		 $sortedIdx = strip_Tags($sortedIdx);
+		 $sortedIdx = htmlspecialchars($sortedIdx);
+		 
+		 $sortedIdxArray = explode(",", $sortedIdx);
+		 //var_dump($sortedIdxArray);
+		 for ($x = 0; $x < count($sortedIdxArray); $x++) {
+ 			$ODB->setChapterIndexFromID($x+1,$sortedIdxArray[$x]);
+		 } 
+		 
+		 
 		 
 		 $myModul = $ODB->getModuleFromID($myModulID);
 	 }

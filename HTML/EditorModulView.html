@@ -15,17 +15,20 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <script>
       $( function() {
+		  var data;
         $( "#sortable" ).sortable({
-			update: function (event, ui) {var data = $(this).sortable('toArray');
-		 	console.log(data)
+			update: function (event, ui) {data = $(this).sortable('toArray');
 			var counter = 1;
+			var sortedIdx = "";
 			for (var i = 0; i< data.length; i++) {
 				if (data[i] != "") {
 					document.getElementById("inner"+data[i]).innerHTML = counter;
+					sortedIdx = sortedIdx+data[i]+",";
 					counter++;
 				}
 			}
 			
+				document.getElementById("SortedIdx").setAttribute("value", sortedIdx);
 			}
 		});
         $( "#sortable" ).disableSelection();
@@ -34,7 +37,7 @@
 		
 	 function sort(event, ui) {
 		var data = $(this).sortable('toArray');
-		 alert(data[0]);
+		 
 	 }	
     </script>
 </head>
@@ -142,6 +145,8 @@
 							<textarea id="moduldescription" name="moduldescription" class="form-control textarea" >%ModulText%</textarea>
 						</div>
 					</div>	
+					
+					<input id="SortedIdx" type="text" class="form-control" name="sortedIdx" value="" style="visibility:hidden; height: 0px;     padding: 0px;">
 			
 					
 					<button id="PinkButton" type="submit" class="btn btn-block btn-primary pinkButton" name="btn-save">Speichern</button>

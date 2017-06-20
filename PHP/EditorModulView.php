@@ -6,7 +6,6 @@
 	 $myModulID = $_GET['modulID'];
 
      $toAdd = "";
-	 var_dump($_POST);
 	 if (isset($_POST['btn-save']) ) {
 		 $newModulName = trim($_POST['modulname']);
 		 $newModulName = strip_Tags($newModulName);
@@ -26,6 +25,13 @@
      $myModul = $ODB->getModuleFromID($myModulID);
 
 	 if (isset($_POST['addChapter']) ) {
+		 
+		 $newChapterName = trim($_POST['chapterName']);
+		 $newChapterName = strip_Tags($newChapterName);
+		 $newChapterName = htmlspecialchars($newChapterName);
+		 
+		 var_dump($newChapterName);
+		 $ODB->addChaptertoModule(40,$newChapterName,"Hallo",$myModulID);
 		 
 		 $myModul = $ODB->getModuleFromID($myModulID);
 	 }

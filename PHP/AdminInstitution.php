@@ -24,6 +24,8 @@
     
     }
 
+    
+
     $myPage = str_replace("%tablerow%",$toAdd,$myPage);     
 echo $myPage;
 ?>

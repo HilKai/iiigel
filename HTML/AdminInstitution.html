@@ -61,10 +61,39 @@
             </table>
         </div>
 
-        <div id="addInstitution">
+        <div id="addInstitution" class="col-md-3">
+            <p> <b>Institution hinzufügen</b></p>
+            <form>
+                <input id="InstitutionsName" type="text" style="width:262px;">
+            </form>
+            <h6>Name der Institution</h6>
+            <button type="button" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6" onclick="phpaufrufen();">
+                Hinzufügen
+            </button>
         </div>
 
+
+
+
     </div>
+
+    <script>
+        function phpaufrufen() {
+            alert(document.getElementById("InstitutionsName").value);
+            $.ajax({
+                type: "POST",
+                url: "AdminInstitutionHinzufugen.php",
+                data: {
+                    sName: document.getElementById("InstitutionsName").value
+                },
+                success: function(result) {
+                    location.reload()
+                },
+
+            });
+        }
+
+    </script>
 </body>
 
 </html>

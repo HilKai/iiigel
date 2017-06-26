@@ -44,7 +44,7 @@
                 $error = true;
                 $usernameError = "Ihr Benutzername muss länger als 3 Zeichen sein";
             }
-             if ($ODB->isViableUsername($_SESSION['user'], $username) == false){
+             if ($ODB->isViableUsername($userID, $username) == false){
 			     $error = true;
 			     $usernameError = "Dieser Username ist bereits vergeben.";
 		    }
@@ -69,7 +69,7 @@
                 $error = true;
                 $emailError = "Bitte geben Sie eine gültige E-Mail Adresse ein.";
             } else {
-                if ($ODB->isViableEMail($_SESSION['user'], $email) == false){
+                if ($ODB->isViableEMail($userID, $email) == false){
                     $error = true;
                     $emailError = "Ihre angegebene E-Mail ist bereits vergeben.";
                 }
@@ -77,15 +77,15 @@
         }
         
         if( !$error ) {
-           if (!empty($username)) {$ODB->setUsernameFromID($username,$_SESSION['user']);};
-           if (!empty($vorname)) {$ODB->setFirstNameFromID($vorname,$_SESSION['user']);};
-           if (!empty($nachname)) {$ODB->setLastNameFromID($nachname,$_SESSION['user']);};
-           if (!empty($email)) {$ODB->setEMailFromID($email,$_SESSION['user']);};
+           if (!empty($username)) {$ODB->setUsernameFromID($username,$userID);};
+           if (!empty($vorname)) {$ODB->setFirstNameFromID($vorname,$userID);};
+           if (!empty($nachname)) {$ODB->setLastNameFromID($nachname,$userID);};
+           if (!empty($email)) {$ODB->setEMailFromID($email,$userID);};
             unset($username);
             unset($vorname);
             unset($nachname);
             unset($email);
-		    header("Location: editProfile.php");
+		    header("Location: editProfile.php?userID=".$userID);
 	   } 
 
 		
@@ -109,7 +109,7 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     </head>
 
-    <body>
+    <body onload="loadAction()">
 
         <div id="WrappingContainer" class="container">
 
@@ -156,7 +156,7 @@
 							<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
 							<h4 class="modal-title">Passwort ändern</h4>
 						  </div>
-						  <form  id="myForm2" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" autocomplete="off">  	
+						  <form  id="myForm2" action = "" method="post" autocomplete="off">  	
 							  <div class="modal-body">
 								<div class="form-group">
 									<label for="exampleInputPrename">neues Passwort</label>
@@ -172,7 +172,7 @@
 								  <!---type="submit" value="text" name="newPass" -->
 							</form>	  
 							<div class="modal-footer">
-								<button id="ModalBtn"  class="btn btn-default" onclick ="setNewPass()">Hinzufügen</button>
+								<button id="ModalBtn"  class="btn btn-default" onclick ="setNewPass(), deleteDanger() ">Hinzufügen</button>
 							 </div>
 						</div>
 
@@ -180,7 +180,7 @@
 					</div>
 
 
-                    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
+                    <form id="myForm" method="post" action="" autocomplete="off">
                         <div class="row">
                             <div class="col-md-6 noPadding">
                                 <div class="form-group">

@@ -16,8 +16,8 @@
     // select loggedin users detail
     $myUser = $ODB->getUserFromID($_SESSION['user']); 
     $myGroups = $ODB->getGroupsFromUserID($_SESSION['user']);
-    $search = array('%Vorname%', '%Nachname%', '%UserName%', '%EMail%','%ProfilePicture%');
-    $replace = array($myUser->getsFirstName(), $myUser->getsLastName(), $myUser->getsUsername(), $myUser->getsEMail(),$ODB->getProfilePicFromID($myUser->getID()));
+    $search = array('%Vorname%', '%Nachname%', '%UserName%', '%EMail%','%ProfilePicture%','%userID%');
+    $replace = array($myUser->getsFirstName(), $myUser->getsLastName(), $myUser->getsUsername(), $myUser->getsEMail(),$ODB->getProfilePicFromID($myUser->getID()), $myUser->getID() );
     $myPage = str_replace($search,$replace,$myPage);
     $myTrainer = [];
     $toAdd = "";

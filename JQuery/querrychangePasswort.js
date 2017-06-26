@@ -1,4 +1,9 @@
 <script>
+	function loadAction() {
+		document.getElementById("myForm").action = "editProfile.php?userID=%userID%";
+		document.getElementById("myForm2").action = "editProfile.php?userID=%userID%";
+	}
+	
 	function setNewPass() {
 		$pw1 = document.getElementById("pw1").value;
 		$pw2 = document.getElementById("pw2").value;
@@ -22,6 +27,9 @@
 	}
 
 	function deleteDanger() {
-		document.getElementById("passError").innerHTML = "";	
+		document.getElementById("passError").innerHTML = "";
+		document.getElementById("pw1").value = "";
+		document.getElementById("pw2").value = "";
+		
 	}
 </script>

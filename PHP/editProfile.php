@@ -16,7 +16,10 @@
     $userID= $myUser->getID();
 	
 	$myPage = file_get_contents('../JQuery/querrychangePasswort.js');
-	echo str_replace("%userID%",$userID,$myPage);
+	$myPage = str_replace("%userID%",$userID,$myPage);
+
+	$sessionID = $_SESSION['user'];
+	echo str_replace("%sessionID%",$sessionID, $myPage);
 	 
 
 	if ( isset($_POST['btn-save']) ) {
@@ -221,7 +224,7 @@
                      </form>
 					
                         <div class="col-md-2">
-                            <form action="../PHP/userOverview.php">
+                            <form id="ZurückButton" action="../PHP/userOverview.php">
                                 <button id="Button" type="submit" class="btn btn-default">Zurück</button>
                             </form>
                         </div>

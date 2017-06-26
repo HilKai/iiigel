@@ -2,6 +2,8 @@
 	function loadAction() {
 		document.getElementById("myForm").action = "editProfile.php?userID=%userID%";
 		document.getElementById("myForm2").action = "editProfile.php?userID=%userID%";
+	
+		if (%userID% != %sessionID%) document.getElementById("ZurückButton").action = "AdminUserView.php";
 	}
 	
 	function setNewPass() {

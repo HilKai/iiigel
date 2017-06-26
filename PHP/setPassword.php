@@ -21,15 +21,17 @@
 			}
 		}
 		
-		if (empty($passwortRepeat)) {
+		if ((!empty($passwort))&&(empty($passwortRepeat))) {
 			$error = true;
-			$passRepeatError = "Bitte wiederholen sie ihr Passwort";
+			$passError = "Bitte wiederholen sie ihr Passwort";
 		}else {
 			if ($passwortRepeat != $passwort){
 				$error = true;
 				$passError = "Die beiden Passwörter stimmen nicht überein.";
 			}
 		}
+		
+		//if (empty($passwort)) && (empty($passwortRepeat)) $passError = "noPass";
 		
 		 $options = [
             'cost' => 11,

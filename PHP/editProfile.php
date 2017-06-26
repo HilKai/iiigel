@@ -153,28 +153,27 @@
 						<!-- Modal content-->
 						<div class="modal-content">
 						  <div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
 							<h4 class="modal-title">Passwort ändern</h4>
 						  </div>
 						  <form  id="myForm2" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" autocomplete="off">  	
 							  <div class="modal-body">
 								<div class="form-group">
-									<span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
 									<label for="exampleInputPrename">neues Passwort</label>
 									<input id="pw1" type="text" name="passwort1" class="form-control form" value="" >
+									<span id="passError" class="text-danger"></span>
 								</div>
 								  
 								<div class="form-group">
 									<label for="exampleInputPrename">Passwort wiederholen</label>
 									<input id="pw2" type="text" name="passwort2" class="form-control form" value="" >
 								</div> 
-							  </div>
-							  <div class="modal-footer">
-								
-								  <!---type="submit" class="btn btn-default" value="text" name="newPass" -->
-							  </div>
+							  </div>	
+								  <!---type="submit" value="text" name="newPass" -->
 							</form>	  
-							<button id="ModalBtn" onclick ="setNewPass()">Hinzufügen</button>
+							<div class="modal-footer">
+								<button id="ModalBtn"  class="btn btn-default" onclick ="setNewPass()">Hinzufügen</button>
+							 </div>
 						</div>
 
 					  </div>

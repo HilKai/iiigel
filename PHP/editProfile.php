@@ -3,15 +3,22 @@
     session_start();
     include_once("database.php");
     include_once("Model/user.php");
+	
 
     // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
         header("Location: ../index.php");
         exit;
     }
-    $myUser = $ODB->getUserFromID($_SESSION['user']);
 
+	global $myUser;
+    $myUser = $ODB->getUserFromID($_GET['userID']);
+    $userID= $myUser->getID();
 	
+	$myPage = file_get_contents('../JQuery/querrychangePasswort.js');
+	echo str_replace("%userID%",$userID,$myPage);
+	 
+
 	if ( isset($_POST['btn-save']) ) {
         $error = false;
 		/*PREVENT SQL INJECTION*/
@@ -86,6 +93,7 @@
  
 ?>
 
+
     <!DOCTYPE html>
     <html>
 
@@ -94,6 +102,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="../Styles\editProfile.css" type="text/css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!-- Schrift -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -132,10 +142,43 @@
                         </div>
 
                         <div class="col-md-2 noPadding">
-                            <button id="PasswortButton" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> Passwort ändern</button>
+                            <button id="PasswortButton" class="btn btn-default" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-pencil"></span> Passwort ändern</button>
                         </div>
                     </div>
+					
+					<!-- Modal -->
+					<div id="myModal" class="modal fade" role="dialog">
+					  <div class="modal-dialog">
 
+						<!-- Modal content-->
+						<div class="modal-content">
+						  <div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Passwort ändern</h4>
+						  </div>
+						  <form  id="myForm2" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" autocomplete="off">  	
+							  <div class="modal-body">
+								<div class="form-group">
+									<span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
+									<label for="exampleInputPrename">neues Passwort</label>
+									<input id="pw1" type="text" name="passwort1" class="form-control form" value="" >
+								</div>
+								  
+								<div class="form-group">
+									<label for="exampleInputPrename">Passwort wiederholen</label>
+									<input id="pw2" type="text" name="passwort2" class="form-control form" value="" >
+								</div> 
+							  </div>
+							  <div class="modal-footer">
+								
+								  <!---type="submit" class="btn btn-default" value="text" name="newPass" -->
+							  </div>
+							</form>	  
+							<button id="ModalBtn" onclick ="setNewPass()">Hinzufügen</button>
+						</div>
+
+					  </div>
+					</div>
 
 
                     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
@@ -170,14 +213,14 @@
                         </div>
                    
                     
-                    <div id="" class="row">
-                        <div class="col-md-2 noPadding">
+                    	<div id="" class="row">
+							<div class="col-md-2 noPadding">
                        
                                 <button id="PinkButton" type="submit" class="btn btn-block btn-primary pinkButton" name="btn-save">Speichern</button>
                             </div>
-                        
-                        
-                        </form>
+						</div>	
+                     </form>
+					
                         <div class="col-md-2">
                             <form action="../PHP/userOverview.php">
                                 <button id="Button" type="submit" class="btn btn-default">Zurück</button>
@@ -191,8 +234,6 @@
                 </div>
 
             </div>
-
-         </div>
 
     </body>
 

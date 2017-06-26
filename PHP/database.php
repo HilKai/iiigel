@@ -106,7 +106,7 @@
             $this->stmtSetFirstNameFromID = $this->db_connection->prepare("UPDATE users SET sFirstName = ? WHERE ID = ?");
             $this->stmtSetLastNameFromID = $this->db_connection->prepare("UPDATE users SET sLastName = ? WHERE ID = ?");
             $this->stmtSetEMailFromID = $this->db_connection->prepare("UPDATE users SET sEMail = ? WHERE ID = ?");
-            $this->stmtSetPasswordFromID = $this->db_connection->prepare("UPDATE users SET sPassword = ? WHERE ID = ?");
+            $this->stmtSetPasswordFromID = $this->db_connection->prepare("UPDATE users SET sHashedPassword = ? WHERE ID = ?");
             $this->stmtSetModuleNameFromID = $this->db_connection->prepare("UPDATE modules SET sName = ? WHERE ID = ?");
             $this->stmtSetModuleDescriptionFromID = $this->db_connection->prepare("UPDATE modules SET sDescription = ? WHERE ID = ? ");
             $this->stmtSetChapterTextFromID = $this->db_connection->prepare("UPDATE chapters SET sText = ? WHERE ID = ?");

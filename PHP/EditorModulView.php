@@ -2,6 +2,8 @@
     ob_start();
 	 session_start();
 	 $myPage = file_get_contents('../HTML/EditorModulView.html');
+	 
+
 	 include_once("database.php");
 	 $myModulID = $_GET['modulID'];
 

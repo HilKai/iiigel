@@ -5,6 +5,7 @@
 	 include_once("database.php");
      $allUsers = $ODB->getAllUsers();
 	 $searchUsers = $allUsers;
+	 $userSearch = "";
 
     // if session is not set this will redirect to login page
 	 if( !isset($_SESSION['user']) ) {
@@ -15,13 +16,12 @@
     if ($_POST){
 
 		if(isset($_POST['search-btn'])){      
-            $search = trim($_POST['search']);
-			$search = strip_Tags($search);
-			$search = htmlspecialchars($search);
+            $userSearch = trim($_POST['search']);
+			$userSearch = strip_Tags($userSearch);
+			$userSearch = htmlspecialchars($userSearch);
 			
-			$searchUsers = $ODB ->searchUsers("%".$search."%");
-			
-			var_dump($searchUsers);
+			$searchUsers = $ODB ->searchUsers("%".$userSearch."%");
+		
         }
         
 		if(isset($_POST['DeleteUser'])){      
@@ -35,6 +35,7 @@
     }
 
     $toAdd = "";
+	$myPage = str_replace('%lastSearch%',$userSearch,$myPage);
 
     for ($i=0; $i< sizeof($searchUsers);$i++){   
         $myRow = file_get_contents('../HTML/AdminUserViewTablerow.html');

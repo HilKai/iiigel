@@ -537,7 +537,7 @@
             $this->stmtSearchUsers->bind_param("sss",$Eingabe,$Eingabe,$Eingabe);
             $this->stmtSearchUsers->execute();
             $res = $this->stmtSearchUsers->get_result();
-            $anz = $this->countsearchedUsers($Username);
+            $anz = $this->countsearchedUsers($Eingabe);
             $row = [];
             $users = [];
             for ($i=0;$i<$anz;$i++){

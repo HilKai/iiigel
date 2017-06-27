@@ -99,7 +99,7 @@
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtgetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
-            $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ?");
+            $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ?");
             
             //----- UPDATES ------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
@@ -533,8 +533,8 @@
             return $row['COUNT(ID)'];
         }
         
-        public function searchUsers($Username){
-            $this->stmtSearchUsers->bind_param("s",$Username);
+        public function searchUsers($Eingabe){
+            $this->stmtSearchUsers->bind_param("sss",$Eingabe,$Eingabe,$Eingabe);
             $this->stmtSearchUsers->execute();
             $res = $this->stmtSearchUsers->get_result();
             $anz = $this->countsearchedUsers($Username);

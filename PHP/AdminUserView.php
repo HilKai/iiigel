@@ -19,7 +19,7 @@
 			$search = strip_Tags($search);
 			$search = htmlspecialchars($search);
 			
-			$searchUsers = $ODB ->searchUsers($search."%");
+			$searchUsers = $ODB ->searchUsers("%".$search."%");
 			
 			var_dump($searchUsers);
         }

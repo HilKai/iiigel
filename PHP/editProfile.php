@@ -3,7 +3,6 @@
     session_start();
     include_once("database.php");
     include_once("Model/user.php");
-	
 
     // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {

@@ -28,6 +28,7 @@
         private $stmtCountInstitutions;
         private $stmtCountUsers;
         private $stmtCountInstitutionsFromUser;
+        private $stmtCountSearchedUsers;
         private $stmtGetAllInstitutions;
 		private $stmtGetAllUsers;
         private $stmtGetModuleImageFromID;
@@ -93,11 +94,13 @@
             $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
             $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users");
             $this->stmtCountInstitutionsFromUser = $this->db_connection->prepare("SELECT COUNT(InstitutionID) FROM usertoinstitution WHERE UserID = ?");
+            $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ?");
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtgetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
             $this->stmtSearchUsers = $this->db_connection->prepare("SELECT sUsername FROM users WHERE sUsername LIKE ?");
+            
             //----- UPDATES ------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
             $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
@@ -522,11 +525,19 @@
             return $ins;
         }
         
+        public function countsearchedUsers($Username){
+            $this->stmtCountSearchedUsers->bind_param("s",$Username);
+            $this->stmtCountSearchedUsers->execute();
+            $res = $this->stmtCountSearchedUsers->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
         public function searchUsers($Username){
             $this->stmtSearchUsers->bind_param("s",$Username);
             $this->stmtSearchUsers->execute();
             $res = $this->stmtSearchUsers->get_result();
-            $anz = $this->countUsers();
+            $anz = $this->countsearchedUsers($Username);
             $row = [];
             $users = [];
             for ($i=0;$i<$anz;$i++){

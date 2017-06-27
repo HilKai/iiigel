@@ -10,11 +10,10 @@ class User {
     private $sHashedPassword;
     private $sProfilePicture;
     private $bIsVerified;
-    private $bIsAdmin;
     private $bIsOnline;
 
     public function __construct($ID, $sID, $sUsername, $sFirstName, $sLastName, $sEMail, $sHashedPassword,
-                                $sProfilePicture, $bIsVerified, $bIsAdmin, $bIsOnline) {
+                                $sProfilePicture, $bIsVerified, $bIsOnline) {
         $this->ID = $ID;
         $this->sID = $sID;
         $this->sUsername = $sUsername;
@@ -24,7 +23,6 @@ class User {
         $this->sHashedPassword = $sHashedPassword;
         $this->sProfilePicture = $sProfilePicture;
         $this->bIsVerified = $bIsVerified;
-        $this->bIsAdmin = $bIsAdmin;
         $this->bIsOnline = $bIsOnline;
     }
 
@@ -62,10 +60,6 @@ class User {
 
     public function getbIsVerified() {
         return $this->bIsVerified;
-    }
-
-    public function getbIsAdmin() {
-        return $this->bIsAdmin;
     }
 
     public function getbIsOnline() {

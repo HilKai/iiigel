@@ -11,12 +11,11 @@ class Teilnehmer { //nur für User in Modulen
     private $sHashedPassword;
     private $sProfilePicture;
     private $bIsVerified;
-    private $bIsAdmin;
     private $bIsOnline;
     private $iFortschritt;
     private $bIsTrainer;
  
-    public function __construct($ID, $sID, $sUsername, $sFirstName, $sLastName, $sEMail, $sHashedPassword, $sProfilePicture, $bIsVerified, $bIsAdmin, $bIsOnline, $iFortschritt, $bIsTrainer) {
+    public function __construct($ID, $sID, $sUsername, $sFirstName, $sLastName, $sEMail, $sHashedPassword, $sProfilePicture, $bIsVerified, $bIsOnline, $iFortschritt, $bIsTrainer) {
         $this->ID = $ID;
         $this->sID = $sID;
         $this->sUsername = $sUsername;
@@ -26,7 +25,6 @@ class Teilnehmer { //nur für User in Modulen
         $this->sHashedPassword = $sHashedPassword;
         $this->sProfilePicture = $sProfilePicture;
         $this->bIsVerified = $bIsVerified;
-        $this->bIsAdmin = $bIsAdmin;
         $this->bIsOnline = $bIsOnline;
         $this->iFortschritt = $iFortschritt;
         $this->bIsTrainer = $bIsTrainer;
@@ -66,10 +64,6 @@ class Teilnehmer { //nur für User in Modulen
 
     public function getbIsVerified() {
         return $this->bIsVerified;
-    }
-
-    public function getbIsAdmin() {
-        return $this->bIsAdmin;
     }
 
     public function getbIsOnline() {

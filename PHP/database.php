@@ -307,7 +307,7 @@
                 $row = mysqli_fetch_array($res);
                     return new User($row['ID'],$row['sID'],$row['sUsername'],$row['sFirstName'],
                                     $row['sLastName'],$row['sEMail'],$row['sHashedPassword'],
-                                    $row['sProfilePicture'],$row['bIsVerified'],$row['bIsAdmin'],$row['bIsOnline']);
+                                    $row['sProfilePicture'],$row['bIsVerified'],$row['bIsOnline']);
             } else {
                 throw new exception('Mehr als ein User mit dieser ID');        
             }	
@@ -336,7 +336,7 @@
                 $row = mysqli_fetch_array($res);
                     return new User($row['ID'],$row['sID'],$row['sUsername'],$row['sFirstName'],
                                     $row['sLastName'],$row['sEMail'],$row['sHashedPassword'],
-                                    $row['sProfilePicture'],$row['bIsVerified'],$row['bIsAdmin'],$row['bIsOnline']);
+                                    $row['sProfilePicture'],$row['bIsVerified'],$row['bIsOnline']);
             } else {
                 throw new exception('Mehr als ein User mit diesem Benutzernamen');        
             }
@@ -349,7 +349,7 @@
             if ($iNumResults == 1) {
                 $oTeilnehmerOfGroupResult = $this->query(
                     "SELECT users.ID,users.sID,users.sUsername,users.sFirstName,users.sLastName,users.sEMail," .
-                    "users.sHashedPassword,users.sProfilePicture,users.bIsVerified,users.bIsAdmin," .
+                    "users.sHashedPassword,users.sProfilePicture,users.bIsVerified," .
                     "users.bIsOnline,usertogroup.iFortschritt,usertogroup.bIsTrainer " .
                     "FROM users INNER JOIN usertogroup ON users.ID = usertogroup.UserID " .
                     "WHERE usertogroup.GroupID = " . $ID . " ORDER BY users.sFirstName ASC");
@@ -358,7 +358,7 @@
                     //ToDo: switch to non-indice based access of db-column
                     $aTeilnehmerOfGroup[] = new Teilnehmer($oTeilnehmer[0], $oTeilnehmer[1], $oTeilnehmer[2],
                         $oTeilnehmer[3], $oTeilnehmer[4], $oTeilnehmer[5], $oTeilnehmer[6], $oTeilnehmer[7],
-                        $oTeilnehmer[8], $oTeilnehmer[9], $oTeilnehmer[10], $oTeilnehmer[11], $oTeilnehmer[12]);
+                        $oTeilnehmer[8], $oTeilnehmer[9], $oTeilnehmer[10], $oTeilnehmer[11]);
                 }
                 $row = mysqli_fetch_array($res);
                 return new Group($row['ID'], $row['ModulID'], $row['InstitutionsID'], $row['sName'], $row['bIsDeleted'],
@@ -500,7 +500,7 @@
                 $row[$i] = mysqli_fetch_array($res);
                 $users[$i] =  new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
                                    $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
-                                   $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsAdmin'],$row[$i]['bIsOnline']); 
+                                   $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsOnline']); 
             }
             
             return $users;
@@ -526,10 +526,11 @@
             $this->stmtSearchUsers->bind_param("s",$Username);
             $this->stmtSearchUsers->execute();
             $res = $this->stmtSearchUsers->get_result();
+            $anz = $this->countUsers();
             $row = [];
             $users = [];
-            for ($i=0;$i<$res;$i++){
-                $row[i] = mysqli_fetch_array($res);
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
                 $users[$i] = $row[$i]['sUsername'];
             }
             

@@ -64,3 +64,47 @@ body {
 .noPadding {
     padding: 0 !important;
 }
+
+#SearchContainer {
+    margin: 40px 40px 0px 40px;
+}
+
+.search[type=text] {
+    width: 200px;
+    height: 40px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+    padding: 0px 0px 0px 5px;
+    margin: 0;
+}
+
+
+/* When the input field gets focus, change its width to 100% */
+
+.search[type=text]:focus {
+    width: calc(100% - 80px);
+}
+
+#GoButton {
+    margin: -2px 0px 0px -5px;
+    border: 0px;
+    padding: :0;
+    height: 40px;
+    width: 70px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    background-color: #e31465;
+    color: #fff;
+}
+
+.chooseBox {
+    height: 80px;
+    border: 1px solid #000;
+    margin-left: 70px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}

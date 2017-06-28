@@ -15,14 +15,17 @@
     $myInstitution = $ODB->getAllInstitutions();
     for ($i=0; $i< sizeof($myInstitution);$i++){   
         $myRow = file_get_contents('../HTML/AdminInstitutionTablerow.html');
-            $search = array('%Institutionsname%');
-            $replace = array($myInstitution[$i] ->getsName());
-            $myRow = str_replace($search,$replace,$myRow);
+        $search = array('%Institutionsname%','%InstitutionsID%');
+        $replace = array($myInstitution[$i] ->getsName(),$myInstitution[$i]->getID());
+        $myRow = str_replace($search,$replace,$myRow);
+        
         
         $toAdd = $toAdd . $myRow;
        
-    
+       
     }
+ 
+   
 
     
 

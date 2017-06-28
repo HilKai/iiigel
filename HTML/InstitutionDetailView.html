@@ -33,15 +33,24 @@
     <div id="WrappingContainer" class="container">
         <div id="header">
             <span class="glyphicon glyphicon-education col-md-1" style="font-size:55px;margin-top:27px;margin-left:30px;float:left;"></span>
-            <h1 class="headline col-md-9">Institutionsübersicht</h1>
+
+            <h1 class="headline col-md-7" style="float:left;">%Institutionsname%</h1>
+
+            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1" style="margin-bottom:20px;float:left;">
+                <a href="../HTML/AdminModulDetailView.html">Module </a>
+            </button>
+
+            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1" style="margin-bottom:20px;float:left;">
+                <a href="#">Gruppen</a>
+            </button>
             <div style="clear:both;"></div>
 
-            <div id="SearchContainer" class="row">
-                <form method="post" action="" class="col-md-12 noPadding">
-                    <input class="search form" type="text" name="search" placeholder="Benutzersuche.." value="%lastSearch%">
-                    <button id="GoButton" type="submit" class="btn btn-default" name="search-btn"> <span class="glyphicon glyphicon-search"></span> Los!</button>
-                </form>
-            </div>
+            <span class="glyphicon glyphicon-search searchIcon "></span>
+            <form>
+                <input type="text" name="search" placeholder="Suche Benutzer..." class="searchField  ">
+            </form>
+            <div style="clear:both;"></div>
+            <hr width="270px" size="2px" class="line">
         </div>
 
 
@@ -49,11 +58,12 @@
             <table id="Table" class="table">
                 <thead>
                     <tr>
-                        <th>Institutionsname</th>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                        <th>Username</th>
+                        <th>E-Mail</th>
 
 
-                        <th>Bearbeiten</th>
-                        <!--Bearbeiten-->
                     </tr>
                 </thead>
                 <tbody>
@@ -62,12 +72,12 @@
             </table>
         </div>
 
-        <div id="addInstitution" class="col-md-3">
-            <p> <b>Institution hinzufügen</b></p>
+        <div id="addUser" class="col-md-3">
+            <p> <b>Benutzer hinzufügen</b></p>
             <form>
                 <input id="InstitutionsName" type="text" style="width:262px;">
             </form>
-            <h6>Name der Institution</h6>
+            <h6>Name des Benutzers</h6>
             <button type="button" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6" onclick="phpaufrufen();">
                 Hinzufügen
             </button>

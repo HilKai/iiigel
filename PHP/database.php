@@ -117,9 +117,9 @@
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
             $this->stmtgetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
-            $this->$stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT UserID FROM usertoinstitution WHERE InstitutionID = ?");
-            $this->$stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT ModuleID FROM moduletoinstitution WHERE InstitutionID = ?");
-            $this->$stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ?");
+            $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT UserID FROM usertoinstitution WHERE InstitutionID = ?");
+            $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT ModuleID FROM moduletoinstitution WHERE InstitutionID = ?");
+            $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ?");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
             $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ? ORDER BY sFirstName,sLastName");
             

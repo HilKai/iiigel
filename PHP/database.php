@@ -27,7 +27,7 @@
         private $stmtGetIDFromUsername;
         private $stmtCountInstitutions;
         private $stmtCountUsers;
-        private $stmtCountGroups:
+        private $stmtCountGroups;
         private $stmtCountModules;
         private $stmtCountInstitutionsFromUser;
         private $stmtCountUsersFromInstitution;

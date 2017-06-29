@@ -36,12 +36,12 @@
 
             <h1 class="headline col-md-7" style="float:left;">Gruppen</h1>
 
-            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1" style="margin-bottom:20px;float:left;">
-                Module 
+            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1 " style="margin-top:50px;float:left;">
+                <a href="AdminModulDetail.php" style="text-decoration:none">Module </a>
             </button>
 
-            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1" style="margin-bottom:20px;float:left;">
-                <a href="">Institutionen</a>
+            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1 col-md-offset-1" style="margin-top:50px;float:left;">
+                <a href="AdminInstitution.php" style="text-decoration:none">Institutionen</a>
             </button>
             <div style="clear:both;"></div>
 
@@ -69,12 +69,20 @@
             </table>
         </div>
 
-        <div id="addUser" class="col-md-3">
-            <p> <b>Benutzer hinzufügen</b></p>
+        <div id="addGroup" class="col-md-3">
+            <p> <b>Gruppe hinzufügen</b></p>
             <form>
-                <input id="InstitutionsName" type="text" style="width:262px;">
+                <input id="GruppenName" type="text" style="width:262px;">
+                <h6>Name der Gruppe</h6>
+                <input id="Modul" type="text" style="width:262px;">
+                <h6>Modul</h6>
+                <!------Hier vielleicht immer abfragen ob das eingegebene auch in datenbank drin ist -->
+                <input id="Institution" type="text" style="width:262px;">
+                <h6>Institutions</h6>
+                <input id="Trainer" type="text" style="width:262px;">
+                <h6>Trainer </h6>
             </form>
-            <h6>Name des Benutzers</h6>
+
             <button type="button" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6" onclick="phpaufrufen();">
                 Hinzufügen
             </button>
@@ -84,6 +92,24 @@
 
 
     </div>
+
+    <script>
+        function phpaufrufen() {
+
+            $.ajax({
+                type: "POST",
+                url: "AdminGroupHinzufugen.php",
+                data: {
+                    sName: document.getElementById("GruppenName").value
+                },
+                success: function(result) {
+                    location.reload()
+                },
+
+            });
+        }
+
+    </script>
 
 
 </body>

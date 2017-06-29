@@ -36,12 +36,12 @@
 
             <h1 class="headline col-md-7" style="float:left;">%Institutionsname%</h1>
 
-            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1" style="margin-bottom:20px;float:left;">
-                <a href="AdminModulDetail.php">Module </a>
+            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1 " style="margin-top:50px;float:left;">
+                <a href="AdminModulDetail.php" style="text-decoration:none">Module </a>
             </button>
 
-            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1" style="margin-bottom:20px;float:left;">
-                <a href="AdminGroup.php">Gruppen</a>
+            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1 col-md-offset-1" style="margin-top:50px;float:left;">
+                <a href="AdminGroup.php" style="text-decoration:none">Gruppen</a>
             </button>
             <div style="clear:both;"></div>
 
@@ -90,7 +90,7 @@
 
     <script>
         function phpaufrufen() {
-            alert(document.getElementById("InstitutionsName").value);
+
             $.ajax({
                 type: "POST",
                 url: "AdminInstitutionHinzufugen.php",

@@ -27,10 +27,21 @@
         private $stmtGetIDFromUsername;
         private $stmtCountInstitutions;
         private $stmtCountUsers;
+        private $stmtCountGroups:
+        private $stmtCountModules;
         private $stmtCountInstitutionsFromUser;
+        private $stmtCountUsersFromInstitution;
+        private $stmtCountGroupsFromInstitution;
+        private $stmtCountModulesFromInstitution;
+        private $stmtCountUsersFromModule;
         private $stmtCountSearchedUsers;
         private $stmtGetAllInstitutions;
 		private $stmtGetAllUsers;
+        private $stmtGetAllModules;
+        private $stmtGetAllGroups;
+        private $stmtGetUsersFromInstitution;
+        private $stmtGetModulesFromInstitution;
+        private $stmtGetGroupsFromInstitution;
         private $stmtGetModuleImageFromID;
         private $stmtgetInstitutionsFromUserID;
         private $stmtGetHighestIndexFromChapter;
@@ -93,13 +104,24 @@
            
             $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
             $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users");
+            $this->stmtCountGroups = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups");
+            $this->stmtCountModules = $this->db_connection->prepare("SELECT COUNT(ID) FROM modules");
             $this->stmtCountInstitutionsFromUser = $this->db_connection->prepare("SELECT COUNT(InstitutionID) FROM usertoinstitution WHERE UserID = ?");
+            $this->stmtCountUsersFromInstitution = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertoinstitution WHERE InstitutionID = ?");
+            $this->stmtCountModulesFromInstitution = $this->db_connection->prepare("SELECT COUNT(ModuleID) FROM moduletoinstitution WHERE InstitutionID = ?");
+            $this->stmtCountGroupsFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups WHERE InstitutionsID = ?");
             $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ?");
+            $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
+            $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
+            $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
             $this->stmtgetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
+            $this->$stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT UserID FROM usertoinstitution WHERE InstitutionID = ?");
+            $this->$stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT ModuleID FROM moduletoinstitution WHERE InstitutionID = ?");
+            $this->$stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ?");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
-            $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ?");
+            $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ? ORDER BY sFirstName,sLastName");
             
             //----- UPDATES ------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
@@ -470,12 +492,58 @@
             return $row['COUNT(ID)'];
         }
         
+        public function countGroups(){
+            $this->stmtCountGroups->execute();
+            $res = $this->stmtCountGroups->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
+        public function countModules(){
+            $this->stmtCountModules->execute();
+            $res = $this->stmtCountModules->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
         public function countInstitutionsFromUser($UserID){
             $this->stmtCountInstitutionsFromUser->bind_param("i",$UserID);
             $this->stmtCountInstitutionsFromUser->execute();
             $res = $this->stmtCountInstitutionsFromUser->get_result();
             $row = mysqli_fetch_array($res);
             return $row['COUNT(InstitutionID)'];
+        }
+        
+        public function countUsersFromInstitution($InstitutionID){
+            $this->stmtCountUsersFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtCountUsersFromInstitution->execute();
+            $res = $this->stmtCountUsersFromInstitution->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(UserID)'];
+        }
+        
+        public function countModulesFromInstitution($InstitutionID){
+            $this->stmtCountModulesFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtCountModulesFromInstitution->execute();
+            $res = $this->stmtCountModulesFromInstitution->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ModuleID)'];
+        }
+        
+        public function countGroupsFromInstitution($InstitutionID){
+            $this->stmtCountGroupsFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtCountGroupsFromInstitution->execute();
+            $res = $this->stmtCountGroupsFromInstitution->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
+        public function countUsersFromModul($ModulID){
+            $this->stmtCountUsersFromModul->bind_param("i",$ModulID);
+            $this->stmtCountUsersFromModul->execute();
+            $res = $this->stmtCountUsersFromModul->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(UserID)'];
         }
         
         public function getAllInstitutions(){
@@ -510,6 +578,38 @@
             
         }
         
+        public function getAllGroups(){
+            $this->stmtGetAllGroups->execute();
+            $res = $this->stmtGetAllGroups->get_result();
+            $anz = $this->countGroups();
+            $row = [];
+            $groups = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                $groups[$i] =  new Group($row[$i]['ID'],$row[$i]['ModulID'],$row[$i]['InstitutionsID'],$row[$i]['sName'],
+                                   $row[$i]['bIsDeleted']); 
+            }
+            
+            return $groups;
+            
+        }
+        
+        public function getAllModules(){
+            $this->stmtGetAllModules->execute();
+            $res = $this->stmtGetAllModules->get_result();
+            $anz = $this->countModules();
+            $row = [];
+            $modules = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                $modules[$i] =  new Group($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sName'],$row[$i]['sDescription'],
+                                   $row[$i]['sLanguage'],$row[$i]['sIcon'],$row[$i]['bIsDeleted'],$row[$i]['bIsLive'],$row[$i]['sPfadBild']); 
+            }
+            
+            return $modules;
+            
+        }
+        
         public function getInstitutionsFromUserID($UserID){
             $this->stmtgetInstitutionsFromUserID->bind_param("i",$UserID);
             $this->stmtgetInstitutionsFromUserID->execute();
@@ -523,6 +623,51 @@
             } 
             
             return $ins;
+        }
+        
+        public function getUsersFromInstitution($InstitutionID){
+            $this->stmtgetUsersFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtgetUsersFromInstitution->execute();
+            $res = $this->stmtgetUsersFromInstitution->get_result();
+            $anz = $this->countUserFromInstitution($InstitutionID);
+            $row = [];
+            $users = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                $users[$i] = $row[$i]['UserID'];
+            } 
+            
+            return $users;
+        }
+        
+        public function getModulesFromInstitution($InstitutionID){
+            $this->stmtgetModulesFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtgetModulesFromInstitution->execute();
+            $res = $this->stmtgetModulesFromInstitution->get_result();
+            $anz = $this->countModulesFromInstitution($InstitutionID);
+            $row = [];
+            $modules = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                $modules[$i] = $row[$i]['ModuleID'];
+            } 
+            
+            return $modules;
+        }
+        
+        public function getGroupsFromInstitution($InstitutionID){
+            $this->stmtgetGroupsFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtgetGroupsFromInstitution->execute();
+            $res = $this->stmtgetGroupsFromInstitution->get_result();
+            $anz = $this->countGroupsFromInstitution($InstitutionID);
+            $row = [];
+            $groups = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                $groups[$i] = new Group($row['ID'], $row['ModulID'], $row['sName'], $row['bIsDeleted']);
+            } 
+            
+            return $groups;
         }
         
         public function countsearchedUsers($Username){

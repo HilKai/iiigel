@@ -586,8 +586,7 @@
             $groups = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res);
-                $groups[$i] =  new Group($row[$i]['ID'],$row[$i]['ModulID'],$row[$i]['InstitutionsID'],$row[$i]['sName'],
-                                   $row[$i]['bIsDeleted']); 
+                $groups[$i] = $this->getGroupFromID($i); 
             }
             
             return $groups;
@@ -602,8 +601,7 @@
             $modules = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res);
-                $modules[$i] =  new Group($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sName'],$row[$i]['sDescription'],
-                                   $row[$i]['sLanguage'],$row[$i]['sIcon'],$row[$i]['bIsDeleted'],$row[$i]['bIsLive'],$row[$i]['sPfadBild']); 
+                $modules[$i] = $this->getModuleFromID($i); 
             }
             
             return $modules;

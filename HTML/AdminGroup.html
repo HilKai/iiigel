@@ -34,14 +34,14 @@
         <div id="header">
             <span class="glyphicon glyphicon-education col-md-1" style="font-size:55px;margin-top:27px;margin-left:30px;float:left;"></span>
 
-            <h1 class="headline col-md-7" style="float:left;">%Institutionsname%</h1>
+            <h1 class="headline col-md-7" style="float:left;">Gruppen</h1>
 
             <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1" style="margin-bottom:20px;float:left;">
-                <a href="AdminModulDetail.php">Module </a>
+                Module 
             </button>
 
             <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1" style="margin-bottom:20px;float:left;">
-                <a href="AdminGroup.php">Gruppen</a>
+                <a href="">Institutionen</a>
             </button>
             <div style="clear:both;"></div>
 
@@ -58,12 +58,9 @@
             <table id="Table" class="table">
                 <thead>
                     <tr>
-                        <th>Vorname</th>
-                        <th>Nachname</th>
-                        <th>Username</th>
-                        <th>E-Mail</th>
-
-
+                        <th>Gruppenbezeichnung</th>
+                        <th>Trainer</th>
+                        <th>Bearbeiten</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,23 +85,7 @@
 
     </div>
 
-    <script>
-        function phpaufrufen() {
-            alert(document.getElementById("InstitutionsName").value);
-            $.ajax({
-                type: "POST",
-                url: "AdminInstitutionHinzufugen.php",
-                data: {
-                    sName: document.getElementById("InstitutionsName").value
-                },
-                success: function(result) {
-                    location.reload()
-                },
 
-            });
-        }
-
-    </script>
 </body>
 
 </html>

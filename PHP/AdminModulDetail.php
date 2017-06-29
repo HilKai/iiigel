@@ -4,11 +4,11 @@
   
     
      $toAdd = "";
-    $myUsers = $ODB->getAllUsers();
-    for ($i=0; $i< sizeof($myUsers);$i++){   
-        $myRow = file_get_contents('../HTML/InstitutionDetailViewTablerow.html');
-        $search = array('%Vorname%','%Nachname%','%Username%','%Email%');
-        $replace = array($myUsers[$i] ->getsFirstName(),$myUsers[$i]->getsLastName(),$myUsers[$i]->getsUsername(),$myUsers[$i]->getsEMail());
+    $myModules = $ODB->getAllModules();
+    for ($i=0; $i< sizeof($myModules);$i++){   
+        $myRow = file_get_contents('../HTML/ModulDetailTablerow.html');
+        $search = array('%Modulbezeichnung%','%Sprache%');
+        $replace = array($myModules[$i] ->getsName(),$myModules[$i]->getsLanguage());
         $myRow = str_replace($search,$replace,$myRow);
         
         

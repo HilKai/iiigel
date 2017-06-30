@@ -30,6 +30,7 @@
         private $stmtGetProfilePicFromUserID;
         private $stmtGetIDFromUsername;
         private $stmtGetUsersFromInstitution;
+        private $stmtGetUsersFromGroup;
         private $stmtGetModulesFromInstitution;
         private $stmtGetGroupsFromInstitution;
         private $stmtGetModuleImageFromID;
@@ -51,6 +52,7 @@
         private $stmtCountGroupsFromInstitution;
         private $stmtCountModulesFromInstitution;
         private $stmtCountUsersFromModule;
+        private $stmtCountUsersFromGroup;
         private $stmtCountSearchedUsers;
         
         //--------------------------------------------------
@@ -68,6 +70,7 @@
         private $stmtSetChapterTextFromID;
         private $stmtSetModuleImageFromID;
         private $stmtSetChapterIndexFromID;
+        private $stmtSetTrainertoGroup;
         private $stmtAcceptHandIn;
         
         //------------------------------------------------
@@ -76,6 +79,7 @@
         private $stmtaddInstitution;
         private $stmtaddHandIn;
         private $stmtaddChaptertoModule;
+        private $stmtaddTrainertoGroup;
         private $stmtgiveRighttoUser;
         
         //------------------------------------------------
@@ -127,12 +131,16 @@
             $this->stmtCountGroupsFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups WHERE InstitutionsID = ?");
             $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ?");
             $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
+            $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ?");
+            
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
+            
             $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
             $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT UserID FROM usertoinstitution WHERE InstitutionID = ?");
+            $this->stmtGetUsersFromGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ?");
             $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT ModuleID FROM moduletoinstitution WHERE InstitutionID = ?");
             $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ?");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
@@ -153,6 +161,7 @@
             $this->stmtSetChapterTextFromID = $this->db_connection->prepare("UPDATE chapters SET sText = ? WHERE ID = ?");
             $this->stmtSetModuleImageFromID = $this->db_connection->prepare("UPDATE modules SET sPfadBild = ? WHERE ID = ?");
             $this->stmtSetChapterIndexFromID = $this->db_connection->prepare("UPDATE chapters SET iIndex = ? WHERE ID = ?");
+            $this->stmtSetTrainertoGroup = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 1 WHERE UserID = ? AND GroupID = ?");
             $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             
             //------------------------------------------------------- INSERTS -------------------------------------------------------------------
@@ -160,6 +169,7 @@
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
             $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
             $this->stmtaddChaptertoModule = $this->db_connection->prepare("INSERT INTO chapters (iIndex,sTitle,sText,ModulID) VALUES (?,?,?,?)"); 
+            $this->stmtaddTrainertoGroup = $this->db_connection->prepare("INSERT INTO usertogroup VALUES (?,?,1)");
             $this->stmtgiveRighttoUser = $this->db_connection->prepare("INSERT INTO roles VALUES (?,?,?)");
             
             //------------------------------------------------------- DELETES ------------------------------------------------------------------
@@ -349,6 +359,11 @@
         public function addChaptertoModule($Index,$Title,$Text,$ModulID){
             $this->stmtaddChaptertoModule->bind_param("issi",$Index,$Title,$Text,$ModulID);
             $this->stmtaddChaptertoModule->execute();
+        }
+        
+        public function addTrainertoGroup($UserID,$GroupID){
+            $this->stmtaddTrainertoGroup->bind_param("ii",$UserID,$GroupID);
+            $this->stmtaddTrainertoGroup->execute();
         }
         
         public function giveRighttoUser($UserID,$RoleID,$sHashID){
@@ -552,15 +567,32 @@
         }
         
         public function getUsersFromInstitution($InstitutionID){
-            $this->stmtgetUsersFromInstitution->bind_param("i",$InstitutionID);
-            $this->stmtgetUsersFromInstitution->execute();
-            $res = $this->stmtgetUsersFromInstitution->get_result();
+            $this->stmtGetUsersFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtGetUsersFromInstitution->execute();
+            $res = $this->stmtGetUsersFromInstitution->get_result();
             $anz = $this->countUserFromInstitution($InstitutionID);
             $row = [];
             $users = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res); 
                 $users[$i] = $row[$i]['UserID'];
+            } 
+            
+            return $users;
+        }
+        
+        public function getUsersFromGroup($GroupID){
+            $this->stmtGetUsersFromGroup->bind_param("i",$GroupID);
+            $this->stmtGetUsersFromGroup->execute();
+            $res = $this->stmtGetUsersFromGroup->get_result();
+            $anz = $this->countUsersFromGroup($GroupID);
+            $row = [];
+            $users = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                $users[$i] = new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
+                                      $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
+                                      $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsOnline']);
             } 
             
             return $users;
@@ -679,6 +711,14 @@
             $this->stmtCountUsersFromModule->bind_param("i",$ModulID);
             $this->stmtCountUsersFromModule->execute();
             $res = $this->stmtCountUsersFromModule->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(UserID)'];
+        }
+        
+        public function countUsersFromGroup($GroupID){
+            $this->stmtCountUsersFromGroup->bind_param("i",$GroupID);
+            $this->stmtCountUsersFromGroup->execute();
+            $res = $this->stmtCountUsersFromGroup->get_result();
             $row = mysqli_fetch_array($res);
             return $row['COUNT(UserID)'];
         }
@@ -820,6 +860,11 @@
         public function setChapterIndexFromID($Index,$ID){
             $this->stmtSetChapterIndexFromID->bind_param("ii",$Index,$ID);
             $this->stmtSetChapterIndexFromID->execute();
+        }
+        
+        public function setTrainertoGroup($UserID,$GroupID){
+            $this->stmtSetTrainertoGroup->bind_param("ii",$UserID,$GroupID);
+            $this->stmtSetTrainertoGroup->execute();
         }
         
         public function acceptHandIn($UserID,$GroupID){

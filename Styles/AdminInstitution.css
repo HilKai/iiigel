@@ -1,110 +1,107 @@
 body {
-    background-image: url("../Images/FN_091.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    width: 100%;
-    height: 100%;
+	background-image: url("../Images/FN_091.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	width: 100%;
+	height: 100%;
 }
 
 #WrappingContainer {
-    border-radius: 2px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 0;
-    font-family: 'Open Sans', sans-serif;
+	border-radius: 2px;
+	margin: 20px auto;
+	background-color: #fff;
+	padding: 0;
+	font-family: 'Open Sans', sans-serif;
 }
 
 
 /*------------HEADER-------------*/
 
 .searchField {
-    border: 0px;
-    border-bottom: 1px;
-    float: left;
-    padding-left: 10px;
-    padding-top: 17px;
-    font-size: 20px;
+	border: 0px;
+	border-bottom: 1px;
+	float: left;
+	padding-left: 10px;
+	padding-top: 17px;
+	font-size: 20px;
 }
 
 .searchIcon {
-    float: left;
-    margin-left: 40px;
-    padding-top: 20px;
-    font-size: 20px;
+	float: left;
+	margin-left: 40px;
+	padding-top: 20px;
+	font-size: 20px;
 }
 
 .line {
-    margin-left: 70px;
-    margin-top: 0px;
+	margin-left: 70px;
+	margin-top: 0px;
 }
 
 .headline {
-    font-family: 'Open Sans Condensed', sans-serif;
-    font-size: 60px;
-    float: left;
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 60px;
+	float: left;
 }
 
 
 /*----------BODY-----------------*/
 
 #institutionsOverview {
-    margin-left: 25px;
+	margin-left: 25px;
 }
 
-#AddInstitution {
-    text-align: center;
-    color: #ddd;
-}
+#AddInstitution {}
 
 .cursorHover:hover span {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .noPadding {
-    padding: 0 !important;
+	padding: 0 !important;
 }
 
 #SearchContainer {
-    margin: 40px 40px 0px 40px;
+	margin: 40px 40px 0px 40px;
 }
 
 .search[type=text] {
-    width: 200px;
-    height: 40px;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-    padding: 0px 0px 0px 5px;
-    margin: 0;
+	width: 200px;
+	height: 40px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	-webkit-transition: width 0.4s ease-in-out;
+	transition: width 0.4s ease-in-out;
+	padding: 0px 0px 0px 5px;
+	margin: 0;
 }
 
 
 /* When the input field gets focus, change its width to 100% */
 
 .search[type=text]:focus {
-    width: calc(100% - 80px);
+	width: calc(100% - 80px);
 }
 
 #GoButton {
-    margin: -2px 0px 0px -5px;
-    border: 0px;
-    padding: :0;
-    height: 40px;
-    width: 70px;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    background-color: #e31465;
-    color: #fff;
+	margin: -2px 0px 0px -5px;
+	border: 0px;
+	padding: :0;
+	height: 40px;
+	width: 70px;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	background-color: #e31465;
+	color: #fff;
 }
 
 .chooseBox {
-    height: 80px;
-    border: 1px solid #000;
-    margin-left: 70px;
-    margin-bottom: 50px;
-    margin-top: 50px;
+	height: 80px;
+	border: 1px solid #000;
+	margin-left: 70px;
+	margin-bottom: 50px;
+	margin-top: 50px;
 }

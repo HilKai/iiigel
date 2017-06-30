@@ -23,7 +23,7 @@
 			$searchUsers = $ODB ->searchUsers("%".$userSearch."%");
 		
         }
-        
+         
 		if(isset($_POST['DeleteUser'])){      
                  for ($i=0; $i< sizeof($allUsers);$i++){  
                     if($allUsers[$i]->getID() ==  $_POST['DeleteUser']) {

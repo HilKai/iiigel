@@ -1,17 +1,17 @@
 <?php 
     include_once("database.php");
-    $myPage = file_get_contents('../HTML/InstitutionDetailView.html');
+    $myPage = file_get_contents('../HTML/AdminGroupDetailView.html');
   
-    $myRow = file_get_contents('../HTML/InstitutionDetailView.html');
-    $search = array('%Institutionsname%');
-    $replace = array($ODB->getInstitutionFromID($_GET['InstitutionsID']) ->getsName());
+    $myRow = file_get_contents('../HTML/AdminGroupDetailView.html');
+    $search = array('%Gruppenname%');
+    $replace = array($ODB->getGroupFromID($_GET['GroupID']) ->getsName());
     $myPage = str_replace($search,$replace,$myRow);
   
       
      $toAdd = "";
-    $myUsers = $ODB->getUsersFromInstitution($_GET['InstitutionsID']);
+    $myUsers = $ODB->getAllUsers();
     for ($i=0; $i< sizeof($myUsers);$i++){   
-        $myRow = file_get_contents('../HTML/InstitutionDetailViewTablerow.html');
+        $myRow = file_get_contents('../HTML/AdminGroupDetailView.html');
         $search = array('%Vorname%','%Nachname%','%Username%','%Email%');
         $replace = array($myUsers[$i] ->getsFirstName(),$myUsers[$i]->getsLastName(),$myUsers[$i]->getsUsername(),$myUsers[$i]->getsEMail());
         $myRow = str_replace($search,$replace,$myRow);

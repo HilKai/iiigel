@@ -1,92 +1,108 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="../Styles/AdminInstitution.css" type="text/css">
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="../Styles/AdminInstitution.css" type="text/css">
 
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-------------------------------BOOTSTRAP--------------------------------->
-    <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-------------------------------BOOTSTRAP--------------------------------->
+	<link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <!---------------------------------GOOGLE FONTS--------------------->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<!---------------------------------GOOGLE FONTS--------------------->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
 
 
 </head>
 
 <body class="body">
-    <div id="WrappingContainer" class="container">
-        <div id="header">
-            <span class="glyphicon glyphicon-education col-md-1" style="font-size:55px;margin-top:27px;margin-left:30px;float:left;"></span>
+	<div id="WrappingContainer" class="container">
+		<div id="header">
+			<span class="glyphicon glyphicon-education col-md-1" style="font-size:55px;margin-top:27px;margin-left:30px;float:left;"></span>
 
-            <h1 class="headline col-md-7" style="float:left;">Module</h1>
+			<h1 class="headline col-md-7" style="float:left;">Module</h1>
 
-            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1 " style="margin-top:50px;float:left;">
-                <a href="AdminInstitution.php" style="text-decoration:none">Institutionen </a>
+			<button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1 " style="margin-top:50px;float:left;">
+                <a href="AdminInstitution.php" style="text-decoration:none;color:#000;">Institutionen </a>
             </button>
 
-            <button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1 col-md-offset-1" style="margin-top:50px;float:left;">
-                <a href="AdminGroup.php" style="text-decoration:none">Gruppen</a>
+			<button type="submit" id="Button" name="NextButton" class="btn btn-default col-md-1 " style="margin-top:50px;float:left; margin-left:50px;">
+                <a href="AdminGroup.php" style="text-decoration:none;color:#000;">Gruppen</a>
             </button>
-            <div style="clear:both;"></div>
+			<div style="clear:both;"></div>
 
-            <span class="glyphicon glyphicon-search searchIcon "></span>
-            <form>
-                <input type="text" name="search" placeholder="Suche Modul..." class="searchField  ">
-            </form>
-            <div style="clear:both;"></div>
-            <hr width="270px" size="2px" class="line">
-        </div>
+			<span class="glyphicon glyphicon-search searchIcon "></span>
+			<form>
+				<input type="text" name="search" placeholder="Suche Modul..." class="searchField  ">
+			</form>
+			<div style="clear:both;"></div>
+			<hr width="270px" size="2px" class="line">
+		</div>
 
 
-        <div id="institutionsOverview" class="col-md-8">
-            <table id="Table" class="table">
-                <thead>
-                    <tr>
-                        <th>Modulbezeichnung</th>
-                        <th>Sprache</th>
-                        <th>Anzahl an Teilnehmern</th>
-                        <th>Bearbeiten</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    %tablerow%
-                </tbody>
-            </table>
-        </div>
+		<div id="institutionsOverview" class="col-md-8">
+			<table id="Table" class="table">
+				<thead>
+					<tr>
+						<th>Modulbezeichnung</th>
+						<th>Sprache</th>
 
-        <div id="addUser" class="col-md-3">
-            <p> <b>Benutzer hinzufügen</b></p>
-            <form>
-                <input id="InstitutionsName" type="text" style="width:262px;">
-            </form>
-            <h6>Name des Benutzers</h6>
-            <button type="button" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6" onclick="phpaufrufen();">
+					</tr>
+				</thead>
+				<tbody>
+					%tablerow%
+				</tbody>
+			</table>
+		</div>
+
+		<div id="addUser" class="col-md-3">
+			<p> <b>Benutzer hinzufügen</b></p>
+			<form>
+				<input id="InstitutionsName" type="text" style="width:262px;">
+			</form>
+			<h6>Name des Benutzers</h6>
+			<button type="button" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6" onclick="phpaufrufen();">
                 Hinzufügen
             </button>
-        </div>
+		</div>
 
 
 
 
-    </div>
+	</div>
 
 
+	<script>
+		function phpaufrufen() {
+
+			$.ajax({
+				type: "POST",
+				url: "AdminGroupHinzufugen.php",
+				data: {
+					sName: document.getElementById("GruppenName").value
+				},
+				success: function(result) {
+					location.reload()
+				},
+
+			});
+		}
+
+	</script>
 </body>
 
 </html>

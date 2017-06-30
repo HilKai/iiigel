@@ -3,6 +3,7 @@
 	 session_start();
 	 $myPage = file_get_contents('../HTML/AdminInstitution.html');
 	 include_once("database.php");
+
    
     $myUserID = $_SESSION['user'];
     
@@ -24,7 +25,8 @@
        
        
     }
- 
+
+   
    
 
     

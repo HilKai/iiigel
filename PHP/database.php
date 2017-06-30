@@ -70,7 +70,7 @@
         private $stmtSetChapterTextFromID;
         private $stmtSetModuleImageFromID;
         private $stmtSetChapterIndexFromID;
-        private $stmtSetTrainertoGroup;
+        private $stmtMakeUsertoTrainer;
         private $stmtAcceptHandIn;
         
         //------------------------------------------------
@@ -161,7 +161,7 @@
             $this->stmtSetChapterTextFromID = $this->db_connection->prepare("UPDATE chapters SET sText = ? WHERE ID = ?");
             $this->stmtSetModuleImageFromID = $this->db_connection->prepare("UPDATE modules SET sPfadBild = ? WHERE ID = ?");
             $this->stmtSetChapterIndexFromID = $this->db_connection->prepare("UPDATE chapters SET iIndex = ? WHERE ID = ?");
-            $this->stmtSetTrainertoGroup = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 1 WHERE UserID = ? AND GroupID = ?");
+            $this->stmtMakeUsertoTrainer = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 1 WHERE UserID = ? AND GroupID = ?");
             $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             
             //------------------------------------------------------- INSERTS -------------------------------------------------------------------
@@ -862,9 +862,9 @@
             $this->stmtSetChapterIndexFromID->execute();
         }
         
-        public function setTrainertoGroup($UserID,$GroupID){
-            $this->stmtSetTrainertoGroup->bind_param("ii",$UserID,$GroupID);
-            $this->stmtSetTrainertoGroup->execute();
+        public function makeUsertoTrainer($UserID,$GroupID){
+            $this->stmtMakeUsertoTrainer->bind_param("ii",$UserID,$GroupID);
+            $this->stmtMakeUsertoTrainer->execute();
         }
         
         public function acceptHandIn($UserID,$GroupID){

@@ -7,8 +7,14 @@
     $myGroups = $ODB->getAllGroups();
     for ($i=0; $i< sizeof($myGroups);$i++){   
         $myRow = file_get_contents('../HTML/AdminGroupTableRow.html');
+        $myTrainer = $ODB->getTrainerofGroup($myGroups[$i]->getID());
         $search = array('%Gruppenbezeichnung%','%Trainer%');
-        $replace = array($myGroups[$i] ->getsName(),$myGroups[$i] ->getTrainer());
+        if ($myTrainer!=false) {
+            $replace = array($myGroups[$i] ->getsName(),$myTrainer->getsFullName());    
+        } else {
+            $replace = array($myGroups[$i] ->getsName(),"-");
+        }
+        
         $myRow = str_replace($search,$replace,$myRow);
         
         

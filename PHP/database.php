@@ -16,15 +16,32 @@
         private $stmtisUserinGroup;
         private $stmtisTrainerofGroup;
 		private $stmtisNewHandIn;
+        private $stmthasUserRight;
+        
+        //-------------------------------------------------
         
 		private $stmtGetUserFromID;
 		private $stmtGetInstitutionFromID;
 		private $stmtGetUserFromUsername;
 		private $stmtGetGroupFromID;
 		private $stmtGetGroupsFromUserID;
+        private $stmtGetTrainerofGroup;
 		private $stmtGetModuleFromID;
         private $stmtGetProfilePicFromUserID;
         private $stmtGetIDFromUsername;
+        private $stmtGetUsersFromInstitution;
+        private $stmtGetModulesFromInstitution;
+        private $stmtGetGroupsFromInstitution;
+        private $stmtGetModuleImageFromID;
+        private $stmtGetInstitutionsFromUserID;
+        private $stmtGetHighestIndexFromChapter;
+        private $stmtSearchUsers;
+        
+        private $stmtGetAllInstitutions;
+		private $stmtGetAllUsers;
+        private $stmtGetAllModules;
+        private $stmtGetAllGroups;
+        
         private $stmtCountInstitutions;
         private $stmtCountUsers;
         private $stmtCountGroups;
@@ -35,17 +52,8 @@
         private $stmtCountModulesFromInstitution;
         private $stmtCountUsersFromModule;
         private $stmtCountSearchedUsers;
-        private $stmtGetAllInstitutions;
-		private $stmtGetAllUsers;
-        private $stmtGetAllModules;
-        private $stmtGetAllGroups;
-        private $stmtGetUsersFromInstitution;
-        private $stmtGetModulesFromInstitution;
-        private $stmtGetGroupsFromInstitution;
-        private $stmtGetModuleImageFromID;
-        private $stmtgetInstitutionsFromUserID;
-        private $stmtGetHighestIndexFromChapter;
-        private $stmtSearchUsers;
+        
+        //--------------------------------------------------
         
         private $stmtSetProfilePic;
         private $stmtSetFortschrittFromUserinGroup;
@@ -62,10 +70,15 @@
         private $stmtSetChapterIndexFromID;
         private $stmtAcceptHandIn;
         
+        //------------------------------------------------
+        
         private $stmtaddUser;
         private $stmtaddInstitution;
         private $stmtaddHandIn;
         private $stmtaddChaptertoModule;
+        private $stmtgiveRighttoUser;
+        
+        //------------------------------------------------
         
         private $stmtdeleteUser;
         private $stmtdeleteHandIn;
@@ -83,7 +96,8 @@
                 exit();
             }
             
-            //----- SELECTS -----
+            //--------------------------------------------------------- SELECTS ----------------------------------------------------------------
+            
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
 			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ?");
             $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
@@ -96,6 +110,7 @@
 			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ?");
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ?");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
+            $this->stmtGetTrainerofGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE bIsTrainer = 1 AND GroupID = ?");
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM modules WHERE ID = ?");
 			$this->stmtGetChapterFromID = $this->db_connection->prepare("SELECT * FROM chapters WHERE ID = ?");
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE ID = ?");
@@ -116,14 +131,15 @@
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
-            $this->stmtgetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
+            $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
             $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT UserID FROM usertoinstitution WHERE InstitutionID = ?");
             $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT ModuleID FROM moduletoinstitution WHERE InstitutionID = ?");
             $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ?");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
             $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ? ORDER BY sFirstName,sLastName");
+            $this->stmthasUserRight = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND RoleID = ? AND sHashID = ?");
             
-            //----- UPDATES ------
+            //--------------------------------------------------------- UPDATES -----------------------------------------------------------------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
             $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
             $this->stmtSetFortschrittforallUsersinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = ? WHERE GroupID = ? AND iFortschritt < ?");
@@ -139,17 +155,25 @@
             $this->stmtSetChapterIndexFromID = $this->db_connection->prepare("UPDATE chapters SET iIndex = ? WHERE ID = ?");
             $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             
-            //----- INSERTS -----
+            //------------------------------------------------------- INSERTS -------------------------------------------------------------------
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword,sProfilePicture) VALUES                                                     (?,?,?,?,?,'../ProfilePics/generalpic.png')");
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
             $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
             $this->stmtaddChaptertoModule = $this->db_connection->prepare("INSERT INTO chapters (iIndex,sTitle,sText,ModulID) VALUES (?,?,?,?)"); 
+            $this->stmtgiveRighttoUser = $this->db_connection->prepare("INSERT INTO roles VALUES (?,?,?)");
             
-            //----- DELETES -----
+            //------------------------------------------------------- DELETES ------------------------------------------------------------------
             $this->stmtdeleteUser = $this->db_connection->prepare("DELETE FROM users WHERE ID = ?");
             $this->stmtdeleteHandIn = $this->db_connection->prepare("DELETE FROM handins WHERE ID = ?");
         }
-		
+        
+        
+        
+        
+        
+        
+        //--------------------------------------------------------- ERSETZE TAGS ---------------------------------------------------------------
+        
         public function replaceTags ($_sContent){
             
              $sMyDocument = str_replace(' ', '&nbsp;',  str_replace('\r','<br>', str_replace('\n','<br>', str_replace("]\n",']' ,str_replace('<', '&lt;', str_replace('>', '&gt;', $_sContent))))));
@@ -206,6 +230,8 @@
        
             return $sMyDocument;
         }
+        
+        //--------------------------------------------------------- ABFRAGEN OB ... -------------------------------------------------------------
            
         public function isUsernameTaken($sUsername){
             $this->stmtisUsernameTaken->bind_param("s",$sUsername);	
@@ -292,6 +318,19 @@
 			}
 		}
         
+        public function hasUserRight($UserID,$RoleID,$HashID){
+            $this->stmthasUserRight->bind_param("iis",$UserID,$RoleID,$HashID);
+            $this->stmthasUserRight->execute();
+            $res = $this->stmthasUserRight->get_result();
+            if (mysqli_num_rows($res)==1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        //----------------------------------------------------------- INSERTS -------------------------------------------------------------------
+        
         public function addUser($Username,$FirstName,$LastName,$Email,$Password){
             $this->stmtaddUser->bind_param("sssss",$Username,$FirstName,$LastName,$Email,$Password);
             $this->stmtaddUser->execute();
@@ -311,6 +350,13 @@
             $this->stmtaddChaptertoModule->bind_param("issi",$Index,$Title,$Text,$ModulID);
             $this->stmtaddChaptertoModule->execute();
         }
+        
+        public function giveRighttoUser($UserID,$RoleID,$sHashID){
+            $this->stmtgiveRighttoUser->bind_param("iis",$UserID,$RoleID,$sHashID);
+            $this->stmtgiveRighttoUser->execute();
+        }
+        
+        //----------------------------------------------------------- SELECTS -------------------------------------------------------------------
         
         public function getIDFromUsername($Username){
             $this->stmtGetIDFromUsername->bind_param("s",$Username); 
@@ -339,8 +385,6 @@
             
         }
         
-        
-        
         public function getInstitutionFromID($ID){
 			$this->stmtGetInstitutionFromID->bind_param("i",$ID);	
 			$this->stmtGetInstitutionFromID->execute();
@@ -366,6 +410,7 @@
                 throw new exception('Mehr als ein User mit diesem Benutzernamen');        
             }
         }
+        
         public function getGroupFromID($ID){
 			$this->stmtGetGroupFromID->bind_param("i",$ID);	
 			$this->stmtGetGroupFromID->execute();
@@ -394,8 +439,7 @@
                 throw new exception('Mehr als eine Gruppe mit dieser ID');        
             }
         }
-        
-        
+         
         public function getGroupsFromUserID($ID){
             $this->stmtGetGroupsFromUserID->bind_param("i",$ID);	
 			$this->stmtGetGroupsFromUserID->execute();
@@ -406,6 +450,20 @@
             }
             return $aGroups;
                 
+        }
+        
+        public function getTrainerofGroup($GroupID){
+            $this->stmtGetTrainerofGroup->bind_param("i",$GroupID); 
+            $this->stmtGetTrainerofGroup->execute();
+            $res = $this->stmtGetTrainerofGroup->get_result();
+            $row = mysqli_fetch_array($res);
+            if (mysqli_num_rows($res)!=0){
+                return new User($row['ID'],$row['sID'],$row['sUsername'],$row['sFirstName'],
+                                $row['sLastName'],$row['sEMail'],$row['sHashedPassword'],
+                                $row['sProfilePicture'],$row['bIsVerified'],$row['bIsOnline']);
+            } else {
+                return false;
+            }
         }
         
         public function getModuleFromID($ID){
@@ -434,7 +492,7 @@
             }
         }
 
-         public function getChapterFromID($ID){
+        public function getChapterFromID($ID){
 			$this->stmtGetChapterFromID->bind_param("i",$ID);	
 			$this->stmtGetChapterFromID->execute();
             $res = $this->stmtGetChapterFromID->get_result();
@@ -477,6 +535,85 @@
             $row = mysqli_fetch_array($res);
             return $row['MAX(iIndex)'];
         }
+        
+        public function getInstitutionsFromUserID($UserID){
+            $this->stmtGetInstitutionsFromUserID->bind_param("i",$UserID);
+            $this->stmtGetInstitutionsFromUserID->execute();
+            $res = $this->stmtGetInstitutionsFromUserID->get_result();
+            $anz = $this->countInstitutionsFromUser($UserID);
+            $row = [];
+            $ins = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                $ins[$i] = $row[$i]['InstitutionID'];
+            } 
+            
+            return $ins;
+        }
+        
+        public function getUsersFromInstitution($InstitutionID){
+            $this->stmtgetUsersFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtgetUsersFromInstitution->execute();
+            $res = $this->stmtgetUsersFromInstitution->get_result();
+            $anz = $this->countUserFromInstitution($InstitutionID);
+            $row = [];
+            $users = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                $users[$i] = $row[$i]['UserID'];
+            } 
+            
+            return $users;
+        }
+        
+        public function getModulesFromInstitution($InstitutionID){
+            $this->stmtgetModulesFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtgetModulesFromInstitution->execute();
+            $res = $this->stmtgetModulesFromInstitution->get_result();
+            $anz = $this->countModulesFromInstitution($InstitutionID);
+            $row = [];
+            $modules = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                $modules[$i] = $row[$i]['ModuleID'];
+            } 
+            
+            return $modules;
+        }
+        
+        public function getGroupsFromInstitution($InstitutionID){
+            $this->stmtgetGroupsFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtgetGroupsFromInstitution->execute();
+            $res = $this->stmtgetGroupsFromInstitution->get_result();
+            $anz = $this->countGroupsFromInstitution($InstitutionID);
+            $row = [];
+            $groups = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                $groups[$i] = new Group($row['ID'], $row['ModulID'], $row['sName'], $row['bIsDeleted']);
+            } 
+            
+            return $groups;
+        }
+        
+        public function searchUsers($Eingabe){
+            $this->stmtSearchUsers->bind_param("sss",$Eingabe,$Eingabe,$Eingabe);
+            $this->stmtSearchUsers->execute();
+            $res = $this->stmtSearchUsers->get_result();
+            $anz = $this->countsearchedUsers($Eingabe);
+            $row = [];
+            $users = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                $users[$i] = new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
+                                   $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
+                                   $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsOnline']);
+            }
+            
+            return $users;
+        }
+        
+        // ---------------- COUNT -------------------------
         
         public function countInstitutions(){
             $this->stmtCountInstitutions->execute();
@@ -538,13 +675,23 @@
             return $row['COUNT(ID)'];
         }
         
-        public function countUsersFromModul($ModulID){
-            $this->stmtCountUsersFromModul->bind_param("i",$ModulID);
-            $this->stmtCountUsersFromModul->execute();
-            $res = $this->stmtCountUsersFromModul->get_result();
+        public function countUsersFromModule($ModulID){
+            $this->stmtCountUsersFromModule->bind_param("i",$ModulID);
+            $this->stmtCountUsersFromModule->execute();
+            $res = $this->stmtCountUsersFromModule->get_result();
             $row = mysqli_fetch_array($res);
             return $row['COUNT(UserID)'];
         }
+        
+        public function countsearchedUsers($Username){
+            $this->stmtCountSearchedUsers->bind_param("s",$Username);
+            $this->stmtCountSearchedUsers->execute();
+            $res = $this->stmtCountSearchedUsers->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
+        // ---------------------- SELECT ALL ------------------------
         
         public function getAllInstitutions(){
             $this->stmtGetAllInstitutions->execute();
@@ -586,7 +733,7 @@
             $groups = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res);
-                $groups[$i] = $this->getGroupFromID($i); 
+                $groups[$i] = $this->getGroupFromID($row[$i]['ID']); 
             }
             
             return $groups;
@@ -601,97 +748,14 @@
             $modules = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res);
-                $modules[$i] = $this->getModuleFromID($i); 
+                $modules[$i] = $this->getModuleFromID($row[$i]['ID']); 
             }
             
             return $modules;
             
         }
         
-        public function getInstitutionsFromUserID($UserID){
-            $this->stmtgetInstitutionsFromUserID->bind_param("i",$UserID);
-            $this->stmtgetInstitutionsFromUserID->execute();
-            $res = $this->stmtgetInstitutionsFromUserID->get_result();
-            $anz = $this->countInstitutionsFromUser($UserID);
-            $row = [];
-            $ins = [];
-            for ($i=0;$i<$anz;$i++){
-                $row[$i] = mysqli_fetch_array($res); 
-                $ins[$i] = $row[$i]['InstitutionID'];
-            } 
-            
-            return $ins;
-        }
-        
-        public function getUsersFromInstitution($InstitutionID){
-            $this->stmtgetUsersFromInstitution->bind_param("i",$InstitutionID);
-            $this->stmtgetUsersFromInstitution->execute();
-            $res = $this->stmtgetUsersFromInstitution->get_result();
-            $anz = $this->countUserFromInstitution($InstitutionID);
-            $row = [];
-            $users = [];
-            for ($i=0;$i<$anz;$i++){
-                $row[$i] = mysqli_fetch_array($res); 
-                $users[$i] = $row[$i]['UserID'];
-            } 
-            
-            return $users;
-        }
-        
-        public function getModulesFromInstitution($InstitutionID){
-            $this->stmtgetModulesFromInstitution->bind_param("i",$InstitutionID);
-            $this->stmtgetModulesFromInstitution->execute();
-            $res = $this->stmtgetModulesFromInstitution->get_result();
-            $anz = $this->countModulesFromInstitution($InstitutionID);
-            $row = [];
-            $modules = [];
-            for ($i=0;$i<$anz;$i++){
-                $row[$i] = mysqli_fetch_array($res); 
-                $modules[$i] = $row[$i]['ModuleID'];
-            } 
-            
-            return $modules;
-        }
-        
-        public function getGroupsFromInstitution($InstitutionID){
-            $this->stmtgetGroupsFromInstitution->bind_param("i",$InstitutionID);
-            $this->stmtgetGroupsFromInstitution->execute();
-            $res = $this->stmtgetGroupsFromInstitution->get_result();
-            $anz = $this->countGroupsFromInstitution($InstitutionID);
-            $row = [];
-            $groups = [];
-            for ($i=0;$i<$anz;$i++){
-                $row[$i] = mysqli_fetch_array($res); 
-                $groups[$i] = new Group($row['ID'], $row['ModulID'], $row['sName'], $row['bIsDeleted']);
-            } 
-            
-            return $groups;
-        }
-        
-        public function countsearchedUsers($Username){
-            $this->stmtCountSearchedUsers->bind_param("s",$Username);
-            $this->stmtCountSearchedUsers->execute();
-            $res = $this->stmtCountSearchedUsers->get_result();
-            $row = mysqli_fetch_array($res);
-            return $row['COUNT(ID)'];
-        }
-        
-        public function searchUsers($Eingabe){
-            $this->stmtSearchUsers->bind_param("sss",$Eingabe,$Eingabe,$Eingabe);
-            $this->stmtSearchUsers->execute();
-            $res = $this->stmtSearchUsers->get_result();
-            $anz = $this->countsearchedUsers($Eingabe);
-            $row = [];
-            $users = [];
-            for ($i=0;$i<$anz;$i++){
-                $row[$i] = mysqli_fetch_array($res);
-                $users[$i] = new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
-                                   $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
-                                   $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsOnline']);
-            }
-            
-            return $users;
-        }
+        //---------------------------------------------------------- UPDATE ---------------------------------------------------------------------
         
         public function setProfilePic($sProfilePic,$ID){
             $this->stmtSetProfilePic->bind_param("si",$sProfilePic,$ID);
@@ -762,6 +826,8 @@
             $this->stmtAcceptHandIn->bind_param("ii",$UserID,$GroupID);
             $this->stmtAcceptHandIn->execute();
         }
+        
+        //------------------------------------------------------- DELETE ------------------------------------------------------------------------
         
         public function deleteUser($ID){
             $this->stmtdeleteUser->bind_param("i",$ID);

@@ -19,6 +19,7 @@ class User {
         $this->sUsername = $sUsername;
         $this->sFirstName = $sFirstName;
         $this->sLastName = $sLastName;
+        $this->sFullName = $sFirstName." ".$sLastName;
         $this->sEMail = $sEMail;
         $this->sHashedPassword = $sHashedPassword;
         $this->sProfilePicture = $sProfilePicture;
@@ -44,6 +45,10 @@ class User {
 
     public function getsLastName() {
         return $this->sLastName;
+    }
+    
+    public function getsFullName() {
+        return $this->sFullName;
     }
 
     public function getsEMail() {

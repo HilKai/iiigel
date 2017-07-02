@@ -570,7 +570,7 @@
             $this->stmtGetUsersFromInstitution->bind_param("i",$InstitutionID);
             $this->stmtGetUsersFromInstitution->execute();
             $res = $this->stmtGetUsersFromInstitution->get_result();
-            $anz = $this->countUserFromInstitution($InstitutionID);
+            $anz = $this->countUsersFromInstitution($InstitutionID);
             $row = [];
             $users = [];
             for ($i=0;$i<$anz;$i++){

@@ -139,7 +139,7 @@
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
             
-            $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
+            $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT * FROM institutions INNER JOIN usertoinstitution ON institutions.ID = usertoinstitution.InstitutionID WHERE UserID = ?");
             $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertoinstitution ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ?");
             $this->stmtGetUsersFromGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ?");
             $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT * FROM modules INNER JOIN moduletoinstitution ON modules.ID = moduletoinstitution.ModuleID WHERE InstitutionID = ?");
@@ -567,7 +567,7 @@
             $ins = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res); 
-                $ins[$i] = $row[$i]['InstitutionID'];
+                $ins[$i] = new Institution($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sName'],$row[$i]['bIsDeleted']);
             } 
             
             return $ins;
@@ -631,7 +631,7 @@
             $groups = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res); 
-                $groups[$i] = new Group($row['ID'], $row['ModulID'], $row['sName'], $row['bIsDeleted']);
+                $groups[$i] = $this->getGroupFromID($row[$i]['ID']);
             } 
             
             return $groups;

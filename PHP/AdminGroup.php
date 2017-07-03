@@ -4,7 +4,7 @@
   
     
      $toAdd = "";
-    $myGroups = $ODB->getAllGroups();
+    $myGroups = $ODB->getGroupsFromInstitution($_GET['InstitutionsID']);
     for ($i=0; $i< sizeof($myGroups);$i++){   
         $myRow = file_get_contents('../HTML/AdminGroupTableRow.html');
         $myTrainer = $ODB->getTrainerofGroup($myGroups[$i]->getID());
@@ -22,8 +22,21 @@
        
        
     }
+
+	$add="";
+	$myModules = $ODB->getAllModules();
+	for ($a=0;$a<sizeof($myModules);$a++){
+		$myRow = file_get_contents('../HTML/AdminGroupListItem.html');
+        $search = array('%Modulname%','%ModulID%');
+		$replace = array($myModules[$a] ->getsName(),$myModules[$a]->getID());   
+        $myRow = str_replace($search,$replace,$myRow);
+        
+        
+        $add = $add . $myRow;
+	}
  
-    $myPage = str_replace("%tablerow%",$toAdd,$myPage);     
+    $myPage = str_replace("%tablerow%",$toAdd,$myPage);   
+	$myPage = str_replace("%Listitems%",$add,$myPage);
 echo $myPage;
     
 ?>

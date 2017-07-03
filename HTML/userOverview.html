@@ -2,81 +2,81 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../Styles\userOverview.css" type="text/css">
-    <!-- Schrift -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
+	<link rel="stylesheet" href="../Styles\userOverview.css" type="text/css">
+	<!-- Schrift -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 
 <body>
 
-    <div id="WrappingContainer" class="container">
+	<div id="WrappingContainer" class="container">
 
-        <div id="ProfileContainer" class="row">
+		<div id="ProfileContainer" class="row">
 
-            <div class="col-md-3 col-xs-3 hidden-xs noPadding">
+			<div class="col-md-3 col-xs-3 hidden-xs noPadding">
 
-                <div id="ProfilePic" class="img-responsive img-circle" style="background-image: url( %ProfilePicture%); background-size: 230px;" > </div>
+				<div id="ProfilePic" class="img-responsive img-circle" style="background-image: url( %ProfilePicture%); background-size: 230px;"> </div>
 
-            </div>
+			</div>
 
-            <div id="ProfileTextContainer" class="col-md-9">
+			<div id="ProfileTextContainer" class="col-md-9">
 
-                <div id="Container1" class="row">
+				<div id="Container1" class="row">
 
-                    <div class="col-md-10 noPadding">
-                        <h1 id="Name"> Hallo %Vorname% %Nachname% </h1>
-                    </div>
+					<div class="col-md-10 noPadding">
+						<h1 id="Name"> Hallo %Vorname% %Nachname% </h1>
+					</div>
 
-                    <div class="col-md-2 noPadding">
-                        <a href="../PHP/logout.php?logout">
-                            <button id="LogOutButton" class="btn btn-default"> <span class="glyphicon glyphicon-log-out"></span> Abmelden</button>
-                        </a>
-                    </div>
+					<div class="col-md-2 noPadding">
+						<a href="../PHP/logout.php?logout">
+							<button id="LogOutButton" class="btn btn-default"> <span class="glyphicon glyphicon-log-out"></span> Abmelden</button>
+						</a>
+					</div>
 
-                </div> 
-                
-                <div id="UserDataContainer" class="row">
+				</div>
 
-                    <div id="Benutzername" class="col-md-5 noPadding">
-                        <p> Benutzername: %UserName%</p>
-                    </div>
+				<div id="UserDataContainer" class="row">
 
-                    <div id="E-Mail" class="col-md-7  noPadding">
-                        <p> E-Mail Adresse: %EMail% </p>
-                    </div>
+					<div id="Benutzername" class="col-md-5 noPadding">
+						<p> Benutzername: %UserName%</p>
+					</div>
 
-                </div>
+					<div id="E-Mail" class="col-md-7  noPadding">
+						<p> E-Mail Adresse: %EMail% </p>
+					</div>
 
-                <div id="ProfileOptions" class="row">
+				</div>
 
-                    <div id="EditProfileText" class="col-md-12 noPadding">
-                        <a href="../PHP/editProfile.php?userID=%userID%"> <span class="glyphicon glyphicon-pencil"></span> Profil bearbeiten</a>
-                    </div>
+				<div id="ProfileOptions" class="row">
 
-                </div>
-            </div>
+					<div id="EditProfileText" class="col-md-12 noPadding">
+						<a href="../PHP/editProfile.php?userID=%userID%"> <span class="glyphicon glyphicon-pencil"></span> Profil bearbeiten</a>
+					</div>
 
-        </div>
+				</div>
+			</div>
 
-        <div id="Container" class="row">
-            
-            <div id="ModulContainer" class="row">
-                
-                <h1 class="modulHeading visible-xs">Meine Module</h1>
-                
-                %Module%
+		</div>
 
-            </div>
+		<div id="Container" class="row">
 
-        </div>
+			<div id="ModulContainer" class="row">
 
-    </div>
+				<h1 class="modulHeading visible-xs">Meine Module</h1>
 
-    </div>
+				%Module%
+
+			</div>
+
+		</div>
+
+
+
+	</div>
 
 </body>
 

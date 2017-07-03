@@ -3,8 +3,8 @@
     $myPage = file_get_contents('../HTML/InstitutionDetailView.html');
   
     $myRow = file_get_contents('../HTML/InstitutionDetailView.html');
-    $search = array('%Institutionsname%');
-    $replace = array($ODB->getInstitutionFromID($_GET['InstitutionsID']) ->getsName());
+    $search = array('%Institutionsname%','%InstitutionsID%');
+    $replace = array($ODB->getInstitutionFromID($_GET['InstitutionsID'])->getsName(),$_GET['InstitutionsID']) ;
     $myPage = str_replace($search,$replace,$myRow);
   
       

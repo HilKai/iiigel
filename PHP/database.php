@@ -78,6 +78,7 @@
         private $stmtaddUser;
         private $stmtaddInstitution;
         private $stmtaddHandIn;
+        private $stmtaddGroup;
         private $stmtaddChaptertoModule;
         private $stmtaddTrainertoGroup;
         private $stmtgiveRighttoUser;
@@ -141,7 +142,7 @@
             $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT InstitutionID FROM usertoinstitution WHERE UserID = ?");
             $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT UserID FROM usertoinstitution WHERE InstitutionID = ?");
             $this->stmtGetUsersFromGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ?");
-            $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT ModuleID FROM moduletoinstitution WHERE InstitutionID = ?");
+            $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT * FROM modules INNER JOIN moduletoinstitution ON modules.ID = moduletoinstitution.ModuleID WHERE InstitutionID = ?");
             $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ?");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
             $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ? ORDER BY sFirstName,sLastName");
@@ -168,6 +169,7 @@
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword,sProfilePicture) VALUES                                                     (?,?,?,?,?,'../ProfilePics/generalpic.png')");
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
             $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
+            $this->stmtaddGroup = $this->db_connection("INSERT INTO groups (ModulID,InstitutionsID,sName,bIsDeleted) VALUES (?,?,?,0)");
             $this->stmtaddChaptertoModule = $this->db_connection->prepare("INSERT INTO chapters (iIndex,sTitle,sText,ModulID) VALUES (?,?,?,?)"); 
             $this->stmtaddTrainertoGroup = $this->db_connection->prepare("INSERT INTO usertogroup VALUES (?,?,1)");
             $this->stmtgiveRighttoUser = $this->db_connection->prepare("INSERT INTO roles VALUES (?,?,?)");
@@ -354,6 +356,11 @@
         public function addHandIn($UserID,$GroupID,$ChapterID,$Text){
             $this->stmtaddHandIn->bind_param("iiis",$UserID,$GroupID,$ChapterID,$Text);
             $this->stmtaddHandIn->execute();
+        }
+        
+        public function addGroup($ModulID,$InstitutionID,$Name){
+            $this->stmtaddGroup->bind_param("iis",$ModulID,$InstitutionID,$Name);
+            $this->stmtaddGroup->execute();
         }
         
         public function addChaptertoModule($Index,$Title,$Text,$ModulID){
@@ -575,7 +582,9 @@
             $users = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res); 
-                $users[$i] = $row[$i]['UserID'];
+                $users[$i] = new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
+                                      $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
+                                      $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsOnline']);
             } 
             
             return $users;
@@ -607,7 +616,7 @@
             $modules = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res); 
-                $modules[$i] = $row[$i]['ModuleID'];
+                $modules[$i] = new Module($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sName'],$row[$i]['sDescription'],$row[$i]['sLanguage'],$row[$i]['sIcon'],$row[$i]['bIsDeleted'],$row[$i]['bIsLive'],$row[$i]['sPfadBild']);
             } 
             
             return $modules;

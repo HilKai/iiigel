@@ -608,9 +608,9 @@
         }
         
         public function getModulesFromInstitution($InstitutionID){
-            $this->stmtgetModulesFromInstitution->bind_param("i",$InstitutionID);
-            $this->stmtgetModulesFromInstitution->execute();
-            $res = $this->stmtgetModulesFromInstitution->get_result();
+            $this->stmtGetModulesFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtGetModulesFromInstitution->execute();
+            $res = $this->stmtGetModulesFromInstitution->get_result();
             $anz = $this->countModulesFromInstitution($InstitutionID);
             $row = [];
             $modules = [];
@@ -623,9 +623,9 @@
         }
         
         public function getGroupsFromInstitution($InstitutionID){
-            $this->stmtgetGroupsFromInstitution->bind_param("i",$InstitutionID);
-            $this->stmtgetGroupsFromInstitution->execute();
-            $res = $this->stmtgetGroupsFromInstitution->get_result();
+            $this->stmtGetGroupsFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtGetGroupsFromInstitution->execute();
+            $res = $this->stmtGetGroupsFromInstitution->get_result();
             $anz = $this->countGroupsFromInstitution($InstitutionID);
             $row = [];
             $groups = [];

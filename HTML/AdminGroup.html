@@ -71,29 +71,25 @@
 
 		<div id="addGroup" class="col-md-3">
 			<p> <b>Gruppe hinzufügen</b></p>
-			<form action="AdminGroupHinzufugen.php">
-				<input name="Gruppenname" id="GruppenName" type="text" class="addForm" placeholder="Gruppenname">
+			<form action="AdminGroupHinzufugen.php" id="myForm" method="post" autocomplete="off">
+				<input name="sName" id="sName" type="text" class="addForm" placeholder="Gruppenname">
 
 				<div class="dropdown">
-					<button class="btn btn-default dropdown-toggle addForm" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Modul auswählen
-    <span class="caret"></span>
-  </button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-						%Listitems%
 
-					</ul>
+					<select class="btn btn-default dropdown-toggle addForm" name="DropDownModule">
+						%Listitems%
+						<span class="caret"></span>
+					</select>
+					<input type="submit" value="submit">
+
+
 				</div>
 
 
-				<!------Hier vielleicht immer abfragen ob das eingegebene auch in datenbank drin ist -->
 
-
-
-
-				<button type="submit" id="Button" name="AddButton" class="btn btn-default col-md-6">
-                Hinzufügen
-            </button>
+				<!--button type="submit" id="Button" name="AddButton" class="btn btn-default col-md-6">
+					Hinzufügen
+				</button--->
 			</form>
 
 		</div>
@@ -133,10 +129,41 @@
 		$(document).ready(function() {
 			$(".dropdown-menu li a").click(function() {
 				$("#dropdownMenu1").text($(this).text());
-				document.form.AddButton.value = $(this).closest('li').value();
+				document.form.AddButton.value = $(this).closest('li').index();
 
+				var array = [];
+
+				var headers = [];
+				$('#dataTable th').each(function(index, item) {
+					headers[index] = $(item).html();
+				});
+				$('#dataTable tr').has('td').each(function() {
+					var arrayItem = {};
+					$('td', $(this)).each(function(index, item) {
+						arrayItem[headers[index]] = $(item).html();
+					});
+					array.push(arrayItem);
+				});
+
+				array = [$(this).closest('li').index()];
+				document.form.AddButton.value = array[$(this).closest('li').index()].value;
 			});
 		});
+
+		function phpaufrufen() {
+
+			$.ajax({
+				type: "POST",
+				url: "AdminGroupHinzufugen.php",
+				data: {
+					sName: document.getElementById("UsersName").value
+				},
+				success: function(result) {
+					location.reload()
+				},
+
+			});
+		}
 
 	</script>
 

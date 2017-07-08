@@ -1,4 +1,4 @@
-<?php 
+ <?php 
     include_once("database.php");
     $myPage = file_get_contents('../HTML/AdminModulDetailView.html');
   

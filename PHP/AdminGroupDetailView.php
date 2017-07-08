@@ -3,7 +3,7 @@
     $myPage = file_get_contents('../HTML/AdminGroupDetailView.html');
   
     $myRow = file_get_contents('../HTML/AdminGroupDetailView.html');
-    $search = array('%Gruppenname%');
+    $search = array('% %');
     $replace = array($ODB->getGroupFromID($_GET['GroupID']) ->getsName());
     $myPage = str_replace($search,$replace,$myRow);
   

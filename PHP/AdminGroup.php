@@ -8,7 +8,7 @@
     for ($i=0; $i< sizeof($myGroups);$i++){   
         $myRow = file_get_contents('../HTML/AdminGroupTableRow.html');
         $myTrainer = $ODB->getTrainerofGroup($myGroups[$i]->getID());
-        $search = array('%Gruppenbezeichnung%','%Trainer%','%GroupID%');
+        $search = array('%Gruppenbezeichnung%','%Trainer%','%GroupID%' );
         if ($myTrainer!=false) {
             $replace = array($myGroups[$i] ->getsName(),$myTrainer->getsFullName(),$myGroups[$i]->getID());    
         } else {

@@ -5,7 +5,7 @@
     
     var_dump($_POST);
   
-    $myModule = $ODB->addModul($_POST['sName','language','description']);
+    $myModule = $ODB->addModul($_POST['sName'],$_POST['language'],$_POST['description']);
    
    
 

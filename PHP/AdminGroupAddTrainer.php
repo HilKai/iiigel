@@ -8,5 +8,5 @@
     $myGroup = $ODB->addTrainertoGroup($_POST['UserID']);
    
    
-$UserID,$GroupID
+
 ?>

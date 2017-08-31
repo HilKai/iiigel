@@ -81,6 +81,7 @@
         private $stmtaddGroup;
         private $stmtaddChaptertoModule;
         private $stmtaddTrainertoGroup;
+        private $stmtaddUsertoGroup;
         private $stmtgiveRighttoUser;
         
         //------------------------------------------------
@@ -171,7 +172,8 @@
             $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
             $this->stmtaddGroup = $this->db_connection->prepare("INSERT INTO groups (ModulID,InstitutionsID,sName,bIsDeleted) VALUES (?,?,?,0)");
             $this->stmtaddChaptertoModule = $this->db_connection->prepare("INSERT INTO chapters (iIndex,sTitle,sText,ModulID) VALUES (?,?,?,?)"); 
-            $this->stmtaddTrainertoGroup = $this->db_connection->prepare("INSERT INTO usertogroup VALUES (?,?,1)");
+            $this->stmtaddTrainertoGroup = $this->db_connection->prepare("INSERT INTO usertogroup VALUES (?,?,0,1)");
+            $this->stmtaddUsertoGroup = $this->db_connection->prepare("INSERT INTO usertogroup VALUES (?,?,0,0)");
             $this->stmtgiveRighttoUser = $this->db_connection->prepare("INSERT INTO roles VALUES (?,?,?)");
             
             //------------------------------------------------------- DELETES ------------------------------------------------------------------
@@ -376,6 +378,10 @@
         public function addTrainertoGroup($UserID,$GroupID){
             $this->stmtaddTrainertoGroup->bind_param("ii",$UserID,$GroupID);
             $this->stmtaddTrainertoGroup->execute();
+        }
+        public function addUsertoGroup($UserID,$GroupID){
+            $this->stmtaddUsertoGroup->bind_param("ii",$UserID,$GroupID);
+            $this->stmtaddUsertoGroup->execute();
         }
         
         public function giveRighttoUser($UserID,$RoleID,$sHashID){

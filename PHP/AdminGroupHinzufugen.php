@@ -1,10 +1,10 @@
 <?php 
-	var_dump($_POST);
+	
 
 	 include_once("database.php");
      
-	$myGroup = $ODB->addGroup($_POST['sName'],$_POST['InstitutionID'],$_POST['ModulID']);
+	$myGroup = $ODB->addGroup($_POST['ModulID'],$_POST['sInstitutionID'],$_POST['sName']);
    
-   
+    header("Location: AdminGroup.php?InstitutionsID=".$_POST['sInstitutionID']);
 
 ?>

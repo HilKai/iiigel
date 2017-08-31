@@ -73,10 +73,10 @@
 			<p> <b>Gruppe hinzufügen</b></p>
 			<form action="AdminGroupHinzufugen.php" id="myForm" method="post" autocomplete="off">
 				<input name="sName" id="sName" type="text" class="addForm" placeholder="Gruppenname">
-
+				<input name="sInstitutionID" id="sInstitutionID" type="hidden" value="%InstitutionID%" class="addForm" placeholder="Gruppenname">
 				<div class="dropdown">
 
-					<select class="btn btn-default dropdown-toggle addForm" name="DropDownModule">
+					<select class="btn btn-default dropdown-toggle addForm" name="ModulID">
 						%Listitems%
 						<span class="caret"></span>
 					</select>

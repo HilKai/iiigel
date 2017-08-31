@@ -70,39 +70,28 @@
 			</table>
 		</div>
 
-		<div id="addUser" class="col-md-3">
+        <div id="addUser" class="col-md-3">
 			<p> <b>Benutzer hinzufügen</b></p>
-			<form>
-				<input id="UserName" type="text" style="width:262px;">
-			</form>
-			<h6>UserName</h6>
-			<button type="button" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6" onclick="phpaufrufen();">
+				<form action="AdminInstitutionUserHinzufugen.php" id="myForm" method="post" autocomplete="off">
+            
+				<input name="GroupID" id="GroupID" type="hidden" value="%GroupID%" class="addForm" placeholder="Gruppenname">
+				<select class="btn btn-default dropdown-toggle addForm" name="UserID">
+						%Listitems%
+				    <span class="caret"></span>
+				</select>
+                    	<h6>Benutername</h6>
+			     <button type="submit" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6">
                 Hinzufügen
             </button>
-		</div>
-
+			</form>
+		
+	
 
 
 
 	</div>
 
-	<script>
-		function phpaufrufen() {
 
-			$.ajax({
-				type: "POST",
-				url: "AdminInstitutionHinzufugen.php",
-				data: {
-					sName: document.getElementById("UsersName").value
-				},
-				success: function(result) {
-					location.reload()
-				},
-
-			});
-		}
-
-	</script>
 </body>
 
 </html>

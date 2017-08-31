@@ -21,8 +21,23 @@
        
        
     }
- 
+    
+    $add = '';
+    $myUsers= $ODB->getAllUsers();
+
+	for ($a=0;$a<sizeof($myUsers);$a++){
+		$myRow = file_get_contents('../HTML/AdminGroupUserListitem.html');
+      
+        $search = array('%Vorname%','%Nachname%','%UserID%');
+		$replace = array($myUsers[$a]->getsFirstName(),$myUsers[$a]->getsLastName(),$myUsers[$a]->getID());  
+        $myRow = str_replace($search,$replace,$myRow);
+        $add = $add . $myRow;
+       
+	}
+
+    $myPage = str_replace("%Listitems%",$add,$myPage);   
+    
     $myPage = str_replace("%tablerow%",$toAdd,$myPage);     
-echo $myPage;
+    echo $myPage;
     
 ?>

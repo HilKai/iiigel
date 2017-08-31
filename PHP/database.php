@@ -42,6 +42,8 @@
 		private $stmtGetAllUsers;
         private $stmtGetAllModules;
         private $stmtGetAllGroups;
+        private $stmtGetAllUsersFromInstitutionNotInGroup;
+        private $stmtGetAllUsersNotInInstitution;
         
         private $stmtCountInstitutions;
         private $stmtCountUsers;
@@ -54,6 +56,8 @@
         private $stmtCountUsersFromModule;
         private $stmtCountUsersFromGroup;
         private $stmtCountSearchedUsers;
+        private $stmtCountAllUsersFromInstitutionNotInGroup;
+        private $stmtCountAllUsersNotInInstitution;
         
         //--------------------------------------------------
         
@@ -82,6 +86,8 @@
         private $stmtaddChaptertoModule;
         private $stmtaddTrainertoGroup;
         private $stmtaddUsertoGroup;
+        private $stmtaddLeadertoInstitution;
+        private $stmtaddUsertoInstitution;
         private $stmtgiveRighttoUser;
         
         //------------------------------------------------
@@ -134,11 +140,16 @@
             $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ?");
             $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
             $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ?");
+            $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND GroupID NOT ?");
+            $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND GroupID NOT ?");
+            $this->stmtCountAllUsersNotInInstitution = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID NOT ?");
             
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
+            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT * FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND GroupID NOT ?");
+            $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT * FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID NOT ?");
             
             $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT * FROM institutions INNER JOIN usertoinstitution ON institutions.ID = usertoinstitution.InstitutionID WHERE UserID = ?");
             $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertoinstitution ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ?");
@@ -174,6 +185,8 @@
             $this->stmtaddChaptertoModule = $this->db_connection->prepare("INSERT INTO chapters (iIndex,sTitle,sText,ModulID) VALUES (?,?,?,?)"); 
             $this->stmtaddTrainertoGroup = $this->db_connection->prepare("INSERT INTO usertogroup VALUES (?,?,0,1)");
             $this->stmtaddUsertoGroup = $this->db_connection->prepare("INSERT INTO usertogroup VALUES (?,?,0,0)");
+            $this->stmtaddUsertoInstitution = $this->db_connection->prepare("INSERT INTO usertoinstitution VALUES (?,?,0)");
+            $this->stmtaddLeadertoInstitution = $this->db_connection->prepare("INSERT INTO usertoinstitution VALUES (?,?,1)");
             $this->stmtgiveRighttoUser = $this->db_connection->prepare("INSERT INTO roles VALUES (?,?,?)");
             
             //------------------------------------------------------- DELETES ------------------------------------------------------------------
@@ -379,9 +392,20 @@
             $this->stmtaddTrainertoGroup->bind_param("ii",$UserID,$GroupID);
             $this->stmtaddTrainertoGroup->execute();
         }
+        
         public function addUsertoGroup($UserID,$GroupID){
             $this->stmtaddUsertoGroup->bind_param("ii",$UserID,$GroupID);
             $this->stmtaddUsertoGroup->execute();
+        }
+        
+        public function addLeadertoInstitution($UserID,$InstitutionID){
+            $this->stmtaddLeadertoInstitution->bind_param("ii",$UserID,$InstitutionID);
+            $this->stmtaddLeadertoInstitution->execute();
+        }
+        
+        public function addUsertoInstitution($UserID,$InstitutionID){
+            $this->stmtaddUsertoInstitution->bind_param("ii",$UserID,$InstitutionID);
+            $this->stmtaddUsertoInstitution->execute();
         }
         
         public function giveRighttoUser($UserID,$RoleID,$sHashID){
@@ -751,6 +775,22 @@
             return $row['COUNT(ID)'];
         }
         
+        public function countAllUsersFromInstitutionNotInGroup($InstitutionID,$GroupID){
+            $this->stmtCountAllUsersFromInstitutionNotInGroup->bind_param("ii",$InstitutionID,$GroupID);
+            $this->stmtCountAllUsersFromInstitutionNotInGroup->execute();
+            $res = $this->stmtCountAllUSersFromInstitutionNotInGroup->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(UserID)'];
+        }
+        
+        private function countAllUsersNotInInstitution($InstitutionID){
+            $this->stmtCountAllUsersNotInInstitution->bind_param("i",$InstitutionID);
+            $this->stmtCountAllUsersNotInInstitution->execute();
+            $res = $this->stmtCountAllUsersNotInInstitution->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(UserID)'];
+        }
+        
         // ---------------------- SELECT ALL ------------------------
         
         public function getAllInstitutions(){
@@ -813,6 +853,38 @@
             
             return $modules;
             
+        }
+        
+        public function getAllUsersFromInstitutionNotInGroup($InstitutionID,$GroupID){
+            $this->stmtGetAllUsersFromInstitutionNotInGroup->execute();
+            $res = $this->stmtGetAllUsersFromInstitutionNotInGroup->get_result();
+            $anz = $this->countAllUsersFromInstitutionNotInGroup($InstitutionID,$GroupID);
+            $row = [];
+            $users = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                $users[$i] =  new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
+                                   $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
+                                   $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsOnline']); 
+            }
+            
+            return $users;
+        }
+        
+        public function getAllUsersNotInInstitution($InstitutionID){
+            $this->stmtGetAllUsersNotInInstitution->execute();
+            $res = $this->stmtGetAllUsersNotInInstitution->get_result();
+            $anz = $this->countAllUsersNotInInstitution($InstitutionID);
+            $row = [];
+            $users = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                $users[$i] =  new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
+                                   $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
+                                   $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsOnline']); 
+            }
+            
+            return $users;
         }
         
         //---------------------------------------------------------- UPDATE ---------------------------------------------------------------------

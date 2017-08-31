@@ -345,7 +345,12 @@
         
         public function addUser($Username,$FirstName,$LastName,$Email,$Password){
             $this->stmtaddUser->bind_param("sssss",$Username,$FirstName,$LastName,$Email,$Password);
-            $this->stmtaddUser->execute();
+            if ($this->stmtaddUser->execute()){
+                return true;
+            }else{
+                return false;
+            }
+           
         }
         
         public function addInstitution($sName){

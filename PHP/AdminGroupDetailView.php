@@ -9,7 +9,7 @@
   
       
      $toAdd = "";
-    $myUsers = $ODB->getUsersFromGroup();
+    $myUsers = $ODB->getUsersFromGroup($_GET['GroupID']);
     for ($i=0; $i< sizeof($myUsers);$i++){   
         $myRow = file_get_contents('../HTML/AdminGroupDetailTableRow.html');
         $search = array('%Vorname%','%Nachname%','%Username%','%Email%');

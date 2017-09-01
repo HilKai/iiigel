@@ -148,7 +148,7 @@
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
-            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT * FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND GroupID NOT ?");
+            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT * FROM usertogroup INNER JOIN users ON users.ID = usertogroup.UserID INNER JOIN usertoinstitution ON usertoinstitution.UserID = users.ID WHERE InstitutionID = ? AND GroupID NOT ?");
             $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT * FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID NOT ?");
             
             $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT * FROM institutions INNER JOIN usertoinstitution ON institutions.ID = usertoinstitution.InstitutionID WHERE UserID = ?");

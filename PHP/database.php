@@ -17,6 +17,10 @@
         private $stmtisTrainerofGroup;
 		private $stmtisNewHandIn;
         private $stmthasUserRight;
+        private $stmtisGroupLink;
+        private $stmtisInstitutionLink;
+        private $stmtisGroupLinkgueltig;
+        private $stmtisInstitutionLinkgueltig;
         
         //-------------------------------------------------
         
@@ -37,6 +41,7 @@
         private $stmtGetInstitutionsFromUserID;
         private $stmtGetHighestIndexFromChapter;
         private $stmtSearchUsers;
+        private $stmtGetInstitutionFromGroup;
         
         private $stmtGetAllInstitutions;
 		private $stmtGetAllUsers;
@@ -89,6 +94,8 @@
         private $stmtaddLeadertoInstitution;
         private $stmtaddUsertoInstitution;
         private $stmtgiveRighttoUser;
+        private $stmtaddGroupInvitationLink;
+        private $stmtaddInstitutionInvitationLink;
         
         //------------------------------------------------
         
@@ -117,6 +124,12 @@
             $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
 			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
+            $this->stmthasUserRight = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND RoleID = ? AND sHashID = ?");
+            $this->stmtisGroupLink = $this->db_connection->prepare("SELECT * FROM einladungtogroup WHERE Link = ?");
+            $this->stmtisInstitutionLink = $this->db_connection->prepare("SELECT * FROM einladungtoinstitution WHERE Link = ?");
+            $this->stmtisGroupLinkgueltig = $this->db_connection->prepare("SELECT * FROM einladungtogroup WHERE Link = ? AND gueltigab >= CURDATE() AND gueltigbis <= CURDATE()");
+            $this->stmtisInstitutionLinkgueltig = $this->db_connection->prepare("SELECT * FROM einladungtoinstitution WHERE Link = ? AND gueltigab >= CURDATE() AND gueltigbis <= CURDATE()");
+            
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
 			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ?");
 			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ?");
@@ -128,6 +141,7 @@
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE ID = ?");
             $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? ");
             $this->stmtGetModuleImageFromID = $this->db_connection->prepare("SELECT sPfadBild FROM modules WHERE ID = ?");
+            $this->stmtGetInstitutionFromGroup = $this->db_connection->prepare("SELECT InstitutionID FROM groups WHERE GroupID = ?");
            
             $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
             $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users");
@@ -157,7 +171,7 @@
             $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ?");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
             $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ? ORDER BY sFirstName,sLastName");
-            $this->stmthasUserRight = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND RoleID = ? AND sHashID = ?");
+            
             
             //--------------------------------------------------------- UPDATES -----------------------------------------------------------------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
@@ -187,6 +201,8 @@
             $this->stmtaddUsertoInstitution = $this->db_connection->prepare("INSERT INTO usertoinstitution VALUES (?,?,0)");
             $this->stmtaddLeadertoInstitution = $this->db_connection->prepare("INSERT INTO usertoinstitution VALUES (?,?,1)");
             $this->stmtgiveRighttoUser = $this->db_connection->prepare("INSERT INTO roles VALUES (?,?,?)");
+            $this->stmtaddGroupInvitationLink = $this->db_connection->prepare("INSERT INTO einladungtogroup VALUES (?,?,?,?)");
+            $this->stmtaddInstitutionInvitationLink = $this->db_connection->prepare("INSERT INTO einladungtoinstitution VALUES (?,?,?,?)");
             
             //------------------------------------------------------- DELETES ------------------------------------------------------------------
             $this->stmtdeleteUser = $this->db_connection->prepare("DELETE FROM users WHERE ID = ?");
@@ -355,6 +371,50 @@
             }
         }
         
+        public function isGroupLink($Link){
+            $this->stmtisGroupLink->bind_param)("i",$Link);
+            $this->stmtisGroupLink->execute;
+            $res = $this->stmtisGroupLink->get_result();
+            if (mysqli_num_rows($res) == 1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function isInstitutionLink($Link){
+            $this->stmtisInstitutionLink->bind_param)("i",$Link);
+            $this->stmtisInstitutionLink->execute;
+            $res = $this->stmtisInstitutionLink->get_result();
+            if (mysqli_num_rows($res) == 1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function isGroupLinkgueltig($Link){
+            $this->stmtisGroupLinkgueltig->bind_param)("i",$Link);
+            $this->stmtisGroupLinkgueltig->execute;
+            $res = $this->stmtisGroupLinkgueltig->get_result();
+            if (mysqli_num_rows($res) == 1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function isInstitutionLinkgueltig($Link){
+            $this->stmtisInstitutionLinkgueltig->bind_param)("i",$Link);
+            $this->stmtisInstitutionLinkgueltig->execute;
+            $res = $this->stmtisInstitutionLinkgueltig->get_result();
+            if (mysqli_num_rows($res) == 1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
         //----------------------------------------------------------- INSERTS -------------------------------------------------------------------
         
         public function addUser($Username,$FirstName,$LastName,$Email,$Password){
@@ -410,6 +470,16 @@
         public function giveRighttoUser($UserID,$RoleID,$sHashID){
             $this->stmtgiveRighttoUser->bind_param("iis",$UserID,$RoleID,$sHashID);
             $this->stmtgiveRighttoUser->execute();
+        }
+        
+        public function addGroupInvitationLink($Link,$GroupID,$Startdatum,$Enddatum){
+            $this->stmtaddGroupInvitationLink->bind_param("sidd",$Link,$GroupID,$Startdatum,$Enddatum);
+            $this->stmtaddGroupInvitationLink->execute();
+        }
+        
+        public function addInstitutionInvitationLink($Link,$InstitutionID,$Startdatum,$Enddatum){
+            $this->stmtaddInstitutionInvitationLink->bind_param("sidd",$Link,$InstitutionID,$Startdatum,$Enddatum);
+            $this->stmtaddInstitutionInvitationLink->execute();
         }
         
         //----------------------------------------------------------- SELECTS -------------------------------------------------------------------
@@ -686,6 +756,18 @@
             }
             
             return $users;
+        }
+        
+        public function getInstitutionFromGroup($GroupID){
+            $this->stmtgetInstitutionFromGroup->bind_param("i",$GroupID);
+            $this->stmtgetInstitutionFromGroup->execute();
+            $res = $this->stmtgetInstitutionFromGroup->get_result();
+            if ( mysqli_num_rows($res) == 1){
+                $row = mysqli_fetch_array($res);
+                return $row['InstitutionID'];
+            } else {
+                throw new exception('Mehr als eine Gruppe mit dieser ID');
+            }
         }
         
         // ---------------- COUNT -------------------------

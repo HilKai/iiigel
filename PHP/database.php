@@ -140,16 +140,15 @@
             $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ?");
             $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
             $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ?");
-            $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND GroupID NOT ?");
-            $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND GroupID NOT ?");
-            $this->stmtCountAllUsersNotInInstitution = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID NOT ?");
+            $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM usertogroup INNER JOIN users ON usertogroup.UserID = users.ID INNER JOIN usertoinstitution ON usertoinstitution.UserID = usertogroup.UserID WHERE InstitutionID = ? AND GroupID != ?");
+            $this->stmtCountAllUsersNotInInstitution = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertoinstitution INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID != ?");
             
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
-            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT * FROM usertogroup INNER JOIN users ON users.ID = usertogroup.UserID INNER JOIN usertoinstitution ON usertoinstitution.UserID = users.ID WHERE InstitutionID = ? AND GroupID NOT ?");
-            $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT * FROM usertogroup INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID NOT ?");
+            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT * FROM usertogroup INNER JOIN users ON usertogroup.UserID = users.ID INNER JOIN usertoinstitution ON usertoinstitution.UserID = usertogroup.UserID WHERE InstitutionID = ? AND GroupID != ?");
+            $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT * FROM usertoinstitution INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID != ?");
             
             $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT * FROM institutions INNER JOIN usertoinstitution ON institutions.ID = usertoinstitution.InstitutionID WHERE UserID = ?");
             $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertoinstitution ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ?");
@@ -778,9 +777,9 @@
         public function countAllUsersFromInstitutionNotInGroup($InstitutionID,$GroupID){
             $this->stmtCountAllUsersFromInstitutionNotInGroup->bind_param("ii",$InstitutionID,$GroupID);
             $this->stmtCountAllUsersFromInstitutionNotInGroup->execute();
-            $res = $this->stmtCountAllUSersFromInstitutionNotInGroup->get_result();
+            $res = $this->stmtCountAllUsersFromInstitutionNotInGroup->get_result();
             $row = mysqli_fetch_array($res);
-            return $row['COUNT(UserID)'];
+            return $row['COUNT(ID)'];
         }
         
         private function countAllUsersNotInInstitution($InstitutionID){
@@ -856,6 +855,7 @@
         }
         
         public function getAllUsersFromInstitutionNotInGroup($InstitutionID,$GroupID){
+            $this->stmtGetAllUsersFromInstitutionNotInGroup->bind_param("ii",$InstitutionID,$GroupID);
             $this->stmtGetAllUsersFromInstitutionNotInGroup->execute();
             $res = $this->stmtGetAllUsersFromInstitutionNotInGroup->get_result();
             $anz = $this->countAllUsersFromInstitutionNotInGroup($InstitutionID,$GroupID);
@@ -872,6 +872,7 @@
         }
         
         public function getAllUsersNotInInstitution($InstitutionID){
+            $this->stmtGetAllUsersNotInInstitution->bind_param("i",$InstitutionID);
             $this->stmtGetAllUsersNotInInstitution->execute();
             $res = $this->stmtGetAllUsersNotInInstitution->get_result();
             $anz = $this->countAllUsersNotInInstitution($InstitutionID);

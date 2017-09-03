@@ -11,9 +11,10 @@
         exit;
     }
 
-    $myModuleID = $_GET['modulID'];
+    $myModuleID = $_GET['moduleID'];
+    $myChapterID = $_GET['chapterID'];
 
-    $upload_folder = "../Images/module/";
+    $upload_folder = "../Images/ChaptersResourced/".$myModuleID;
     $filename = pathinfo($_FILES['datei']['name'], PATHINFO_FILENAME); //Gibt Dateinamen zurück
     $extension = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));    //Gibt Endung der Datei zurück zB php
 
@@ -22,23 +23,6 @@
     if(!in_array($extension, $allowed_extensions)) {
         die("Ungültige Dateiendung. Nur png, jpg und jpeg-Dateien sind erlaubt");
     }
-
-    //Überprüfung der Dateigröße
-    /*$max_size = 1*MB;
-    if($_FILES['datei']['size'] >= $max_size) {
-        die("Bitte keine Dateien größer als 1MB hochladen");
-    }*/
-
-    //Überprüfung dass das Bild keine Fehler enthält zB HTML Code, der alles zerstört
-    /*public function isPossiblePicture(){
-        if(function_exists('exif_imagetype')) { //Die exif_imagetype-Funktion erfordert die exif-Erweiterung auf dem Server
-            $allowed_types = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
-            $detected_type = exif_imagetype($_FILES['datei']['tmp_name']);
-            if(!in_array($detected_type, $allowed_types)) {
-               return "Nur der Upload von Bilddateien und höchstens 2MB großen Bilddateien ist gestattet";
-            }
-        }
-    }*/
 
     if(function_exists('exif_imagetype')) { //Die exif_imagetype-Funktion erfordert die exif-Erweiterung auf dem Server
         $allowed_types = array(IMAGETYPE_PNG, IMAGETYPE_JPEG);
@@ -62,13 +46,10 @@
 
     //Alles okay, verschiebe Datei an neuen Pfad
     
-    //move_uploaded_file($_FILES['datei']['tmp_name'], $new_path);
     rename($_FILES['datei']['tmp_name'],$new_path);
     chmod($new_path, 0644);
     echo 'Bild erfolgreich hochgeladen';
-    
-    $ODB->setModuleImageFromID($new_path,$myModuleID);
 
-    header("Location: EditorModulView.php?modulID=".$myModuleID);
+    header("Location: ChapterEditor.php?moduleID="$myModuleID."&chapterID=".$myChapterID);
 
 ?>

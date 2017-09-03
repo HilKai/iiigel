@@ -31,6 +31,7 @@
 		private $stmtGetGroupsFromUserID;
         private $stmtGetTrainerofGroup;
 		private $stmtGetModuleFromID;
+        private $stmtGetModuleIDFromName;
         private $stmtGetProfilePicFromUserID;
         private $stmtGetIDFromUsername;
         private $stmtGetUsersFromInstitution;
@@ -89,6 +90,7 @@
         private $stmtaddInstitution;
         private $stmtaddHandIn;
         private $stmtaddGroup;
+        private $stmtaddModule;
         private $stmtaddChaptertoModule;
         private $stmtaddTrainertoGroup;
         private $stmtaddUsertoGroup;
@@ -138,6 +140,7 @@
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
             $this->stmtGetTrainerofGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE bIsTrainer = 1 AND GroupID = ?");
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM modules WHERE ID = ?");
+            $this->stmtGetModuleIDFromName = $this->db_connection->prepare("SELECT ID FROM modules WHERE sName = ?");
 			$this->stmtGetChapterFromID = $this->db_connection->prepare("SELECT * FROM chapters WHERE ID = ?");
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE ID = ?");
             $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? ");
@@ -155,14 +158,14 @@
             $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ?");
             $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
             $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ?");
-            $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM usertogroup INNER JOIN users ON usertogroup.UserID = users.ID INNER JOIN usertoinstitution ON usertoinstitution.UserID = usertogroup.UserID WHERE InstitutionID = ? AND GroupID <> ?");
+            $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM users Left Join (SELECT * FROM usertogroup WHERE GroupID = ?) AS usertogroupSubset On usertogroupSubset.UserID = users.ID Left Join usertoinstitution ON usertoinstitution.UserID = users.ID WHERE GroupID IS NULL AND InstitutionID = ?");
             $this->stmtCountAllUsersNotInInstitution = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertoinstitution INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID <> ?");
             
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
-            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertoinstitution ON usertoinstitution.UserID = users.ID INNER JOIN usertogroup ON usertogroup.UserID = usertoinstitution.UserID WHERE InstitutionID = ? AND GroupID <> ?");
+            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT users.* FROM users Left Join (SELECT * FROM usertogroup WHERE GroupID = ?) AS usertogroupSubset On usertogroupSubset.UserID = users.ID Left Join usertoinstitution ON usertoinstitution.UserID = users.ID WHERE GroupID IS NULL AND InstitutionID = ?");
             $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT * FROM usertoinstitution INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID <> ?");
             
             $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT * FROM institutions INNER JOIN usertoinstitution ON institutions.ID = usertoinstitution.InstitutionID WHERE UserID = ?");
@@ -197,6 +200,7 @@
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
             $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
             $this->stmtaddGroup = $this->db_connection->prepare("INSERT INTO groups (ModulID,InstitutionsID,sName,bIsDeleted) VALUES (?,?,?,0)");
+            $this->stmtaddModule = $this->db_connection->prepare("INSERT INTO modules (sName,sLanguage) VALUES (?,?)");
             $this->stmtaddChaptertoModule = $this->db_connection->prepare("INSERT INTO chapters (iIndex,sTitle,sText,ModulID) VALUES (?,?,?,?)"); 
             $this->stmtaddTrainertoGroup = $this->db_connection->prepare("INSERT INTO usertogroup VALUES (?,?,0,1)");
             $this->stmtaddUsertoGroup = $this->db_connection->prepare("INSERT INTO usertogroup VALUES (?,?,0,0)");
@@ -444,6 +448,13 @@
             $this->stmtaddGroup->execute();
         }
         
+        public function addModule($Name,$Language){
+            $this->stmtaddModule->bind_param("ss",$Name,$Language);
+            $this->stmtaddModule->execute();
+            $ID = $this->getModuleIDFromName($Name);
+            mkdir("../Images/ChapterResources/".$ID, 0644);
+        }
+        
         public function addChaptertoModule($Index,$Title,$Text,$ModulID){
             $this->stmtaddChaptertoModule->bind_param("issi",$Index,$Title,$Text,$ModulID);
             $this->stmtaddChaptertoModule->execute();
@@ -611,12 +622,24 @@
                         $row[9], $row[10], $row[11], $row[12]);
                 }
                 return new Module($oModuleRow['ID'], $oModuleRow['sID'], $oModuleRow['sName'],
-                    $oModuleRow['sDescription'], $oModuleRow['sLanguage'], $oModuleRow['sIcon'],
+                    $oModuleRow['sDescription'], $oModuleRow['sLanguage'],
                     $oModuleRow['bIsDeleted'], $oModuleRow['bIsLive'], $aChapters);
             } else if ($iNumResults == 0) {
                 throw new exception('Kein Modul mit dieser ID in der Datenbank');
             } else {
                 throw new exception('Mehr als ein Modul mit dieser ID');        
+            }
+        }
+        
+        public function getModuleIDFromName($Name){
+            $this->stmtGetModuleIDFromName->bind_param("s",$Name);
+            $this->stmtGetModuleIDFromName->execute();
+            $res = $this->stmtGetModuleIDFromName->get_result();
+            if (mysqli_num_rows($res) == 1) {
+                $row = mysqli_fetch_array($res);
+                return $row['ID'];
+            } else {
+                throw new exception("Mehrere Module mit diesem Namen");
             }
         }
 

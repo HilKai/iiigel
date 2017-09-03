@@ -239,3 +239,15 @@ body {
     color: #fff;
     margin-top: 2px;
 }
+
+.heading3 {
+	margin: 55px 0px 10px 0px !important;
+}
+
+#Heading1 {
+	margin-left: 70px!important;
+}
+
+.black a{
+	color:black !important;
+}

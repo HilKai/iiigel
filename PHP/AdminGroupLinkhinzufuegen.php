@@ -1,3 +1,4 @@
 <?php
-    var_dump( $_POST);
+    include_once('Database.php');
+
 ?>

@@ -48,7 +48,7 @@
 		$myRow = file_get_contents('../HTML/AdminGroupLinkItem.html');
       
         $search = array('%LinkString%','%startDate%','%endDate%');
-		$replace = array($links[$a]->getLink(),$links[$a]->getStartDate(),$links[$a]->getEndDate());  
+		$replace = array($links[$a]->getLink(),$links[$a]->getStartDatum(),$links[$a]->getEndDatum());  
         $myRow = str_replace($search,$replace,$myRow);
         $linksAdded = $linksAdded . $myRow;
        

@@ -212,7 +212,7 @@
             $this->stmtaddUsertoInstitution = $this->db_connection->prepare("INSERT INTO usertoinstitution VALUES (?,?,0)");
             $this->stmtaddLeadertoInstitution = $this->db_connection->prepare("INSERT INTO usertoinstitution VALUES (?,?,1)");
             $this->stmtgiveRighttoUser = $this->db_connection->prepare("INSERT INTO roles VALUES (?,?,?)");
-            $this->stmtaddGroupInvitationLink = $this->db_connection->prepare("INSERT INTO registrationlinkgroup VALUES (?,?,?,?)");
+            $this->stmtaddGroupInvitationLink = $this->db_connection->prepare("INSERT INTO registrationlinkgroup(Link,GroupID,StartDatum,EndDatum) VALUES (?,?,?,?)");
             $this->stmtaddInstitutionInvitationLink = $this->db_connection->prepare("INSERT INTO registrationlinkinstitution VALUES (?,?,?,?)");
             
             //------------------------------------------------------- DELETES ------------------------------------------------------------------
@@ -491,7 +491,7 @@
         }
         
         public function addGroupInvitationLink($Link,$GroupID,$Startdatum,$Enddatum){
-            $this->stmtaddGroupInvitationLink->bind_param("sidd",$Link,$GroupID,$Startdatum,$Enddatum);
+            $this->stmtaddGroupInvitationLink->bind_param("siss",$Link,$GroupID,$Startdatum,$Enddatum);
             $this->stmtaddGroupInvitationLink->execute();
         }
         

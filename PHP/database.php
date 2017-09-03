@@ -154,15 +154,15 @@
             $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ?");
             $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
             $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ?");
-            $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM usertogroup INNER JOIN users ON usertogroup.UserID = users.ID INNER JOIN usertoinstitution ON usertoinstitution.UserID = usertogroup.UserID WHERE InstitutionID = ? AND GroupID != ?");
-            $this->stmtCountAllUsersNotInInstitution = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertoinstitution INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID != ?");
+            $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM usertogroup INNER JOIN users ON usertogroup.UserID = users.ID INNER JOIN usertoinstitution ON usertoinstitution.UserID = usertogroup.UserID WHERE InstitutionID = ? AND GroupID <> ?");
+            $this->stmtCountAllUsersNotInInstitution = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertoinstitution INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID <> ?");
             
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
-            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT * FROM usertogroup INNER JOIN users ON usertogroup.UserID = users.ID INNER JOIN usertoinstitution ON usertoinstitution.UserID = usertogroup.UserID WHERE InstitutionID = ? AND GroupID != ?");
-            $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT * FROM usertoinstitution INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID != ?");
+            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertoinstitution ON usertoinstitution.UserID = users.ID INNER JOIN usertogroup ON usertogroup.UserID = usertoinstitution.UserID WHERE InstitutionID = ? AND GroupID <> ?");
+            $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT * FROM usertoinstitution INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID <> ?");
             
             $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT * FROM institutions INNER JOIN usertoinstitution ON institutions.ID = usertoinstitution.InstitutionID WHERE UserID = ?");
             $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertoinstitution ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ?");
@@ -372,7 +372,7 @@
         }
         
         public function isGroupLink($Link){
-            $this->stmtisGroupLink->bind_param)("i",$Link);
+            $this->stmtisGroupLink->bind_param("i",$Link);
             $this->stmtisGroupLink->execute;
             $res = $this->stmtisGroupLink->get_result();
             if (mysqli_num_rows($res) == 1){
@@ -383,7 +383,7 @@
         }
         
         public function isInstitutionLink($Link){
-            $this->stmtisInstitutionLink->bind_param)("i",$Link);
+            $this->stmtisInstitutionLink->bind_param("i",$Link);
             $this->stmtisInstitutionLink->execute;
             $res = $this->stmtisInstitutionLink->get_result();
             if (mysqli_num_rows($res) == 1){
@@ -394,7 +394,7 @@
         }
         
         public function isGroupLinkgueltig($Link){
-            $this->stmtisGroupLinkgueltig->bind_param)("i",$Link);
+            $this->stmtisGroupLinkgueltig->bind_param("i",$Link);
             $this->stmtisGroupLinkgueltig->execute;
             $res = $this->stmtisGroupLinkgueltig->get_result();
             if (mysqli_num_rows($res) == 1){
@@ -405,7 +405,7 @@
         }
         
         public function isInstitutionLinkgueltig($Link){
-            $this->stmtisInstitutionLinkgueltig->bind_param)("i",$Link);
+            $this->stmtisInstitutionLinkgueltig->bind_param("i",$Link);
             $this->stmtisInstitutionLinkgueltig->execute;
             $res = $this->stmtisInstitutionLinkgueltig->get_result();
             if (mysqli_num_rows($res) == 1){
@@ -703,9 +703,10 @@
             $users = [];
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res); 
-                $users[$i] = new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
+                $users[$i] = new Teilnehmer($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
                                       $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
-                                      $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsOnline']);
+                                      $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsOnline'],$row[$i]['iFortschritt'],
+                                      $row[$i]['bIsTrainer']);
             } 
             
             return $users;

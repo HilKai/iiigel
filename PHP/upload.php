@@ -10,11 +10,6 @@
         exit;
     }
 
-    define('KB', 1024);
-    define('MB', 1048576);
-    define('GB', 1073741824);
-    define('TB', 1099511627776);
-
     $myUser = $ODB->getUserFromID($_SESSION['user']);
     $upload_folder = "../ProfilePics/";
     $filename = pathinfo($_FILES['datei']['name'], PATHINFO_FILENAME); //Gibt Dateinamen zurück
@@ -25,23 +20,6 @@
     if(!in_array($extension, $allowed_extensions)) {
         die("Ungültige Dateiendung. Nur png, jpg und jpeg-Dateien sind erlaubt");
     }
-
-    //Überprüfung der Dateigröße
-    /*$max_size = 1*MB;
-    if($_FILES['datei']['size'] >= $max_size) {
-        die("Bitte keine Dateien größer als 1MB hochladen");
-    }*/
-
-    //Überprüfung dass das Bild keine Fehler enthält zB HTML Code, der alles zerstört
-    /*public function isPossiblePicture(){
-        if(function_exists('exif_imagetype')) { //Die exif_imagetype-Funktion erfordert die exif-Erweiterung auf dem Server
-            $allowed_types = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
-            $detected_type = exif_imagetype($_FILES['datei']['tmp_name']);
-            if(!in_array($detected_type, $allowed_types)) {
-               return "Nur der Upload von Bilddateien und höchstens 2MB großen Bilddateien ist gestattet";
-            }
-        }
-    }*/
 
     if(function_exists('exif_imagetype')) { //Die exif_imagetype-Funktion erfordert die exif-Erweiterung auf dem Server
         $allowed_types = array(IMAGETYPE_PNG, IMAGETYPE_JPEG);

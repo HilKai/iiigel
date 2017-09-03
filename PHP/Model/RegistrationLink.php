@@ -1,32 +1,32 @@
 <?php
 class RegistrationLink {
     private $ID;
-    private $GroupID;
     private $Link;
-    private $StartDate;
-    private $EndDate;
+    private $GroupID;
+    private $StartDatum;
+    private $EndDatum;
 
-    public function __construct($ID,$GroupID,$Link,$StartDate,$EndDate) {
+    public function __construct($ID,$Link,$GroupID,$StartDatum,$EndDatum) {
         $this->ID = $ID;
-        $this->GroupID = $GroupID;
         $this->Link = $Link;
-        $this->StartDate = $StartDate;
-        $this->EndDate = $EndDate;
+        $this->GroupID = $GroupID;
+        $this->StartDate = $StartDatum;
+        $this->EndDate = $EndDatum;
     }
 
     public function getID() {
         return $this->ID;
     }
+    public function getLink() {
+        return $this->Link;
+    }
      public function getGroupID() {
         return $this->GroupID;
     }
-        public function getLink() {
-        return $this->Link;
-    }
-        public function getStartDate() {
+        public function getStartDatum() {
         return $this->StartDate;
     }
-        public function getEndDate() {
+        public function getEndDatum() {
         return $this->EndDate;
     }
 

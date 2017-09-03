@@ -21,9 +21,9 @@
        
        
     }
+   
     $add = '';
    $myUsers= $ODB->getAllUsersFromInstitutionNotInGroup($currentGroup->getInstitutionsID(),intval($_GET['GroupID']));
-    var_dump($myUsers);
 	for ($a=0;$a<sizeof($myUsers);$a++){
 		$myRow = file_get_contents('../HTML/AdminGroupUserListitem.html');
       

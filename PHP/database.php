@@ -80,6 +80,7 @@
         private $stmtSetModuleImageFromID;
         private $stmtSetChapterIndexFromID;
         private $stmtMakeUsertoTrainer;
+        private $stmtMakeUsertoNotTrainer;
         private $stmtAcceptHandIn;
         
         //------------------------------------------------
@@ -188,6 +189,7 @@
             $this->stmtSetModuleImageFromID = $this->db_connection->prepare("UPDATE modules SET sPfadBild = ? WHERE ID = ?");
             $this->stmtSetChapterIndexFromID = $this->db_connection->prepare("UPDATE chapters SET iIndex = ? WHERE ID = ?");
             $this->stmtMakeUsertoTrainer = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 1 WHERE UserID = ? AND GroupID = ?");
+            $this->stmtMakeUsertoNotTrainer = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 0 WHERE UserID = ? AND GroupID = ?");
             $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             
             //------------------------------------------------------- INSERTS -------------------------------------------------------------------
@@ -1038,9 +1040,15 @@
             $this->stmtSetChapterIndexFromID->execute();
         }
         
-        public function makeUsertoTrainer($UserID,$GroupID){
-            $this->stmtMakeUsertoTrainer->bind_param("ii",$UserID,$GroupID);
-            $this->stmtMakeUsertoTrainer->execute();
+        public function makeUsertoTrainerorNotTrainer($UserID,$GroupID){
+            $isTrainer = $this->isTrainerofGroup($UserID,$GroupID);
+            if ($isTrainer){
+              $this->stmtMakeUsertoNotTrainer->bind_param("ii",$UserID,$GroupID);
+              $this->stmtMakeUsertoNotTrainer->execute();  
+            } else {
+              $this->stmtMakeUsertoTrainer->bind_param("ii",$UserID,$GroupID);
+              $this->stmtMakeUsertoTrainer->execute(); 
+            }
         }
         
         public function acceptHandIn($UserID,$GroupID){

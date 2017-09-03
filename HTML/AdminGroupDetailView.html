@@ -72,6 +72,8 @@
 			</table>
 		</div>
 
+               
+        
 
 		<div id="institutionsOverview" class="col-md-8">
             <h3> Teilnehmer</h3>
@@ -90,7 +92,8 @@
 				</tbody>
 			</table>
 		</div>
-    
+ 
+        
             
         	<div id="addUser" class="col-md-3">
 			<p> <b>Benutzer hinzufügen</b></p>
@@ -109,9 +112,39 @@
 		
 		</div>
         
+        
+        <div id="institutionsOverview" class="col-md-8">
+            <h3> Einladungs-Links</h3>
+			<table id="Table" class="table">
+				<thead>
+					<tr>
+						<th>Link</th>
+						<th>StartDatum</th>
+						<th>Enddatum</th>
+					</tr>
+				</thead>
+				<tbody>
+					%linkrow%
+				</tbody>
+			</table>
+		</div>
    
 
-	
+	   <div id="addInviteLink" class="col-md-3">
+			<p> <b>Einladelink hinzufügen</b></p>
+				<form action="AdminGroupLinkHinzufuegen.php" id="myForm" method="post" autocomplete="off">
+            
+				    <input name="link" id="link" type="text" value="" class="addForm" placeholder="Linkstring">
+                    <input name="startdate" id="startdate" type="date" value="" class="addForm" placeholder="Startdatum">
+				    <input name="enddate" id="enddate" type="date" value="" class="addForm" placeholder="Enddatum">
+			         <input name="GroupID" id="GroupID" type="hidden" value="%GroupID%" class="addForm" placeholder="Gruppenname">
+			     <button type="submit" id="addLink" name="addLink" class="btn btn-default col-md-6">
+                Hinzufügen
+            </button>
+			</form>
+		
+		</div>
+        
         
 
 

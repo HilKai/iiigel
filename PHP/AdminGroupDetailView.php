@@ -12,7 +12,7 @@
     $toTrainerAdd = "";
     $toUserAdd = "";
     if ($_POST != null){
-        $ODB->toggleUser($_POST['toggle'],$_GET['GroupID']);
+        $ODB->makeUsertoTrainerorNotTrainer($_POST['toggle'],$_GET['GroupID']);
         header("Location:AdminGroupDetailView.php?GroupID=".$_GET['GroupID']);
     }
     $myUsers = $ODB->getUsersFromGroup($_GET['GroupID']);
@@ -41,11 +41,26 @@
        
 	}
 
+
+    $linksAdded ='';
+    $links= $ODB->getAllLinksFromGroup(intval($_GET['GroupID']));
+	for ($a=0;$a<sizeof($links);$a++){
+		$myRow = file_get_contents('../HTML/AdminGroupLinkItem.html');
+      
+        $search = array('%LinkString%','%startDate%','%endDate%');
+		$replace = array($links[$a]->getLink(),$links[$a]->getStartDate(),$links[$a]->getEndDate());  
+        $myRow = str_replace($search,$replace,$myRow);
+        $linksAdded = $linksAdded . $myRow;
+       
+	}
+
+
     $myPage = str_replace("%Listitems%",$add,$myPage);   
     $myPage = str_replace("%GroupID%",$_GET['GroupID'],$myPage);   
     $myPage = str_replace("%Gruppenname%",$currentGroup->getsName(),$myPage);  
     $myPage = str_replace("%tablerow%",$toUserAdd,$myPage); 
     $myPage = str_replace("%tablerowTrainer%",$toTrainerAdd,$myPage);
+    $myPage = str_replace("%linkrow%",$linksAdded,$myPage);
     echo $myPage;
     
 ?>

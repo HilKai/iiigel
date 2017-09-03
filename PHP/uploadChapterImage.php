@@ -14,7 +14,7 @@
     $myModuleID = $_GET['moduleID'];
     $myChapterID = $_GET['chapterID'];
 
-    $upload_folder = "../Images/ChaptersResourced/".$myModuleID;
+    $upload_folder = "../Images/ChapterResources/".$myModuleID."/";
     $filename = pathinfo($_FILES['datei']['name'], PATHINFO_FILENAME); //Gibt Dateinamen zurück
     $extension = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));    //Gibt Endung der Datei zurück zB php
 
@@ -49,7 +49,5 @@
     rename($_FILES['datei']['tmp_name'],$new_path);
     chmod($new_path, 0644);
     echo 'Bild erfolgreich hochgeladen';
-
-    header("Location: ChapterEditor.php?moduleID="$myModuleID."&chapterID=".$myChapterID);
 
 ?>

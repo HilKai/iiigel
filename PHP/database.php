@@ -996,6 +996,15 @@
             return $users;
         }
         
+        public function getAllPicsFromModuleID($ModulID,$imagepath){
+            $pics = [];
+            $imagepath = $imagepath.$ModulID."/";
+            foreach(glob($imagepath.'*')as $filename){
+                array_push($pics,$filename);
+            }
+            return $pics;
+        }
+        
         //---------------------------------------------------------- UPDATE ---------------------------------------------------------------------
         
         public function setProfilePic($sProfilePic,$ID){

@@ -31,7 +31,7 @@
 
 
 	$toAdd = "";
-	for ($i=0; $i< 5 /*sizeof($ODB->getAllPicsFromModulename($myModule -> getsName()))*/ ;$i++){  
+	for ($i=0; $i< sizeof($ODB->getAllPicsFromModuleID($myModule -> getID(),"../Images/ChapterResources/".$myModule -> getID())) ;$i++){  
     	$myRow = file_get_contents('../HTML/chapterEditorGalleryPic.html');
 		//$search = array('%Link%');
 		//$replace = array($ODB->getPicFromID($myModule-> getsName(), $i));

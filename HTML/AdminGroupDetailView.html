@@ -53,8 +53,9 @@
 			<hr width="270px" size="2px" class="line">
 		</div>
 
-
-		<div id="institutionsOverview" class="col-md-8">
+        
+             <div id="institutionsOverview" class="col-md-8">
+                <h3> Trainer</h3>
 			<table id="Table" class="table">
 				<thead>
 					<tr>
@@ -62,6 +63,26 @@
 						<th>Nachname</th>
 						<th>Username</th>
 						<th>E-Mail</th>
+                        <th>mache Teilnehmer</th>
+					</tr>
+				</thead>
+				<tbody>
+					%tablerowTrainer%
+				</tbody>
+			</table>
+		</div>
+
+
+		<div id="institutionsOverview" class="col-md-8">
+            <h3> Teilnehmer</h3>
+			<table id="Table" class="table">
+				<thead>
+					<tr>
+						<th>Vorname</th>
+						<th>Nachname</th>
+						<th>Username</th>
+						<th>E-Mail</th>
+                        <th>mache Trainer</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -69,8 +90,9 @@
 				</tbody>
 			</table>
 		</div>
-
-		<div id="addUser" class="col-md-3">
+    
+            
+        	<div id="addUser" class="col-md-3">
 			<p> <b>Benutzer hinzufügen</b></p>
 				<form action="AdminGroupUserHinzufugen.php" id="myForm" method="post" autocomplete="off">
             
@@ -86,6 +108,10 @@
 			</form>
 		
 		</div>
+        
+   
+
+	
         
 
 

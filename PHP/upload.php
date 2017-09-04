@@ -50,6 +50,6 @@
     
     $ODB->setProfilePic($new_path,$myUser->getID());
 
-    header("Location: editProfile.php");
+    header("Location: editProfile.php?userID=".$myUser->getID());
 
 ?>

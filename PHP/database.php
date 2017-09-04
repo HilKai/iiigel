@@ -135,7 +135,7 @@
             $this->stmthasUserRight = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND RoleID = ? AND sHashID = ?");
             $this->stmtisGroupLink = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE Link = ?");
             $this->stmtisInstitutionLink = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE Link = ?");
-            $this->stmtisGroupLinkgueltig = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE Link = ? AND StartDatum >= CURDATE() AND EndDatum <= CURDATE()");
+            $this->stmtisGroupLinkgueltig = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE Link = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtisInstitutionLinkgueltig = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE Link = ? AND StartDatum >= CURDATE() AND EndDatum <= CURDATE()");
             
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
@@ -150,7 +150,7 @@
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE ID = ?");
             $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? ");
             $this->stmtGetModuleImageFromID = $this->db_connection->prepare("SELECT sPfadBild FROM modules WHERE ID = ?");
-            $this->stmtGetInstitutionFromGroup = $this->db_connection->prepare("SELECT InstitutionID FROM groups WHERE GroupID = ?");
+            $this->stmtGetInstitutionFromGroup = $this->db_connection->prepare("SELECT InstitutionsID FROM groups WHERE ID = ?");
             $this->stmtGetGroupIDFromLink = $this->db_connection->prepare("SELECT GroupID FROM registrationlinkgroup WHERE Link = ?");
             $this->stmtGetInstitutionIDFromLink = $this->db_connection->prepare("SELECT InstitutionID FROM registrationlinkinstitution WHERE Link = ?");
            
@@ -505,16 +505,14 @@
         }
         
         public function processRegistrationLink($UserID,$Link){
-            //$isGroupLink = $this->isGroupLink($Link);
+            $isGroupLink = $this->isGroupLink($Link);
             $isInstitutionLink = $this->isInstitutionLink($Link);
             $isGroupLinkgueltig = $this->isGroupLinkgueltig($Link);
             $isInstitutionLinkgueltig = $this->isInstitutionLinkgueltig($Link);
             
-            echo $isInstitutionLink;
-            
-            /*if (($isGroupLink==true) && ($isGroupLinkgueltig==true)){
+            if (($isGroupLink==true) && ($isGroupLinkgueltig==true)){
                 $GroupID = $this->getGroupIDFromLink($Link); 
-                $Institution = $this-> getInstitutionFromGroup($GroupID);
+                $InstitutionID = $this->getInstitutionFromGroup($GroupID);
                 $this->addUsertoGroup($UserID,$GroupID);
                 $this->addUsertoInstitution($UserID,$InstitutionID);
             } elseif($isInstitutionLinkgueltig){
@@ -522,7 +520,7 @@
                 $this->addUsertoInstitution($UserID,$InstitutionID);
             } else {
                 throw new exception('Link ist ungültig');
-            }*/
+            }
         }
         
         //----------------------------------------------------------- SELECTS -------------------------------------------------------------------
@@ -815,12 +813,12 @@
         }
         
         public function getInstitutionFromGroup($GroupID){
-            $this->stmtgetInstitutionFromGroup->bind_param("i",$GroupID);
-            $this->stmtgetInstitutionFromGroup->execute();
-            $res = $this->stmtgetInstitutionFromGroup->get_result();
+            $this->stmtGetInstitutionFromGroup->bind_param("i",$GroupID);
+            $this->stmtGetInstitutionFromGroup->execute();
+            $res = $this->stmtGetInstitutionFromGroup->get_result();
             if ( mysqli_num_rows($res) == 1){
                 $row = mysqli_fetch_array($res);
-                return $row['InstitutionID'];
+                return $row['InstitutionsID'];
             } else {
                 throw new exception('Mehr als eine Gruppe mit dieser ID');
             }

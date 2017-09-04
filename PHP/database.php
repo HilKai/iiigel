@@ -44,6 +44,7 @@
         private $stmtGetHighestIndexFromChapter;
         private $stmtSearchUsers;
         private $stmtGetInstitutionFromGroup;
+	private $stmtGetGroupIDFromLink;
         
         private $stmtGetAllInstitutions;
 		private $stmtGetAllUsers;
@@ -149,6 +150,8 @@
             $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? ");
             $this->stmtGetModuleImageFromID = $this->db_connection->prepare("SELECT sPfadBild FROM modules WHERE ID = ?");
             $this->stmtGetInstitutionFromGroup = $this->db_connection->prepare("SELECT InstitutionID FROM groups WHERE GroupID = ?");
+	    $this->stmtGetGroupIDFromLink = $this->db_connection->prepare("SELECT GroupID FROM registrationlinkgroup WHERE Link = ?");
+	    $this->stmtGetInstitutionIDFromLink = $this->db_connection->prepare("SELECT InstitutionID FROM registrationlinkinstitution WHERE Link = ?");
            
             $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
             $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users");
@@ -800,6 +803,30 @@
                 throw new exception('Mehr als eine Gruppe mit dieser ID');
             }
         }
+	    
+	public function getGroupIDFromLink($Link){
+	    $this->stmtGetGroupIDFromLink->bind_param("s",$Link);
+	    $this->stmtGetGroupIDFromLink->execute();
+	    $res = $this->stmtGetGroupIDFromLink->get_result();
+	    if (mysqli_num_rows($res) == 1){
+		$row = mysqli_fetch_array($res);
+		return $row['GroupID'];
+	    } else {
+		throw new exception('Mehrere Links mit dieser GroupID');
+	    }
+	}
+	    
+	public function getInstitutionIDFromLink($Link){
+	    $this->stmtGetInstitutionIDFromLink->bind_param("s",$Link);
+	    $this->stmtGetInstitutionIDFromLink->execute();
+	    $res = $this->stmtGetInstitutionIDFromLink->get_result();
+	    if (mysqli_num_rows($res) == 1){
+		$row = mysqli_fetch_array($res);
+		return $row['InstitutionID'];
+	    } else {
+		throw new exception('Mehrere Links mit dieser InstitutionID');
+	    }
+	}
         
         // ---------------- COUNT -------------------------
         

@@ -108,7 +108,7 @@
         $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
 
     $toAdd = "";
-    $aktiveLinks = $ODB->getAllAkttiveLinksFromGroup($myGroup->getID());
+    $aktiveLinks = $ODB->getAllAktiveLinksFromGroup($myGroup->getID());
     for ($i=0; $i< sizeof($aktiveLinks);$i++){  
             $myRow = file_get_contents('../HTML/trainerModulviewAktiveLinktitem.html');
             $search = array('%LinkString%','%endDate%');

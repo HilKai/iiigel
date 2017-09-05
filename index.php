@@ -40,6 +40,9 @@
            
 		if( $myUser->verifyPassword($passwort)){
 			$_SESSION['user'] = $myUser->getID();
+            if (isset($_GET['reg'])){
+                $ODB->processRegistrationLink($_SESSION['user'],$_GET['reg']);
+            }
 			header("Location: PHP/userOverview.php");
 		   } else {
 			$errMSG = "Ihre Accountdaten sind falsch. Bitte geben Sie diese erneut ein";
@@ -53,7 +56,7 @@
 
     <head>
         <link rel="stylesheet" href="Styles/layout.css" type="text/css">
-        <base href="/iiigel_new/">
+        <base href="/iiigel/">
         <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
         <!-------------------------------BOOTSTRAP-------------------------------->
@@ -101,7 +104,7 @@
                                 <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
                             </div>
 
-                            <a href="PHP/register.php"> Noch keinen Account? Hier registrieren! </a>
+                            <a href="PHP/register.php<?php if (isset($_GET['reg'])) {echo '?reg='.$_GET['reg'];}?>"> Noch keinen Account? Hier registrieren! </a>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-block btn-primary" name="btn-signin">Einloggen</button>
                             </div>

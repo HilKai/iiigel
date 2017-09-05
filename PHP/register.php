@@ -121,7 +121,11 @@
 				unset($nachname);
 				unset($email);
 				unset($passwort);
-				header("Location: ../index.php");
+                if (isset($_GET['reg'])){
+                    header("Location: ../index.php?reg=".$_GET['reg']); 
+                } else {
+				    header("Location: ../index.php");
+                }
 		   } else {
 				$errTyp = "danger";
 				$errMSG = "Something went wrong, try again later..."; 
@@ -203,7 +207,7 @@
                                 <span class="text-danger"><?php if(isset($passRepeatError)) echo $passRepeatError; ?></span>
                             </div>
 
-                            <a href="../index.php"> Bereits einen Account? Hier anmelden! </a>
+                            <a href="../index.php<?php if (isset($_GET['reg'])) {echo '?reg='.$_GET['reg'];} ?>"> Bereits einen Account? Hier anmelden! </a>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-block btn-primary" name="btn-signup">Registrieren</button>
                             </div>

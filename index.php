@@ -3,7 +3,6 @@
 	session_start();
 	include_once("PHP/database.php");
 	$error = false;
-
 	if (isset($_SESSION['user'])!="" ) {
 	  header("Location: PHP/userOverview.php");
 	  exit;
@@ -40,8 +39,9 @@
            
 		if( $myUser->verifyPassword($passwort)){
 			$_SESSION['user'] = $myUser->getID();
-            if (isset($_GET['reg'])){
-                $ODB->processRegistrationLink($_SESSION['user'],$_GET['reg']);
+            
+            if (isset($_POST["reg"])){
+                $ODB->processRegistrationLink($myUser->getID(),$_POST["reg"]);
             }
 			header("Location: PHP/userOverview.php");
 		   } else {
@@ -106,6 +106,7 @@
 
                             <a href="PHP/register.php<?php if (isset($_GET['reg'])) {echo '?reg='.$_GET['reg'];}?>"> Noch keinen Account? Hier registrieren! </a>
                             <div class="form-group">
+                                <input name="reg" id="reg" type="hidden" value="<?php if (isset($_GET['reg'])) {echo $_GET['reg'];}?>"> 
                                 <button type="submit" class="btn btn-block btn-primary" name="btn-signin">Einloggen</button>
                             </div>
 

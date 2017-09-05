@@ -39,7 +39,7 @@
     if ($_POST){
         
         if(isset($_POST['levelUpforAll'])){
-            $ODB->setFortschrittforallUsersinGroup($_POST['levelUpforAll'],$currentGroupID); //--------------------- funktioniert noch nicht :-(
+            $ODB->setFortschrittforallUsersinGroup($_POST['levelUpforAll'],$currentGroupID);
             header("Refresh:0");   
         }
         if(isset($_POST['levelUp'])){

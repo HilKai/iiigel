@@ -34,7 +34,8 @@
         
         $add = $add . $myRow;
 	}
- 
+ 	 $myPage = str_replace("%InstitutionID%",$_GET['InstitutionsID'],$myPage);   
+
     $myPage = str_replace("%tablerow%",$toAdd,$myPage);   
 	$myPage = str_replace("%Listitems%",$add,$myPage);
 echo $myPage;

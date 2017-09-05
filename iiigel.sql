@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 26. Jun 2017 um 20:03
+-- Erstellungszeit: 05. Sep 2017 um 22:10
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -47,7 +47,7 @@ CREATE TABLE `chapters` (
 --
 
 INSERT INTO `chapters` (`ID`, `sID`, `iIndex`, `sTitle`, `sText`, `sNote`, `ModulID`, `sInterpreter`, `bIsMandatoryHandIn`, `bIsLive`, `bLiveInterpretation`, `bShowCloud`, `bIsDeleted`) VALUES
-(1, '', 1, 'Einführung&Interface', '                        [headline]Kapitel 1 - Einführung&Interface[/headline]\n\n[big]SmallBasic[/big] ist eine [big]Programmiersprache[/big] für Anfänger. [big]SmallBasic[/big] ist eigentlich ziemlich leicht zu erlernen. Dazu brauch man nur ein bisschen Verstand.\nAls erstes Erkläre ich euch mit was wir uns beschäftigen werden. Ihr werdet innerhalb des nächsten Jahres Grundkenntnisse vom [break]Programmieren erlernen. Zwischendurch werdet ihr Aufgaben erhalten. Diese können manchmal für euch noch ziemlich schwierig sein aber gebt nicht auf!\n Aufgaben stehen in grüner Schrift. In den gelben Kästen findet ihr Beispielcode. Um zu sehen was dieser macht, solltet ihr diesen am besten ausprobieren. Fettgedruckte Begriffe sind Fachwörter\n oder für euch vielleicht neue Wörter, merkt euch einfach was sie bedeuten, da ihr sie später noch öfters vorfinden werdet.\n So kommen wir zur Benutzeroberfläche, auch [big]Interface[/big] genannt, von [big]SmallBasic[/big].\n \nHier zur Erklärung:\nDie [big]1[/big] ist das Texteingabefeld wo wir später dann unseren [big]Code[/big] reinschreiben werden. In diesem Feld werden wir\n unsere späteren Programme erstellen. Wenn man eine Datei vorher gespeichert hat kann man sie auch wieder dort drin Laden.\n Es ist auch möglich mehr als eine Datei offen zu haben.\n \nNun kommen wir zur [big]2[/big]. Hier seht ihr die [big]Tool-Leiste[/big]. Über die Tool-Leiste kann man\nProgramme speicher bzw. laden wenn man schonmal eins gespeichert hatte. Narürlich kann man seine\nselbstgeschriebenen Programme über die Tool-Leiste [big]Ausführen (F5)[/big]\n\nDie [big]3[/big] ist eine Fläche in der sich andere Textfelder öffnen werden, wenn man noch welche zusätzlich öffnet.\n\n[tasks]\n[task]Öffnet nun SmallBasic und schaut euch alles selbst an.[/task]\n\n[/tasks]\nWenn ihr SmallBasic noch nicht installiert habt, lest euch das nächte Kapitel durch. Ansonsten könnt ihr mit Kapitel 2 weitermachen :) \n \nUm ins nächste Level aufzusteigen gebe folgenden Level-Code ein  document.write(NxtLvCode);                   \n                    ', '', 1, 0, 0, 1, 0, 0, 0),
+(1, '', 1, 'Einführung&Interface', '                                                                                                                                                                         [headline]Kapitel 1 - Einführung&Interface[/headline]\n\n[big]SmallBasic[/big] ist eine [big]Programmiersprache[/big] für Anfänger. [big]SmallBasic[/big] ist eigentlich ziemlich leicht zu erlernen. Dazu brauch man nur ein bisschen Verstand.\nAls erstes Erkläre ich euch mit was wir uns beschäftigen werden. Ihr werdet innerhalb des nächsten Jahres Grundkenntnisse vom [break]Programmieren erlernen. Zwischendurch werdet ihr Aufgaben erhalten. Diese können manchmal für euch noch ziemlich schwierig sein aber gebt nicht auf!\n Aufgaben stehen in grüner Schrift. In den gelben Kästen findet ihr Beispielcode. Um zu sehen was dieser macht, solltet ihr diesen am besten ausprobieren. Fettgedruckte Begriffe sind Fachwörter\n oder für euch vielleicht neue Wörter, merkt euch einfach was sie bedeuten, da ihr sie später noch öfters vorfinden werdet.\n So kommen wir zur Benutzeroberfläche, auch [big]Interface[/big] genannt, von [big]SmallBasic[/big].\n \nHier zur Erklärung:\nDie [big]1[/big] ist das Texteingabefeld wo wir später dann unseren [big]Code[/big] reinschreiben werden. In diesem Feld werden wir\n unsere späteren Programme erstellen. Wenn man eine Datei vorher gespeichert hat kann man sie auch wieder dort drin Laden.\n Es ist auch möglich mehr als eine Datei offen zu haben.\n \nNun kommen wir zur [big]2[/big]. Hier seht ihr die [big]Tool-Leiste[/big]. Über die Tool-Leiste kann man\nProgramme speicher bzw. laden wenn man schonmal eins gespeichert hatte. Narürlich kann man seine\nselbstgeschriebenen Programme über die Tool-Leiste [big]Ausführen (F5)[/big]\n\nDie [big]3[/big] ist eine Fläche in der sich andere Textfelder öffnen werden, wenn man noch welche zusätzlich öffnet.\n\n[tasks]\n[task]Öffnet nun SmallBasic und schaut euch alles selbst an.[/task]\n\n[/tasks]\nWenn ihr SmallBasic noch nicht installiert habt, lest euch das nächte Kapitel durch. Ansonsten könnt ihr mit Kapitel 2 weitermachen :) \n \nUm ins nächste Level aufzusteigen gebe folgenden Level-Code ein  document.write(NxtLvCode);                   \n                                       \n                                       \n                                       \n                                       \n                                       \n                                       \n                                       \n                                       \n                                       \n                                       \n                                       \n                                       \n                                       \n                    ', '', 1, 0, 0, 1, 0, 0, 0),
 (2, '', 2, 'Installation', '[headline]Kapitel 2 - Installation[/headline]\nInstallation von SmallBasic zu Hause\nGeht in das Verzeichnis "P:\\ToInstall\\SmallBasic" dort werdet ihr 2 Dateien sehen. Das eine ist SmallBasic und das andere NetFramework 3.5 SP1. Zieht euch diese Dateien auf einen USB Stick.\nWenn ihr dann Zuhause seid installiert zu erst SmallBasic und wenn ein Fehler auftritt ggf. NetFramework 3.5 SP1 Installieren. Bei der Installation von SmallBasic solltet ihr darauf achten das ihr auch die Deutsche Version installiert.\n[big]Schritt 1 :[/big] Starten des Installers!\nDrückt auf Next um die Installation zu beginnen.\n\n[big]Schritt 2 :[/big] Akzeptieren der Lizenz Bestimmungen. dazu einfach unten in der Box einen hacken reinmachen und auf Next klicken. \n\n[big]Schritt 3 :[/big] Um die Deutsche Version von SmallBasic zu Installieren klickt ihr auf Main Files in der Box.\n\nNun sollte in der Box mehrere Sprachen Angezeigt werden.\n\nScrollt nun in der Box runter bis ihr auf Deutsch ("German") trefft. \n\nKlickt nun auf das Symbol vor dem Text und wählt dort "Will be installed on local hard drive" aus.\n\n[big]Schritt 4 :[/big] Nachdem ihr die Sprache ausgewählt habt sollte es wie folgt aussehen. Klickt auf Next um die Installation fortzusetzen.\n\n[big]Schritt 5 :[/big] Klickt nun auf Install\n\nNun sollte sich SmallBasic bei euch Installieren.\n\n[big]Schritt 6 :[/big] Beenden der Installation. Klickt dazu einfach auf Finish!\n\nSollten bei der Installation Probleme auftreten bitte sagt uns beschied. Wir werden versuchen euch zu helfen das Problem zu beheben!\nUm ins nächste Level aufzusteigen gebe folgenden Level-Code ein  document.write(NxtLvCode);', '', 1, 0, 0, 1, 0, 0, 0),
 (3, '', 3, 'Unser 1. Programm', '[headline]Kapitel 3 - Unser 1. Programm[/headline]\nEs ist üblich als erstes Programm überhaupt, ein "Hello World" Programm zu schreiben. In der Informatik kennt das jeder.\nDazu gebt ihr einfach folgendes als erstes in das Textfeld ein. \n[code]\nTextWindow.WriteLine("Hello World")\n[/code]\nEs sollte dann wie folgt aussehen.\n\nIhr werdet sicher schon bemerkt haben während ihr diese Zeile eingegeben habt wurde euch durch das [big]Interface[/big] schon Hilfe angeboten, welche Befehle man benutzen kann und was sie machen.\nNun drückt ihr Ausführen oben in der Tool-leiste.\nWenn ihr alles richtig gemacht habt, sollte es so aussehen.\n\nIhr habt es geschafft euer erstes Programm ist gemacht!', '', 1, 0, 0, 1, 0, 0, 0),
 (4, '', 4, 'Erklärung unseres 1.Programmes', '[headline]Kapitel 4 - Erklärung unseres 1.Programmes[/headline]\nMan kann sich das so vorstellen, ihr habt ein Blatt Papier und führt einfach nur einen Befehl aus. schreibe Hello World\nDas muss man halt dem Computer in einer für ihn verständlichen Sprache erklären. Dabei hilft uns SmallBasic und unser [big]Interface[/big].\nMan Kann den Befehl:\n[code]\nTextWindow.WriteLine("Hello World")\n[/code]\nin mehrere Teile unterteilen.\n\n[li]TextWindow[/li]\n[li]WriteLine[/li]\n[li]"Hello World"[/li]\n\n[big]TextWindow[/big] steht hierbei für ein einfaches Text Fenster das wird somit angesprochen. [big]WriteLine[/big] ist ein Schreibe\n dies und das je nach dem was man dem Programm sagt. Hierbei ist das, was ihr in den Klammern steht, hier "Hello World", dass was ihr aufschreiben wollt.', '', 1, 0, 0, 1, 0, 0, 0),
@@ -111,7 +111,8 @@ INSERT INTO `groups` (`ID`, `ModulID`, `InstitutionsID`, `sName`, `bIsDeleted`) 
 (4, 4, 1, 'Delphi Kai', 0),
 (5, 2, 1, 'HTML Nele&Dominik', 0),
 (6, 5, 1, 'Python Roger', 0),
-(7, 6, 1, 'Java Nat', 0);
+(7, 6, 1, 'Java Nat', 0),
+(8, 1, 1, 'Test', 0);
 
 -- --------------------------------------------------------
 
@@ -128,6 +129,7 @@ CREATE TABLE `handins` (
   `ChapterID` int(11) NOT NULL,
   `bIsAccepted` tinyint(1) NOT NULL,
   `bIsUnderReview` tinyint(1) NOT NULL,
+  `bIsDeleted` tinyint(1) NOT NULL,
   `sText` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -135,13 +137,13 @@ CREATE TABLE `handins` (
 -- Daten für Tabelle `handins`
 --
 
-INSERT INTO `handins` (`ID`, `sID`, `Date`, `UserID`, `GroupID`, `ChapterID`, `bIsAccepted`, `bIsUnderReview`, `sText`) VALUES
-(1, NULL, '2017-03-31 21:32:07', 6, 1, 0, 0, 0, ''),
-(2, NULL, '2017-03-31 21:33:14', 8, 1, 0, 0, 0, ''),
-(3, NULL, '2017-03-31 21:34:17', 9, 1, 0, 0, 0, ''),
-(5, NULL, '2017-03-31 21:36:13', 8, 4, 0, 0, 0, ''),
-(6, NULL, '2017-03-31 21:36:22', 6, 4, 0, 0, 0, ''),
-(7, NULL, '2017-03-31 21:36:27', 9, 4, 0, 0, 0, '');
+INSERT INTO `handins` (`ID`, `sID`, `Date`, `UserID`, `GroupID`, `ChapterID`, `bIsAccepted`, `bIsUnderReview`, `bIsDeleted`, `sText`) VALUES
+(1, NULL, '2017-03-31 21:32:07', 6, 1, 0, 0, 0, 0, ''),
+(2, NULL, '2017-03-31 21:33:14', 8, 1, 0, 0, 0, 0, ''),
+(3, NULL, '2017-03-31 21:34:17', 9, 1, 0, 0, 0, 0, ''),
+(5, NULL, '2017-03-31 21:36:13', 8, 4, 0, 0, 0, 0, ''),
+(6, NULL, '2017-03-31 21:36:22', 6, 4, 0, 0, 0, 0, ''),
+(7, NULL, '2017-03-31 21:36:27', 9, 4, 0, 0, 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -177,7 +179,6 @@ CREATE TABLE `modules` (
   `sName` varchar(50) NOT NULL,
   `sDescription` text NOT NULL,
   `sLanguage` varchar(50) NOT NULL,
-  `sIcon` varchar(255) NOT NULL,
   `bIsDeleted` tinyint(1) NOT NULL,
   `bIsLive` tinyint(1) NOT NULL,
   `sPfadBild` varchar(255) DEFAULT NULL
@@ -187,13 +188,13 @@ CREATE TABLE `modules` (
 -- Daten für Tabelle `modules`
 --
 
-INSERT INTO `modules` (`ID`, `sID`, `sName`, `sDescription`, `sLanguage`, `sIcon`, `bIsDeleted`, `bIsLive`, `sPfadBild`) VALUES
-(1, NULL, 'SmallBasic', '', 'Microsoft Small Basic', '', 0, 1, '../Images/module/SmallBasic.png'),
-(2, NULL, 'HTML/CSS', '', 'Hypertext Markup Language/Cascading Style Sheets', '', 0, 1, '../Images/module/Html.png'),
-(3, NULL, 'Javascript', '', 'Javascript', '', 0, 1, '../Images/module/Javascript.png'),
-(4, NULL, 'Delphi', '', 'Embarcadero Delphi', '', 0, 0, '../Images/module/Delphi.png'),
-(5, NULL, 'Python', '', 'Python', '', 0, 1, '../Images/module/Python.png'),
-(6, NULL, 'Java', '', 'Java', '', 0, 0, NULL);
+INSERT INTO `modules` (`ID`, `sID`, `sName`, `sDescription`, `sLanguage`, `bIsDeleted`, `bIsLive`, `sPfadBild`) VALUES
+(1, NULL, 'SmallBasic', '', 'Microsoft Small Basic', 0, 1, '../Images/module/SmallBasic.png'),
+(2, NULL, 'HTML/CSS', '', 'Hypertext Markup Language/Cascading Style Sheets', 0, 1, '../Images/module/Html.png'),
+(3, NULL, 'Javascript', '', 'Javascript', 0, 1, '../Images/module/Javascript.png'),
+(4, NULL, 'Delphi', '', 'Embarcadero Delphi', 0, 0, '../Images/module/Delphi.png'),
+(5, NULL, 'Python', '', 'Python', 0, 1, '../Images/module/Python.png'),
+(6, NULL, 'Java', '', 'Java', 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -217,6 +218,51 @@ INSERT INTO `moduletoinstitution` (`ModuleID`, `InstitutionID`) VALUES
 (4, 1),
 (5, 1),
 (6, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `registrationlinkgroup`
+--
+
+CREATE TABLE `registrationlinkgroup` (
+  `ID` int(11) NOT NULL,
+  `Link` varchar(255) NOT NULL,
+  `GroupID` int(11) NOT NULL,
+  `StartDatum` date NOT NULL,
+  `EndDatum` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `registrationlinkgroup`
+--
+
+INSERT INTO `registrationlinkgroup` (`ID`, `Link`, `GroupID`, `StartDatum`, `EndDatum`) VALUES
+(1, 'bla', 1, '0000-00-00', '0000-00-00'),
+(2, 'bla', 2, '0000-00-00', '0000-00-00'),
+(3, 'test', 3, '2017-09-03', '2017-09-05'),
+(4, 'test2', 3, '2017-09-05', '2017-09-07');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `registrationlinkinstitution`
+--
+
+CREATE TABLE `registrationlinkinstitution` (
+  `ID` int(11) NOT NULL,
+  `Link` varchar(255) NOT NULL,
+  `InstitutionID` int(11) NOT NULL,
+  `StartDatum` date NOT NULL,
+  `EndDatum` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `registrationlinkinstitution`
+--
+
+INSERT INTO `registrationlinkinstitution` (`ID`, `Link`, `InstitutionID`, `StartDatum`, `EndDatum`) VALUES
+(1, 'bla', 1, '2017-09-03', '2017-09-05');
 
 -- --------------------------------------------------------
 
@@ -271,7 +317,10 @@ INSERT INTO `transcribedtags` (`ID`, `sTagFrom`, `sParam`, `sTagInto`) VALUES
 (10, '[/task]', '', '</li>'),
 (11, '[break]', '', '<br>'),
 (12, '[li]', '', '<li>'),
-(13, '[/li]', '', '</li>');
+(13, '[/li]', '', '</li>'),
+(14, '[pic]', 'src,width,height', '<img>'),
+(15, '[youtube]', 'width,height,src', '<iframe frameborder=''0'' allowfullscreen>'),
+(16, '[/youtube]', '', '</iframe>');
 
 -- --------------------------------------------------------
 
@@ -289,23 +338,24 @@ CREATE TABLE `users` (
   `sHashedPassword` varchar(255) NOT NULL,
   `sProfilePicture` varchar(255) NOT NULL,
   `bIsVerified` tinyint(1) NOT NULL,
-  `bIsOnline` tinyint(1) NOT NULL
+  `bIsOnline` tinyint(1) NOT NULL,
+  `bIsDeleted` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `users`
 --
 
-INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMail`, `sHashedPassword`, `sProfilePicture`, `bIsVerified`, `bIsOnline`) VALUES
-(6, NULL, 'JasminaK', 'Jasmina', 'Karakas', 'jasmina_karakas@hotmail.de', '$2y$11$VcNjGJh31/EQnYGyneAucOCxQ2hOjc3wPLU4kXbopNBk6VxfF.lWK', '../ProfilePics/Coco_Jassi.jpg', 0, 0),
-(7, NULL, 'CorinnaH', 'Corinna', 'Heinze', 'hei.cor@web.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/Coco_Jassi_1.jpg', 0, 0),
-(8, NULL, 'NeleM', 'Nele', 'Mersch', 'nele.mersch5@gmail.com', '$2y$11$.ra3YIUNjUkepTWlXvwqFeSNfvdww7li/lS5GBMwyZcmRz6epCur2', '../ProfilePics/Nele.jpg', 0, 0),
-(9, NULL, 'KaiH', 'Kai', 'Hilgers', 'Kai.Hilgers.Info@gmx.de', '$2y$11$n5mwk39o61P6y/VtiEZq3utUPxyh8Py9cyLPeiTJtTvpyOAOsMGhi', '../ProfilePics/Kai.jpg', 0, 0),
-(10, NULL, 'TestUser', 'Test', 'User', 'test@user.de', '$2y$11$vg01oIhh4o/7GpEQ8Xr8fOIr7yZ0qwGcg4lunthTSxVMFyjFn0Gpm', '', 0, 0),
-(11, NULL, 'RogerH', 'Roger', 'Hermasch', 'roger.hermasch@t-online.de', '$2y$11$NqUdz4ws1zLKwE8LLyxhmef2VA971vmle148vhZWn/1z5F9L.TtOa', '', 0, 0),
-(13, NULL, 'JanSc', 'Jan', 'Schumann', 'janschumann55@gmail.com', '$2y$11$XnR2UOOHEBcRo9ZRmwt6FOt59s4.3IkKTqhgzOBJZ5yY0JRiLaMue', '', 0, 0),
-(14, NULL, 'JanLukasL', 'Jan Lukas', 'Liesen', 'janlukas@mail4liesen.de', '$2y$11$rP3OnevHp0FFkW9HLGUGbuRx9cvXMUfhuXsjqxPiaN66opMF6f4d6', '../ProfilePics/generalpic.png', 0, 0),
-(17, NULL, 'Nat', 'Felix', 'Nattermann', 'nat@gag-mg.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/generalpic.png', 0, 0);
+INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMail`, `sHashedPassword`, `sProfilePicture`, `bIsVerified`, `bIsOnline`, `bIsDeleted`) VALUES
+(6, NULL, 'JasminaK', 'Jasmina', 'Karakas', 'jasmina_karakas@hotmail.de', '$2y$11$VcNjGJh31/EQnYGyneAucOCxQ2hOjc3wPLU4kXbopNBk6VxfF.lWK', '../ProfilePics/Coco_Jassi_3.jpg', 0, 0, 0),
+(7, NULL, 'CorinnaH', 'Corinna', 'Heinze', 'hei.cor@web.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/Coco_Jassi_1.jpg', 0, 0, 0),
+(8, NULL, 'NeleM', 'Nele', 'Mersch', 'nele.mersch5@gmail.com', '$2y$11$.ra3YIUNjUkepTWlXvwqFeSNfvdww7li/lS5GBMwyZcmRz6epCur2', '../ProfilePics/Nele.jpg', 0, 0, 0),
+(9, NULL, 'KaiH', 'Kai', 'Hilgers', 'Kai.Hilgers.Info@gmx.de', '$2y$11$n5mwk39o61P6y/VtiEZq3utUPxyh8Py9cyLPeiTJtTvpyOAOsMGhi', '../ProfilePics/Kai.jpg', 0, 0, 0),
+(10, NULL, 'TestUser', 'Test', 'User', 'test@user.de', '$2y$11$vg01oIhh4o/7GpEQ8Xr8fOIr7yZ0qwGcg4lunthTSxVMFyjFn0Gpm', '', 0, 0, 0),
+(11, NULL, 'RogerH', 'Roger', 'Hermasch', 'roger.hermasch@t-online.de', '$2y$11$NqUdz4ws1zLKwE8LLyxhmef2VA971vmle148vhZWn/1z5F9L.TtOa', '', 0, 0, 0),
+(13, NULL, 'JanSc', 'Jan', 'Schumann', 'janschumann55@gmail.com', '$2y$11$XnR2UOOHEBcRo9ZRmwt6FOt59s4.3IkKTqhgzOBJZ5yY0JRiLaMue', '', 0, 0, 0),
+(14, NULL, 'JanLukasL', 'Jan Lukas', 'Liesen', 'janlukas@mail4liesen.de', '$2y$11$rP3OnevHp0FFkW9HLGUGbuRx9cvXMUfhuXsjqxPiaN66opMF6f4d6', '../ProfilePics/generalpic.png', 0, 0, 0),
+(17, NULL, 'Nat', 'Felix', 'Nattermann', 'nat@gag-mg.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/generalpic.png', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -330,7 +380,7 @@ INSERT INTO `usertogroup` (`UserID`, `GroupID`, `iFortschritt`, `bIsTrainer`) VA
 (6, 6, 0, 0),
 (8, 5, 0, 1),
 (10, 4, 0, 1),
-(9, 4, 5, 0),
+(9, 4, 5, 1),
 (12, 5, 0, 0),
 (13, 6, 0, 0),
 (10, 1, 0, 0),
@@ -338,7 +388,8 @@ INSERT INTO `usertogroup` (`UserID`, `GroupID`, `iFortschritt`, `bIsTrainer`) VA
 (6, 1, 0, 0),
 (8, 1, 0, 0),
 (8, 4, 0, 0),
-(9, 1, 0, 0);
+(9, 1, 0, 0),
+(11, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -360,10 +411,11 @@ INSERT INTO `usertoinstitution` (`UserID`, `InstitutionID`, `bIsInstitutionleade
 (13, 2, 0),
 (6, 1, 0),
 (7, 1, 0),
-(8, 1, 0),
 (11, 1, 0),
 (12, 1, 0),
-(6, 2, 0);
+(9, 1, 0),
+(8, 1, 0),
+(13, 1, 0);
 
 --
 -- Indizes der exportierten Tabellen
@@ -400,6 +452,18 @@ ALTER TABLE `modules`
   ADD PRIMARY KEY (`ID`);
 
 --
+-- Indizes für die Tabelle `registrationlinkgroup`
+--
+ALTER TABLE `registrationlinkgroup`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indizes für die Tabelle `registrationlinkinstitution`
+--
+ALTER TABLE `registrationlinkinstitution`
+  ADD PRIMARY KEY (`ID`);
+
+--
 -- Indizes für die Tabelle `roles`
 --
 ALTER TABLE `roles`
@@ -430,7 +494,7 @@ ALTER TABLE `chapters`
 -- AUTO_INCREMENT für Tabelle `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT für Tabelle `handins`
 --
@@ -447,6 +511,16 @@ ALTER TABLE `institutions`
 ALTER TABLE `modules`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
+-- AUTO_INCREMENT für Tabelle `registrationlinkgroup`
+--
+ALTER TABLE `registrationlinkgroup`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT für Tabelle `registrationlinkinstitution`
+--
+ALTER TABLE `registrationlinkinstitution`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT für Tabelle `roles`
 --
 ALTER TABLE `roles`
@@ -455,7 +529,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT für Tabelle `transcribedtags`
 --
 ALTER TABLE `transcribedtags`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT für Tabelle `users`
 --

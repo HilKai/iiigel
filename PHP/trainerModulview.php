@@ -39,7 +39,7 @@
     if ($_POST){
         
         if(isset($_POST['levelUpforAll'])){
-            $ODB->setFortschrittforallUsersinGroup($_POST['levelUpforAll'],$currentGroupID); //--------------------- funktioniert noch nicht :-(
+            $ODB->setFortschrittforallUsersinGroup($_POST['levelUpforAll'],$currentGroupID);
             header("Refresh:0");   
         }
         if(isset($_POST['levelUp'])){
@@ -105,7 +105,21 @@
        
         
     }
-    $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
+        $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
+
+    $toAdd = "";
+    $aktiveLinks = $ODB->getAllAktiveLinksFromGroup($myGroup->getID());
+    for ($i=0; $i< sizeof($aktiveLinks);$i++){  
+            $myRow = file_get_contents('../HTML/trainerModulviewAktiveLinktitem.html');
+            $search = array('%LinkString%','%endDate%');
+            $replace = array("www.iiigel.de/index.php?reg=".$aktiveLinks[$i] ->getLink(),$aktiveLinks[$i]->getEndDatum());
+            $myRow = str_replace($search,$replace,$myRow);
+        $toAdd = $toAdd . $myRow;        
+    }
+
+
+
+    $myPage=str_replace('%linkrow%',$toAdd,$myPage);
     
     echo $myPage;  
 ?>

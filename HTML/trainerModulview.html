@@ -23,7 +23,7 @@
             <div class="col-md-9 col-xs-12 noPadding">
                 <h1 id="ModulHeading">%Gruppenname%</h1>
             </div>
-            
+
             <div class="col-md-1 col-xs-1 noPadding">
                 <a id="Home" href="../PHP/userOverview.php">
                     <span class="glyphicon glyphicon-home"></span>
@@ -66,39 +66,35 @@
                     </thead>
                     <tbody>
                         %Tablerow%
-                        <tr>
-                            <td id="AddUser" class="cursorHover" colspan="6"><span class="glyphicon glyphicon-plus"></span><span class="glyphicon glyphicon-user"></span></td>
-
-                        </tr>
                     </tbody>
                 </table>
             </div>
-            
+
             <!-- Modal -->
             <div id="myModal" class="modal fade" role="dialog">
-              <div class="modal-dialog">
+                <div class="modal-dialog">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Abgabe</h4>
-                  </div>
-                  <div class="modal-body">
-                    <p>Hier könnte deine Abgabe stehen...</p>
-                  </div>
-                  <div class="modal-footer">
-                    <form action="post"><button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button></form>
-                  </div>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Abgabe</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Hier könnte deine Abgabe stehen...</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form action="post"><button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button></form>
+                        </div>
+                    </div>
+
                 </div>
-
-              </div>
             </div>
 
             <div id="LeftContainer" class="col-md-4">
 
                 <div class="btn-group" role="group">
-                    
+
                     <a href="%TogglelinkK%"><button id="ChapterViewButton" class="btn btn-default"> <span class="glyphicon glyphicon-list"></span>  Kapitel</button></a>
                 </div>
 
@@ -122,6 +118,21 @@
                       <source src="../Sounds/pip.wav" type="audio/wav">
                     </audio>
 
+                </div>
+
+                <div id="InvitationLinks" class="col-md-8">
+                    <h3>Aktive Einladungs-Links</h3>
+                    <table id="Table" class="table">
+                        <thead>
+                            <tr>
+                                <th>Link</th>
+                                <th>Enddatum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            %linkrow%
+                        </tbody>
+                    </table>
                 </div>
 
             </div>
@@ -167,8 +178,8 @@
                         if ((document.getElementsByClassName("notification")[i].id == $userHandInID) && (document.getElementsByClassName("notification")[i].style.color != "rgb(227, 20, 101)")) {
                             document.getElementsByClassName("notification")[i].style.color = "#e31465";
                             audio.play();
-                            document.getElementsByClassName("notification")[i].setAttribute("data-toggle","modal");
-                            document.getElementsByClassName("notification")[i].setAttribute("data-target","#myModal");
+                            document.getElementsByClassName("notification")[i].setAttribute("data-toggle", "modal");
+                            document.getElementsByClassName("notification")[i].setAttribute("data-target", "#myModal");
                         }
                     }
 
@@ -177,20 +188,20 @@
             }
         });
     }
-    
+
     function modalValue(tnId) {
         document.getElementById("ModalBtn").value = tnId;
     }
-    
+
     function acceptHandIn(obj) {
-       var tnID = obj.value;
-       $groupID = "%GroupID%";
-        
+        var tnID = obj.value;
+        $groupID = "%GroupID%";
+
         $.ajax({
-            url: "acceptHandIn.php?groupID=" + $groupID +"&"+"tnID=" + tnID ,
-        
+            url: "acceptHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID,
+
         });
-        
+
         location.reload();
     }
 

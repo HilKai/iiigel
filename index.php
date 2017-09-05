@@ -3,7 +3,6 @@
 	session_start();
 	include_once("PHP/database.php");
 	$error = false;
-
 	if (isset($_SESSION['user'])!="" ) {
 	  header("Location: PHP/userOverview.php");
 	  exit;
@@ -38,9 +37,15 @@
 	   
 		    $myUser = $ODB->getUserFromUsername($username);  
            
-		if( $myUser->verifyPassword($passwort)){
+		if( ($myUser->verifyPassword($passwort)&&(!$ODB->isUserDeleted($myUser->getID())))){
 			$_SESSION['user'] = $myUser->getID();
+            
+            if ($_POST["reg"]!=""){
+                $ODB->processRegistrationLink($myUser->getID(),$_POST["reg"]);
+            }
 			header("Location: PHP/userOverview.php");
+        }elseif($ODB->isUserDeleted($myUser->getID())){
+            $errMSG = "Dieser Benutzer existiert nicht.";
 		   } else {
 			$errMSG = "Ihre Accountdaten sind falsch. Bitte geben Sie diese erneut ein";
 		   }
@@ -53,7 +58,7 @@
 
     <head>
         <link rel="stylesheet" href="Styles/layout.css" type="text/css">
-        <base href="/iiigel_new/">
+        <base href="/iiigel/">
         <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
         <!-------------------------------BOOTSTRAP-------------------------------->
@@ -101,8 +106,9 @@
                                 <span class="text-danger"><?php if(isset($passError)) echo $passError; ?></span>
                             </div>
 
-                            <a href="PHP/register.php"> Noch keinen Account? Hier registrieren! </a>
+                            <a href="PHP/register.php<?php if (isset($_GET['reg'])) {echo '?reg='.$_GET['reg'];}?>"> Noch keinen Account? Hier registrieren! </a>
                             <div class="form-group">
+                                <input name="reg" id="reg" type="hidden" value="<?php if (isset($_GET['reg'])) {echo $_GET['reg'];}?>"> 
                                 <button type="submit" class="btn btn-block btn-primary" name="btn-signin">Einloggen</button>
                             </div>
 

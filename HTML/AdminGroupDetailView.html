@@ -53,8 +53,9 @@
 			<hr width="270px" size="2px" class="line">
 		</div>
 
-
-		<div id="institutionsOverview" class="col-md-8">
+        
+             <div id="institutionsOverview" class="col-md-8">
+                <h3> Trainer</h3>
 			<table id="Table" class="table">
 				<thead>
 					<tr>
@@ -62,6 +63,28 @@
 						<th>Nachname</th>
 						<th>Username</th>
 						<th>E-Mail</th>
+                        <th>mache Teilnehmer</th>
+					</tr>
+				</thead>
+				<tbody>
+					%tablerowTrainer%
+				</tbody>
+			</table>
+		</div>
+
+               
+        
+
+		<div id="institutionsOverview" class="col-md-8">
+            <h3> Teilnehmer</h3>
+			<table id="Table" class="table">
+				<thead>
+					<tr>
+						<th>Vorname</th>
+						<th>Nachname</th>
+						<th>Username</th>
+						<th>E-Mail</th>
+                        <th>mache Trainer</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -69,40 +92,67 @@
 				</tbody>
 			</table>
 		</div>
-
-		<div id="addUser" class="col-md-3">
-			<p> <b>Trainer festlegen</b></p>
-			<form>
-				<input id="UserName" type="text" style="width:262px;">
-			</form>
-			<h6>TrainerName</h6>
-			<button type="button" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6" onclick="phpaufrufen();">
+ 
+        
+            
+        	<div id="addUser" class="col-md-3">
+			<p> <b>Benutzer hinzufügen</b></p>
+				<form action="AdminGroupUserHinzufugen.php" id="myForm" method="post" autocomplete="off">
+            
+				<input name="GroupID" id="GroupID" type="hidden" value="%GroupID%" class="addForm" placeholder="Gruppenname">
+				<select class="btn btn-default dropdown-toggle addForm" name="UserID">
+						%Listitems%
+				    <span class="caret"></span>
+				</select>
+                    	<h6>Benutername</h6>
+			     <button type="submit" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6" onclick="phpaufrufen();">
                 Hinzufügen
             </button>
+			</form>
+		
 		</div>
+        
+        
+        <div id="institutionsOverview" class="col-md-8">
+            <h3> Einladungs-Links</h3>
+			<table id="Table" class="table">
+				<thead>
+					<tr>
+						<th>Link</th>
+						<th>StartDatum</th>
+						<th>Enddatum</th>
+					</tr>
+				</thead>
+				<tbody>
+					%linkrow%
+				</tbody>
+			</table>
+		</div>
+   
+
+	   <div id="addInviteLink" class="col-md-3">
+			<p> <b>Einladelink hinzufügen</b></p>
+				<form action="AdminGroupLinkHinzufuegen.php" id="myForm" method="post" autocomplete="off">
+            
+				    <input name="link" id="link" type="text" value="" class="addForm" placeholder="Linkstring">
+                    <input name="startdate" id="startdate" type="date" value="" class="addForm" placeholder="Startdatum">
+				    <input name="enddate" id="enddate" type="date" value="" class="addForm" placeholder="Enddatum">
+			         <input name="GroupID" id="GroupID" type="hidden" value="%GroupID%" class="addForm" placeholder="Gruppenname">
+			     <button type="submit" id="addLink" name="addLink" class="btn btn-default col-md-6">
+                Hinzufügen
+            </button>
+			</form>
+		
+		</div>
+        
+        
+
 
 
 
 
 	</div>
 
-	<script>
-		function phpaufrufen() {
-
-			$.ajax({
-				type: "POST",
-				url: "AdminInstitutionHinzufugen.php",
-				data: {
-					sName: document.getElementById("UsersName").value
-				},
-				success: function(result) {
-					location.reload()
-				},
-
-			});
-		}
-
-	</script>
 </body>
 
 </html>

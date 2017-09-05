@@ -107,7 +107,7 @@
    $myPage = str_replace($search,$replace,$myPage);
 
     $toAdd = "";
-   for ($i=0; $i< sizeof($myModule->chapter);$i++){  
+    for ($i=0; $i< sizeof($myModule->chapter);$i++){  
             $myRow = file_get_contents('../HTML/ChapterViewListItem.html');
             $search = array('%ChapterTitle%','%Link%','%style%');
             if ($i < $currentProgress){

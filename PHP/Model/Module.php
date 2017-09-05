@@ -10,14 +10,13 @@ class Module {
     private $bIsLive;
     public  $chapter = array();
 
-    public function __construct($ID, $sID, $sName, $sDescription, $sLanguage, $sIcon, $bIsDeleted, $bIsLive, $aChapters) {
+    public function __construct($ID, $sID, $sName, $sDescription, $sLanguage, $bIsDeleted, $bIsLive, $aChapters) {
 
         $this->ID = $ID;
         $this->sID = $sID;
         $this->sName = $sName;
         $this->sDescription = $sDescription;
         $this->sLanguage = $sLanguage;
-        $this->sIcon = $sIcon;
         $this->bIsDeleted = $bIsDeleted;
         $this->bIsLive = $bIsLive;
         $this->chapter = $aChapters;
@@ -41,10 +40,6 @@ class Module {
     
     public function getsLanguage() {
         return $this->sLanguage;
-    }
-    
-    public function getsIcon() {
-        return $this->sIcon;
     }
     
     public function getbIsDeleted() {

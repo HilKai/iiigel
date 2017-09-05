@@ -3,6 +3,7 @@
     session_start();
     include_once("database.php");
     include_once("Model/User.php");
+    include_once("Model/Module.php");
 
     // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
@@ -10,8 +11,10 @@
         exit;
     }
 
-    $myUser = $ODB->getUserFromID($_SESSION['user']);
-    $upload_folder = "../ProfilePics/";
+    $myModuleID = $_GET['moduleID'];
+    $myChapterID = $_GET['chapterID'];
+
+    $upload_folder = "../Images/ChapterResources/".$myModuleID."/";
     $filename = pathinfo($_FILES['datei']['name'], PATHINFO_FILENAME); //Gibt Dateinamen zurück
     $extension = strtolower(pathinfo($_FILES['datei']['name'], PATHINFO_EXTENSION));    //Gibt Endung der Datei zurück zB php
 
@@ -43,13 +46,10 @@
 
     //Alles okay, verschiebe Datei an neuen Pfad
     
-    //move_uploaded_file($_FILES['datei']['tmp_name'], $new_path);
     rename($_FILES['datei']['tmp_name'],$new_path);
     chmod($new_path, 0644);
     echo 'Bild erfolgreich hochgeladen';
-    
-    $ODB->setProfilePic($new_path,$myUser->getID());
 
-    header("Location: editProfile.php?userID=".$myUser->getID());
+    header("Location: ChapterEditor.php?moduleID=".$myModuleID."&chapterID=".$myChapterID."&openmodal=1");
 
 ?>

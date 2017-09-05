@@ -11,11 +11,6 @@
         exit;
     }
 
-    define('KB', 1024);
-    define('MB', 1048576);
-    define('GB', 1073741824);
-    define('TB', 1099511627776);
-
     $myModuleID = $_GET['modulID'];
 
     $upload_folder = "../Images/module/";
@@ -74,6 +69,6 @@
     
     $ODB->setModuleImageFromID($new_path,$myModuleID);
 
-    header("Location: EditorModulView.php?modulID=1");
+    header("Location: EditorModulView.php?modulID=".$myModuleID);
 
 ?>

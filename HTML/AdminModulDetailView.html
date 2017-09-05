@@ -84,18 +84,20 @@
 		<div id="addUser" class="col-md-3">
 			<p> <b>Modul hinzufügen</b></p>
 			<form>
-				<input id="InstitutionsName" type="text" style="width:262px;">
-				<h6>Name des Moduls</h6>
-				<input id="InstitutionsName" type="text" style="width:262px;">
-				<h6>Beschreibung</h6>
-				<input id="InstitutionsName" type="text" style="width:262px;">
-				<h6>Name des Moduls</h6>
+				<input name="sName" id="sName" type="text" style="width:262px;" class="addForm" placeholder="Modulname">
+
+				<input name="sDescription" id="sDescription" type="text" style="width:262px;" class="addForm" placeholder="Beschreibung">
+
+				<input name="sLanguage" id="sLanguage" type="text" style="width:262px;" class="addForm" placeholder="Sprache">
+
+
+				<input type="submit" value="Hinzufügen">
 			</form>
 
 
-			<button type="button" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6" onclick="phpaufrufen();">
+			<!---button type="button" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6" onclick="phpaufrufen();">
                 Hinzufügen
-            </button>
+            </button---->
 		</div>
 
 

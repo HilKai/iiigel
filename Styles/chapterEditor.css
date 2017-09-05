@@ -497,3 +497,15 @@ body {
 
 
 
+
+.upload {
+	margin-left: 20px !important;
+}
+
+.picContainer {
+	margin: 15px!important;
+}
+
+.galleryPic:hover{
+	cursor: pointer;
+}

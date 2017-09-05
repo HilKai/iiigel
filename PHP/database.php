@@ -15,6 +15,7 @@
         private $stmtisUsernameFromID;
         private $stmtisEMailFromID;
         private $stmtisUserinGroup;
+        private $stmtisUserinInstitution;
         private $stmtisTrainerofGroup;
 		private $stmtisNewHandIn;
         private $stmthasUserRight;
@@ -130,6 +131,7 @@
             $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
             $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
             $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
+            $this->stmtisUserinInstitution = $this->db_connection->prepare("SELECT * FROM usertoInstitution WHERE UserID = ? AND InstitutionID = ?");
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
 			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             $this->stmthasUserRight = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND RoleID = ? AND sHashID = ?");
@@ -352,6 +354,17 @@
             }
         }
         
+        public function isUserinInstitution($UserID,$InstitutionID){
+            $this->stmtisUserinInstitution->bind_param("ii",$UserID,$InstitutionID); 
+            $this->stmtisUserinInstitution->execute();
+            $res = $this->stmtisUserinInstitution->get_result();
+            if (mysqli_num_rows($res)==1){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
         public function isTrainerofGroup($UserID,$GroupID){
             $this->stmtisTrainerofGroup->bind_param("ii",$UserID,$GroupID); 
             $this->stmtisTrainerofGroup->execute();
@@ -512,11 +525,23 @@
             if (($isGroupLink==true) && ($isGroupLinkgueltig==true)){
                 $GroupID = $this->getGroupIDFromLink($Link); 
                 $InstitutionID = $this->getInstitutionFromGroup($GroupID);
-                $this->addUsertoGroup($UserID,$GroupID);
-                $this->addUsertoInstitution($UserID,$InstitutionID);
+                $isUserinGroup = $this->isUserinGroup($UserID,$GroupID);
+                $isUserinInstitution = $this->isUserinInstitution($UserID,$InstitutionID);
+                if ($isUserinGroup == false) {
+                    $this->addUsertoGroup($UserID,$GroupID,$UserID,$GroupID);
+                    if ($isUserinInstitution == false) {
+                        $this->addUsertoInstitution($UserID,$InstitutionID,$UserID,$InstitutionID);
+                    }
+                } else {
+                    throw new exception('User ist bereits in dieser Gruppe');
+                }
             } elseif($isInstitutionLinkgueltig){
                 $InstitutionID = $this->getInstitutionIDFromLink($Link);
-                $this->addUsertoInstitution($UserID,$InstitutionID);
+                if ($isUserinInstitution == false) {
+                    $this->addUsertoInstitution($UserID,$InstitutionID,$UserID,$InstitutionID);
+                } else {
+                    throw new exception('User ist bereits in dieser Institution');
+                }
             } else {
                 throw new exception('Link ist ungültig');
             }
@@ -1070,9 +1095,9 @@
             return $links;
         }
         
-        public function getAllPicsFromModuleID($ModulID,$imagepath){
+        public function getAllPicsFromModuleID($ModulID){
             $pics = [];
-            $imagepath = $imagepath.$ModulID."/";
+            $imagepath = "../Images/ChapterResources/".$ModulID."/";
             foreach(glob($imagepath.'*')as $filename){
                 array_push($pics,$filename);
             }

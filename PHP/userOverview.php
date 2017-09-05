@@ -43,8 +43,6 @@
         
         $toAdd = $toAdd . $myBox;
     }
-
-   // $ODB->processRegistrationLink($myUser->getID(),"test");
         
     $myPage=str_replace('%Module%',$toAdd,$myPage);
     echo $myPage;

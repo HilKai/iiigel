@@ -35,7 +35,7 @@
 
 
 	$toAdd = "";
-    $images =$ODB->getAllPicsFromModuleID($myModule -> getID(),"../Images/ChapterResources/"); 
+    $images =$ODB->getAllPicsFromModuleID($myModule -> getID()); 
 
 	for ($i=0; $i< sizeof($images) ;$i++){  
      

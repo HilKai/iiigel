@@ -37,13 +37,15 @@
 	   
 		    $myUser = $ODB->getUserFromUsername($username);  
            
-		if( $myUser->verifyPassword($passwort)){
+		if( ($myUser->verifyPassword($passwort)&&(!$ODB->isUserDeleted($myUser->getID())))){
 			$_SESSION['user'] = $myUser->getID();
             
             if ($_POST["reg"]!=""){
                 $ODB->processRegistrationLink($myUser->getID(),$_POST["reg"]);
             }
 			header("Location: PHP/userOverview.php");
+        }elseif($ODB->isUserDeleted($myUser->getID())){
+            $errMSG = "Dieser Benutzer existiert nicht.";
 		   } else {
 			$errMSG = "Ihre Accountdaten sind falsch. Bitte geben Sie diese erneut ein";
 		   }

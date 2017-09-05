@@ -1,100 +1,106 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="../Styles/ChapterOverview.css" type="text/css">
-    <link rel="stylesheet" href="../Styles/ChapterContent.css" type="text/css">
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="../Styles/ChapterOverview.css" type="text/css">
+	<link rel="stylesheet" href="../Styles/ChapterContent.css" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-------------------------------BOOTSTRAP--------------------------------->
-    <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!-------------------------------BOOTSTRAP--------------------------------->
+	<link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <!---------------------------------GOOGLE FONTS--------------------->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+	<!---------------------------------GOOGLE FONTS--------------------->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
 
 
 </head>
 
 <body class="body">
-    <div id="WrappingContainer" class="container noPadding">
+	<div id="WrappingContainer" class="container noPadding">
 
-        <div id="header" class="row ">
-            <div class="col-md-4 col-xs-12">
-                <a href="#"><span id="Glyphicon" class="glyphicon glyphicon-education" aria-hidden="true" style="font-size:32px;margin-top:30px;color:#000;margin-right:0px;"></span> </a>
-                <p id="ChapterHeadline" style="float:left;margin-left:0px;">
-                    %ChapterHeadline%
-                </p>
-            </div>
-
-
+		<div id="header" class="row ">
+			<div class="col-md-4 col-xs-12">
+				<a href="#"><span id="Glyphicon" class="glyphicon glyphicon-education" aria-hidden="true" style="font-size:32px;margin-top:30px;color:#000;margin-right:0px;"></span> </a>
+				<p id="ChapterHeadline" style="float:left;margin-left:0px;">
+					%ChapterHeadline%
+				</p>
+			</div>
 
 
-            <div id="Progress" class="progress chapterBarOuter col-md-2 col-xs-0 hidden-xs nopadding">
-                <div class="progress-bar chapterBar" role="progressbar" aria-valuenow="%ProgressPercent%" aria-valuemin="0" aria-valuemax="100" style="width:%ProgressPercent%%;background-image:linear-gradient(to bottom,#e31465,#e31465 100%);">
-
-                </div>
-            </div>
-
-            <div class="btn-group col-md-2 col-xs-6" role="group" style="padding-left:20px;">
-                %Toggle%
-            </div>
-
-            <div class="col-md-1 col-xs-1 noPadding">
-                <a id="Home" href="../PHP/userOverview.php">
-                    <span class="glyphicon glyphicon-home"></span>
-                </a>
-            </div>
-
-            <div class="col-md-1 col-xs-3">
-                <a href="../PHP/logout.php?logout">
-                    <button id="LogOutButton" class="btn btn-default"> <span class="glyphicon glyphicon-log-out" style="color:#000;"></span> <a id="LogOutText" href="../PHP/logout.php?logout" style="color:#000;">Abmelden</a></button>
-                </a>
-            </div>
-
-            <div class="col-md-1 col-md-offset-1 col-xs-2">
-                <a href="javascript:void(0)"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;float: right;color:#000;cursor:pointer" onclick="openorclose();"></span> </a>
-            </div>
-
-        </div>
-
-        <div id="main" class="row nopadding">
-
-            <div id="Chapter_window" class="col-md-12 col-xs-12 nopadding myBox">
-
-                %ChapterText%
-
-            </div>
-
-            <div id="right_Container" class="sidenav col-md-2 col-md-offset-9 nopadding" style="position:absolute;visibility:hidden;margin-right:30px;margin-top:100px;width:0px;">
-
-                <div id="Chapter_Overview" class="col-md-12 " style="font-size:11;">
-                    %ChapterDropDownItems%
-
-                </div>
-
-            </div>
-
-            <div id="Button_C" class="row nopaddings col-md-2 col-md-offset-10">
-                %Buttons%
-            </div>
 
 
-        </div>
-        <!---<div id="right_Container" class="col-md-2 col-md-offset-1 nopadding">
+			<div id="Progress" class="progress chapterBarOuter col-md-2 col-xs-0 hidden-xs nopadding">
+				<div class="progress-bar chapterBar" role="progressbar" aria-valuenow="%ProgressPercent%" aria-valuemin="0" aria-valuemax="100" style="width:%ProgressPercent%%;background-image:linear-gradient(to bottom,#e31465,#e31465 100%);">
+
+				</div>
+			</div>
+
+			<div class="btn-group col-md-1 col-xs-4" role="group" style="padding-left:20px;">
+				%Toggle%
+			</div>
+
+			<div class="col-md-1 col-xs-1 noPadding">
+				<a id="Home" href="%editlink%">
+					<span class="glyphicon glyphicon-pencil"></span>
+				</a>
+			</div>
+
+			<div class="col-md-1 col-xs-1 noPadding">
+				<a id="Home" href="../PHP/userOverview.php">
+					<span class="glyphicon glyphicon-home"></span>
+				</a>
+			</div>
+
+			<div class="col-md-1 col-xs-3">
+				<a href="../PHP/logout.php?logout">
+					<button id="LogOutButton" class="btn btn-default"> <span class="glyphicon glyphicon-log-out" style="color:#000;"></span> <a id="LogOutText" href="../PHP/logout.php?logout" style="color:#000;">Abmelden</a></button>
+				</a>
+			</div>
+
+			<div class="col-md-1 col-md-offset-1 col-xs-2">
+				<a href="javascript:void(0)"><span class="glyphicon glyphicon-align-justify" aria-hidden="true" style="font-size:25px;margin-top:30px;float: right;color:#000;cursor:pointer" onclick="openorclose();"></span> </a>
+			</div>
+
+		</div>
+
+		<div id="main" class="row nopadding">
+
+			<div id="Chapter_window" class="col-md-12 col-xs-12 nopadding myBox">
+
+				%ChapterText%
+
+			</div>
+
+			<div id="right_Container" class="sidenav col-md-2 col-md-offset-9 nopadding" style="position:absolute;visibility:hidden;margin-right:30px;margin-top:100px;width:0px;">
+
+				<div id="Chapter_Overview" class="col-md-12 " style="font-size:11;">
+					%ChapterDropDownItems%
+
+				</div>
+
+			</div>
+
+			<div id="Button_C" class="row nopaddings col-md-2 col-md-offset-10">
+				%Buttons%
+			</div>
+
+
+		</div>
+		<!---<div id="right_Container" class="col-md-2 col-md-offset-1 nopadding">
                 <div id="Chapter_Overview" class="col-md-12 hidden-xs hidden-sm">
 
                     %ChapterDropDownItems%
@@ -109,81 +115,81 @@
 
 
 
-        <script>
-            var isopen = false;
+		<script>
+			var isopen = false;
 
-            function openNav() {
-                document.getElementById("right_Container").style.width = "250px";
-                document.getElementById("right_Container").style.visibility = "visible";
-                document.getElementById("main").style.marginRight = "250px";
-                isopen = true;
-            }
+			function openNav() {
+				document.getElementById("right_Container").style.width = "250px";
+				document.getElementById("right_Container").style.visibility = "visible";
+				document.getElementById("main").style.marginRight = "250px";
+				isopen = true;
+			}
 
-            function closeNav() {
-                document.getElementById("right_Container").style.width = "0px";
-                document.getElementById("main").style.marginRight = "0px";
-                isopen = false;
-            }
+			function closeNav() {
+				document.getElementById("right_Container").style.width = "0px";
+				document.getElementById("main").style.marginRight = "0px";
+				isopen = false;
+			}
 
-            function openorclose() {
+			function openorclose() {
 
-                if (isopen == false) {
-                    openNav();
-                } else {
-                    closeNav();
-                }
-            }
+				if (isopen == false) {
+					openNav();
+				} else {
+					closeNav();
+				}
+			}
 
-        </script>
-
-
+		</script>
 
 
-        <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog" style="width:800px;">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
-                    </div>
-                    <form method="post" id="modalForm">
-                        <div class="modal-body">
-                            <div class="panel panel-default">
-                                <div id="AnzeigeBox" class="panel-body"></div>
-                            </div>
 
-                            <div class="form-group ">
-                                <textarea name="modalData" class="form-control" rows="5" id="InputBox" style="maxwidth:100%" form="modalForm">
+		<div id="myModal" class="modal fade" role="dialog">
+			<div class="modal-dialog" style="width:800px;">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Modal Header</h4>
+					</div>
+					<form method="post" id="modalForm">
+						<div class="modal-body">
+							<div class="panel panel-default">
+								<div id="AnzeigeBox" class="panel-body"></div>
+							</div>
+
+							<div class="form-group ">
+								<textarea name="modalData" class="form-control" rows="5" id="InputBox" style="maxwidth:100%" form="modalForm">
                                 </textarea>
-                            </div>
+							</div>
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" name="AbgabeButton" class="btn btn-info">Abgeben</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                        </div>
-                    </form>
-                </div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" name="AbgabeButton" class="btn btn-info">Abgeben</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+						</div>
+					</form>
+				</div>
 
-            </div>
-        </div>
+			</div>
+		</div>
 
 
-        <div id="footer" class="row">
-            <div class="col-xs-12"></div>
-        </div>
-    </div>
+		<div id="footer" class="row">
+			<div class="col-xs-12"></div>
+		</div>
+	</div>
 
 
 </body>
 <script type="text/javascript">
-    var wpcomment = document.getElementById('InputBox');
+	var wpcomment = document.getElementById('InputBox');
 
-    wpcomment.onkeyup = wpcomment.onkeypress = function() {
-        document.getElementById('AnzeigeBox').innerHTML = this.value;
-    }
+	wpcomment.onkeyup = wpcomment.onkeypress = function() {
+		document.getElementById('AnzeigeBox').innerHTML = this.value;
+	}
 
 </script>
 

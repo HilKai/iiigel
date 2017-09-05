@@ -68,10 +68,10 @@
         $replace = array($link);
         $myPage = str_replace($search,$replace,$myPage); 
    
-    $search = array('%ChapterHeadline%','%ChapterText%');
+    $search = array('%ChapterHeadline%','%ChapterText%','%editlink%');
     $chapterText = $ODB->replaceTags($myModule->getChapterTextbyIndex($myChapterID));
     $text = '<div class="chapterView col-md-12">  '.$chapterText.' </div>';
-    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$text);
+    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$text,"chapterEditor.php?moduleID=".$myModuleID."&chapterID=".$myChapterID);
     $myPage = str_replace($search,$replace,$myPage);
    
    

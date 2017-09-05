@@ -110,3 +110,10 @@ body {
 	margin-bottom: 20px;
 	width: 262px;
 }
+
+#Home {
+	float: right;
+	color: #000;
+	font-size: 20px;
+	margin-top: 29px;
+}

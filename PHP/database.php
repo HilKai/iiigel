@@ -238,31 +238,30 @@
             $sTags =$this->query('SELECT sTagFrom,sTagInto,sParam FROM transcribedtags');  
             for ($x = 0; $x <= mysqli_num_rows($sTags);$x++) {
                 $aRow =  mysqli_fetch_assoc($sTags);
-                
                 if ($aRow['sParam']=="") {
-
                     $sMyDocument =  str_replace ($aRow['sTagFrom'],$aRow['sTagInto'],$sMyDocument);
-                    
-                } else {
-                    
+                } else {   
                     $iOffset = 0;
-                    $i = 1;
-                    $myCount =substr_count($sMyDocument, $aRow['sTagFrom']); 
-                    if ($myCount > 0){
-                        while ( $i <= $myCount ){ 
-                            if ($i > 0){$iOffset = strpos($sMyDocument,$aRow['sTagFrom']);}
-                            $i = $i +1;
+              
+                    $sMyWorkStr= '';
+                 
+                        while ( substr_count($sMyDocument, $aRow['sTagFrom']) > 0 ){ 
+                            $iOffset = strpos($sMyDocument,$aRow['sTagFrom']);
+                    
                             if (substr($sMyDocument,$iOffset+strlen($aRow['sTagFrom']) ,1)=='{'){
 
                                 $sMyParam = substr($sMyDocument,strpos($sMyDocument,'{' , $iOffset)+1,strpos ($sMyDocument,'}',$iOffset)-1-strpos($sMyDocument,'{' , $iOffset));
+                             
                                 $sTest = $sMyParam;
                                 $iParamOffset = 0;
                                 $sMyWorkStr ='';
                                 for ($e = 0; $e <= substr_count($sMyParam, ';')+1;$e++){                               
                                     if (strpos($sMyParam,';') > 0) {    
                                         $sOneParam = substr($sMyParam,$iParamOffset,strpos($sMyParam,';',$iParamOffset)-$iParamOffset);
+                               
                                         $iParamOffset = strpos($sMyParam,$sOneParam,$iParamOffset);
                                         $sMyParam = preg_replace('/'.preg_quote($sOneParam .';', '/').'/','',$sMyParam);
+                                     
                                     } else {
                                         $sOneParam = substr($sMyParam,0,strlen($sMyParam)-1);
                                         $sMyParam= preg_replace('/'.preg_quote($sOneParam, '/').'/','',$sMyParam);
@@ -277,16 +276,16 @@
                             $sToReplace = $aRow['sTagInto'];
                             $sTrReplace = str_replace('>',' ' . $sMyWorkStr,$sToReplace);
                             $sTrReplace = $sTrReplace . ">";
-
                             $iReplaceOffset = strpos($sMyDocument,'}',$iOffset)+1-$iOffset;
                             $sMyDocument = str_replace(substr($sMyDocument,$iOffset,$iReplaceOffset),$sTrReplace,$sMyDocument);
-                        }
+                        
                     }
                 }
             }
-       
             return $sMyDocument;
         }
+        
+        
         
         //--------------------------------------------------------- ABFRAGEN OB ... -------------------------------------------------------------
            

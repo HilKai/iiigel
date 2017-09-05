@@ -23,7 +23,7 @@
     }
     
     $add = '';
-    $myUsers= $ODB->getAllUsers();
+    $myUsers= $ODB->GetAllUsersNotInInstitution($_GET['InstitutionsID']);
 
 	for ($a=0;$a<sizeof($myUsers);$a++){
 		$myRow = file_get_contents('../HTML/AdminGroupUserListitem.html');

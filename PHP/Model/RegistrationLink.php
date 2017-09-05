@@ -10,8 +10,8 @@ class RegistrationLink {
         $this->ID = $ID;
         $this->Link = $Link;
         $this->GroupID = $GroupID;
-        $this->StartDate = $StartDatum;
-        $this->EndDate = $EndDatum;
+        $this->StartDatum = $StartDatum;
+        $this->EndDatum = $EndDatum;
     }
 
     public function getID() {
@@ -24,10 +24,10 @@ class RegistrationLink {
         return $this->GroupID;
     }
         public function getStartDatum() {
-        return $this->StartDate;
+        return $this->StartDatum;
     }
         public function getEndDatum() {
-        return $this->EndDate;
+        return $this->EndDatum;
     }
 
 

@@ -55,6 +55,9 @@
         private $stmtGetAllUsersFromInstitutionNotInGroup;
         private $stmtGetAllUsersNotInInstitution;
         private $stmtGetAllLinksFromGroup;
+        private $stmtGetAllLinksFromInstitution;
+        private $stmtGetAllAktiveLinksFromGroup;
+        private $stmtGetAllAktiveLinksFromInstitution;
         
         private $stmtCountInstitutions;
         private $stmtCountUsers;
@@ -70,6 +73,9 @@
         private $stmtCountAllUsersFromInstitutionNotInGroup;
         private $stmtCountAllUsersNotInInstitution;
         private $stmtCountAllLinksFromGroup;
+        private $stmtCountAllLinksFromInstitution;
+        private $stmtCountAllAktiveLinksFromGroup;
+        private $stmtCountAllAktiveLinksFromInstitution;
         
         //--------------------------------------------------
         
@@ -124,7 +130,7 @@
                 exit();
             }
             
-            //--------------------------------------------------------- SELECTS ----------------------------------------------------------------
+            //--------------------------------------------------------- IS SELECTS --------------------------------------------------------------
             
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
 			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ?");
@@ -139,6 +145,8 @@
             $this->stmtisInstitutionLink = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE Link = ?");
             $this->stmtisGroupLinkgueltig = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE Link = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtisInstitutionLinkgueltig = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE Link = ? AND StartDatum >= CURDATE() AND EndDatum <= CURDATE()");
+            
+            //---------------------------------------------------------- SELECTS ----------------------------------------------------------------
             
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
 			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ?");
@@ -156,6 +164,8 @@
             $this->stmtGetGroupIDFromLink = $this->db_connection->prepare("SELECT GroupID FROM registrationlinkgroup WHERE Link = ?");
             $this->stmtGetInstitutionIDFromLink = $this->db_connection->prepare("SELECT InstitutionID FROM registrationlinkinstitution WHERE Link = ?");
            
+            //------------------------------------------------------- COUNT ---------------------------------------------------------------------
+            
             $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
             $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users");
             $this->stmtCountGroups = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups");
@@ -168,16 +178,26 @@
             $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
             $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ?");
             $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM users Left Join (SELECT * FROM usertogroup WHERE GroupID = ?) AS usertogroupSubset On usertogroupSubset.UserID = users.ID Left Join usertoinstitution ON usertoinstitution.UserID = users.ID WHERE GroupID IS NULL AND InstitutionID = ?");
-            $this->stmtCountAllUsersNotInInstitution = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertoinstitution INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID <> ?");
+            $this->stmtCountAllUsersNotInInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM users LEFT JOIN (SELECT * FROM usertoinstitution WHERE InstitutionID = ?) AS usertoinstitutionSubset ON usertoinstitutionSubset.UserID = users.ID WHERE usertoinstitutionSubset.InstitutionID IS NULL");
             $this->stmtCountAllLinksFromGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkgroup WHERE GroupID = ?");
+            $this->stmtCountAllLinksFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkinstitution WHERE InstitutionID = ?");
+            $this->stmtCountAllAktiveLinksFromGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkgroup WHERE GroupID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
+            $this->stmtCountAllAktiveLinksFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkinstitution WHERE InstitutionID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
+            
+            //---------------------------------------------------------- SELECT ALL -------------------------------------------------------------
             
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
             $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
-            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT users.* FROM users Left Join (SELECT * FROM usertogroup WHERE GroupID = ?) AS usertogroupSubset On usertogroupSubset.UserID = users.ID Left Join usertoinstitution ON usertoinstitution.UserID = users.ID WHERE GroupID IS NULL AND InstitutionID = ?");
-            $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT * FROM usertoinstitution INNER JOIN users ON users.ID = usertoinstitution.UserID WHERE InstitutionID <> ?");
+            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT users.* FROM users LEFT JOIN (SELECT * FROM usertogroup WHERE GroupID = ?) AS usertogroupSubset ON usertogroupSubset.UserID = users.ID LEFT JOIN usertoinstitution ON usertoinstitution.UserID = users.ID WHERE GroupID IS NULL AND InstitutionID = ?");
+            $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT users.* FROM users LEFT JOIN (SELECT * FROM usertoinstitution WHERE InstitutionID = ?) AS usertoinstitutionSubset ON usertoinstitutionSubset.UserID = users.ID WHERE usertoinstitutionSubset.InstitutionID IS NULL;");
             $this->stmtGetAllLinksFromGroup = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE GroupID = ?");
+            $this->stmtGetAllLinksFromInstitution = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE InstitutionID = ?");
+            $this->stmtGetAllAktiveLinksFromGroup = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE GroupID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
+            $this->stmtGetAllAktiveLinksFromInstitution = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE InstitutionID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
+            
+            //-----------------------------------------------------------------------------------------------------------------------------------
             
             $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT * FROM institutions INNER JOIN usertoinstitution ON institutions.ID = usertoinstitution.InstitutionID WHERE UserID = ?");
             $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertoinstitution ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ?");
@@ -207,6 +227,7 @@
             $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             
             //------------------------------------------------------- INSERTS -------------------------------------------------------------------
+            
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword,sProfilePicture) VALUES                                                     (?,?,?,?,?,'../ProfilePics/generalpic.png')");
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
             $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
@@ -222,6 +243,7 @@
             $this->stmtaddInstitutionInvitationLink = $this->db_connection->prepare("INSERT INTO registrationlinkinstitution (Link,InstitutionID,StartDatum,EndDatum) VALUES (?,?,?,?)");
             
             //------------------------------------------------------- DELETES ------------------------------------------------------------------
+            
             $this->stmtdeleteUser = $this->db_connection->prepare("DELETE FROM users WHERE ID = ?");
             $this->stmtdeleteHandIn = $this->db_connection->prepare("DELETE FROM handins WHERE ID = ?");
         }
@@ -971,7 +993,7 @@
             $this->stmtCountAllUsersNotInInstitution->execute();
             $res = $this->stmtCountAllUsersNotInInstitution->get_result();
             $row = mysqli_fetch_array($res);
-            return $row['COUNT(UserID)'];
+            return $row['COUNT(ID)'];
         }
         
         private function countAllLinksFromGroup($GroupID){
@@ -981,6 +1003,31 @@
             $row = mysqli_fetch_array($res);
             return $row['COUNT(ID)'];
         }
+        
+        private function countAllLinksFromInstitution($InstitutionID){
+            $this->stmtCountAllLinksFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtCountAllLinksFromInstitution->execute();
+            $res = $this->stmtCountAllLinksFromInstitution->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
+        private function countAllAktiveLinksFromGroup($GroupID){
+            $this->stmtCountAllAktiveLinksFromGroup->bind_param("i",$GroupID);
+            $this->stmtCountAllAktiveLinksFromGroup->execute();
+            $res = $this->stmtCountAllAktiveLinksFromGroup->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
+        private function countAllAktiveLinksFromInstitution($InstitutionID){
+            $this->stmtCountAllAktiveLinksFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtCountAllAktiveLinksFromInstitution->execute();
+            $res = $this->stmtCountAllAktiveLinksFromInstitution->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
         // ---------------------- SELECT ALL ------------------------
         
         public function getAllInstitutions(){
@@ -1089,6 +1136,54 @@
             for ($i=0;$i<$anz;$i++){
                 $row[$i] = mysqli_fetch_array($res);
                 $links[$i] = new RegistrationLink($row[$i]['ID'],$row[$i]['Link'],$row[$i]['GroupID'],$row[$i]['StartDatum'],
+                                                  $row[$i]['EndDatum']); 
+            }
+            
+            return $links;
+        }
+        
+        public function getAllLinksFromInstitution($InstitutionID){
+            $this->stmtGetAllLinksFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtGetAllLinksFromInstitution->execute();
+            $res = $this->stmtGetAllLinksFromInstitution->get_result();
+            $anz = $this->countAllLinksFromInstitution($InstitutionID);
+            $row = [];
+            $links = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                $links[$i] = new RegistrationLink($row[$i]['ID'],$row[$i]['Link'],$row[$i]['InstitutionID'],$row[$i]['StartDatum'],
+                                                  $row[$i]['EndDatum']); 
+            }
+            
+            return $links;
+        }
+        
+        public function getAllAktiveLinksFromGroup($GroupID){
+            $this->stmtGetAllAktiveLinksFromGroup->bind_param("i",$GroupID);
+            $this->stmtGetAllAktiveLinksFromGroup->execute();
+            $res = $this->stmtGetAllAktiveLinksFromGroup->get_result();
+            $anz = $this->countAllAktiveLinksFromGroup($GroupID);
+            $row = [];
+            $links = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                $links[$i] = new RegistrationLink($row[$i]['ID'],$row[$i]['Link'],$row[$i]['GroupID'],$row[$i]['StartDatum'],
+                                                  $row[$i]['EndDatum']); 
+            }
+            
+            return $links;
+        }
+        
+        public function getAllAktiveLinksFromInstitution($InstitutionID){
+            $this->stmtGetAllAktiveLinksFromInstitution->bind_param("i",$InstitutionID);
+            $this->stmtGetAllAktiveLinksFromInstitution->execute();
+            $res = $this->stmtGetAllAktiveLinksFromInstitution->get_result();
+            $anz = $this->countAllAktiveLinksFromInstitution($InstitutionID);
+            $row = [];
+            $links = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                $links[$i] = new RegistrationLink($row[$i]['ID'],$row[$i]['Link'],$row[$i]['InstitutionID'],$row[$i]['StartDatum'],
                                                   $row[$i]['EndDatum']); 
             }
             

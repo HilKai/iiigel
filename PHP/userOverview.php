@@ -28,8 +28,13 @@
         if ($ODB->isTrainerofGroup($_SESSION['user'], $myGroups[$i]->getID())) {
             $link = "trainerModulview.php?groupID=".$myGroups[$i]->getID(); 
             $myBox = file_get_contents('../HTML/groupBoxTrainer.html');
-            $Progress=($myGroups[$i]->getAverageProgressFromGroup())/sizeof($ODB->getModuleFromID($myGroups[$i]->getModulID())->chapter);
-            $ProgressPercent= 100*(($myGroups[$i]->getAverageProgressFromGroup())/sizeof($ODB->getModuleFromID($myGroups[$i]->getModulID())->chapter));
+            if (sizeof($ODB->getModuleFromID($myGroups[$i]->getModulID())->chapter)!=0){
+                $Progress=($myGroups[$i]->getAverageProgressFromGroup())/sizeof($ODB->getModuleFromID($myGroups[$i]->getModulID())->chapter);
+                $ProgressPercent= 100*(($myGroups[$i]->getAverageProgressFromGroup())/sizeof($ODB->getModuleFromID($myGroups[$i]->getModulID())->chapter));
+            } else {
+                $Progress = 0;
+                $ProgressPercent = 0;
+            }
         } else {
             $link = "ChapterView.php?moduleID=" . $myGroups[$i]->getModulID() . "&chapterID=" . $myGroups[$i]->getProgressFromUserID($_SESSION['user'])."&groupID=". $myGroups[$i]->getID() ;
             $myBox = file_get_contents('../HTML/groupBoxTN.html');

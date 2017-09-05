@@ -105,7 +105,21 @@
        
         
     }
-    $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
+        $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
+
+    $toAdd = "";
+    $aktiveLinks = $ODB->getAllAktiveLinksFromGroup($myGroup);
+    for ($i=0; $i< sizeof($aktiveLinks);$i++){  
+            $myRow = file_get_contents('../HTML/trainerModulviewAktiveLinktitem.html');
+            $search = array('%LinkString%','%EndDate%');
+            $replace = array("www.iiigel.de/index.php?reg".$aktiveLinks[$i] ->getLink(),$aktiveLinks[$i]->getEndDatum());
+            $myRow = str_replace($search,$replace,$myRow);
+        $toAdd = $toAdd . $myRow;        
+    }
+
+
+
+    $myPage=str_replace('%linkrow%',$toAdd,$myPage);
     
     echo $myPage;  
 ?>

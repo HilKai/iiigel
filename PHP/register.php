@@ -121,8 +121,8 @@
 				unset($nachname);
 				unset($email);
 				unset($passwort);
-                if (isset($_GET['reg'])){
-                    header("Location: ../index.php?reg=".$_GET['reg']); 
+                if (isset($_POST['reg'])){
+                    header("Location: ../index.php?reg=".$_POST['reg']); 
                 } else {
 				    header("Location: ../index.php");
                 }
@@ -209,6 +209,7 @@
 
                             <a href="../index.php<?php if (isset($_GET['reg'])) {echo '?reg='.$_GET['reg'];} ?>"> Bereits einen Account? Hier anmelden! </a>
                             <div class="form-group">
+                                <input name="reg" id="reg" type="hidden" value="<?php if (isset($_GET['reg'])) {echo $_GET['reg'];}?>"> 
                                 <button type="submit" class="btn btn-block btn-primary" name="btn-signup">Registrieren</button>
                             </div>
                 </form>

@@ -40,7 +40,7 @@
 		if( $myUser->verifyPassword($passwort)){
 			$_SESSION['user'] = $myUser->getID();
             
-            if (isset($_POST["reg"])){
+            if ($_POST["reg"]!=""){
                 $ODB->processRegistrationLink($myUser->getID(),$_POST["reg"]);
             }
 			header("Location: PHP/userOverview.php");

@@ -108,11 +108,11 @@
         $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
 
     $toAdd = "";
-    $aktiveLinks = $ODB->getAllAktiveLinksFromGroup($myGroup);
+    $aktiveLinks = $ODB->getAllAkttiveLinksFromGroup($myGroup->getID());
     for ($i=0; $i< sizeof($aktiveLinks);$i++){  
             $myRow = file_get_contents('../HTML/trainerModulviewAktiveLinktitem.html');
-            $search = array('%LinkString%','%EndDate%');
-            $replace = array("www.iiigel.de/index.php?reg".$aktiveLinks[$i] ->getLink(),$aktiveLinks[$i]->getEndDatum());
+            $search = array('%LinkString%','%endDate%');
+            $replace = array("www.iiigel.de/index.php?reg=".$aktiveLinks[$i] ->getLink(),$aktiveLinks[$i]->getEndDatum());
             $myRow = str_replace($search,$replace,$myRow);
         $toAdd = $toAdd . $myRow;        
     }

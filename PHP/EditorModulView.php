@@ -46,7 +46,7 @@
 		 $newChapterName = strip_Tags($newChapterName);
 		 $newChapterName = htmlspecialchars($newChapterName);
 		 
-		 var_dump($newChapterName);
+		
 		 $ODB->addChaptertoModule($ODB->getHighestIndexFromChapter($myModulID)+1,$newChapterName,"Hallo",$myModulID);
 		 
 		 $myModul = $ODB->getModuleFromID($myModulID);

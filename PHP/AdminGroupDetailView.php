@@ -8,9 +8,9 @@
     $myPage = str_replace($search,$replace,$myRow);
     $currentGroup = $ODB->getGroupFromID($_GET['GroupID']);
       
-     $toAdd = "";
-    $toTrainerAdd = "";
-    $toUserAdd = "";
+     $toAdd = '';
+    $toTrainerAdd = '';
+    $toUserAdd = '';
     if ($_POST != null){
         $ODB->makeUsertoTrainerorNotTrainer($_POST['toggle'],$_GET['GroupID']);
         header("Location:AdminGroupDetailView.php?GroupID=".$_GET['GroupID']);
@@ -25,10 +25,12 @@
         if ($myUsers[$i]->getbIsTrainer()){
             $toTrainerAdd = $toTrainerAdd . $myRow;
         } else {
+             var_dump($myRow);
             $toUserAdd = $toUserAdd . $myRow;
        
         }
     }
+   
     $add = '';
    $myUsers= $ODB->getAllUsersFromInstitutionNotInGroup($currentGroup->getInstitutionsID(),intval($_GET['GroupID']));
 	for ($a=0;$a<sizeof($myUsers);$a++){

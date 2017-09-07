@@ -178,7 +178,7 @@
             $this->stmtCountGroupsFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups WHERE InstitutionsID = ?");
             $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ? AND bIsDeleted = 0");
             $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
-            $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(UserID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ? AND bIsDeleted = 0");
+            $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ? AND bIsDeleted = 0");
             $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM users Left Join (SELECT * FROM usertogroup WHERE GroupID = ?) AS usertogroupSubset On usertogroupSubset.UserID = users.ID Left Join usertoinstitution ON usertoinstitution.UserID = users.ID WHERE GroupID IS NULL AND InstitutionID = ? AND bIsDeleted = 0");
             $this->stmtCountAllUsersNotInInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM users LEFT JOIN (SELECT * FROM usertoinstitution WHERE InstitutionID = ?) AS usertoinstitutionSubset ON usertoinstitutionSubset.UserID = users.ID WHERE usertoinstitutionSubset.InstitutionID IS NULL AND bIsDeleted = 0");
             $this->stmtCountAllLinksFromGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkgroup WHERE GroupID = ?");
@@ -567,15 +567,13 @@
                     if ($isUserinInstitution == false) {
                         $this->addUsertoInstitution($UserID,$InstitutionID,$UserID,$InstitutionID);
                     }
-                } else {
-                    throw new exception('User ist bereits in dieser Gruppe');
+                
                 }
             } elseif($isInstitutionLinkgueltig){
                 $InstitutionID = $this->getInstitutionIDFromLink($Link);
                 if ($isUserinInstitution == false) {
                     $this->addUsertoInstitution($UserID,$InstitutionID,$UserID,$InstitutionID);
-                } else {
-                    throw new exception('User ist bereits in dieser Institution');
+        
                 }
             } else {
                 throw new exception('Link ist ungültig');
@@ -811,6 +809,7 @@
             $this->stmtGetUsersFromGroup->execute();
             $res = $this->stmtGetUsersFromGroup->get_result();
             $anz = $this->countUsersFromGroup($GroupID);
+           
             $row = [];
             $users = [];
             for ($i=0;$i<$anz;$i++){
@@ -982,7 +981,7 @@
             $this->stmtCountUsersFromGroup->execute();
             $res = $this->stmtCountUsersFromGroup->get_result();
             $row = mysqli_fetch_array($res);
-            return $row['COUNT(UserID)'];
+            return $row['COUNT(ID)'];
         }
         
         public function countsearchedUsers($Username){
@@ -994,7 +993,7 @@
         }
         
         public function countAllUsersFromInstitutionNotInGroup($InstitutionID,$GroupID){
-            $this->stmtCountAllUsersFromInstitutionNotInGroup->bind_param("ii",$InstitutionID,$GroupID);
+            $this->stmtCountAllUsersFromInstitutionNotInGroup->bind_param("ii",$GroupID,$InstitutionID);
             $this->stmtCountAllUsersFromInstitutionNotInGroup->execute();
             $res = $this->stmtCountAllUsersFromInstitutionNotInGroup->get_result();
             $row = mysqli_fetch_array($res);
@@ -1106,7 +1105,7 @@
         }
         
         public function getAllUsersFromInstitutionNotInGroup($InstitutionID,$GroupID){
-            $this->stmtGetAllUsersFromInstitutionNotInGroup->bind_param("ii",$InstitutionID,$GroupID);
+            $this->stmtGetAllUsersFromInstitutionNotInGroup->bind_param("ii",$GroupID,$InstitutionID);
             $this->stmtGetAllUsersFromInstitutionNotInGroup->execute();
             $res = $this->stmtGetAllUsersFromInstitutionNotInGroup->get_result();
             $anz = $this->countAllUsersFromInstitutionNotInGroup($InstitutionID,$GroupID);

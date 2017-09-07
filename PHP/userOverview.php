@@ -46,11 +46,15 @@
                 $ProgressPercent = 0;    
             }
         }
-        
-            $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModuleName%', '%ID%');
-            $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$Progress,$ProgressPercent, $link,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName(), "Modul".$i);
-            $myBox = str_replace($search,$replace,$myBox);
-        
+            if ($oneTrainer != null){
+                $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModuleName%', '%ID%');
+                $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$Progress,$ProgressPercent, $link,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName(), "Modul".$i);
+                $myBox = str_replace($search,$replace,$myBox);
+            } else {
+               $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModuleName%', '%ID%');
+                $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName()," ",$Progress,$ProgressPercent, $link,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName(), "Modul".$i);
+                $myBox = str_replace($search,$replace,$myBox); 
+            }
         $toAdd = $toAdd . $myBox;
     }
         

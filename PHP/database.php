@@ -124,8 +124,8 @@
         }
 
         public function __construct(){
-            //$this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
-            $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+            $this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
+            //$this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
             if (!$this->db_connection->set_charset("utf8")) {
                 printf("Error loading character set utf8: %s\n", $this->db_connection->error);
                 exit();
@@ -138,7 +138,7 @@
             $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
             $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
             $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
-            $this->stmtisUserinInstitution = $this->db_connection->prepare("SELECT * FROM usertoInstitution WHERE UserID = ? AND InstitutionID = ?");
+            $this->stmtisUserinInstitution = $this->db_connection->prepare("SELECT * FROM usertoinstitution WHERE UserID = ? AND InstitutionID = ?");
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
 			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
             $this->stmthasUserRight = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND RoleID = ? AND sHashID = ?");
@@ -563,7 +563,7 @@
                 $isUserinGroup = $this->isUserinGroup($UserID,$GroupID);
                 $isUserinInstitution = $this->isUserinInstitution($UserID,$InstitutionID);
                 if ($isUserinGroup == false) {
-                    $this->addUsertoGroup($UserID,$GroupID,$UserID,$GroupID);
+                    $this->addUsertoGroup($UserID,$GroupID);
                     if ($isUserinInstitution == false) {
                         $this->addUsertoInstitution($UserID,$InstitutionID,$UserID,$InstitutionID);
                     }

@@ -58,7 +58,7 @@
 
     <head>
         <link rel="stylesheet" href="Styles/layout.css" type="text/css">
-        <base href="/iiigel/">
+        <base href="/iiigel_new/">
         <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 
         <!-------------------------------BOOTSTRAP-------------------------------->

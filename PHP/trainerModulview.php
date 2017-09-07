@@ -112,7 +112,7 @@
     for ($i=0; $i< sizeof($aktiveLinks);$i++){  
             $myRow = file_get_contents('../HTML/trainerModulviewAktiveLinktitem.html');
             $search = array('%LinkString%','%endDate%');
-            $replace = array("www.iiigel.de/index.php?reg=".$aktiveLinks[$i] ->getLink(),$aktiveLinks[$i]->getEndDatum());
+            $replace = array("www.iiigel_new.de/index.php?reg=".$aktiveLinks[$i] ->getLink(),$aktiveLinks[$i]->getEndDatum());
             $myRow = str_replace($search,$replace,$myRow);
         $toAdd = $toAdd . $myRow;        
     }

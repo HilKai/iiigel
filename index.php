@@ -31,26 +31,32 @@
 		}
 		
 		
-			
+		$myUser = $ODB->getUserFromUsername($username);	
 
-		if( !$error ) {
-	   
-		    $myUser = $ODB->getUserFromUsername($username);  
-           
-		if( ($myUser->verifyPassword($passwort)&&(!$ODB->isUserDeleted($myUser->getID())))){
-			$_SESSION['user'] = $myUser->getID();
-            
-            if ($_POST["reg"]!=""){
-                $ODB->processRegistrationLink($myUser->getID(),$_POST["reg"]);
+		if(!$error){
+            if ($myUser!=false){
+                if(($myUser->verifyPassword($passwort)&&(!$ODB->isUserDeleted($myUser->getID())))){
+                    $_SESSION['user'] = $myUser->getID();
+
+                    if ($_POST["reg"]!=""){
+                        $ODB->processRegistrationLink($myUser->getID(),$_POST["reg"]);
+                    }
+
+                    header("Location: PHP/userOverview.php");
+
+                }elseif($ODB->isUserDeleted($myUser->getID())){
+                    $errMSG = "Dieser Benutzer existiert nicht mehr.";
+                } else {
+                    $errMSG = "Ihre Accountdaten sind falsch. Bitte geben Sie diese erneut ein";
+                }
+            } else {
+               $errMSG = "Dieser Benutzer existiert nicht."; 
             }
-			header("Location: PHP/userOverview.php");
-        }elseif($ODB->isUserDeleted($myUser->getID())){
-            $errMSG = "Dieser Benutzer existiert nicht.";
-		   } else {
-			$errMSG = "Ihre Accountdaten sind falsch. Bitte geben Sie diese erneut ein";
-		   }
 			
 		}
+        
+        
+        
 	}
 ?>
 

@@ -631,7 +631,7 @@
                                     $row['sLastName'],$row['sEMail'],$row['sHashedPassword'],
                                     $row['sProfilePicture'],$row['bIsVerified'],$row['bIsOnline']);
             } else {
-                throw new exception('Mehr als ein User mit diesem Benutzernamen');        
+                return false;        
             }
         }
         

@@ -14,15 +14,20 @@ body {
   
     @media only screen and (max-width : 320px) and (min-width: 0px) {
         #WrappingContainer {
-            /*background-color:slateblue;*/
-            margin: 0px auto;
+			margin: 6px;
             padding: 0;
-            min-width: 460px;
+            width: 300px;
         }
         
         #ProfileContainer {
-             border-radius: 0px;
+            border-radius: 0px;
+			/*background-color:slateblue !important;*/
+			padding: 20px !important;
         }
+		
+		#ProfileTextContainer {
+			padding-left: 20px !important;
+		}
         
         #Name  {
             font-size: 40px;
@@ -64,14 +69,14 @@ body {
     /* Custom, iPhone Retina */ 
     @media only screen and (max-width : 480px) and (min-width: 320px) {
         #WrappingContainer {
-            /*background-color:hotpink;*/
-            margin: 0px auto;
+            margin: 10px;
             padding: 0;
-            min-width: 460px;
+            /*min-width: 460px;*/
         }    
         
         #ProfileContainer {
              border-radius: 0px;
+			 /*background-color:hotpink !important;*/
         }
         
        #ProfilePic {
@@ -124,7 +129,7 @@ body {
     @media only screen and (max-width:768px) and (min-width:480px) {
          #WrappingContainer {
             /*background-color:coral;*/
-            margin: 0px auto;
+            margin: 10px;
             padding: 0; 
         }
         
@@ -333,6 +338,8 @@ body {
         
     }
 
+/*Style without Media Querries*/
+
 	#WrappingContainer {
 		padding: 0;
 	}
@@ -340,6 +347,7 @@ body {
 		#ProfileContainer {
 			padding: 40px;
             background-color: #fff;
+			margin: 0 !important;
 		}
 		
 			#ProfilePic {

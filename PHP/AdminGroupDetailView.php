@@ -17,15 +17,15 @@
     }
     $myUsers = $ODB->getUsersFromGroup($_GET['GroupID']);
     for ($i=0; $i< sizeof($myUsers);$i++){   
-        $myRow = file_get_contents('../HTML/AdminGroupDetailTableRow.html');
+        $myRow = file_get_contents('../HTML/AdminGroupDetailTablerow.html');
         $search = array('%Vorname%','%Nachname%','%Username%','%Email%','%UserID%');
         $replace = array($myUsers[$i] ->getsFirstName(),$myUsers[$i]->getsLastName(),$myUsers[$i]->getsUsername(),$myUsers[$i]->getsEMail(),$myUsers[$i]->getID());
         $myRow = str_replace($search,$replace,$myRow); 
-        
+       
         if ($myUsers[$i]->getbIsTrainer()){
             $toTrainerAdd = $toTrainerAdd . $myRow;
         } else {
-             var_dump($myRow);
+             
             $toUserAdd = $toUserAdd . $myRow;
        
         }

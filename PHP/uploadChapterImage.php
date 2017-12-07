@@ -50,6 +50,6 @@
     chmod($new_path, 0644);
     echo 'Bild erfolgreich hochgeladen';
 
-    header("Location: ChapterEditor.php?moduleID=".$myModuleID."&chapterID=".$myChapterID."&openmodal=1");
+    header("Location: chapterEditor.php?moduleID=".$myModuleID."&chapterID=".$myChapterID."&openmodal=1");
 
 ?>

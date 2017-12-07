@@ -169,7 +169,7 @@
             //------------------------------------------------------- COUNT ---------------------------------------------------------------------
             
             $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
-            $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users");
+            $this->stmtCountUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE bIsDeleted = 0");
             $this->stmtCountGroups = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups");
             $this->stmtCountModules = $this->db_connection->prepare("SELECT COUNT(ID) FROM modules");
             $this->stmtCountInstitutionsFromUser = $this->db_connection->prepare("SELECT COUNT(InstitutionID) FROM usertoinstitution WHERE UserID = ?");
@@ -189,7 +189,7 @@
             //---------------------------------------------------------- SELECT ALL -------------------------------------------------------------
             
             $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
-            $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users");
+            $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users WHERE bIsDeleted = 0");
             $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
             $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
             $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT users.* FROM users LEFT JOIN (SELECT * FROM usertogroup WHERE GroupID = ?) AS usertogroupSubset ON usertogroupSubset.UserID = users.ID LEFT JOIN usertoinstitution ON usertoinstitution.UserID = users.ID WHERE GroupID IS NULL AND InstitutionID = ? AND bIsDeleted = 0");

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 05. Sep 2017 um 22:10
+-- Erstellungszeit: 10. Dez 2017 um 20:18
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -272,20 +272,23 @@ INSERT INTO `registrationlinkinstitution` (`ID`, `Link`, `InstitutionID`, `Start
 
 CREATE TABLE `rights` (
   `UserID` int(11) NOT NULL,
-  `RoleID` int(11) NOT NULL,
-  `sHashID` varchar(255) NOT NULL
+  `Name` varchar(255) NOT NULL,
+  `ID` int(11) DEFAULT NULL,
+  `canView` tinyint(1) NOT NULL DEFAULT '0',
+  `canEdit` tinyint(1) NOT NULL DEFAULT '0',
+  `canCreate` tinyint(1) NOT NULL DEFAULT '0',
+  `canDelete` tinyint(1) NOT NULL DEFAULT '0',
+  `isDeleted` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Tabellenstruktur für Tabelle `roles`
+-- Daten für Tabelle `rights`
 --
 
-CREATE TABLE `roles` (
-  `ID` int(11) NOT NULL,
-  `Bezeichnung` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `rights` (`UserID`, `Name`, `ID`, `canView`, `canEdit`, `canCreate`, `canDelete`, `isDeleted`) VALUES
+(6, 'Chapter', NULL, 1, 1, 0, 0, 1),
+(6, 'Modul', 1, 1, 1, 0, 0, 0),
+(6, 'ModulChapter', 1, 1, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -464,12 +467,6 @@ ALTER TABLE `registrationlinkinstitution`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indizes für die Tabelle `roles`
---
-ALTER TABLE `roles`
-  ADD PRIMARY KEY (`ID`);
-
---
 -- Indizes für die Tabelle `transcribedtags`
 --
 ALTER TABLE `transcribedtags`
@@ -520,11 +517,6 @@ ALTER TABLE `registrationlinkgroup`
 --
 ALTER TABLE `registrationlinkinstitution`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT für Tabelle `roles`
---
-ALTER TABLE `roles`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT für Tabelle `transcribedtags`
 --

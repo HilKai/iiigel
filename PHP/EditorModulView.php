@@ -3,11 +3,19 @@
 	 session_start();
 	 $myPage = file_get_contents('../HTML/EditorModulView.html');
 	 
+     if( !isset($_SESSION['user']) ) {
+        header("Location: ../index.php");
+        exit;
+     }
+    
+    include_once("database.php");
+    $myModulID = $_GET['modulID'];
 
-	 include_once("database.php");
-	 $myModulID = $_GET['modulID'];
-
-     $toAdd = "";
+    if(!$ODB->hasPermission($_SESSION['user'],"Modul","view",$myModulID) ) {
+        echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
+      $toAdd = "";
 	 if (isset($_POST['btn-save']) ) {
 		 //var_dump($_POST);
 		 $newModulName = trim($_POST['modulname']);
@@ -61,19 +69,24 @@
 
      $myPage=str_replace($search,$replace,$myPage);
 
-     for ($i=0; $i< sizeof($myModul->chapter);$i++){   
-            $myRow = file_get_contents('../HTML/EditorModulViewTablerow.html');
-            $search = array('%ChapterNum%', '%ChapterName%', '%modulID%', '%ChapterID%');
-            $replace = array($myModul->chapter[$i]->getiIndex(), $myModul->chapter[$i]->getsTitle(),$myModulID,$myModul->chapter[$i]->getID());
-            $myRow = str_replace($search,$replace,$myRow);
-         
-        
-        $toAdd = $toAdd . $myRow;
-     }
+     for ($i=0; $i< sizeof($myModul->chapter);$i++){  
+            if(($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModul->chapter[$i]->getID()))
+               or ($ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModulID))) {
+                $myRow = file_get_contents('../HTML/EditorModulViewTablerow.html');
+                $search = array('%ChapterNum%', '%ChapterName%', '%modulID%', '%ChapterID%');
+                $replace = array($myModul->chapter[$i]->getiIndex(), $myModul->chapter[$i]->getsTitle(),$myModulID,$myModul->chapter[$i]->getID());
+                $myRow = str_replace($search,$replace,$myRow);
 
+
+                $toAdd = $toAdd . $myRow;
+            }
+     }
+     
 
      $myPage=str_replace('%Tablerow%',$toAdd,$myPage);
 
     
-     echo $myPage; 
+     echo $myPage;  
+    }
+      
 ?>

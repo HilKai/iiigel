@@ -6,6 +6,8 @@
 	 $grey = "#ddd";
 	 $red = "#ff0000";
 	 $color = $grey;
+
+	 $handIn=[];
     
     
     $currentGroupID = $_GET['groupID'];
@@ -59,6 +61,18 @@
                 if($myGroup->teilnehmer[$i]->getID() ==  $_POST['acceptHandIn']) {
                         $id =$myGroup ->teilnehmer[$i]->getID();
                         $ODB->acceptHandIn($id,$currentGroupID);
+						$ODB->setFortschrittFromUserinGroup($id,$currentGroupID);
+                        header("Refresh:0");     
+                }
+            }
+            
+        }
+		
+		 if(isset($_POST['rejectHandIn'])){
+            for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
+                if($myGroup->teilnehmer[$i]->getID() ==  $_POST['rejectHandIn']) {
+                        $id =$myGroup ->teilnehmer[$i]->getID();
+                        $ODB->deleteHandIn($id,$currentGroupID);
                         header("Refresh:0");     
                 }
             }
@@ -68,8 +82,9 @@
    }
  
     
-   for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
-        $myRow = file_get_contents('../HTML/trainerModulTablerow.html');
+   for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){ 
+	   		$handIn[$myGroup->teilnehmer[$i]->getID()] = $ODB->getHandIn($myGroup->teilnehmer[$i]->getID(), $myGroup->getID());
+        	$myRow = file_get_contents('../HTML/trainerModulTablerow.html');
             $search = array('%Prename%', '%Lastname%', '%Progress%', '%ProgressPercent%','%ID%');
             $replace = array($myGroup ->teilnehmer[$i]->getsFirstName(), $myGroup ->teilnehmer[$i]->getsLastName(), $myGroup->teilnehmer[$i]->getiFortschritt()+1, (100*($myGroup->teilnehmer[$i]->getiFortschritt()))/(sizeof($myModule->chapter)-1),$myGroup->teilnehmer[$i]->getID());
             $myRow = str_replace($search,$replace,$myRow);
@@ -120,6 +135,7 @@
 
 
     $myPage=str_replace('%linkrow%',$toAdd,$myPage);
+	$myPage=str_replace('%handIn%',json_encode($handIn),$myPage); //setzt Hand In Text ins Modal
     
     echo $myPage;  
 ?>

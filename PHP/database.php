@@ -52,6 +52,10 @@
         private $stmtGetInstitutionFromGroup;
 	    private $stmtGetGroupIDFromLink;
         private $stmtGetInstitutionIDFromLink;
+        private $stmtGetHandIn;
+        private $stmtGetFortschritt;
+        private $stmtGetModuleFromGroup;
+        private $stmtGetChapterIDFromIndex;
         
         private $stmtGetAllInstitutions;
 		private $stmtGetAllUsers;
@@ -178,7 +182,11 @@
             $this->stmtGetInstitutionFromGroup = $this->db_connection->prepare("SELECT InstitutionsID FROM groups WHERE ID = ?");
             $this->stmtGetGroupIDFromLink = $this->db_connection->prepare("SELECT GroupID FROM registrationlinkgroup WHERE Link = ?");
             $this->stmtGetInstitutionIDFromLink = $this->db_connection->prepare("SELECT InstitutionID FROM registrationlinkinstitution WHERE Link = ?");
-           
+            $this->stmtGetHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND ChapterID = ?");
+            $this->stmtGetFortschritt = $this->db_connection->prepare("SELECT iFortschritt FROM usertogroup WHERE UserID = ? AND GroupID = ?");
+            $this->stmtGetModuleFromGroup = $this->db_connection->prepare("SELECT ModulID From groups WHERE ID = ?");
+            $this->stmtGetChapterIDFromIndex = $this->db_connection->prepare("SELECT ID FROM chapters WHERE iIndex = ? AND ModulID = ?");
+            
             //------------------------------------------------------- COUNT ---------------------------------------------------------------------
             
             $this->stmtCountInstitutions = $this->db_connection->prepare("SELECT COUNT(ID) FROM institutions");
@@ -953,10 +961,61 @@
             $this->stmtGetInstitutionIDFromLink->execute();
             $res = $this->stmtGetInstitutionIDFromLink->get_result();
             if (mysqli_num_rows($res) == 1){
-            $row = mysqli_fetch_array($res);
-            return $row['InstitutionID'];
+                $row = mysqli_fetch_array($res);
+                return $row['InstitutionID'];
             } else {
-            throw new exception('Mehrere Links mit dieser InstitutionID');
+                throw new exception('Mehrere Links mit dieser InstitutionID');
+            }
+        }
+        
+        public function getHandIn($UserID,$GroupID){
+            $Fortschritt = $this->getFortschritt($UserID,$GroupID);
+            $ModulID = $this->getModuleFromGroup($GroupID);
+            $ChapterID = $this->getChapterIDFromIndex($Fortschritt,$ModulID);
+            $this->stmtGetHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
+            $this->stmtGetHandIn->execute();
+            $res = $this->stmtGetHandIn->get_result();
+            if (mysqli_num_rows($res) == 1){
+                $row = mysqli_fetch_array($res);
+                return $row['sText'];
+            } else {
+              throw new exception('Keine oder mehrere Abgaben vom User in dieser Gruppe');  
+            }
+        }
+        
+        public function getFortschritt($UserID,$GroupID){
+            $this->stmtGetFortschritt->bind_param("ii",$UserID,$GroupID);
+            $this->stmtGetFortschritt->execute();
+            $res = $this->stmtGetFortschritt->get_result();
+            if (mysqli_num_rows($res) == 1){
+                $row = mysqli_fetch_array($res);
+                return $row['iFortschritt'];
+            } else {
+              throw new exception('User ist nicht in dieser Gruppe.');  
+            }
+        }
+        
+        public function getModuleFromGroup($GroupID){
+            $this->stmtGetModuleFromGroup->bind_param("i",$GroupID);
+            $this->stmtGetModuleFromGroup->execute();
+            $res = $this->stmtGetModuleFromGroup->get_result();
+            if (mysqli_num_rows($res) == 1){
+                $row = mysqli_fetch_array($res);
+                return $row['ModulID'];
+            } else {
+              throw new exception('Keine Gruppe oder mehrere Gruppen mit dieser ID');  
+            }
+        }
+        
+        public function getChapterIDFromIndex($Index,$ModulID){
+            $this->stmtGetChapterIDFromIndex->bind_param("ii",$Index,$ModulID);
+            $this->stmtGetChapterIDFromIndex->execute();
+            $res = $this->stmtGetChapterIDFromIndex->get_result();
+            if (mysqli_num_rows($res) == 1){
+                $row = mysqli_fetch_array($res);
+                return $row['ID'];
+            } else {
+              throw new exception('Kein Chapter oder mehrere Chapter mit diesem Index und diesem Modul');  
             }
         }
         

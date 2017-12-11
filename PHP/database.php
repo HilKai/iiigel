@@ -272,7 +272,7 @@
             //------------------------------------------------------- DELETES ------------------------------------------------------------------
             
             $this->stmtdeleteUser = $this->db_connection->prepare("UPDATE users SET bIsDeleted = 1 WHERE ID = ?");
-            $this->stmtrejectHandIn = $this->db_connection->prepare("UPDATE handins SET bIsDeleted = 1 WHERE UserID = ? AND GroupID = ? AND ChapterID = ?");
+            $this->stmtrejectHandIn = $this->db_connection->prepare("UPDATE handins SET isRejected = 1 WHERE UserID = ? AND GroupID = ? AND ChapterID = ?");
             $this->stmtdeletePermission = $this->db_connection->prepare("UPDATE rights SET isDeleted=1 WHERE UserID = ? AND Name = ? AND ID = ?");
         }
         

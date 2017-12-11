@@ -128,7 +128,7 @@
         //------------------------------------------------
         
         private $stmtdeleteUser;
-        private $stmtdeleteHandIn;
+        private $stmtrejectHandIn;
         private $stmtdeletePermission;
         
 
@@ -272,7 +272,7 @@
             //------------------------------------------------------- DELETES ------------------------------------------------------------------
             
             $this->stmtdeleteUser = $this->db_connection->prepare("UPDATE users SET bIsDeleted = 1 WHERE ID = ?");
-            $this->stmtdeleteHandIn = $this->db_connection->prepare("UPDATE handins SET bIsDeleted = 1 WHERE ID = ?");
+            $this->stmtrejectHandIn = $this->db_connection->prepare("UPDATE handins SET bIsDeleted = 1 WHERE UserID = ? AND GroupID = ? AND ChapterID = ?");
             $this->stmtdeletePermission = $this->db_connection->prepare("UPDATE rights SET isDeleted=1 WHERE UserID = ? AND Name = ? AND ID = ?");
         }
         
@@ -971,7 +971,7 @@
         public function getHandIn($UserID,$GroupID){
             $Fortschritt = $this->getFortschritt($UserID,$GroupID);
             $ModulID = $this->getModuleFromGroup($GroupID);
-            $ChapterID = $this->getChapterIDFromIndex($Fortschritt,$ModulID);
+            $ChapterID = $this->getChapterIDFromIndex($Fortschritt+1,$ModulID);
             $this->stmtGetHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
             $this->stmtGetHandIn->execute();
             $res = $this->stmtGetHandIn->get_result();
@@ -1439,9 +1439,12 @@
             $this->stmtdeleteUser->execute();
         }
         
-        public function deleteHandIn($ID){
-            $this->stmtdeleteHandIn->bind_param("i",$ID);
-            $this->stmtdeleteHandIn->execute();
+        public function rejectHandIn($UserID,$GroupID){
+            $Fortschritt = $this->getFortschritt($UserID,$GroupID);
+            $ModulID = $this->getModuleFromGroup($GroupID);
+            $ChapterID = $this->getChapterIDFromIndex($Fortschritt+1,$ModulID);
+            $this->stmtrejectHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
+            $this->stmtrejectHandIn->execute();
         }
         
         public function deletePermission($UserID,$Name,$ID=NULL){

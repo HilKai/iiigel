@@ -976,7 +976,7 @@
 				$this->stmtGetHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
 				$this->stmtGetHandIn->execute();
 				$res = $this->stmtGetHandIn->get_result();
-				echo $UserID; echo $GroupID; echo $Fortschritt; echo $ModulID; echo $ChapterID;
+				//echo $UserID; echo $GroupID; echo $Fortschritt; echo $ModulID; echo $ChapterID;
 				if (mysqli_num_rows($res) == 1){
 					$row = mysqli_fetch_array($res);
 					return $row['sText'];

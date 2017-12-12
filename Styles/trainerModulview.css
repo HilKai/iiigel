@@ -307,3 +307,13 @@ body {
 .cursorHover:hover span{
 	cursor:pointer;
 }			
+#RejectBtn {
+	float: left;
+    margin-right: 10px;
+}
+
+#ModalBtn {
+	float: left;
+	background-color: #e31465;
+    color: #fff;
+}

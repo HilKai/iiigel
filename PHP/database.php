@@ -969,18 +969,21 @@
         }
         
         public function getHandIn($UserID,$GroupID){
-            $Fortschritt = $this->getFortschritt($UserID,$GroupID);
-            $ModulID = $this->getModuleFromGroup($GroupID);
-            $ChapterID = $this->getChapterIDFromIndex($Fortschritt+1,$ModulID);
-            $this->stmtGetHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
-            $this->stmtGetHandIn->execute();
-            $res = $this->stmtGetHandIn->get_result();
-            if (mysqli_num_rows($res) == 1){
-                $row = mysqli_fetch_array($res);
-                return $row['sText'];
-            } else {
-              throw new exception('Keine oder mehrere Abgaben vom User in dieser Gruppe');  
-            }
+			if ($this->isNewHandIn($UserID,$GroupID)) {
+				$Fortschritt = $this->getFortschritt($UserID,$GroupID);
+				$ModulID = $this->getModuleFromGroup($GroupID);
+				$ChapterID = $this->getChapterIDFromIndex($Fortschritt+1,$ModulID);
+				$this->stmtGetHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
+				$this->stmtGetHandIn->execute();
+				$res = $this->stmtGetHandIn->get_result();
+				echo $UserID; echo $GroupID; echo $Fortschritt; echo $ModulID; echo $ChapterID;
+				if (mysqli_num_rows($res) == 1){
+					$row = mysqli_fetch_array($res);
+					return $row['sText'];
+				} else {
+				  throw new exception('Keine oder mehrere Abgaben vom User in dieser Gruppe');  
+				}
+			}
         }
         
         public function getFortschritt($UserID,$GroupID){

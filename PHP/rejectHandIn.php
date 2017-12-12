@@ -5,7 +5,6 @@
  $currentTnID = $_GET['tnID'];
 
 
-  $ODB->acceptHandIn($currentTnID,$currentGroupID) ;
-  $ODB->setFortschrittFromUserinGroup($currentTnID,$currentGroupID); 
+  $ODB-> rejectHandIn($currentTnID,$currentGroupID) ; 
   header("Refresh:0"); 
 ?>

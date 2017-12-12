@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 10. Dez 2017 um 20:18
+-- Erstellungszeit: 12. Dez 2017 um 19:31
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -129,7 +129,7 @@ CREATE TABLE `handins` (
   `ChapterID` int(11) NOT NULL,
   `bIsAccepted` tinyint(1) NOT NULL,
   `bIsUnderReview` tinyint(1) NOT NULL,
-  `bIsDeleted` tinyint(1) NOT NULL,
+  `isRejected` tinyint(1) NOT NULL,
   `sText` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -137,13 +137,13 @@ CREATE TABLE `handins` (
 -- Daten für Tabelle `handins`
 --
 
-INSERT INTO `handins` (`ID`, `sID`, `Date`, `UserID`, `GroupID`, `ChapterID`, `bIsAccepted`, `bIsUnderReview`, `bIsDeleted`, `sText`) VALUES
-(1, NULL, '2017-03-31 21:32:07', 6, 1, 0, 0, 0, 0, ''),
-(2, NULL, '2017-03-31 21:33:14', 8, 1, 0, 0, 0, 0, ''),
-(3, NULL, '2017-03-31 21:34:17', 9, 1, 0, 0, 0, 0, ''),
-(5, NULL, '2017-03-31 21:36:13', 8, 4, 0, 0, 0, 0, ''),
-(6, NULL, '2017-03-31 21:36:22', 6, 4, 0, 0, 0, 0, ''),
-(7, NULL, '2017-03-31 21:36:27', 9, 4, 0, 0, 0, 0, '');
+INSERT INTO `handins` (`ID`, `sID`, `Date`, `UserID`, `GroupID`, `ChapterID`, `bIsAccepted`, `bIsUnderReview`, `isRejected`, `sText`) VALUES
+(1, NULL, '2017-03-31 21:32:07', 6, 1, 4, 0, 0, 0, 'blub'),
+(2, NULL, '2017-03-31 21:33:14', 8, 1, 1, 0, 0, 0, ''),
+(3, NULL, '2017-03-31 21:34:17', 9, 1, 1, 0, 0, 0, ''),
+(5, NULL, '2017-03-31 21:36:13', 8, 4, 1, 0, 0, 0, ''),
+(6, NULL, '2017-03-31 21:36:22', 6, 4, 4, 0, 0, 0, ''),
+(7, NULL, '2017-03-31 21:36:27', 9, 4, 6, 0, 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -239,9 +239,9 @@ CREATE TABLE `registrationlinkgroup` (
 
 INSERT INTO `registrationlinkgroup` (`ID`, `Link`, `GroupID`, `StartDatum`, `EndDatum`) VALUES
 (1, 'bla', 1, '0000-00-00', '0000-00-00'),
-(2, 'bla', 2, '0000-00-00', '0000-00-00'),
-(3, 'test', 3, '2017-09-03', '2017-09-05'),
-(4, 'test2', 3, '2017-09-05', '2017-09-07');
+(2, 'bla2', 2, '2017-12-01', '2017-12-31'),
+(3, 'test', 3, '2017-09-03', '2017-12-31'),
+(4, 'test2', 3, '2017-09-05', '2017-12-31');
 
 -- --------------------------------------------------------
 
@@ -358,7 +358,8 @@ INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMai
 (11, NULL, 'RogerH', 'Roger', 'Hermasch', 'roger.hermasch@t-online.de', '$2y$11$NqUdz4ws1zLKwE8LLyxhmef2VA971vmle148vhZWn/1z5F9L.TtOa', '', 0, 0, 0),
 (13, NULL, 'JanSc', 'Jan', 'Schumann', 'janschumann55@gmail.com', '$2y$11$XnR2UOOHEBcRo9ZRmwt6FOt59s4.3IkKTqhgzOBJZ5yY0JRiLaMue', '', 0, 0, 0),
 (14, NULL, 'JanLukasL', 'Jan Lukas', 'Liesen', 'janlukas@mail4liesen.de', '$2y$11$rP3OnevHp0FFkW9HLGUGbuRx9cvXMUfhuXsjqxPiaN66opMF6f4d6', '../ProfilePics/generalpic.png', 0, 0, 0),
-(17, NULL, 'Nat', 'Felix', 'Nattermann', 'nat@gag-mg.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/generalpic.png', 0, 0, 1);
+(17, NULL, 'Nat', 'Felix', 'Nattermann', 'nat@gag-mg.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/generalpic.png', 0, 0, 1),
+(22, NULL, 'test', 'test', 'test', 'test@test.test', '$2y$11$uHEFoUkVWhfolEDH54yfw.6W80EVRVxR3u9.9kpxR0K/xoQfGQLsS', '../ProfilePics/generalpic.png', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -380,19 +381,20 @@ CREATE TABLE `usertogroup` (
 INSERT INTO `usertogroup` (`UserID`, `GroupID`, `iFortschritt`, `bIsTrainer`) VALUES
 (7, 1, 14, 1),
 (11, 6, 0, 1),
-(6, 6, 0, 0),
+(6, 6, 3, 0),
 (8, 5, 0, 1),
 (10, 4, 0, 1),
 (9, 4, 5, 1),
 (12, 5, 0, 0),
 (13, 6, 0, 0),
 (10, 1, 0, 0),
-(6, 4, 0, 0),
-(6, 1, 0, 0),
+(6, 4, 3, 0),
+(6, 1, 3, 0),
 (8, 1, 0, 0),
 (8, 4, 0, 0),
 (9, 1, 0, 0),
-(11, 1, 0, 0);
+(11, 1, 0, 0),
+(6, 2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -526,7 +528,7 @@ ALTER TABLE `transcribedtags`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

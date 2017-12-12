@@ -949,10 +949,10 @@
             $this->stmtGetGroupIDFromLink->execute();
             $res = $this->stmtGetGroupIDFromLink->get_result();
             if (mysqli_num_rows($res) == 1){
-            $row = mysqli_fetch_array($res);
-            return $row['GroupID'];
+                $row = mysqli_fetch_array($res);
+                return $row['GroupID'];
             } else {
-            throw new exception('Mehrere Links mit dieser GroupID');
+                throw new exception('Mehrere Links mit dieser GroupID');
             }
         }
 

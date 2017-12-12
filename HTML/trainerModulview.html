@@ -84,8 +84,8 @@
                             <p id="ModalText">Kai hat Pommes Corinna ist neidisch</p>
                         </div>
                         <div class="modal-footer">
-							<form action="post"><button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Ablehnen</button></form>
-                            <form action="post"><button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button></form>
+							<button id="RejectBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="rejectHandIn(this)">Ablehnen</button>
+                            <button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button>
                         </div>
                     </div>
 
@@ -202,10 +202,23 @@
 
         $.ajax({
             url: "acceptHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID,
-
+			success: function(data) {location.reload();},
         });
 
-        location.reload();
+       
     }
+	
+	function rejectHandIn(obj) {
+        var tnID = obj.value;
+        $groupID = "%GroupID%";
+
+        $.ajax({
+            url: "rejectHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID,
+			success: function(data) {location.reload();},
+        });
+
+       
+    }
+
 
 </script>

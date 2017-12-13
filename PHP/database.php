@@ -153,7 +153,7 @@
             $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtisUserinInstitution = $this->db_connection->prepare("SELECT * FROM usertoinstitution WHERE UserID = ? AND InstitutionID = ?");
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
-			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND (bIsAccepted = 0 OR isRejected = 0)");
+			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0 AND isRejected = 0");
             $this->stmthasPermissiontoView = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) AND canView = 1 AND isDeleted = 0");
             $this->stmthasPermissiontoEdit = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) AND canEdit = 1 AND isDeleted = 0");
             $this->stmthasPermissiontoCreate = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) AND canCreate = 1 AND isDeleted = 0");

@@ -1406,9 +1406,9 @@
         }
         
         public function acceptHandIn($UserID,$GroupID){
-            $Fortschritt = $this->getFortschritt($UserID,$GroupID);
+            $Fortschritt = $this->getFortschritt($UserID,$GroupID)+1;
             $ModulID = $this->getModuleFromGroup($GroupID);
-            $ChapterID = $this->getChapterIDFromIndex($Fortschritt+1,$ModulID);
+            $ChapterID = $this->getChapterIDFromIndex($Fortschritt,$ModulID);
             $this->stmtAcceptHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
             $this->stmtAcceptHandIn->execute();
         }

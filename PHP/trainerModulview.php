@@ -72,7 +72,7 @@
             for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
                 if($myGroup->teilnehmer[$i]->getID() ==  $_POST['rejectHandIn']) {
                         $id =$myGroup ->teilnehmer[$i]->getID();
-                        $ODB->deleteHandIn($id,$currentGroupID);
+                        $ODB->rejectHandIn($id,$currentGroupID);
                         header("Refresh:0");     
                 }
             }
@@ -132,7 +132,7 @@
         $toAdd = $toAdd . $myRow;        
     }
 
-
+//$ODB-> rejectHandIn(6,1) ;
 
     $myPage=str_replace('%linkrow%',$toAdd,$myPage);
 	$myPage=str_replace('%handIn%',json_encode($handIn),$myPage); //setzt Hand In Text ins Modal

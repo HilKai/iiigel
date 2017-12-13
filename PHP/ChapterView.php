@@ -7,6 +7,7 @@
 
     $myModuleID = $_GET['moduleID'];
     $myChapterID = $_GET['chapterID'];
+	$myChapterIDp = $_GET['chapterID']+1;
     $myUserID = $_SESSION['user'];
     $currentGroupID = $_GET['groupID'];
     
@@ -71,7 +72,7 @@
     $search = array('%ChapterHeadline%','%ChapterText%','%editlink%');
     $chapterText = $ODB->replaceTags($myModule->getChapterTextbyIndex($myChapterID));
     $text = '<div class="chapterView col-md-12">  '.$chapterText.' </div>';
-    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$text,"chapterEditor.php?moduleID=".$myModuleID."&chapterID=".$myChapterID);
+    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$text,"chapterEditor.php?moduleID=".$myModuleID."&chapterID=".$myChapterIDp);
     $myPage = str_replace($search,$replace,$myPage);
    
    

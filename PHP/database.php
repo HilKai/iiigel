@@ -153,7 +153,7 @@
             $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtisUserinInstitution = $this->db_connection->prepare("SELECT * FROM usertoinstitution WHERE UserID = ? AND InstitutionID = ?");
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
-			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
+			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND (bIsAccepted = 0 OR bIsRejected = 0)");
             $this->stmthasPermissiontoView = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) AND canView = 1 AND isDeleted = 0");
             $this->stmthasPermissiontoEdit = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) AND canEdit = 1 AND isDeleted = 0");
             $this->stmthasPermissiontoCreate = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) AND canCreate = 1 AND isDeleted = 0");
@@ -247,7 +247,7 @@
             $this->stmtSetChapterIndexFromID = $this->db_connection->prepare("UPDATE chapters SET iIndex = ? WHERE ID = ?");
             $this->stmtMakeUsertoTrainer = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 1 WHERE UserID = ? AND GroupID = ?");
             $this->stmtMakeUsertoNotTrainer = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 0 WHERE UserID = ? AND GroupID = ?");
-            $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0");
+            $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND CHapterID = ? AND bIsAccepted = 0");
             $this->stmtUpdatePermissionView = $this->db_connection->prepare("UPDATE rights SET canView = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL)");
             $this->stmtUpdatePermissionEdit = $this->db_connection->prepare("UPDATE rights SET canEdit = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) ");
             $this->stmtUpdatePermissionCreate = $this->db_connection->prepare("UPDATE rights SET canCreate = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) ");
@@ -1406,7 +1406,10 @@
         }
         
         public function acceptHandIn($UserID,$GroupID){
-            $this->stmtAcceptHandIn->bind_param("ii",$UserID,$GroupID);
+            $Fortschritt = $this->getFortschritt($UserID,$GroupID);
+            $ModulID = $this->getModuleFromGroup($GroupID);
+            $ChapterID = $this->getChapterIDFromIndex($Fortschritt+1,$ModulID);
+            $this->stmtAcceptHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
             $this->stmtAcceptHandIn->execute();
         }
         

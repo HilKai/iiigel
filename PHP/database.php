@@ -247,7 +247,7 @@
             $this->stmtSetChapterIndexFromID = $this->db_connection->prepare("UPDATE chapters SET iIndex = ? WHERE ID = ?");
             $this->stmtMakeUsertoTrainer = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 1 WHERE UserID = ? AND GroupID = ?");
             $this->stmtMakeUsertoNotTrainer = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 0 WHERE UserID = ? AND GroupID = ?");
-            $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND CHapterID = ? AND bIsAccepted = 0");
+            $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND ChapterID = ? AND bIsAccepted = 0");
             $this->stmtUpdatePermissionView = $this->db_connection->prepare("UPDATE rights SET canView = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL)");
             $this->stmtUpdatePermissionEdit = $this->db_connection->prepare("UPDATE rights SET canEdit = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) ");
             $this->stmtUpdatePermissionCreate = $this->db_connection->prepare("UPDATE rights SET canCreate = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) ");

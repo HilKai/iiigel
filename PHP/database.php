@@ -153,7 +153,7 @@
             $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtisUserinInstitution = $this->db_connection->prepare("SELECT * FROM usertoinstitution WHERE UserID = ? AND InstitutionID = ?");
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
-			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND bIsAccepted = 0 AND isRejected = 0");
+			$this->stmtisNewHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND ChapterID = ? AND bIsAccepted = 0 AND isRejected = 0");
             $this->stmthasPermissiontoView = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) AND canView = 1 AND isDeleted = 0");
             $this->stmthasPermissiontoEdit = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) AND canEdit = 1 AND isDeleted = 0");
             $this->stmthasPermissiontoCreate = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) AND canCreate = 1 AND isDeleted = 0");
@@ -427,7 +427,10 @@
         }
 		
 		public function isNewHandIn($UserID,$GroupID){
-			$this->stmtisNewHandIn->bind_param("ii",$UserID,$GroupID);
+            $Index = $this->getFortschritt($UserID,$GroupID)+1;
+            $ModulID = $this->getModuleFromGroup($GroupID);
+            $ChapterID = $this->getChapterIDFromIndex($Index,$ModulID);
+			$this->stmtisNewHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
 			$this->stmtisNewHandIn->execute();
 			$res = $this->stmtisNewHandIn->get_result();
 			if (mysqli_num_rows($res) == 1) {
@@ -1406,9 +1409,9 @@
         }
         
         public function acceptHandIn($UserID,$GroupID){
-            $Fortschritt = $this->getFortschritt($UserID,$GroupID)+1;
+            $Index = $this->getFortschritt($UserID,$GroupID)+1;
             $ModulID = $this->getModuleFromGroup($GroupID);
-            $ChapterID = $this->getChapterIDFromIndex($Fortschritt,$ModulID);
+            $ChapterID = $this->getChapterIDFromIndex($Index,$ModulID);
             $this->stmtAcceptHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
             $this->stmtAcceptHandIn->execute();
         }

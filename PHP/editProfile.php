@@ -9,7 +9,8 @@
         header("Location: ../index.php");
         exit;
     }
-
+	
+	
 	global $myUser;
     $myUser = $ODB->getUserFromID($_GET['userID']);
     $userID= $myUser->getID();
@@ -20,6 +21,10 @@
 	$sessionID = $_SESSION['user'];
 	echo str_replace("%sessionID%",$sessionID, $myPage);
 	 
+	if(!$ODB->hasPermission($_SESSION['user'],"ProfilEditor","edit",$userID) ) {
+        echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
 
 	if ( isset($_POST['btn-save']) ) {
         $error = false;
@@ -92,7 +97,7 @@
 
 		
       }
- 
+	}
 ?>
 
 

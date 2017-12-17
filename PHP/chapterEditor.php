@@ -21,7 +21,11 @@
     } else {
         $bool = "false";
     }
-
+	
+	if(!$ODB->hasPermission($_SESSION['user'],"Kapitel","edit",$myChapterID) ) {
+        echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
     //TODO-Nur user mit Berechtigungen erlaubt
     $myModule = $ODB->getModuleFromID($myModuleID);
     $myUser = $ODB->getUserFromId($myUserID);
@@ -47,4 +51,6 @@
    
     
 echo $myPage;
+	}
+	
 ?>

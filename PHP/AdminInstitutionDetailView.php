@@ -7,7 +7,11 @@
     $replace = array($ODB->getInstitutionFromID($_GET['InstitutionsID'])->getsName(),$_GET['InstitutionsID']) ;
     $myPage = str_replace($search,$replace,$myRow);
   
-      
+
+	if(!$ODB->idAdmin($_SESSION['user'])) {
+		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
      $toAdd = "";
     $myUsers = $ODB->getUsersFromInstitution($_GET['InstitutionsID']);
     for ($i=0; $i< sizeof($myUsers);$i++){   
@@ -39,5 +43,5 @@
     
     $myPage = str_replace("%tablerow%",$toAdd,$myPage);     
     echo $myPage;
-    
+	}
 ?>

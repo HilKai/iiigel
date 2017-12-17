@@ -1,8 +1,11 @@
- <?php 
+<?php 
     include_once("database.php");
     $myPage = file_get_contents('../HTML/AdminModulDetailView.html');
   
-    
+    if(!$ODB->idAdmin($_SESSION['user'])) {
+		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
      $toAdd = "";
     $myModules = $ODB->getAllModules();
     for ($i=0; $i< sizeof($myModules);$i++){   
@@ -19,6 +22,5 @@
  
     $myPage = str_replace("%tablerow%",$toAdd,$myPage);     
 echo $myPage;
-    
+	}
 ?>
- 

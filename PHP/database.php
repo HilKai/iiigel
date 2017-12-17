@@ -450,7 +450,7 @@
 				return false;			
 			} 
         }
-        
+         
         public function hasPermission($UserID,$Name,$whichPermission,$ID=NULL){
            if ($this->isAdmin($UserID)){
                return true;

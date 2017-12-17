@@ -13,6 +13,11 @@
 	  exit;
 	 }
 
+	if(!$ODB->idAdmin($_SESSION['user'])) {
+		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
+
     if ($_POST){
 
 		if(isset($_POST['search-btn'])){      
@@ -54,5 +59,5 @@
 
     
     echo $myPage;  
+	}
 ?>
-

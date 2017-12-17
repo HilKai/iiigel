@@ -12,6 +12,11 @@
         header("Location: ../index.php");
         exit;
 	 }
+
+	if(!$ODB->idAdmin($_SESSION['user'])) {
+		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
     $toAdd = "";
     $myInstitution = $ODB->getAllInstitutions();
     for ($i=0; $i< sizeof($myInstitution);$i++){   
@@ -33,4 +38,5 @@
 
     $myPage = str_replace("%tablerow%",$toAdd,$myPage);     
 echo $myPage;
+	}
 ?>

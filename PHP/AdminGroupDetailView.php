@@ -7,7 +7,11 @@
     $replace = array($ODB->getGroupFromID($_GET['GroupID']) ->getsName());
     $myPage = str_replace($search,$replace,$myRow);
     $currentGroup = $ODB->getGroupFromID($_GET['GroupID']);
-      
+     
+	if(!$ODB->idAdmin($_SESSION['user'])) {
+		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
      $toAdd = '';
     $toTrainerAdd = '';
     $toUserAdd = '';
@@ -64,5 +68,5 @@
     $myPage = str_replace("%tablerowTrainer%",$toTrainerAdd,$myPage);
     $myPage = str_replace("%linkrow%",$linksAdded,$myPage);
     echo $myPage;
-    
+	}
 ?>

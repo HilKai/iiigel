@@ -10,6 +10,11 @@
         exit;
     }
 
+	if(!$ODB->idAdmin($_SESSION['user'])) {
+		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
+		
     define('KB', 1024);
     define('MB', 1048576);
     define('GB', 1073741824);
@@ -73,5 +78,5 @@
     $ODB->setProfilePic($new_path,$myUserID);
 
     header("Location: editProfile.php");
-
+	}
 ?>

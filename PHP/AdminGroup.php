@@ -2,7 +2,10 @@
     include_once("database.php");
     $myPage = file_get_contents('../HTML/AdminGroup.html');
   
-    
+    if(!$ODB->idAdmin($_SESSION['user'])) {
+		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
      $toAdd = "";
     $myGroups = $ODB->getGroupsFromInstitution($_GET['InstitutionsID']);
     for ($i=0; $i< sizeof($myGroups);$i++){   
@@ -39,5 +42,5 @@
     $myPage = str_replace("%tablerow%",$toAdd,$myPage);   
 	$myPage = str_replace("%Listitems%",$add,$myPage);
 echo $myPage;
-    
+	}
 ?>

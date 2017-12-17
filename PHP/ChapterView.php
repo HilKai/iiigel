@@ -11,6 +11,10 @@
     $myUserID = $_SESSION['user'];
     $currentGroupID = $_GET['groupID'];
     
+if(!$ODB->hasPermission($_SESSION['user'],"Kapitel","view",$myChapterID) ) {
+        echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
 	 // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
         header("Location: ../index.php");
@@ -132,4 +136,6 @@
     $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
     
 echo $myPage;
+	
+}
 ?>

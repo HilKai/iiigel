@@ -10,6 +10,12 @@
         exit;
     }*/
 
+	if(!$ODB->idAdmin($_SESSION['user'])) {
+		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
+	
+
     global $myUser;
     $myUser = $ODB->getUserFromID($_GET['userID']);
     global $userID;
@@ -86,7 +92,7 @@
 
 		
       }
- 
+	}
 ?>
 
     <!DOCTYPE html>

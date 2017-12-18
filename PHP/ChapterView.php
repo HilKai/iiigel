@@ -142,4 +142,5 @@ if(!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myChapterID) ) {
 echo $myPage;
 	
 }
+}
 ?>

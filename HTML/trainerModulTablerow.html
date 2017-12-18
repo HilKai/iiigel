@@ -1,15 +1,15 @@
  <form method="post" autocomplete="off">
      
-    <tr value="%ID%">
+    <tr value="%ID%" class="TRModulRow">
     <td>%Prename%</td>
     <td>%Lastname%</td>
     <td class="hidden-xs">
         <div class="progress chapterBarOuter">
-            <div class="progress-bar chapterBar" role="progressbar" aria-valuenow="%ProgressPercent%" aria-valuemin="0" aria-valuemax="100" style="width:%ProgressPercent%%">
+            <div class="progress-bar chapterBar" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width:;">
             </div>
         </div>
     </td>
-    <td class="chapter">%Progress%</td>
+    <td class="chapter"></td>
     <td class="levelUp cursorHover"><button type="submit" name = "levelUp"  value="%ID%" style="background-color: transparent; border-color: transparent" class="glyphicon glyphicon-circle-arrow-up"></button></td>   
     <td class="cursorHover" ><span  id="%ID%" name="" class="notification glyphicon glyphicon-bell" type="button" value="%ID%" data-toggle="" data-target="" onclick="modalValue(%ID%)"></span></td>
     </tr>

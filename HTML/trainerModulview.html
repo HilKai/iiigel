@@ -56,7 +56,7 @@
                             <th>Vorname</th>
                             <th>Nachname</th>
                             <th class="hidden-xs">Fortschritt</th>
-                            <th class="chapter">Kapitel</th>
+                            <th style="text-align:center;">Kapitel</th>
                             <th></th>
                             <!--Kapitelhochsetzen-->
                             <th></th>
@@ -167,6 +167,7 @@
 
     function isHandIn() {
         $groupID = "%GroupID%";
+		refreshUserProgress();
         $.ajax({
             url: "getHandIn.php?groupID=" + $groupID,
             success: function(result) {
@@ -192,6 +193,29 @@
             }
         });
     }
+	
+	
+	function refreshUserProgress(){
+		$.ajax({
+            url: "getProgressFromGroup.php?groupID=" + $groupID,
+			success: function(data) {
+				data = data.replace(/[\[\]&]+/g, '');
+				var dataArr = data.split("_"); // progress[0] = progress, progress[1] = progresspercent
+				var progress = dataArr[0].split(",");
+				var progressPercent = dataArr[1].split(",");
+				var rows = document.getElementsByClassName("TRModulRow");
+				var progressCells = document.getElementsByClassName("chapter");
+				var percentCells = document.getElementsByClassName("progress-bar");
+				console.log(rows);
+				for(var i=0; i< progress.length; i++){
+					progressCells[i].innerHTML = progress[i] ;
+					percentCells[i].setAttribute("aria-valuenow", progressPercent[i]);
+					percentCells[i].style.width=progressPercent[i]+"%";
+				}
+			},
+        });	
+	}
+	
 	
 	function refreshHandin(userID){
 		$.ajax({

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 12. Dez 2017 um 19:31
+-- Erstellungszeit: 18. Dez 2017 um 20:42
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -288,7 +288,23 @@ CREATE TABLE `rights` (
 INSERT INTO `rights` (`UserID`, `Name`, `ID`, `canView`, `canEdit`, `canCreate`, `canDelete`, `isDeleted`) VALUES
 (6, 'Chapter', NULL, 1, 1, 0, 0, 1),
 (6, 'Modul', 1, 1, 1, 0, 0, 0),
-(6, 'ModulChapter', 1, 1, 0, 0, 0, 0);
+(6, 'ModulChapter', 1, 1, 0, 0, 0, 0),
+(7, 'ModulChapter', 1, 1, 0, 0, 0, 0),
+(11, 'ModulChapter', 5, 1, 0, 0, 0, 0),
+(6, 'ModulChapter', 5, 1, 0, 0, 0, 0),
+(8, 'ModulChapter', 2, 1, 0, 0, 0, 0),
+(10, 'ModulChapter', 4, 1, 0, 0, 0, 0),
+(9, 'ModulChapter', 4, 1, 0, 0, 0, 0),
+(12, 'ModulChapter', 2, 1, 0, 0, 0, 0),
+(13, 'ModulChapter', 5, 1, 0, 0, 0, 0),
+(10, 'ModulChapter', 1, 1, 0, 0, 0, 0),
+(6, 'ModulChapter', 4, 1, 0, 0, 0, 0),
+(6, 'ModulChapter', 1, 1, 0, 0, 0, 0),
+(8, 'ModulChapter', 1, 1, 0, 0, 0, 0),
+(8, 'ModulChapter', 4, 1, 0, 0, 0, 0),
+(9, 'ModulChapter', 1, 1, 0, 0, 0, 0),
+(11, 'ModulChapter', 1, 1, 0, 0, 0, 0),
+(6, 'ModulChapter', 3, 1, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -350,7 +366,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMail`, `sHashedPassword`, `sProfilePicture`, `bIsVerified`, `bIsOnline`, `bIsDeleted`) VALUES
-(6, NULL, 'JasminaK', 'Jasmina', 'Karakas', 'jasmina_karakas@hotmail.de', '$2y$11$VcNjGJh31/EQnYGyneAucOCxQ2hOjc3wPLU4kXbopNBk6VxfF.lWK', '../ProfilePics/Coco_Jassi_3.jpg', 0, 0, 0),
+(6, NULL, 'JasminaK', 'Jasmina', 'Karakas', 'jasmina_karakas@hotmail.de', '$2y$11$VcNjGJh31/EQnYGyneAucOCxQ2hOjc3wPLU4kXbopNBk6VxfF.lWK', '../ProfilePics/025.jpg', 0, 0, 0),
 (7, NULL, 'CorinnaH', 'Corinna', 'Heinze', 'hei.cor@web.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/Coco_Jassi_1.jpg', 0, 0, 0),
 (8, NULL, 'NeleM', 'Nele', 'Mersch', 'nele.mersch5@gmail.com', '$2y$11$.ra3YIUNjUkepTWlXvwqFeSNfvdww7li/lS5GBMwyZcmRz6epCur2', '../ProfilePics/Nele.jpg', 0, 0, 0),
 (9, NULL, 'KaiH', 'Kai', 'Hilgers', 'Kai.Hilgers.Info@gmx.de', '$2y$11$n5mwk39o61P6y/VtiEZq3utUPxyh8Py9cyLPeiTJtTvpyOAOsMGhi', '../ProfilePics/Kai.jpg', 0, 0, 0),
@@ -388,11 +404,11 @@ INSERT INTO `usertogroup` (`UserID`, `GroupID`, `iFortschritt`, `bIsTrainer`) VA
 (12, 5, 0, 0),
 (13, 6, 0, 0),
 (10, 1, 0, 0),
-(6, 4, 3, 0),
-(6, 1, 3, 0),
+(6, 4, 0, 0),
+(6, 1, 10, 0),
 (8, 1, 0, 0),
 (8, 4, 0, 0),
-(9, 1, 0, 0),
+(9, 1, 1, 0),
 (11, 1, 0, 0),
 (6, 2, 0, 0);
 
@@ -498,7 +514,7 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT für Tabelle `handins`
 --
 ALTER TABLE `handins`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT für Tabelle `institutions`
 --

@@ -147,6 +147,8 @@
 </html>
 
 <script>
+	var handinArray=%handIn%;
+	
     $(document).ready(function() {
         $(".dropdown-menu li a").click(function() {
             $("#dropdownMenu1").text($(this).text());
@@ -179,6 +181,7 @@
                         if ((document.getElementsByClassName("notification")[i].id == $userHandInID) && (document.getElementsByClassName("notification")[i].style.color != "rgb(227, 20, 101)")) {
                             document.getElementsByClassName("notification")[i].style.color = "#e31465";
                             audio.play();
+							refreshHandin($userHandInID);
                             document.getElementsByClassName("notification")[i].setAttribute("data-toggle", "modal");
                             document.getElementsByClassName("notification")[i].setAttribute("data-target", "#myModal");
                         }
@@ -189,12 +192,23 @@
             }
         });
     }
+	
+	function refreshHandin(userID){
+		$.ajax({
+            url: "getHandInFromUser.php?groupID=" + $groupID + "&" + "tnID=" + userID,
+			success: function(data) {
+				handinArray[userID] = data;
+									 
+			},
+        });	
+	}
+							
 
     function modalValue(tnId) {
         document.getElementById("ModalBtn").value = tnId;
 		document.getElementById("RejectBtn").value = tnId;
-		var obj=%handIn%;
-		document.getElementById("ModalText").innerHTML= obj[tnId];
+		
+		document.getElementById("ModalText").innerHTML= handinArray[tnId];
     }
 
     function acceptHandIn(obj) {
@@ -215,8 +229,8 @@
 
         $.ajax({
             url: "rejectHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID,
-			success: function(data) {alert(data); 
-									 location.reload();},
+			success: function(data) {
+				location.reload();},
         });
 
        

@@ -12,13 +12,13 @@
     $currentGroupID = $_GET['groupID'];
     
 
-if(!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->Chapters[$myChapterID)].file= ->getID()) {
+//if(!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->Chapters[$myChapterID].file or getID()) {
 
-    if((!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myChapterIDp)) and (!$ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID))) {
+   // if((!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myChapterIDp)) or (!$ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID))) {
 
-        echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
-        exit;
-    } else {
+   //     echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+     //   exit;
+   // } else {
 	 // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
         header("Location: ../index.php");
@@ -141,6 +141,6 @@ if(!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->Chapters[$
     
 echo $myPage;
 	
-}
-}
+//}
+
 ?>

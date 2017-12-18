@@ -182,7 +182,7 @@
             $this->stmtGetInstitutionFromGroup = $this->db_connection->prepare("SELECT InstitutionsID FROM groups WHERE ID = ?");
             $this->stmtGetGroupIDFromLink = $this->db_connection->prepare("SELECT GroupID FROM registrationlinkgroup WHERE Link = ?");
             $this->stmtGetInstitutionIDFromLink = $this->db_connection->prepare("SELECT InstitutionID FROM registrationlinkinstitution WHERE Link = ?");
-            $this->stmtGetHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND ChapterID = ?");
+            $this->stmtGetHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND ChapterID = ? AND bisAccepted = 0 AND isRejected = 0");
             $this->stmtGetFortschritt = $this->db_connection->prepare("SELECT iFortschritt FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtGetModuleFromGroup = $this->db_connection->prepare("SELECT ModulID From groups WHERE ID = ?");
             $this->stmtGetChapterIDFromIndex = $this->db_connection->prepare("SELECT ID FROM chapters WHERE iIndex = ? AND ModulID = ?");
@@ -587,6 +587,8 @@
         }
         
         public function addUsertoGroup($UserID,$GroupID){
+            $ModulID = $this->getModuleFromGroup($GroupID);
+            $this->addPermission($UserID,"ModulChapter","view",$ModulID);
             $this->stmtaddUsertoGroup->bind_param("ii",$UserID,$GroupID);
             $this->stmtaddUsertoGroup->execute();
         }

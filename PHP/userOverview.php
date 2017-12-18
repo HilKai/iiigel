@@ -12,10 +12,6 @@
         exit;
     }
 
-    if(!$ODB->hasPermission($_SESSION['user'],"Benutzer","view",$_SESSION['user']) ) {
-        echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
-        exit;
-    } else {
     // select loggedin users detail
     $myUser = $ODB->getUserFromID($_SESSION['user']); 
     $myGroups = $ODB->getGroupsFromUserID($_SESSION['user']);
@@ -63,5 +59,5 @@
 
     $myPage=str_replace('%Module%',$toAdd,$myPage);
     echo $myPage;
-	}
+	
 ?>

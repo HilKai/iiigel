@@ -22,7 +22,7 @@
         $bool = "false";
     }
 	
-	if(!$ODB->hasPermission($_SESSION['user'],"Kapitel","edit",$myChapterID) ) {
+	if(!($ODB->hasPermission($_SESSION['user'],"Chapter","edit",$myChapterID)and ($ODB->hasPermission($_SESSION['user'],"Chapter","edit",$myChapterID))) ) {
         echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {

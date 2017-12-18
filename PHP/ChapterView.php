@@ -4,21 +4,19 @@
 	 $myPage = file_get_contents('../HTML/ChapterView.html');
 	 include_once("database.php");
     
-
+	
     $myModuleID = $_GET['moduleID'];
     $myChapterID = $_GET['chapterID'];
+	$myModule = $ODB->getModuleFromID($myModuleID);
 	$myChapterIDp = $_GET['chapterID']+1;
     $myUserID = $_SESSION['user'];
     $currentGroupID = $_GET['groupID'];
     
 
-//if(!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->Chapters[$myChapterID].file or getID()) {
-
-   // if((!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myChapterIDp)) or (!$ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID))) {
-
-   //     echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
-     //   exit;
-   // } else {
+if(!($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->chapter[$myChapterID]->getID())or($ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID)))) {
+       echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+       exit;
+    } else {
 	 // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
         header("Location: ../index.php");
@@ -141,6 +139,6 @@
     
 echo $myPage;
 	
-//}
 
+}
 ?>

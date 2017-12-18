@@ -57,7 +57,7 @@
             }
         $toAdd = $toAdd . $myBox;
     }
-
+	$ODB->hasPermission(8,"Chapter","view",1);
     $myPage=str_replace('%Module%',$toAdd,$myPage);
     echo $myPage;
 	

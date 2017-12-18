@@ -472,6 +472,7 @@
                        throw new Exception('Nur view, edit, create oder delete als Parameter für whichPermission erlaubt.');
                        return false;
                 } 
+			
 
                 if (isset($toExecute)){
                    $toExecute->bind_param("isi",$UserID,$Name,$ID);

@@ -12,7 +12,7 @@
         exit;
     }
 
-    if(!$ODB->hasPermission($_SESSION['user'],"Benutzer","view",$_SESSION['user']) ) {
+    if(!$ODB->hasPermission(2,"Chapter","view",2) ) {
         echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {

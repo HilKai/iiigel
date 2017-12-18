@@ -11,7 +11,7 @@
     $myUserID = $_SESSION['user'];
     $currentGroupID = $_GET['groupID'];
     
-    if((!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myChapterID)) and (!$ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID))) {
+    if((!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myChapterIDp)) and (!$ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID))) {
         echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {
@@ -49,7 +49,7 @@
     }
 
      if ( isset($_POST['AbgabeButton'])){
-        $ODB->addHandIn($myUserID,$activeGroup->getID(),$myChapterID,$_POST['modalData']); 
+        $ODB->addHandIn($myUserID,$activeGroup->getID(),$myChapterIDp,$_POST['modalData']); 
     }
     
      

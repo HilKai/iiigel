@@ -6,6 +6,5 @@
 
 
   $ODB-> rejectHandIn($currentTnID,$currentGroupID) ; 
-echo "jaj";
   header("Refresh:0"); 
 ?>

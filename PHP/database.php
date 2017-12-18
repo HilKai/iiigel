@@ -447,7 +447,7 @@
 			if (mysqli_num_rows($res) == 1) {
 				return true;
 			} else{
-				return false;			
+				return false;
 			} 
         }
          

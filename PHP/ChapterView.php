@@ -12,7 +12,7 @@
     $currentGroupID = $_GET['groupID'];
     
 
-if(!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myChapterID) ) {
+if(!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->Chapters[$myChapterID)].file= ->getID()) {
 
     if((!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myChapterIDp)) and (!$ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID))) {
 

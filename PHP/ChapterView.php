@@ -11,7 +11,7 @@
     $myUserID = $_SESSION['user'];
     $currentGroupID = $_GET['groupID'];
     
-if(!$ODB->hasPermission($_SESSION['user'],"Kapitel","view",$myChapterID) ) {
+    if((!$ODB->hasPermission($_SESSION['user'],"Chapter","view",$myChapterID)) and (!$ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID))) {
         echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {

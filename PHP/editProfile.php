@@ -3,6 +3,7 @@
     session_start();
     include_once("database.php");
     include_once("Model/user.php");
+	include_once("Navigation.php");
 
     // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
@@ -27,6 +28,7 @@
         exit;
     } else {
 
+	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
 	if ( isset($_POST['btn-save']) ) {
         $error = false;
 		/*PREVENT SQL INJECTION*/

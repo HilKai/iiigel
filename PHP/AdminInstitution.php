@@ -3,7 +3,7 @@
 	 session_start();
 	 $myPage = file_get_contents('../HTML/AdminInstitution.html');
 	 include_once("database.php");
-
+	include_once("Navigation.php");
    
     $myUserID = $_SESSION['user'];
     
@@ -13,10 +13,12 @@
         exit;
 	 }
 
-	if(!$ODB->idAdmin($_SESSION['user'])) {
+	if(!$ODB->isAdmin($_SESSION['user'])) {
 		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {
+	
+	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
     $toAdd = "";
     $myInstitution = $ODB->getAllInstitutions();
     for ($i=0; $i< sizeof($myInstitution);$i++){   

@@ -3,6 +3,8 @@
 	 session_start();
 	 $myPage = file_get_contents('../HTML/AdminUserView.html');
 	 include_once("database.php");
+	include_once("Navigation.php");
+
      $allUsers = $ODB->getAllUsers();
 	 $searchUsers = $allUsers;
 	 $userSearch = "";
@@ -13,11 +15,12 @@
 	  exit;
 	 }
 
-	if(!$ODB->idAdmin($_SESSION['user'])) {
+	if(!$ODB->isAdmin($_SESSION['user'])) {
 		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {
-
+		
+	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
     if ($_POST){
 
 		if(isset($_POST['search-btn'])){      

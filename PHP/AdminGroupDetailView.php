@@ -1,5 +1,7 @@
 <?php 
     include_once("database.php");
+	include_once("Navigation.php");
+
     $myPage = file_get_contents('../HTML/AdminGroupDetailView.html');
   
     $myRow = file_get_contents('../HTML/AdminGroupDetailView.html');
@@ -8,10 +10,13 @@
     $myPage = str_replace($search,$replace,$myRow);
     $currentGroup = $ODB->getGroupFromID($_GET['GroupID']);
      
-	if(!$ODB->idAdmin($_SESSION['user'])) {
+	if(!$ODB->isAdmin($_SESSION['user'])) {
 		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {
+	
+		
+	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
      $toAdd = '';
     $toTrainerAdd = '';
     $toUserAdd = '';

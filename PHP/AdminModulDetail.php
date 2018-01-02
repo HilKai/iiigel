@@ -1,11 +1,15 @@
 <?php 
     include_once("database.php");
+	include_once("Navigation.php");
+
     $myPage = file_get_contents('../HTML/AdminModulDetailView.html');
   
-    if(!$ODB->idAdmin($_SESSION['user'])) {
+    if(!$ODB->isAdmin($_SESSION['user'])) {
 		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {
+	
+	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
      $toAdd = "";
     $myModules = $ODB->getAllModules();
     for ($i=0; $i< sizeof($myModules);$i++){   

@@ -4,6 +4,7 @@
 	 $myPage = file_get_contents('../HTML/chapterEditor.html');
 	 include_once("database.php");
 	 include_once("Model/Chapter.php");
+	 include_once("Navigation.php");
     
 
     $myModuleID = $_GET['moduleID'];
@@ -21,6 +22,9 @@
     } else {
         $bool = "false";
     }
+
+	
+	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
 	
 	if(!($ODB->hasPermission($_SESSION['user'],"Chapter","edit",$myChapterID)and ($ODB->hasPermission($_SESSION['user'],"Chapter","edit",$myChapterID))) ) {
         echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";

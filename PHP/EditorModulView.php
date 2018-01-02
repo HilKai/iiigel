@@ -9,12 +9,16 @@
      }
     
     include_once("database.php");
+	include_once("Navigation.php");
     $myModulID = $_GET['modulID'];
 
     if(!$ODB->hasPermission($_SESSION['user'],"Modul","view",$myModulID) ) {
         echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {
+	
+	
+	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
       $toAdd = "";
 	 if (isset($_POST['btn-save']) ) {
 		 //var_dump($_POST);

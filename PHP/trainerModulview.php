@@ -3,6 +3,7 @@
 	 session_start();
 	 $myPage = file_get_contents('../HTML/trainerModulview.html');
 	 include_once("database.php");
+	include_once("Navigation.php");
 	 $grey = "#ddd";
 	 $red = "#ff0000";
 	 $color = $grey;
@@ -32,7 +33,8 @@
     $search = array('%Gruppenname%', '%Institution%','%GroupID%');
     $replace = array($myGroup->getsName(), $ODB->getInstitutionFromID($myGroup-> getInstitutionsID())->getsName(), $currentGroupID);
     $myPage = str_replace($search,$replace,$myPage);
-
+	
+	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
     // select modul member details
     $toAdd = "";
 

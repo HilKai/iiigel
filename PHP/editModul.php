@@ -4,6 +4,7 @@
     include_once("database.php");
     include_once("Model/Module.php");
 	include_once("Model/Chapter.php");
+	include_once("Navigation.php");
 
     // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
@@ -19,6 +20,9 @@
 	global $myModule;
     $myModule = $ODB->getModuleFromID($_GET['moduleID']);
     $moduleID= $myModule->getID();
+		
+	
+	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
 
 	 if ( isset($_POST['btn-save']) ) {
         $error = false;

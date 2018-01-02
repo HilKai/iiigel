@@ -6,7 +6,9 @@
     
 	
     $myModuleID = $_GET['moduleID'];
+    $myModule = $ODB->getModuleFromID($myModuleID);
     $myChapterID = $_GET['chapterID'];
+<<<<<<< HEAD
 	$myModule = $ODB->getModuleFromID($myModuleID);
 	$myChapterIDp = $_GET['chapterID']+1;
     $myUserID = $_SESSION['user'];
@@ -17,11 +19,24 @@ if(!($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->chapter[$
        echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
        exit;
     } else {
+=======
+    $myUserID = $_SESSION['user'];
+    $currentGroupID = $_GET['groupID'];
+    
+>>>>>>> 6fc9394e1f3e71bf6946ef3863df9bf255d269ca
 	 // if session is not set this will redirect to login page
     if( !isset($_SESSION['user']) ) {
         header("Location: ../index.php");
         exit;
 	 }
+
+if(!($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->chapter[$myChapterID]->getID())or($ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID))) {
+
+
+        echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
+        exit;
+    } else {
+
 
     //redirects User if he is not in this group
 

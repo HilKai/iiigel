@@ -4,6 +4,7 @@
     $myPage = file_get_contents('../HTML/userOverview.html');
     include_once("database.php");
     include_once("Model/user.php");
+	include_once("Navigation.php");
 
 
     // if session is not set this will redirect to login page
@@ -19,6 +20,9 @@
     $search = array('%Vorname%', '%Nachname%', '%UserName%', '%EMail%','%ProfilePicture%','%userID%');
     $replace = array($myUser->getsFirstName(), $myUser->getsLastName(), $myUser->getsUsername(), $myUser->getsEMail(),$ODB->getProfilePicFromID($myUser->getID()), $myUser->getID() );
     $myPage = str_replace($search,$replace,$myPage);
+	$myPage = str_replace('%Navigation%',getNavigation(false),$myPage);
+	
+	
     $myTrainer = [];
     $toAdd = "";
     

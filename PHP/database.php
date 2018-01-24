@@ -267,7 +267,7 @@
             $this->stmtaddLeadertoInstitution = $this->db_connection->prepare("INSERT INTO usertoinstitution VALUES (?,?,1)");
             $this->stmtaddGroupInvitationLink = $this->db_connection->prepare("INSERT INTO registrationlinkgroup(Link,GroupID,StartDatum,EndDatum) VALUES (?,?,?,?)");
             $this->stmtaddInstitutionInvitationLink = $this->db_connection->prepare("INSERT INTO registrationlinkinstitution (Link,InstitutionID,StartDatum,EndDatum) VALUES (?,?,?,?)");
-            $this->stmtaddPermission = $this->db_connection->prepare("INSERT INTO rights VALUES (?,?,?,?,?,?,?,0)");
+            $this->stmtaddPermission = $this->db_connection->prepare("INSERT INTO rights (UserID,Name,ID,canView,canEdit,canCreate,canDelete,isDeleted)  VALUES (?,?,?,?,?,?,?,0)");
             
             //------------------------------------------------------- DELETES ------------------------------------------------------------------
             
@@ -588,8 +588,9 @@
         }
         
         public function addUsertoGroup($UserID,$GroupID){
+            
             $ModulID = $this->getModuleFromGroup($GroupID);
-            $this->addPermission($UserID,"ModulChapter",$ModulID,true,false,false,false);
+            $this->addPermission($UserID,'ModulChapter',$ModulID,1,0,0,0);
             $this->stmtaddUsertoGroup->bind_param("ii",$UserID,$GroupID);
             $this->stmtaddUsertoGroup->execute();
         }
@@ -615,7 +616,7 @@
         }
         
         public function addPermission($UserID,$Name,$ID,$canView,$canEdit,$canCreate,$canDelete){
-            $this->stmtaddPermission->bind_param("isibbbb",$UserID,$Name,$ID);
+            $this->stmtaddPermission->bind_param("isiiiii",$UserID,$Name,$ID,$canView,$canEdit,$canCreate,$canDelete);
             $this->stmtaddPermission->execute();
         }
         

@@ -23,7 +23,7 @@ session_start();
     $toUserAdd = '';
     if ($_POST != null){
         $ODB->makeUsertoTrainerorNotTrainer($_POST['toggle'],$_GET['GroupID']);
-       // header("Location:AdminGroupDetailView.php?GroupID=".$_GET['GroupID']);
+        header("Location:AdminGroupDetailView.php?GroupID=".$_GET['GroupID']);
     }
     $myUsers = $ODB->getUsersFromGroup($_GET['GroupID']);
     for ($i=0; $i< sizeof($myUsers);$i++){   

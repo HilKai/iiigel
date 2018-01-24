@@ -589,7 +589,7 @@
         
         public function addUsertoGroup($UserID,$GroupID){
             $ModulID = $this->getModuleFromGroup($GroupID);
-            $this->addPermission($UserID,"ModulChapter","view",$ModulID);
+            $this->addPermission($UserID,"ModulChapter",$ModulID,true,false,false,false);
             $this->stmtaddUsertoGroup->bind_param("ii",$UserID,$GroupID);
             $this->stmtaddUsertoGroup->execute();
         }
@@ -616,7 +616,7 @@
         
         public function addPermission($UserID,$Name,$ID,$canView,$canEdit,$canCreate,$canDelete){
             $this->stmtaddPermission->bind_param("isibbbb",$UserID,$Name,$ID);
-            $this->execute();
+            $this->stmtaddPermission->execute();
         }
         
         public function processRegistrationLink($UserID,$Link){

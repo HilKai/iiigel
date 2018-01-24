@@ -21,7 +21,6 @@
 	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
       $toAdd = "";
 	 if (isset($_POST['btn-save']) ) {
-		 //var_dump($_POST);
 		 $newModulName = trim($_POST['modulname']);
 		 $newModulName = strip_Tags($newModulName);
 		 $newModulName = htmlspecialchars($newModulName);
@@ -41,7 +40,6 @@
 		 $sortedIdx = htmlspecialchars($sortedIdx);
 		 
 		 $sortedIdxArray = explode(",", $sortedIdx);
-		 //var_dump($sortedIdxArray);
 		 for ($x = 0; $x < count($sortedIdxArray); $x++) {
  			$ODB->setChapterIndexFromID($x+1,$sortedIdxArray[$x]);
 		 } 

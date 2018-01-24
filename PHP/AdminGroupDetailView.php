@@ -1,6 +1,7 @@
 <?php 
     include_once("database.php");
 	include_once("Navigation.php");
+session_start();
 
     $myPage = file_get_contents('../HTML/AdminGroupDetailView.html');
   
@@ -22,7 +23,7 @@
     $toUserAdd = '';
     if ($_POST != null){
         $ODB->makeUsertoTrainerorNotTrainer($_POST['toggle'],$_GET['GroupID']);
-        header("Location:AdminGroupDetailView.php?GroupID=".$_GET['GroupID']);
+       // header("Location:AdminGroupDetailView.php?GroupID=".$_GET['GroupID']);
     }
     $myUsers = $ODB->getUsersFromGroup($_GET['GroupID']);
     for ($i=0; $i< sizeof($myUsers);$i++){   

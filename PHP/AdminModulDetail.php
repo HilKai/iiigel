@@ -1,7 +1,7 @@
 <?php 
     include_once("database.php");
 	include_once("Navigation.php");
-
+session_start();
     $myPage = file_get_contents('../HTML/AdminModulDetailView.html');
   
     if(!$ODB->isAdmin($_SESSION['user'])) {

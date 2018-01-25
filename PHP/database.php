@@ -43,8 +43,10 @@
         private $stmtGetIDFromUsername;
         private $stmtGetUsersFromInstitution;
         private $stmtGetUsersFromGroup;
+        private $stmtGetUsersFromPermission;
         private $stmtGetModulesFromInstitution;
         private $stmtGetGroupsFromInstitution;
+        private $stmtGetPermissionsFromName;
         private $stmtGetModuleImageFromID;
         private $stmtGetInstitutionsFromUserID;
         private $stmtGetHighestIndexFromChapter;
@@ -56,6 +58,7 @@
         private $stmtGetFortschritt;
         private $stmtGetModuleFromGroup;
         private $stmtGetChapterIDFromIndex;
+        private $stmtGetPermissionNames;
         
         private $stmtGetAllInstitutions;
 		private $stmtGetAllUsers;
@@ -78,6 +81,7 @@
         private $stmtCountModulesFromInstitution;
         private $stmtCountUsersFromModule;
         private $stmtCountUsersFromGroup;
+        private $stmtCountUsersFromPermission;
         private $stmtCountSearchedUsers;
         private $stmtCountAllUsersFromInstitutionNotInGroup;
         private $stmtCountAllUsersNotInInstitution;
@@ -231,7 +235,8 @@
             $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ?");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
             $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ? AND bIsDeleted = 0 ORDER BY sFirstName,sLastName");
-            
+            $this->stmtGetPermissionsFromName = $this->db_connection->prepare("SELECT * FROM rights WHERE Name = ? AND isDeleted = 0");
+            $this->stmtGetPermissionNames = $this->db_connection->prepare("SELECT DISTINCT Name FROM rights WHERE isDeleted = 0 ORDER BY Name");
             
             //--------------------------------------------------------- UPDATES -----------------------------------------------------------------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
@@ -912,6 +917,14 @@
             return $users;
         }
         
+        public function getPermissionsFromName($PermissionName){
+            $this->stmtGetPermissionsFromName->bind_param("s",$PermissionName);
+            $this->stmtGetPermissionsFromName->execute();
+            $res = $this->stmtGetPermissionsFromName->get_result(); 
+            
+            return $res;
+        }
+        
         public function getModulesFromInstitution($InstitutionID){
             $this->stmtGetModulesFromInstitution->bind_param("i",$InstitutionID);
             $this->stmtGetModulesFromInstitution->execute();
@@ -1047,6 +1060,13 @@
             } else {
               throw new exception('Kein Chapter oder mehrere Chapter mit diesem Index und diesem Modul');  
             }
+        }
+        
+        public function getPermissionNames(){
+            $this->stmtGetPermissionNames->execute();
+            $res = $this->stmtGetPermissionNames->get_result();
+            
+            return $res;
         }
         
         // ---------------- COUNT -------------------------

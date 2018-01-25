@@ -285,7 +285,7 @@
         
         public function replaceTags ($_sContent){
             
-             $sMyDocument = str_replace(' ', '&nbsp;',  str_replace('\r','<br>', str_replace('\n','<br>', str_replace("]\n",']' ,str_replace('<', '&lt;', str_replace('>', '&gt;', $_sContent))))));
+             $sMyDocument = str_replace('\r','<br>', str_replace('\n','<br>', str_replace("]\n",']' ,str_replace('<', '&lt;', str_replace('>', '&gt;', $_sContent)))));
             
             $sTags =$this->query('SELECT sTagFrom,sTagInto,sParam FROM transcribedtags');  
             for ($x = 0; $x <= mysqli_num_rows($sTags);$x++) {

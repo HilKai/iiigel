@@ -200,6 +200,7 @@
             $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ? AND bIsDeleted = 0");
             $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
             $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ? AND bIsDeleted = 0");
+            $this->stmtCountUsersFromPermission = $this->db_connection->prepare("SELECT COUNT(Name) FROM users INNER JOIN rights ON rights.UserID = users.ID WHERE rights.Name = ? AND users.bIsDeleted = 0 AND rights.isDeleted = 0");
             $this->stmtCountAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM users Left Join (SELECT * FROM usertogroup WHERE GroupID = ?) AS usertogroupSubset On usertogroupSubset.UserID = users.ID Left Join usertoinstitution ON usertoinstitution.UserID = users.ID WHERE GroupID IS NULL AND InstitutionID = ? AND bIsDeleted = 0");
             $this->stmtCountAllUsersNotInInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM users LEFT JOIN (SELECT * FROM usertoinstitution WHERE InstitutionID = ?) AS usertoinstitutionSubset ON usertoinstitutionSubset.UserID = users.ID WHERE usertoinstitutionSubset.InstitutionID IS NULL AND bIsDeleted = 0");
             $this->stmtCountAllLinksFromGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkgroup WHERE GroupID = ?");
@@ -225,6 +226,7 @@
             $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT * FROM institutions INNER JOIN usertoinstitution ON institutions.ID = usertoinstitution.InstitutionID WHERE UserID = ?");
             $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertoinstitution ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND bIsDeleted = 0");
             $this->stmtGetUsersFromGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ? AND bIsDeleted = 0");
+            $this->stmtGetUsersFromPermission = $this->db_connection->prepare("SELECT * FROM users INNER JOIN rights ON rights.UserID = users.ID WHERE rights.Name = ? AND users.bIsDeleted = 0 AND rights.isDeleted = 0");
             $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT * FROM modules INNER JOIN moduletoinstitution ON modules.ID = moduletoinstitution.ModuleID WHERE InstitutionID = ?");
             $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ?");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
@@ -233,7 +235,7 @@
             
             //--------------------------------------------------------- UPDATES -----------------------------------------------------------------
             $this->stmtSetProfilePic = $this->db_connection->prepare("UPDATE users SET sProfilePicture = ? WHERE ID = ?");
-            $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1                                                                               WHERE GroupID = ? AND UserID = ?");
+            $this->stmtSetFortschrittFromUserinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = iFortschritt + 1 WHERE GroupID = ? AND UserID = ?");
             $this->stmtSetFortschrittforallUsersinGroup = $this->db_connection->prepare("UPDATE usertogroup SET iFortschritt = ? WHERE GroupID = ? AND iFortschritt < ?");
             $this->stmtSetUsernameFromID = $this->db_connection->prepare("UPDATE users SET sUsername = ? WHERE ID = ?");
             $this->stmtSetFirstNameFromID = $this->db_connection->prepare("UPDATE users SET sFirstName = ? WHERE ID = ?");
@@ -892,6 +894,24 @@
             return $users;
         }
         
+        public function getUsersFromPermission($PermissionName){
+            $this->stmtGetUsersFromPermission->bind_param("s",$PermissionName);
+            $this->stmtGetUsersFromPermission->execute();
+            $res = $this->stmtGetUsersFromPermission->get_result();
+            $anz = $this->countUsersFromPermission($PermissionName);
+           
+            $row = [];
+            $users = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res); 
+                $users[$i] = new User($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sUsername'],$row[$i]['sFirstName'],
+                                   $row[$i]['sLastName'],$row[$i]['sEMail'],$row[$i]['sHashedPassword'],
+                                   $row[$i]['sProfilePicture'],$row[$i]['bIsVerified'],$row[$i]['bIsOnline']);
+            } 
+            
+            return $users;
+        }
+        
         public function getModulesFromInstitution($InstitutionID){
             $this->stmtGetModulesFromInstitution->bind_param("i",$InstitutionID);
             $this->stmtGetModulesFromInstitution->execute();
@@ -1105,6 +1125,14 @@
             $res = $this->stmtCountUsersFromGroup->get_result();
             $row = mysqli_fetch_array($res);
             return $row['COUNT(ID)'];
+        }
+        
+        public function countUsersFromPermission($PermissionName){
+            $this->stmtCountUsersFromPermission->bind_param("s",$PermissionName);
+            $this->stmtCountUsersFromPermission->execute();
+            $res = $this->stmtCountUsersFromPermission->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(Name)'];
         }
         
         public function countsearchedUsers($Username){
@@ -1469,6 +1497,6 @@
 
 
     global $ODB;
-    $ODB = new Database();  
+    $ODB = new Database();
 
 ?>

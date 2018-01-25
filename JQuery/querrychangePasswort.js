@@ -14,7 +14,6 @@
                 url: "setPassword.php",
                 data: { userID:"%userID%", passwort1:$pw1, passwort2:$pw2},
 			 	success: function(result){
-					//todo Interpretieren des Ergebnisses
 					if (result == "") {
 						$('#myModal').modal('hide');
 					} 

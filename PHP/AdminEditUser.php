@@ -22,7 +22,7 @@
     global $userID;
     $userID= $myUser->getID();
 		
-	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
+	
 		
 	if ( isset($_POST['btn-save']) ) {
         $error = false;
@@ -122,15 +122,16 @@
 					<img id="ProfilePic" class="img-responsive img-circle" src="<?php echo $ODB->getProfilePicFromID($myUser->getID()); ?>" alt="ProfilePic">
 
 				</div>
-
+      <?php echo getNavigation()?>
 				<div id="ProfileTextContainer" class="col-md-8">
 
 					<div id="" class="row">
 						<div class="col-md-12 noPadding">
 							<h1 id="Heading"> Profil bearbeiten</h1>
 						</div>
+                       
 					</div>
-
+               
 					<div id="" class="row">
 						<div class="col-md-6 noPadding">
 							<div class="form-group">

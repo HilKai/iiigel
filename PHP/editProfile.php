@@ -182,7 +182,7 @@
 									<!---type="submit" value="text" name="newPass" -->
 								</form>
 								<div class="modal-footer">
-									<button id="ModalBtn" class="btn btn-default" onclick="setNewPass(), deleteDanger() ">Hinzufügen</button>
+									<button id="ModalBtn" class="btn btn-default" onclick="setNewPass(); deleteDanger() ">Hinzufügen</button>
 								</div>
 							</div>
 

@@ -105,7 +105,7 @@
 		
         $options = [
             'cost' => 11,
-            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+            'salt' => random_bytes (22)
         ];
 		
         $hash_passwort = password_hash( $passwort, PASSWORD_BCRYPT, $options);

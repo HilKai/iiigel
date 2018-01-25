@@ -1,7 +1,7 @@
 <?php
 	include_once("database.php");
 	$myUser = $ODB->getUserFromID($_POST['userID']);
-	$error = "false"; 
+	$error = false; 
 	$passError ="";
 		$passwort = trim($_POST['passwort1']);
 		$passwort = strip_Tags($passwort);
@@ -35,16 +35,18 @@
 		
 		 $options = [
             'cost' => 11,
-            'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+            'salt' => random_bytes (22)
         ];
 		
         $hash_passwort = password_hash( $passwort, PASSWORD_BCRYPT, $options);
-		
 		if( !$error ) { 
+            echo "success";
 			$ODB->setPasswordFromID($hash_passwort,$myUser->getID());
-		}
+		} else {
+           	echo $passError; 
+        }
 
-     	echo $passError;
+     
 		 
 	 
 ?>

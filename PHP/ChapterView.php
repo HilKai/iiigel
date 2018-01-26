@@ -141,6 +141,7 @@ if(!($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->chapter[$
             if ($i == $myChapterID){
                 $style = 'background-color:#bcd2ee;';  
             }
+            $style= $style."width:250px;height:35px;border:0px";
             $replace = array($myModule ->chapter[$i]->getsTitle(),"../PHP/ChapterView.php?moduleID=".$myModuleID."&chapterID=".$i."&groupID=".$currentGroupID,$style );
             $myRow = str_replace($search,$replace,$myRow);
         

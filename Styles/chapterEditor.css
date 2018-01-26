@@ -37,9 +37,7 @@
         margin: 0 auto;
     }
     #Chapter_window {
-        width: 300px;
         margin-top: 20px;
-        white-space: nowrap;
     }
 }
 
@@ -356,9 +354,9 @@ body {
     padding: 0;
     background-color: #fff;
     float: left;
+    width: 250px;
     border-radius: 2px;
     text-align: left;
-    overflow: hidden;
     -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.68);
     -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.68);
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.68);
@@ -373,6 +371,7 @@ body {
 .chapter_nav {
     height: 35px;
     padding: 8px;
+    display:inline-block;
 }
 
 .chapter_nav:hover {

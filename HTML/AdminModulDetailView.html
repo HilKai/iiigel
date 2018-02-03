@@ -73,7 +73,7 @@
 
 		<div id="addUser" class="col-md-3">
 			<p> <b>Modul hinzufügen</b></p>
-			<form>
+			<form action="AdminModulHinzufugen.php">
 				<input name="sName" id="sName" type="text" style="width:262px;" class="addForm" placeholder="Modulname">
 
 				<input name="sDescription" id="sDescription" type="text" style="width:262px;" class="addForm" placeholder="Beschreibung">
@@ -94,25 +94,6 @@
 
 
 	</div>
-
-
-	<script>
-		function phpaufrufen() {
-
-			$.ajax({
-				type: "POST",
-				url: "AdminGroupHinzufugen.php",
-				data: {
-					sName: document.getElementById("GruppenName").value
-				},
-				success: function(result) {
-					location.reload()
-				},
-
-			});
-		}
-
-	</script>
 </body>
 
 </html>

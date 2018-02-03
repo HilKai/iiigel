@@ -1,5 +1,5 @@
 <?php 
-
+	
 
 	 include_once("database.php");
     session_start();
@@ -7,8 +7,8 @@
 		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {
-     $ODB->addModul($_POST['sName'],$_POST['language'],$_POST['description']);
+     $ODB->addModule($_GET['sName'],$_GET['sLanguage'],$_GET['sDescription']);
    
-   header("Location: AdminModulDetail.php?InstitutionsID=".$_POST['sInstitutionID']);
+   header("Location:".$_SERVER['HTTP_REFERER']);
 	}
 ?>

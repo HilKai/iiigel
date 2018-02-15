@@ -264,7 +264,8 @@
             $this->stmtUpdatePermissionEdit = $this->db_connection->prepare("UPDATE rights SET canEdit = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) ");
             $this->stmtUpdatePermissionCreate = $this->db_connection->prepare("UPDATE rights SET canCreate = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) ");
             $this->stmtUpdatePermissionDelete = $this->db_connection->prepare("UPDATE rights SET canDelete = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL)");
-            
+            $this->stmtUpdateCompletePermission = $this->db_connection->prepare("UPDATE rights SET UserID = ?, Name = ?, ID = ?, canView = ?, canEdit = ?, canCreate = ?, canDelete = ?
+                                                                                 WHERE UserID = ? AND Name = ? AND ID = ? AND canView = ? AND canEdit = ? AND canCreate = ? AND canDelete = ? AND isDeleted = 0");
             //------------------------------------------------------- INSERTS -------------------------------------------------------------------
             
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword,sProfilePicture) VALUES (?,?,?,?,?,'../ProfilePics/generalpic.png')");
@@ -1557,6 +1558,11 @@
                    $toExecute->bind_param("iisi",$value,$UserID,$Name,$ID);
                    $toExecute->execute();
                 }    
+        }
+        
+        public function updateCompletePermission($newUserID,$newName,$newID,$newcanView,$newcanEdit,$newcanCreate,$newcanDelete,$UserID,$Name,$ID,$canView,$canEdit,$canCreate,$canDelete){
+            $this->stmtUpdateCompletePermission->bind_param("isiiiiiisiiiii",$newUserID,$newName,$newID,$newcanView,$newcanEdit,$newcanCreate,$newcanDelete,$UserID,$Name,$ID,$canView,$canEdit,$canCreate,$canDelete);
+            $this->stmtUpdateCompletePermission->execute();
         }
         
         //------------------------------------------------------- DELETE ------------------------------------------------------------------------

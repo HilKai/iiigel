@@ -64,5 +64,4 @@
 
     $myPage=str_replace('%Module%',$toAdd,$myPage);
     echo $myPage;
-   
 ?>

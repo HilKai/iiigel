@@ -48,8 +48,8 @@ $allPermissionNames[] = $row;
 		
 		$myRow = file_get_contents('../HTML/AdminGivePermissionTableRow.html');
        	$currentUser = $ODB->getUserFromID($permissionRow["UserID"]);
-        $search = array("%Prename%","%Lastname%","%id%","%CanView%","%CanEdit%","%CanAdd%","%CanDelete%");
-        $replace = array($currentUser->getsFirstName(),$currentUser->getsLastName(),$permissionRow["ID"],$permissionRow["canView"], $permissionRow["canEdit"],$permissionRow["canCreate"],$permissionRow["canDelete"]);
+        $search = array("%Prename%","%Lastname%","%id%","%CanView%","%CanEdit%","%CanAdd%","%CanDelete%","%UserId%","%Permission%");
+        $replace = array($currentUser->getsFirstName(),$currentUser->getsLastName(),$permissionRow["ID"],$permissionRow["canView"], $permissionRow["canEdit"],$permissionRow["canCreate"],$permissionRow["canDelete"],$permissionRow["UserID"],$activeTab);
         $myRow = str_replace($search,$replace,$myRow);
         
         
@@ -57,8 +57,13 @@ $allPermissionNames[] = $row;
 	}
 	$myPage = str_replace("%PermissionTable%",$toAdd,$myPage);
 	
-	
-	
+	$allUsers = $ODB->getAllUsers();
+	$toAdd = "";
+	for ($i=0;$i<sizeof($allUsers);$i++){
+		;
+		$toAdd .= "<option value=".$allUsers[$i]->getID().">".$allUsers[$i]->getsFirstName()." ".$allUsers[$i]->getsLastName()."</option>";
+	}
+	$myPage = str_replace("%AllUserDropdownData%",$toAdd,$myPage);
 	
 	
 	

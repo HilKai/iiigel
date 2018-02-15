@@ -1562,7 +1562,7 @@
         
         public function updateCompletePermission($newUserID,$newName,$newID,$newcanView,$newcanEdit,$newcanCreate,$newcanDelete,$UserID,$Name,$ID,$canView,$canEdit,$canCreate,$canDelete){
             $this->stmtUpdateCompletePermission->bind_param("isiiiiiisiiiii",$newUserID,$newName,$newID,$newcanView,$newcanEdit,$newcanCreate,$newcanDelete,$UserID,$Name,$ID,$canView,$canEdit,$canCreate,$canDelete);
-            $this->stmtUpdateCompletePermission->execute();
+           return $this->stmtUpdateCompletePermission->execute();
         }
         
         //------------------------------------------------------- DELETE ------------------------------------------------------------------------

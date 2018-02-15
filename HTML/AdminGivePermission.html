@@ -34,6 +34,14 @@
 
 				<ul class="nav nav-tabs">
 					%PermissionNameList%
+
+					<li role='presentation'>
+						<a href='./AdminGivePermission.php?activeTab=%Name%'>
+							<span class="glyphicon glyphicon-plus-sign">
+							</span>
+						</a>
+					</li>
+
 				</ul>
 
 				<table id="Table" class="table">
@@ -50,9 +58,10 @@
 						</tr>
 					</thead>
 
-					%PermissionTable%
+
 
 					<tbody>
+						%PermissionTable%
 						<!--%Tablerow%-->
 					</tbody>
 				</table>
@@ -66,14 +75,49 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Abgabe</h4>
+							<h4 class="modal-title">Berechtigung</h4>
 						</div>
 						<div class="modal-body">
-							<p id="ModalText">..</p>
+
+							<div class="container">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="panel-body">
+											<formgroup>
+
+
+
+
+												<select id="User" class="btn btn-default dropdown-toggle addForm" name="UserID">
+													%AllUserDropdownData%
+				    								<span class="caret"></span>
+												</select>
+
+												<input id="Berechtigung" type="text">
+												<input id="id" type="text">
+												<input id="CanView" type="checkbox" value="">
+												<input id="CanEdit" type="checkbox" value="">
+												<input id="CanAdd" type="checkbox" value="">
+												<input id="CanDelete" type="checkbox" value="">
+
+												<input id="oldBerechtigung" type="hidden" value="">
+												<input id="oldid" type="hidden" value="">
+												<input id="oldCanView" type="hidden" value="">
+												<input id="oldCanEdit" type="hidden" value="">
+												<input id="oldCanAdd" type="hidden" value="">
+												<input id="oldCanDelete" type="hidden" value="">
+												<input id="oldUser" type="hidden" value="">
+											</formgroup>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
 						</div>
 						<div class="modal-footer">
 							<form action="post"><button id="RejectBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="rejectHandIn(this)">Ablehnen</button></form>
-							<button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button>
+							<button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="commitChanges()">Annehmen</button>
 						</div>
 					</div>
 
@@ -85,5 +129,66 @@
 	</div>
 
 </body>
+<script>
+	function inttobool(i) {
+		if (i == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function booltoint(i) {
+		if (i == true) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+
+	function commitChanges() {
+
+		$.ajax({
+			url: "commitPermissionChanges.php?" + "newUserID=" + document.getElementById("User").value + "&newName=" + document.getElementById("Berechtigung").value + "&newID=" + document.getElementById("id").value + "&newcanView=" + document.getElementById("CanView").checked + "&newcanEdit=" + document.getElementById("CanEdit").checked + "&newcanCreate=" + document.getElementById("CanAdd").checkend + "&newcanDelete=" + document.getElementById("CanDelete").checked + "&UserID=" + document.getElementById("oldUser").value + "&Name=" + document.getElementById("oldUser").value + "&ID=" + document.getElementById("oldid").value + "&canView=" + booltoint(document.getElementById("oldCanView").value) + "&canEdit=" + booltoint(document.getElementById("oldCanEdit").value) + "&canCreate=" + booltoint(document.getElementById("oldCanAdd").value) + "&canDelete=" + booltoint(document.getElementById("oldCanDelete").value),
+			success: function(data) {
+
+			},
+		});
+
+
+	}
+
+	function openModal(data) {
+
+		$('#myModal').modal('show');
+		console.log(data);
+
+		document.getElementById("User").value = data["UserId"];
+		document.getElementById("oldUser").value = data["UserId"];
+
+		document.getElementById("Berechtigung").value = data["Permission"];
+		document.getElementById("oldBerechtigung").value = data["Permission"];
+
+		document.getElementById("id").value = data["ID"];
+		document.getElementById("oldid").value = data["ID"];
+
+		document.getElementById("CanView").checked = inttobool(data["CanView"]);
+		document.getElementById("oldCanView").value = data["CanView"];
+
+		document.getElementById("CanEdit").checked = inttobool(data["CanEdit"]);
+		document.getElementById("oldCanEdit").value = data["CanEdit"];
+
+		document.getElementById("CanAdd").checkend = inttobool(data["CanAdd"]);
+		document.getElementById("oldCanAdd").value = data["CanAdd"];
+
+		document.getElementById("CanDelete").checked = inttobool(data["CanDelete"]);
+		document.getElementById("oldCanDelete").value = data["CanDelete"];
+	}
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </html>

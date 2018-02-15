@@ -10,6 +10,7 @@
     class Database
     {
         private $db_connection;
+        private $stmtExistsAccountWithForeignID;
         private $stmtisEmailTaken;
         private $stmtisUsernameTaken;
         private $stmtisUsernameFromID;
@@ -32,6 +33,7 @@
         //-------------------------------------------------
         
 		private $stmtGetUserFromID;
+        private $stmtGetUserIDFromForeignID;
 		private $stmtGetInstitutionFromID;
 		private $stmtGetUserFromUsername;
 		private $stmtGetGroupFromID;
@@ -116,6 +118,7 @@
         //------------------------------------------------
         
         private $stmtaddUser;
+        private $stmtaddForeignUser;
         private $stmtaddInstitution;
         private $stmtaddHandIn;
         private $stmtaddGroup;
@@ -150,6 +153,7 @@
             
             //--------------------------------------------------------- IS/HAS SELECTS --------------------------------------------------------------
             
+            $this->stmtExistsAccountWithForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ?");
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
 			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ? AND bIsDeleted = 0");
             $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
@@ -172,6 +176,7 @@
             //---------------------------------------------------------- SELECTS ----------------------------------------------------------------
             
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
+            $this->stmtGetUserIDFromForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ?");
 			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ?");
 			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ?");
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ?");
@@ -262,7 +267,8 @@
             
             //------------------------------------------------------- INSERTS -------------------------------------------------------------------
             
-            $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword,sProfilePicture) VALUES                                                     (?,?,?,?,?,'../ProfilePics/generalpic.png')");
+            $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword,sProfilePicture) VALUES (?,?,?,?,?,'../ProfilePics/generalpic.png')");
+            $this->stmtaddForeignUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sProfilePicture,bIsForeignAccount,foreignID) VALUES (?,?,?,'../ProfilePics/generalpic.png',1,?)");
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
             $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
             $this->stmtaddGroup = $this->db_connection->prepare("INSERT INTO groups (ModulID,InstitutionsID,sName,bIsDeleted) VALUES (?,?,?,0)");
@@ -344,10 +350,54 @@
             return $sMyDocument;
         }
         
+        public function getUserDataFromCodingSpace($authToken){
+            $url = "https://www.codeclub.de/getUserData.php?";
+            $url .= "authToken=".$authToken."&";                            //das authentication Token wird überliefert & an die URL gehangen
+            $url .= "checkSum=".hash_hmac('sha1', $authToken, "geheimgeheimeinhorn");
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            $output = json_decode(curl_exec($ch),true);
+            if (FALSE === $output)
+                throw new Exception(curl_error($ch), curl_errno($ch));
+            curl_close($ch);
+            var_dump($output);
+            if ($output!=NULL){
+                if ($output['status']==="success"){
+                    $ID = $output['result']['id'];
+                    $userName = $output['result']['username'];
+                    $firstName = $output['result']['firstname'];
+                    $lastName = $output['result']['lastname'];
+                    $existingID = $this->existsAccountWithForeignID($ID);
+                    if ($existingID != false){
+                        return $existingID; 
+                    } else {
+                        $newuserID = $this->stmtaddForeignUser($userName,$firstName,$lastName,$ID);
+                        return $newuserID;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+        
         
         
         //--------------------------------------------------------- ABFRAGEN OB ... -------------------------------------------------------------
-           
+        
+        public function existsAccountWithForeignID($ID){
+            $this->stmtExistsAccountWithForeignID->bind_param("i",$ID);
+            $this->stmtExistsAccountWithForeignID->execute();
+            $res = $this->stmtExistsAccountWithForeignID->get_result();
+            if (mysqli_num_rows($res) != 0) {
+                $row = mysqli_fetch_array($res);
+                    return $row['ID'];
+            } else {
+                return false;  
+            }
+        }
+        
         public function isUsernameTaken($sUsername){
             $this->stmtisUsernameTaken->bind_param("s",$sUsername);	
 			$this->stmtisUsernameTaken->execute();
@@ -558,8 +608,14 @@
                 return true;
             }else{
                 return false;
-            }
-           
+            } 
+        }
+        
+        public function addForeignUser($Username,$FirstName,$LastName,$ID){
+            $this->stmtaddForeignUser->bind_param("sssi",$Username,$FirstName,$LastName,$ID);
+            $this->stmtaddForeignUser->execute();
+            $UserID = $this->getUserIDFromForeignID($ID);
+            return $UserID;
         }
         
         public function addInstitution($sName){
@@ -669,6 +725,16 @@
                 throw new exception('Mehr als ein User mit dieser ID');        
             }
         } 
+        
+        public function getUserIDFromForeignID($ID){
+            $this->stmtGetUserIDFromForeignID->bind_param("i",$ID);
+            $this->stmtGetUserIDFromForeignID->execute();
+            $res = $this->stmtGetUserIDFromForeignID->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                return $row['ID'];
+            }
+        }
         
         public function getUserFromId($ID){	
 			$this->stmtGetUserFromID->bind_param("i",$ID);	

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 18. Dez 2017 um 20:42
+-- Erstellungszeit: 15. Feb 2018 um 21:28
 -- Server-Version: 10.1.19-MariaDB
 -- PHP-Version: 7.0.9
 
@@ -84,7 +84,8 @@ INSERT INTO `chapters` (`ID`, `sID`, `iIndex`, `sTitle`, `sText`, `sNote`, `Modu
 (33, '', 15, 'Verbund', '[headline]Kapitel 14 - Verbund [/headline]\r\nManchmal möchte man nicht nur einen String oder einen Integer speichern, sondern einen ganzen Datensatz aus verschiedensten \r\nVariablentypen. Dort hilft uns der so genannte [big]Verbund[/big]. In Delphi lautet der dazugehörige Befehl [big]"record"[/big]. Der \r\nVerbund ist auch in gewisser Weise eine Vorstufe zur objektorientierten Programmierung.  Man legt sich mit Record keine \r\nVariable, sondern im Grunde einen eigenen Variablentyp an. Nun, wie funktioiert er? Schauen wir uns einfach mal ein \r\nBeispiel an:[break]\r\n\r\n[code]\r\n\r\nTYPE TPerson =                  // Anlegen des Records (Es ist ersteinmal eine Vorlage und kann keine Werte beinhalten)\r\n    RECORD                      // Es ist in Delphi üblich, die Namen solcher Records mit T zu beginnen.\r\n       Vorname    : String;     // TPerson beinhaltet diese 3 Datenfelder (auch [big]Attribute[/big] genannt) \r\n       Name       : String;\r\n       Alter      : Integer;       \r\n    END;                        // Nachdem nun die Definition unseres neuen Datentyps abgeschlossen ist, müssen wir nur\r\n                                // noch eine Variable von diesem neuen Typ erzeugen ([big]instanziieren[/big]).\r\n                                // Achtung: TPerson ist keine Variable, sie wird nie Werte beinhalten!\r\n \r\n \r\nProcedure blabla;\r\nVAR Mustermann: TPerson;        // Erzeugt eine [big]Instanz[/big] von TPerson mit den Namen Mustermann (instanziieren)\r\n                                // (Deklariert eine Variable namens Mustermann vom Typ TPerson) \r\n begin\r\n    Mustermann.Vorname          := ''Hans'';        //Setzt die einzelnen Werte in Mustermann\r\n    Mustermann.Name             := ''Mustermann'';\r\n    Mustermann.Alter            := 32;\r\n end;\r\n\r\n[/code] [break]\r\nMan kann sich den Record vorstellen, wie eine Vorlage oder einen neuen Variablentypen. Aber Achtung, wenn man es genau nimmt,\r\nist es kein neuer Typ. Es ist ein [big]Verbund[/big]. Dieser hat [big]Attribute[/big] und muss [big]instanziiert[/big] werden.[break][break]\r\n\r\nMeinstens wird der Verbund im Zusammenhang mit einem Array benutzt. Im obigen Beispiel hätte man ja einfach auch nur einen\r\nMustermann_Vorname,Mustermann_Name und Mustermann_Alter vom Typ String bzw. Integer anlegen können. Das wäre auch fast noch\r\nsauber gewesen. Möchte man aber mehrere Personen in Variblen ablegen, dann kommt der Record erst richtig zum Einsatz:\r\n\r\n[code]\r\n\r\nTYPE TPerson =                  // Anlegen des Verbunds\r\n    RECORD                      \r\n       Vorname    : String;     \r\n       Name       : String;\r\n       Alter      : Integer;       \r\n    END;                   \r\n \r\nProcedure blabla;\r\nVAR Person : Array[1..100] of TPerson;  // Erzeugt ein Array von TPerson\r\n begin\r\n   Person[1].Vorname := ''Heinz'';        // Setzt im Arrayindex 1 die Werte.\r\n   Person[1].Name    := ''Mustermann''; \r\n   Person[1].Alter   := 56; \r\n end;\r\n\r\n[/code] [break]\r\n\r\nJetzt können wir die Datensätze später auch recht einfach in eine Datei schreiben oder diese Daten über eine Schleife \r\nschnell durchsuchen oder ausgeben lassen. [break][break]\r\n\r\nZum Schluss möchte ich noch kurz darauf aufmerksam machen, dass man auch Records im Record benutzen kann. Zum Beispiel\r\nist es derzeit nur möglich das Alter im Datensatz abzuspeichern. Besser wäre es aber, wenn wir uns das Geburtsdatum im\r\nVerbund speichern könnten. Wenn man so etwas sauber programmieren möchte, legt man sich zunächst ein Record namens TDatum\r\nan und definiert darin die Attribute Tag, Monat und Jahr (z.B. als Integer). Dann legt man sich den Verbund TPerson an \r\nund hat statt Alter dann das Attribut GebDatum vom Typ TDatum. Dieses Gebdatum kann man dann über Person[1].GebDatum.Jahr \r\nsetzen bzw. auslesen.\r\n\r\n[tasks]\r\n\r\nAufgaben: [break]\r\n \r\n  [task]Notiere dir wie immer die wichtige Inhalte in deinem Hefter. Insbesondere die fettgedruckten Wörter sind wichtig.[/task]\r\n  [task]Schreibe ein kurzes Programm, dass wie oben beschrieben mit TDatum und TPerson arbeitet.[/task]\r\n  [task](opt) Schreibe ein Programm, wo man bis zu 100 Datensätze eingeben kann.[break]\r\n      [break]\r\n      Mit den Pfeil-Knöpfen kann man durch die Einträge blättern. Gibt man einen Eintrag ein und drückt dann auf den speichern-\r\n      Button, so werden die Daten des Datensatzes im Array abgelegt. Beim Knopf "löschen" werden die Eingabefelder gelöscht.\r\n      Die Datensatznummer gibt die Nummer des aktuellen Datensatzes an. Diesen solltet ihr zunächst auf "readonly" setzen. \r\n      Wer will kann später aber auch das Programm so ergänzen, dass man dort eine Datensatznummer angeben kann und das \r\n      Programm zu diesem Datensatz springt.\r\n  [/task]\r\n  [task](opt) Wer jetzt immer noch nicht den Hals vollbekommt, der darf noch ein SaveToFile und LoadFromFile-Knopf anlegen.\r\n      Schaut euch dazu in der Toolpalette die Dialoge (TOpenDialog, TSaveDialog) an. Achtung, die Dinger speichern und laden\r\n      selber nicht, sondern lassen dich nur einen Speicherplatz aussuchen. Zum eigentlichen Laden und Speichern, solltest\r\n      du entweder eine Textfile nutzen und Zeile für Zeile speichern bzw Laden ODER eine binäre Datei und dort die Datensätze\r\n      an sich übergeben. Suche dazu folgende Sachen bei google: "Delphi textfile", "Delphi blockread", "Delphi record speichern"\r\n  [/task]    \r\n \r\nGebe Nummer 2 ab. Wenn du dich an einer der optionale Aufgaben probieren möchtest, dann gebe stattdessen diese ab.\r\n[/tasks]\r\n', '', 4, 0, 0, 1, 0, 0, 0),
 (34, '', 16, 'Timer', '[headline]Kapitel 15 - Timer[/headline]\r\nEinen Timer kann man sich wie eine Art Eieruhr vorstellen. Wenn er eingeschaltet (enabled := true) ist, dann zählt er eine bestimmte Zeit runter und fängt dann wieder von vorne an, bis man ihn ausschaltet (enabled := false). Um einen zu erstellen, sucht man einfach in der Toolpalette nach "TTimer" und zieht ihn dann auf das Formular. Man kann bei den Eigenschaften eines Timers das Interval angeben, also der Abstand in Millisekunden wann der Timer aufgerufen werden soll. Unter Ereignisse findet man das Ereigniss OnTimer, in der steht was passiert, wenn der Timer aufgerufen wird.[break][break]\r\n\r\n[break][break]\r\n\r\n[code]\r\n\r\nprocedure TForm1.Timer1Timer(Sender: TObject);\r\nbegin\r\n  Image1.Left := Image1.Left + 1;\r\nend;\r\n\r\n[/code] [break]\r\n\r\nBei diesem Beispiel wird das Bild jede Sekunde (Timer1.Interval := 1000) um einen Pixel nach rechts bewegt.\r\n\r\n[tasks]\r\nAufgaben: [break]\r\n \r\n  [task]Experimentiere ein bisschen mit dem Timer rum, lass das Bild schneller laufen usw.[/task]\r\n  [task]Wenn man an auf dem Button klickt, soll sich ein Bild bewegen. Klickst du auf einen anderen Button, bleibt das Bild stehen. Du kannst auch noch einen Button machen, der z.B. das Bild schneller bewegen lässt.[/task]\r\n \r\n[/tasks]\r\n', '', 4, 0, 0, 1, 0, 0, 0),
 (35, '', 17, 'Pong', '[headline]Kapitel 16 - Pong[/headline]\r\n\r\nNun da wir wissen, wie wir ein Bild bewegen können. Kommen wir nun zur Kunst der Kollision. Wir werden das Bild mit dem Rand der Form kollidieren lassen. Es gibt nicht nur die Kollision mit dem Rand, aber es ist für den Einstieg am Besten geeignet. In dem Spiel Pong lässt man einen Ball an dem Rand abprallen. Wir haben erst mal eine vereinfachte Version gemacht, der Ball bzw. das Image prallt nur von der rechten und von der linken Wand ab.\r\n\r\n[code]\r\n\r\nvar\r\n  movement: Integer;  //Die Anzhal der Pixel um die sich der Ball bei jedem Timer aufruf bewegen soll\r\n\r\n\r\nprocedure TForm1.FormCreate(Sender: TObject);\r\nbegin\r\n  movement := 2;   //Hier wird movement auf 2 gesetzt\r\n  form1.Width := 260;\r\n  Image1.Left := 0;\r\nend;\r\n\r\nprocedure TForm1.Timer1Timer(Sender: TObject);\r\nbegin\r\n  Image1.Left := Image1.Left + movement;                //Bild wir um movement (2) nach rechts versetzt\r\n  if Image1.Left + Image1.Width = Form1.Width then     //Wenn die linke Seite vom Bild(Left) + die Bildbreite\r\n                                                        //größer gleich der Breite des Formulars ist, dann\r\n    begin\r\n      movement := movement * -1;                        //wir movement negativ gesetzt, durch "* -1", damit sich\r\n	                                                    //der Ball nach links bewegt\r\n      Image1.Left := Image1.Left + movement;            //Ball wird um movement (-2) bewegt\r\n    end else if Image1.Left = 0 then                    //oder wenn die linke Seite des Balls mit die linke Seite  \r\n	                                                    //des Formulars kollidiert, dann\r\n    begin\r\n      movement := movement * -1;                        //wird movement positiv gesetzt, durch "* -1", damit sich \r\n	  Image1.Left := Image1.Left + movement;            //das Bild wieder nach rechts bewegt\r\n    end;\r\nend;\r\n\r\n[/code] [break]\r\n\r\nDas Programm ist nur für die Kollision von der linken und rechten Seite. Die Kollision mit oben und unten basiert auf \r\ndem selben Schema.\r\n\r\n[tasks]\r\nAufgaben: [break]\r\n \r\n  [task]Erweitert das Programm so, dass das Ball an allen Seiten abprallen kann.[/task]\r\n  [task](opt)Fügt ein Paddle ein, von dem der Ball auch abprallen kann.[/task]\r\n \r\n[/tasks]\r\n', '', 4, 0, 0, 1, 0, 0, 0),
-(36, '', 18, 'Programmierprojekt', '[headline]Kapitel 17 - Programmierprojekt[/headline]\r\n\r\n\r\n[tasks]\r\nAufgaben: [break]\r\n \r\n  [task]Schreibe ein Programm mit 2 Textfeldern und zwei Buttons "verschlüsseln" und "entschlüsseln". Drückt man auf "verschlüsseln so soll der Text der ersten Textbox verschlüsselt in der 2. Textbox ausgegeben werden. Dabei sollen ganz einfach alle Buchstaben auf ihren Nachfolger abgeändert werden, also aus a wird b, aus b wird c ... aus z wird wieder ein a. Umlaute müssen dabei nicht berücksichtigt werden.[/task]\r\n  [task]Verändere das Verschlüsselungsprogramm so, dass es auch den Vigenerecode beherrscht (Vigenere: siehe Internet)[/task]\r\n  [task]Schreibe ein schönes TicTacToe-Programm, wo zwei Spieler gegeneinander Spielen können[/task]\r\n  [task](opt)Verändere das TicTacToe-Programm so, dass man auch optional einen Computergegener auswählen kann, der gegen den Menschen antritt[/task]\r\n  [task]Schreibe ein Hangmanprogramm[/task]\r\n  [task](schwer) Schreibe ein 4-Gewinnt-Programm[/task]\r\n \r\n[/tasks]\r\n\r\nHier Endet das erste Thema "Delphi imperativ"!\r\n\r\n\r\n\r\n\r\n\r\n\r\n', '', 4, 0, 0, 1, 0, 0, 0);
+(36, '', 18, 'Programmierprojekt', '[headline]Kapitel 17 - Programmierprojekt[/headline]\r\n\r\n\r\n[tasks]\r\nAufgaben: [break]\r\n \r\n  [task]Schreibe ein Programm mit 2 Textfeldern und zwei Buttons "verschlüsseln" und "entschlüsseln". Drückt man auf "verschlüsseln so soll der Text der ersten Textbox verschlüsselt in der 2. Textbox ausgegeben werden. Dabei sollen ganz einfach alle Buchstaben auf ihren Nachfolger abgeändert werden, also aus a wird b, aus b wird c ... aus z wird wieder ein a. Umlaute müssen dabei nicht berücksichtigt werden.[/task]\r\n  [task]Verändere das Verschlüsselungsprogramm so, dass es auch den Vigenerecode beherrscht (Vigenere: siehe Internet)[/task]\r\n  [task]Schreibe ein schönes TicTacToe-Programm, wo zwei Spieler gegeneinander Spielen können[/task]\r\n  [task](opt)Verändere das TicTacToe-Programm so, dass man auch optional einen Computergegener auswählen kann, der gegen den Menschen antritt[/task]\r\n  [task]Schreibe ein Hangmanprogramm[/task]\r\n  [task](schwer) Schreibe ein 4-Gewinnt-Programm[/task]\r\n \r\n[/tasks]\r\n\r\nHier Endet das erste Thema "Delphi imperativ"!\r\n\r\n\r\n\r\n\r\n\r\n\r\n', '', 4, 0, 0, 1, 0, 0, 0),
+(37, '', 1, 'test', 'Hallo', '', 3, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -143,7 +144,9 @@ INSERT INTO `handins` (`ID`, `sID`, `Date`, `UserID`, `GroupID`, `ChapterID`, `b
 (3, NULL, '2017-03-31 21:34:17', 9, 1, 1, 0, 0, 0, ''),
 (5, NULL, '2017-03-31 21:36:13', 8, 4, 1, 0, 0, 0, ''),
 (6, NULL, '2017-03-31 21:36:22', 6, 4, 4, 0, 0, 0, ''),
-(7, NULL, '2017-03-31 21:36:27', 9, 4, 6, 0, 0, 0, '');
+(7, NULL, '2017-03-31 21:36:27', 9, 4, 6, 0, 0, 0, ''),
+(18, NULL, '2017-12-18 19:45:17', 6, 1, 11, 1, 0, 0, 'idhbip                                '),
+(19, NULL, '2017-12-18 19:45:39', 6, 1, 11, 0, 0, 0, 'idhbip                                ');
 
 -- --------------------------------------------------------
 
@@ -295,7 +298,6 @@ INSERT INTO `rights` (`UserID`, `Name`, `ID`, `canView`, `canEdit`, `canCreate`,
 (8, 'ModulChapter', 2, 1, 0, 0, 0, 0),
 (10, 'ModulChapter', 4, 1, 0, 0, 0, 0),
 (9, 'ModulChapter', 4, 1, 0, 0, 0, 0),
-(12, 'ModulChapter', 2, 1, 0, 0, 0, 0),
 (13, 'ModulChapter', 5, 1, 0, 0, 0, 0),
 (10, 'ModulChapter', 1, 1, 0, 0, 0, 0),
 (6, 'ModulChapter', 4, 1, 0, 0, 0, 0),
@@ -304,7 +306,11 @@ INSERT INTO `rights` (`UserID`, `Name`, `ID`, `canView`, `canEdit`, `canCreate`,
 (8, 'ModulChapter', 4, 1, 0, 0, 0, 0),
 (9, 'ModulChapter', 1, 1, 0, 0, 0, 0),
 (11, 'ModulChapter', 1, 1, 0, 0, 0, 0),
-(6, 'ModulChapter', 3, 1, 0, 0, 0, 0);
+(6, 'ModulChapter', 3, 1, 0, 0, 0, 0),
+(6, 'Admin', NULL, 0, 0, 0, 0, 0),
+(7, 'Admin', NULL, 0, 0, 0, 0, 0),
+(8, 'Admin', NULL, 0, 0, 0, 0, 0),
+(9, 'Admin', NULL, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -358,24 +364,29 @@ CREATE TABLE `users` (
   `sProfilePicture` varchar(255) NOT NULL,
   `bIsVerified` tinyint(1) NOT NULL,
   `bIsOnline` tinyint(1) NOT NULL,
-  `bIsDeleted` tinyint(1) NOT NULL
+  `bIsDeleted` tinyint(1) NOT NULL,
+  `bIsForeignAccount` tinyint(4) DEFAULT '0',
+  `foreignID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `users`
 --
 
-INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMail`, `sHashedPassword`, `sProfilePicture`, `bIsVerified`, `bIsOnline`, `bIsDeleted`) VALUES
-(6, NULL, 'JasminaK', 'Jasmina', 'Karakas', 'jasmina_karakas@hotmail.de', '$2y$11$VcNjGJh31/EQnYGyneAucOCxQ2hOjc3wPLU4kXbopNBk6VxfF.lWK', '../ProfilePics/025.jpg', 0, 0, 0),
-(7, NULL, 'CorinnaH', 'Corinna', 'Heinze', 'hei.cor@web.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/Coco_Jassi_1.jpg', 0, 0, 0),
-(8, NULL, 'NeleM', 'Nele', 'Mersch', 'nele.mersch5@gmail.com', '$2y$11$.ra3YIUNjUkepTWlXvwqFeSNfvdww7li/lS5GBMwyZcmRz6epCur2', '../ProfilePics/Nele.jpg', 0, 0, 0),
-(9, NULL, 'KaiH', 'Kai', 'Hilgers', 'Kai.Hilgers.Info@gmx.de', '$2y$11$n5mwk39o61P6y/VtiEZq3utUPxyh8Py9cyLPeiTJtTvpyOAOsMGhi', '../ProfilePics/Kai.jpg', 0, 0, 0),
-(10, NULL, 'TestUser', 'Test', 'User', 'test@user.de', '$2y$11$vg01oIhh4o/7GpEQ8Xr8fOIr7yZ0qwGcg4lunthTSxVMFyjFn0Gpm', '', 0, 0, 0),
-(11, NULL, 'RogerH', 'Roger', 'Hermasch', 'roger.hermasch@t-online.de', '$2y$11$NqUdz4ws1zLKwE8LLyxhmef2VA971vmle148vhZWn/1z5F9L.TtOa', '', 0, 0, 0),
-(13, NULL, 'JanSc', 'Jan', 'Schumann', 'janschumann55@gmail.com', '$2y$11$XnR2UOOHEBcRo9ZRmwt6FOt59s4.3IkKTqhgzOBJZ5yY0JRiLaMue', '', 0, 0, 0),
-(14, NULL, 'JanLukasL', 'Jan Lukas', 'Liesen', 'janlukas@mail4liesen.de', '$2y$11$rP3OnevHp0FFkW9HLGUGbuRx9cvXMUfhuXsjqxPiaN66opMF6f4d6', '../ProfilePics/generalpic.png', 0, 0, 0),
-(17, NULL, 'Nat', 'Felix', 'Nattermann', 'nat@gag-mg.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/generalpic.png', 0, 0, 1),
-(22, NULL, 'test', 'test', 'test', 'test@test.test', '$2y$11$uHEFoUkVWhfolEDH54yfw.6W80EVRVxR3u9.9kpxR0K/xoQfGQLsS', '../ProfilePics/generalpic.png', 0, 0, 0);
+INSERT INTO `users` (`ID`, `sID`, `sUsername`, `sFirstName`, `sLastName`, `sEMail`, `sHashedPassword`, `sProfilePicture`, `bIsVerified`, `bIsOnline`, `bIsDeleted`, `bIsForeignAccount`, `foreignID`) VALUES
+(6, NULL, 'JasminaK', 'Jasmina', 'Karakas', 'jasmina_karakas@hotmail.de', '$2y$11$VcNjGJh31/EQnYGyneAucOCxQ2hOjc3wPLU4kXbopNBk6VxfF.lWK', '../ProfilePics/025.jpg', 0, 0, 0, 0, NULL),
+(7, NULL, 'CorinnaH', 'Corinna', 'Heinze', 'hei.cor@web.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/Coco_Jassi_1.jpg', 0, 0, 0, 0, NULL),
+(8, NULL, 'NeleM', 'Nele', 'Mersch', 'nele.mersch5@gmail.com', '$2y$11$.ra3YIUNjUkepTWlXvwqFeSNfvdww7li/lS5GBMwyZcmRz6epCur2', '../ProfilePics/Nele.jpg', 0, 0, 0, 0, NULL),
+(9, NULL, 'KaiH', 'Kai', 'Hilgers', 'Kai.Hilgers.Info@gmx.de', '$2y$11$n5mwk39o61P6y/VtiEZq3utUPxyh8Py9cyLPeiTJtTvpyOAOsMGhi', '../ProfilePics/Kai.jpg', 0, 0, 0, 0, NULL),
+(10, NULL, 'TestUser', 'Test', 'User', 'test@user.de', '$2y$11$vg01oIhh4o/7GpEQ8Xr8fOIr7yZ0qwGcg4lunthTSxVMFyjFn0Gpm', '', 0, 0, 0, 0, NULL),
+(11, NULL, 'RogerH', 'Roger', 'Hermasch', 'roger.hermasch@t-online.de', '$2y$11$NqUdz4ws1zLKwE8LLyxhmef2VA971vmle148vhZWn/1z5F9L.TtOa', '', 0, 0, 0, 0, NULL),
+(13, NULL, 'JanSc', 'Jan', 'Schumann', 'janschumann55@gmail.com', '$2y$11$XnR2UOOHEBcRo9ZRmwt6FOt59s4.3IkKTqhgzOBJZ5yY0JRiLaMue', '', 0, 0, 0, 0, NULL),
+(14, NULL, 'JanLukasL', 'Jan Lukas', 'Liesen', 'janlukas@mail4liesen.de', '$2y$11$rP3OnevHp0FFkW9HLGUGbuRx9cvXMUfhuXsjqxPiaN66opMF6f4d6', '../ProfilePics/generalpic.png', 0, 0, 0, 0, NULL),
+(17, NULL, 'Nat', 'Felix', 'Nattermann', 'nat@gag-mg.de', '$2y$11$sVIIDcnNx9bravhc//Wqkeu/EvBJO4dnKG49WJ71NWB.2zjWRTzJ2', '../ProfilePics/generalpic.png', 0, 0, 1, 0, NULL),
+(22, NULL, 'test', 'test', 'test', 'test@test.test', '$2y$11$uHEFoUkVWhfolEDH54yfw.6W80EVRVxR3u9.9kpxR0K/xoQfGQLsS', '../ProfilePics/generalpic.png', 0, 0, 0, 0, NULL),
+(23, NULL, 'TestiT', 'Testi', 'Tester', '', '', '../ProfilePics/generalpic.png', 0, 0, 0, 1, 1),
+(28, NULL, 'blub', 'bla', 'blubber', '', '', '../ProfilePics/generalpic.png', 0, 0, 0, 1, 2),
+(29, NULL, 'blub', 'bla', 'blubber', '', '', '../ProfilePics/generalpic.png', 0, 0, 0, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -405,7 +416,7 @@ INSERT INTO `usertogroup` (`UserID`, `GroupID`, `iFortschritt`, `bIsTrainer`) VA
 (13, 6, 0, 0),
 (10, 1, 0, 0),
 (6, 4, 0, 0),
-(6, 1, 10, 0),
+(6, 1, 12, 0),
 (8, 1, 0, 0),
 (8, 4, 0, 0),
 (9, 1, 1, 0),
@@ -504,7 +515,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT für Tabelle `chapters`
 --
 ALTER TABLE `chapters`
-  MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT für Tabelle `groups`
 --
@@ -514,7 +525,7 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT für Tabelle `handins`
 --
 ALTER TABLE `handins`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT für Tabelle `institutions`
 --
@@ -544,7 +555,7 @@ ALTER TABLE `transcribedtags`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

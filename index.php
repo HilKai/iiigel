@@ -113,9 +113,20 @@
                             </div>
 
                             <a href="PHP/register.php<?php if (isset($_GET['reg'])) {echo '?reg='.$_GET['reg'];}?>"> Noch keinen Account? Hier registrieren! </a>
-                            <div class="form-group">
+        
+                                <div class="row">
                                 <input name="reg" id="reg" type="hidden" value="<?php if (isset($_GET['reg'])) {echo $_GET['reg'];}?>"> 
-                                <button type="submit" class="btn btn-block btn-primary" name="btn-signin">Einloggen</button>
+                                     <div class="row" style="margin-left:0px;margin-right:0px">
+                                           <div class="col-md-6">
+                                                 <button type="submit" class="btn btn-block btn-primary" name="btn-signin">Einloggen</button>
+                                            </div>
+                                           <div class="col-md-6"> <a href="https://codeclub.de/" role="button" class="btn btn-block btn-primary" style="style="padding-right:3px; padding-top: 3px; display:inline-block;""><span > mit <img class="cc" style="height:20px" src="https://codeclub.de/wp-content/uploads/2017/06/logo.png"></img>
+                                        einloggen</a>
+                                         </div>
+                                      
+                                       
+                                    </div>
+                        
                             </div>
 
                 </form>

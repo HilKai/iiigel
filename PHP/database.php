@@ -352,9 +352,10 @@
         }
         
         public function getUserDataFromCodingSpace($authToken){
-            $url = "https://www.codeclub.de/getUserData.php?";
-            $url .= "authToken=".$authToken."&";                            //das authentication Token wird überliefert & an die URL gehangen
-            $url .= "checkSum=".hash_hmac('sha1', $authToken, "geheimgeheimeinhorn");
+            $url = "https://www.codeclub.de/internal/?page=answerToIiigel&";
+            $url .= "activeToken=".$authToken."&";                            //das authentication Token wird überliefert & an die URL gehangen
+            $url .= "HMACchecksumme=".hash_hmac('sha1', $authToken, "geheimgeheimeinhorn");
+            var_dump($url);
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -362,6 +363,7 @@
             $output = json_decode(curl_exec($ch),true);
             if (FALSE === $output)
                 throw new Exception(curl_error($ch), curl_errno($ch));
+            var_dump(curl_getinfo($ch));
             curl_close($ch);
             var_dump($output);
             if ($output!=NULL){

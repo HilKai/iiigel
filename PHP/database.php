@@ -7,9 +7,15 @@
         include_once("Model/Chapter.php");
         include_once("Model/Module.php");
         include_once("Model/RegistrationLink.php");
+       
+        
     class Database
     {
+        
+        
         private $db_connection;
+        
+        
         private $stmtExistsAccountWithForeignID;
         private $stmtisEmailTaken;
         private $stmtisUsernameTaken;
@@ -144,8 +150,8 @@
         }
 
         public function __construct(){
-            //$this->db_connection = mysqli_connect('db676294632.db.1and1.com', 'dbo676294632', 'Supi!748', 'db676294632');
-            $this->db_connection = mysqli_connect('localhost', 'root', '', 'iiigel');
+            $configs = include('config.php');
+            $this->db_connection = mysqli_connect($configs['host'], $configs['username'], $configs['password'] , $configs['database']);
             if (!$this->db_connection->set_charset("utf8")) {
                 printf("Error loading character set utf8: %s\n", $this->db_connection->error);
                 exit();
@@ -1588,7 +1594,6 @@
         }
 		
     }
-
 
     global $ODB;
     $ODB = new Database();

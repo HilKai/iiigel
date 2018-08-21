@@ -15,7 +15,21 @@
 		
 		$editor = file_get_contents('../HTML/NavigationEditor.html');
 		$toAdd = "";
-		$permission = $GLOBALS["ODB"]->getPermissionsFromName("Modul");
+        
+        
+        if ($GLOBALS["ODB"]->isAdmin($_SESSION['user'])){
+            $modules = $GLOBALS["ODB"]->getAllModules();
+            for ($i=0;$i<count($modules);$i++){
+                $myRow = "<li><a class='dropdown-item' href='EditorModulView.php?modulID=%ID%'>%Name%</a></li>" ;
+                $userIsEditor = true;
+                $search = array("%Name%","%ID%");
+                $replace = array($modules[$i]->getsName(),$modules[$i]->getID());
+                $myRow = str_replace($search,$replace,$myRow);
+                $toAdd = $toAdd . $myRow;
+            }
+            
+        } else {
+		  $permission = $GLOBALS["ODB"]->getPermissionsFromName("Modul");
 			while(($permissionRow = mysqli_fetch_array($permission))!=null){
 				
 				$currentUser = $GLOBALS["ODB"]->getUserFromID($permissionRow["UserID"]);
@@ -27,12 +41,12 @@
 					$myRow = str_replace($search,$replace,$myRow);
 					$toAdd = $toAdd . $myRow;
 				}
-        	
-        
-        	
+            }      	
 		}
+        
+        
 		$editor = str_replace("%ModulListe%",$toAdd,$editor);
-		if ($userIsEditor === true){
+		if (($userIsEditor === true)or($GLOBALS["ODB"]->isAdmin($_SESSION['user']))){
 			$navigation = str_replace("%Editor%",$editor,$navigation);
 		} else {
 				$navigation = str_replace("%Editor%","",$navigation);

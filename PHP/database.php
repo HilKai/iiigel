@@ -41,6 +41,7 @@
 		private $stmtGetUserFromID;
         private $stmtGetUserIDFromForeignID;
 		private $stmtGetInstitutionFromID;
+        private $stmtGetInstitutionIDFromCodeClub;
 		private $stmtGetUserFromUsername;
 		private $stmtGetGroupFromID;
 		private $stmtGetGroupsFromUserID;
@@ -66,6 +67,7 @@
         private $stmtGetFortschritt;
         private $stmtGetModuleFromGroup;
         private $stmtGetChapterIDFromIndex;
+        private $stmtGetIndexFromID;
         private $stmtGetPermissionNames;
         
         private $stmtGetAllInstitutions;
@@ -184,6 +186,7 @@
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
             $this->stmtGetUserIDFromForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ?");
 			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ?");
+            $this->stmtGetInstitutionIDFromCodeClub = $this->db_connection->prepare("SELECT ID FROM institutions WHERE sName = 'CodeClubMG'");
 			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ?");
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ?");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
@@ -201,6 +204,7 @@
             $this->stmtGetFortschritt = $this->db_connection->prepare("SELECT iFortschritt FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtGetModuleFromGroup = $this->db_connection->prepare("SELECT ModulID From groups WHERE ID = ?");
             $this->stmtGetChapterIDFromIndex = $this->db_connection->prepare("SELECT ID FROM chapters WHERE iIndex = ? AND ModulID = ?");
+            $this->stmtGetIndexFromID = $this->db_connection->prepare("SELECT iIndex FROM chapters WHERE ID = ?");
             
             //------------------------------------------------------- COUNT ---------------------------------------------------------------------
             
@@ -624,6 +628,8 @@
             $this->stmtaddForeignUser->bind_param("sssi",$Username,$FirstName,$LastName,$ID);
             $this->stmtaddForeignUser->execute();
             $UserID = $this->getUserIDFromForeignID($ID);
+            $InstitutionID = $this->getInstitutionIDFromCodeClub();
+            $this->addUsertoInstitution($UserID,$InstitutionID);
             return $UserID;
         }
         
@@ -769,6 +775,17 @@
                     return new Institution($row['ID'],$row['sID'],$row['sName'],$row['bIsDeleted']);
             } else {
                 throw new exception('Mehr als eine Institution mit dieser ID');        
+            }
+        }
+        
+        public function getInstitutionIDFromCodeClub(){
+            $this->stmtGetInstitutionIDFromCodeClub->execute();
+            $res = $this->stmtGetInstitutionIDFromCodeClub->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return $row['ID'];
+            } else {
+                throw new exception('Keine oder mehrere Institutionen namens CodeClubMG vorhanden.');        
             }
         }
         
@@ -1134,6 +1151,18 @@
                 return $row['ID'];
             } else {
               throw new exception('Kein Chapter oder mehrere Chapter mit diesem Index und diesem Modul');  
+            }
+        }
+        
+        public function getIndexFromID($ID){
+            $this->stmtGetIndexFromID->bind_param("i",$ID);
+            $this->stmtGetIndexFromID->execute();
+            $res = $this->stmtGetIndexFromID->get_result();
+            if (mysqli_num_rows($res) == 1){
+                $row = mysqli_fetch_array($res);
+                return $row['iIndex'];
+            } else {
+              throw new exception('Kein Chapter oder mehrere Chapter mit dieser ID');  
             }
         }
         

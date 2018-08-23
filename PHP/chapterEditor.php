@@ -26,7 +26,7 @@
 	
 	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
 	
-	if(!($ODB->hasPermission($_SESSION['user'],"Chapter","edit",$myChapterID)and ($ODB->hasPermission($_SESSION['user'],"Chapter","edit",$myChapterID))) ) {
+	if(!$ODB->hasPermission($_SESSION['user'],"Chapter","edit",$myChapterID)) {
         echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {
@@ -38,7 +38,7 @@
     $myPage = str_replace("%ChapterTextRaw%",$chapterText,$myPage);
     $chapterText = $ODB->replaceTags($chapterText);
     $text = '<div class="chapterView col-md-12">  '.$chapterText.'</div>';
-    $replace = array($myModule->getChapterHeadlineByIndex($myChapterID),$text,$myChapterID,$myModuleID,$bool);
+    $replace = array($myModule->getChapterHeadlineByIndex($ODB->getIndexFromID($myChapterID)-1),$text,$myChapterID,$myModuleID,$bool);
     $myPage = str_replace($search,$replace,$myPage);
 
 

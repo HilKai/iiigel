@@ -1,8 +1,8 @@
 <?php
-	 ob_start();
-	 session_start();
-	 $myPage = file_get_contents('../HTML/ChapterView.html');
-	 include_once("database.php");
+    ob_start();
+    session_start();
+    $myPage = file_get_contents('../HTML/ChapterView.html');
+    include_once("database.php");
 	include_once("Navigation.php");
     
 	
@@ -11,13 +11,13 @@
     $myChapterID = $_GET['chapterID'];
 
 	$myModule = $ODB->getModuleFromID($myModuleID);
-	$myChapterIDp = $_GET['chapterID']+1;
+	$myChapterIDp = $myChapterID+1;
     $myUserID = $_SESSION['user'];
     $currentGroupID = $_GET['groupID'];
     
 	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
 
-if(!($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->chapter[$myChapterID]->getID())or($ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID)))) {
+    if(!($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->chapter[$myChapterID]->getID())or($ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID)))) {
        echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
        exit;
     } else {

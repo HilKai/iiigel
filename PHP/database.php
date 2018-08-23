@@ -66,7 +66,6 @@
         private $stmtGetFortschritt;
         private $stmtGetModuleFromGroup;
         private $stmtGetChapterIDFromIndex;
-        private $stmtGetIndexFromID;
         private $stmtGetPermissionNames;
         
         private $stmtGetAllInstitutions;
@@ -202,7 +201,6 @@
             $this->stmtGetFortschritt = $this->db_connection->prepare("SELECT iFortschritt FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtGetModuleFromGroup = $this->db_connection->prepare("SELECT ModulID From groups WHERE ID = ?");
             $this->stmtGetChapterIDFromIndex = $this->db_connection->prepare("SELECT ID FROM chapters WHERE iIndex = ? AND ModulID = ?");
-            $this->stmtGetIndexFromID = $this->db_connection->prepare("SELECT iIndex FROM chapters WHERE ID = ?");
             
             //------------------------------------------------------- COUNT ---------------------------------------------------------------------
             
@@ -1136,18 +1134,6 @@
                 return $row['ID'];
             } else {
               throw new exception('Kein Chapter oder mehrere Chapter mit diesem Index und diesem Modul');  
-            }
-        }
-        
-        public function getIndexFromID($ID){
-            $this->stmtGetIndexFromID->bind_param("i",$ID);
-            $this->stmtGetIndexFromID->execute();
-            $res = $this->stmtGetIndexFromID->get_result();
-            if (mysqli_num_rows($res) == 1){
-                $row = mysqli_fetch_array($res);
-                return $row['iIndex'];
-            } else {
-              throw new exception('Kein Chapter oder mehrere Chapter mit dieser ID');  
             }
         }
         

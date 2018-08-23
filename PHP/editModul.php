@@ -12,7 +12,7 @@
         exit;
     }
 
-	if(!$ODB->hasPermission($_SESSION['user'],"Modul","edit",$moduleID) ) {
+	if(!$ODB->hasPermission($_SESSION['user'],"Modul","edit",$myChapterID) ) {
         echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {
@@ -20,7 +20,6 @@
 	global $myModule;
     $myModule = $ODB->getModuleFromID($_GET['moduleID']);
     $moduleID= $myModule->getID();
-    
 		
 	
 	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);

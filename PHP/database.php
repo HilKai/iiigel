@@ -41,6 +41,7 @@
 		private $stmtGetUserFromID;
         private $stmtGetUserIDFromForeignID;
 		private $stmtGetInstitutionFromID;
+        private $stmtGetInstitutionIDFromCodeClub;
 		private $stmtGetUserFromUsername;
 		private $stmtGetGroupFromID;
 		private $stmtGetGroupsFromUserID;
@@ -184,6 +185,7 @@
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
             $this->stmtGetUserIDFromForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ?");
 			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ?");
+            $this->stmtGetInstitutionIDFromCodeClub = $this->db_connection->prepare("SELECT ID FROM institutions WHERE sName = 'CodeClubMG'");
 			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ?");
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ?");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
@@ -361,7 +363,7 @@
             $url = "https://www.codeclub.de/internal/?page=answerToIiigel&";
             $url .= "activeToken=".$authToken."&";                            //das authentication Token wird überliefert & an die URL gehangen
             $url .= "HMACchecksumme=".hash_hmac('sha1', $authToken, "geheimgeheimeinhorn");
-            //var_dump($url);
+            var_dump($url);
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -369,9 +371,9 @@
             $output = json_decode(curl_exec($ch),true);
             if (FALSE === $output)
                 throw new Exception(curl_error($ch), curl_errno($ch));
-            //var_dump(curl_getinfo($ch));
+            var_dump(curl_getinfo($ch));
             curl_close($ch);
-            //var_dump($output);
+            var_dump($output);
             if ($output!=NULL){
                 if ($output['status']==="success"){
                     $ID = $output['result']['id'];
@@ -624,6 +626,8 @@
             $this->stmtaddForeignUser->bind_param("sssi",$Username,$FirstName,$LastName,$ID);
             $this->stmtaddForeignUser->execute();
             $UserID = $this->getUserIDFromForeignID($ID);
+            $InstitutionID = $this->getInstitutionIDFromCodeClub();
+            $this->addUsertoInstitution($UserID,$InstitutionID);
             return $UserID;
         }
         
@@ -769,6 +773,17 @@
                     return new Institution($row['ID'],$row['sID'],$row['sName'],$row['bIsDeleted']);
             } else {
                 throw new exception('Mehr als eine Institution mit dieser ID');        
+            }
+        }
+        
+        public function getInstitutionIDFromCodeClub(){
+            $this->stmtGetInstitutionIDFromCodeClub->execute();
+            $res = $this->stmtGetInstitutionIDFromCodeClub->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return $row['ID'];
+            } else {
+                throw new exception('Keine oder mehrere Institutionen namens CodeClubMG vorhanden.');        
             }
         }
         

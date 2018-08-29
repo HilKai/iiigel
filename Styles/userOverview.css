@@ -419,7 +419,8 @@ body {
 				.modul {
                     padding: 10px;
                     border-radius: 2px;
-                    background-color: #fff; 
+                    background-color: #fff;
+					margin: 5px 20px 5px 0px;
 				}
 				
 				.modulNat {

@@ -59,6 +59,7 @@
         private $stmtGetModuleImageFromID;
         private $stmtGetInstitutionsFromUserID;
         private $stmtGetHighestIndexFromChapter;
+        private $stmtGetIndexFromID;
         private $stmtSearchUsers;
         private $stmtGetInstitutionFromGroup;
 	    private $stmtGetGroupIDFromLink;
@@ -182,13 +183,13 @@
             
             //---------------------------------------------------------- SELECTS ----------------------------------------------------------------
             
-			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ?");
-            $this->stmtGetUserIDFromForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ?");
+			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ? AND bIsDeleted = 0");
+            $this->stmtGetUserIDFromForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ? AND bIsDeleted = 0");
 			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ?");
             $this->stmtGetInstitutionIDFromCodeClub = $this->db_connection->prepare("SELECT ID FROM institutions WHERE sName = 'CodeClubMG'");
-			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ?");
-			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ?");
-			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT `GroupID` FROM `usertogroup` WHERE `UserID`= ?");
+			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ? AND bIsDeleted=0");
+			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ? AND bIsDeleted = 0");
+			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT GroupID FROM usertogroup INNER JOIN groups ON groups.ID = usertogroup.GroupID WHERE UserID = ? AND groups.bIsDeleted = 0");
             $this->stmtGetTrainerofGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE bIsTrainer = 1 AND GroupID = ? AND bIsDeleted = 0");
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM modules WHERE ID = ?");
             $this->stmtGetModuleIDFromName = $this->db_connection->prepare("SELECT ID FROM modules WHERE sName = ?");
@@ -203,6 +204,7 @@
             $this->stmtGetFortschritt = $this->db_connection->prepare("SELECT iFortschritt FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtGetModuleFromGroup = $this->db_connection->prepare("SELECT ModulID From groups WHERE ID = ?");
             $this->stmtGetChapterIDFromIndex = $this->db_connection->prepare("SELECT ID FROM chapters WHERE iIndex = ? AND ModulID = ?");
+            $this->stmtGetIndexFromID = $this->db_connection->prepare("SELECT iIndex FROM chapters WHERE ID = ?");
             
             //------------------------------------------------------- COUNT ---------------------------------------------------------------------
             
@@ -213,7 +215,7 @@
             $this->stmtCountInstitutionsFromUser = $this->db_connection->prepare("SELECT COUNT(InstitutionID) FROM usertoinstitution WHERE UserID = ?");
             $this->stmtCountUsersFromInstitution = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertoinstitution WHERE InstitutionID = ?");
             $this->stmtCountModulesFromInstitution = $this->db_connection->prepare("SELECT COUNT(ModuleID) FROM moduletoinstitution WHERE InstitutionID = ?");
-            $this->stmtCountGroupsFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups WHERE InstitutionsID = ?");
+            $this->stmtCountGroupsFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups WHERE InstitutionsID = ? AND bIsDeleted = 0");
             $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ? AND bIsDeleted = 0");
             $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
             $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ? AND bIsDeleted = 0");
@@ -245,10 +247,10 @@
             $this->stmtGetUsersFromGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ? AND bIsDeleted = 0");
             $this->stmtGetUsersFromPermission = $this->db_connection->prepare("SELECT * FROM users INNER JOIN rights ON rights.UserID = users.ID WHERE rights.Name = ? AND users.bIsDeleted = 0 AND rights.isDeleted = 0");
             $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT * FROM modules INNER JOIN moduletoinstitution ON modules.ID = moduletoinstitution.ModuleID WHERE InstitutionID = ?");
-            $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ?");
+            $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ? AND bIsDeleted = 0");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ?");
             $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ? AND bIsDeleted = 0 ORDER BY sFirstName,sLastName");
-            $this->stmtGetPermissionsFromName = $this->db_connection->prepare("SELECT * FROM rights WHERE Name = ? AND isDeleted = 0");
+            $this->stmtGetPermissionsFromName = $this->db_connection->prepare("SELECT *, rights.ID AS pID FROM rights INNER JOIN users ON rights.userID = users.ID WHERE rights.Name = ? AND rights.isDeleted = 0 AND users.bIsDeleted = 0");
             $this->stmtGetPermissionNames = $this->db_connection->prepare("SELECT DISTINCT Name FROM rights WHERE isDeleted = 0 ORDER BY Name");
             
             //--------------------------------------------------------- UPDATES -----------------------------------------------------------------
@@ -376,15 +378,15 @@
             var_dump($output);
             if ($output!=NULL){
                 if ($output['status']==="success"){
-                    $ID = $output['result']['id'];
-                    $userName = $output['result']['username'];
+                    $ID = $output['result']['UId'];
+                    $userName = $output['result']['userName'];
                     $firstName = $output['result']['firstname'];
                     $lastName = $output['result']['lastname'];
                     $existingID = $this->existsAccountWithForeignID($ID);
                     if ($existingID != false){
                         return $existingID; 
                     } else {
-                        $newuserID = $this->stmtaddForeignUser($userName,$firstName,$lastName,$ID);
+                        $newuserID = $this->addForeignUser($userName,$firstName,$lastName,$ID);
                         return $newuserID;
                     }
                 } else {
@@ -812,7 +814,7 @@
                     "users.sHashedPassword,users.sProfilePicture,users.bIsVerified," .
                     "users.bIsOnline,usertogroup.iFortschritt,usertogroup.bIsTrainer " .
                     "FROM users INNER JOIN usertogroup ON users.ID = usertogroup.UserID " .
-                    "WHERE usertogroup.GroupID = " . $ID . " ORDER BY users.sFirstName ASC");
+                    "WHERE usertogroup.GroupID = " . $ID . " AND users.bIsDeleted=0 ORDER BY users.sFirstName ASC");
                 $aTeilnehmerOfGroup = [];
                 while (($oTeilnehmer = mysqli_fetch_row($oTeilnehmerOfGroupResult)) != NULL) {
                     //ToDo: switch to non-indice based access of db-column
@@ -1149,6 +1151,18 @@
                 return $row['ID'];
             } else {
               throw new exception('Kein Chapter oder mehrere Chapter mit diesem Index und diesem Modul');  
+            }
+        }
+        
+        public function getIndexFromChapterID($ID){
+            $this->stmtGetIndexFromID->bind_param("i",$ID);
+            $this->stmtGetIndexFromID->execute();
+            $res = $this->stmtGetIndexFromID->get_result();
+            if (mysqli_num_rows($res) == 1){
+                $row = mysqli_fetch_array($res);
+                return $row['iIndex'];
+            } else {
+              throw new exception('Kein Chapter oder mehrere Chapter mit dieser ID');  
             }
         }
         

@@ -37,7 +37,7 @@
 					$myRow = "<li><a class='dropdown-item' href='EditorModulView.php?modulID=%ID%'>%Name%</a></li>" ;
 					$userIsEditor = true;
 					$search = array("%Name%","%ID%");
-        			$replace = array($GLOBALS["ODB"]->getModuleFromID($permissionRow["ID"])->getsName(),$permissionRow["ID"]);
+        			$replace = array($GLOBALS["ODB"]->getModuleFromID($permissionRow["pID"])->getsName(),$permissionRow["pID"]);
 					$myRow = str_replace($search,$replace,$myRow);
 					$toAdd = $toAdd . $myRow;
 				}

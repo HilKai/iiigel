@@ -13,7 +13,6 @@
         exit;
     }
 
-   
     // select loggedin users detail
     $myUser = $ODB->getUserFromID($_SESSION['user']); 
     $myGroups = $ODB->getGroupsFromUserID($_SESSION['user']);

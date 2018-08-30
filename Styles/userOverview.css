@@ -505,3 +505,17 @@ body {
 #dropdownMenuButton {
 	width: 130px !important;
 }
+
+.plusBox {
+	background-color: rgba(76, 76, 76, 0.4) !important;
+	display: table;
+	width:100%;
+}
+
+#PlusButton {
+	background-color: rgba(76, 76, 76, 0) !important;
+	width: 100%;
+	border: none;
+	display: table-cell;
+	vertical-align: middle;
+}

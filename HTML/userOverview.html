@@ -55,8 +55,8 @@
 					</div>
 
 				</div>
-			</div>
-
+			</div> 
+			 
 		</div>
 
 		<div id="Container" style="margin-left: 0px" class="row">
@@ -66,12 +66,56 @@
 				<h1 class="modulHeading visible-xs">Meine Module</h1>
 
 				%Module%
+				
+				<div id="MCont" class="col-md-3 col-xs-6 noPadding">
+    				<div id="%ID%" class="modul plusBox">
+
+        				<div id = "PlusButton">      
+						<button id="PlusButton" class="btn btn-default" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus" style="width:100%;  font-size:130px; font-weight: lighter; "></span></button>
+						</div>
+		
+    				</div>
+				</div>
 
 			</div>
 
 		</div>
 
 
+		
+		
+		<!-- Modal -->
+					<div id="myModal" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
+									<h4 class="modal-title">Neuem Modul beitreten</h4>
+								</div>
+								<form id="myForm2" action="" method="post" autocomplete="off">
+									<div class="modal-body">
+										<div class="form-group">
+											<label for="exampleInputPrename">Link</label>
+											<input id="pw1" type="text" name="passwort1" class="form-control form" value="">
+											<span id="passError" class="text-danger"></span>
+										</div>
+
+									</div>
+									<!---type="submit" value="text" name="newPass" -->
+								</form>
+								<div class="modal-footer">
+									<button id="ModalBtn" class="btn btn-default" onclick="setNewPass(); deleteDanger() ">Modul beitreten</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+		
+		
+		
+		
 
 	</div>
 

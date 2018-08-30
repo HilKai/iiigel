@@ -71,7 +71,7 @@
     				<div id="%ID%" class="modul plusBox">
 
         				<div id = "PlusButton">      
-						<button id="PlusButton" class="btn btn-default" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus" style="width:100%; color: rgba(255, 255, 255, 0.6) !important; font-size:130px; font-weight: lighter; "></span></button>
+						<button id="PlusButton" class="btn btn-default" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus" style="width:100%; color: rgba(255, 255, 255, 0.6) !important; font-size:90px; font-weight: lighter; "></span></button>
 						</div>
 		
     				</div>
@@ -106,7 +106,7 @@
 									<!---type="submit" value="text" name="newPass" -->
 								</form>
 								<div class="modal-footer">
-									<button id="ModalBtn" class="btn btn-default" onclick="setNewPass(); deleteDanger() ">Modul beitreten</button>
+									<button id="ModalBtn" class="btn btn-default" onclick="newModule(this) " value="">Modul beitreten</button>
 								</div>
 							</div>
 
@@ -122,4 +122,25 @@
 </body>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<!---neuem Modul beitreten---->
+	<script> 
+	
+	
+		function newModule(obj) {
+			/* alter Code als Beispiel*/
+         	var tnID = obj.value;
+        	$groupID = "%GroupID%";
+
+        	$.ajax({
+				url: "acceptHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID,
+				success: function(data) {location.reload();},
+			});
+
+       
+    }
+	
+	
+	</script>
+	
 </html>

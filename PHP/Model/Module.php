@@ -1,4 +1,7 @@
 <?php
+
+    include_once("C:xampp\htdocs\iiigel\PHP\database.php");
+
 class Module {
     private $ID;
     private $sID;
@@ -51,15 +54,20 @@ class Module {
     }
     
     public function getchapterbyIndex($index) {
-        return $this->chapter[$index];
+        if (!$ODB->isChapterDeleted($index)){
+          return $this->chapter[$index];  
+        }
+        
     }
     
-    public function getChapterTextbyIndex($index) {
-        if (sizeof($this->chapter)> $index){
+    public function getChapterTextbyIndex($index) { 
+        if (!$ODB->isChapterDeleted($index)){
+          if (sizeof($this->chapter)> $index){
             return $this->chapter[$index]->getsText();
         } else {
             return null;
-        }     
+        } 
+        }
     }
     
     public function getChapterHeadlineByIndex($index) {

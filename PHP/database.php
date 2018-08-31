@@ -45,6 +45,7 @@
         private $stmtGetInstitutionIDFromCodeClub;
 		private $stmtGetUserFromUsername;
 		private $stmtGetGroupFromID;
+        private $stmtGetGroupIDFromTutorialModule;
 		private $stmtGetGroupsFromUserID;
         private $stmtGetTrainerofGroup;
 		private $stmtGetModuleFromID;
@@ -191,6 +192,7 @@
             $this->stmtGetInstitutionIDFromCodeClub = $this->db_connection->prepare("SELECT ID FROM institutions WHERE sName = 'CodeClubMG'");
 			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ? AND bIsDeleted=0");
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ? AND bIsDeleted = 0");
+            $this->stmtGetGroupIDFromTutorialModule = $this->db_connection->prepare("SELECT groups.ID AS GroupID FROM groups INNER JOIN modules ON modules.ID = groups.ModulID WHERE modules.sName = 'iiigel' AND groups.bIsDeleted = 0 ");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT GroupID FROM usertogroup INNER JOIN groups ON groups.ID = usertogroup.GroupID WHERE UserID = ? AND groups.bIsDeleted = 0");
             $this->stmtGetTrainerofGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE bIsTrainer = 1 AND GroupID = ? AND bIsDeleted = 0");
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM modules WHERE ID = ?");
@@ -631,6 +633,9 @@
         public function addUser($Username,$FirstName,$LastName,$Email,$Password){
             $this->stmtaddUser->bind_param("sssss",$Username,$FirstName,$LastName,$Email,$Password);
             if ($this->stmtaddUser->execute()){
+                $GroupID = $this->getGroupIDFromTutorialModule();
+                $User= $this->getUserFromUsername($Username);
+                $this->addUserToGroup($User->getID(),$GroupID);
                 return true;
             }else{
                 return false;
@@ -642,7 +647,9 @@
             $this->stmtaddForeignUser->execute();
             $UserID = $this->getUserIDFromForeignID($ID);
             $InstitutionID = $this->getInstitutionIDFromCodeClub();
+            $GroupID = $this->getGroupIDFromTutorialModule();
             $this->addUsertoInstitution($UserID,$InstitutionID);
+            $this->addUserToGroup($UserID,$GroupID);
             return $UserID;
         }
         
@@ -842,6 +849,17 @@
                 throw new exception('Keine Gruppe mit dieser ID in der Datenbank');
             } else {
                 throw new exception('Mehr als eine Gruppe mit dieser ID');        
+            }
+        }
+        
+        public function getGroupIDFromTutorialModule(){
+            $this->stmtGetGroupIDFromTutorialModule->execute();
+            $res = $this->stmtGetGroupIDFromTutorialModule->get_result(); 
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return $row['GroupID'];
+            } else {
+                throw new exception('Kein oder mehrere Module namens iiigel vorhanden.');        
             }
         }
          

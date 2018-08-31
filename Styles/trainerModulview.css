@@ -317,3 +317,23 @@ body {
 	background-color: #e31465;
     color: #fff;
 }
+
+#PlusTNBtn {
+	border: none;
+	margin: 0 auto;
+	text-align: center;
+	
+}
+
+#PlusTNBtn:hover {
+	background-color: #fff !important;
+}
+
+#PlusTNBtn:clicked {
+	background-color: #fff !important;
+}
+
+.fulltd {
+	margin: 0 auto;
+	text-align: center;
+}

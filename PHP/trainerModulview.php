@@ -136,7 +136,7 @@
 
 	//alle TN für Dropdown
 	$add = '';
-   $myUsers= $ODB->getAllUsersFromInstitutionNotInGroup($currentGroup->getInstitutionsID(),intval($_GET['GroupID']));
+    $myUsers= $ODB->getAllUsersFromInstitutionNotInGroup($myGroup->getInstitutionsID(),intval($_GET['groupID']));
 	for ($a=0;$a<sizeof($myUsers);$a++){
 		$myRow = file_get_contents('../HTML/AdminGroupUserListitem.html');
       
@@ -147,11 +147,15 @@
        
 	}
 
-//$ODB-> rejectHandIn(6,1) ;
-
     $myPage=str_replace('%linkrow%',$toAdd,$myPage);
 	$myPage=str_replace('%handIn%',json_encode($handIn),$myPage); //setzt Hand In Text ins Modal
-	$myPage = str_replace("%AllTN%",$add,$myPage);  //alle TN in Dopdown
+	$myPage = str_replace("%allTN%",$add,$myPage);  //alle TN in Dropdown
+
+    if (isset($_POST['HinzuButton'])){
+        //if (!$ODB->isUserinGroup($_POST['UserID'],$currentGroupID)) 
+        $ODB->addUsertoGroup($_POST['UserID'],$currentGroupID);
+        header ("Location: ../PHP/trainerModulview.php?groupID=".$currentGroupID);
+    }
     
     echo $myPage;  
 ?>

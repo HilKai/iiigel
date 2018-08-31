@@ -98,29 +98,22 @@
 									<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
 									<h4 class="modal-title">Teilnehmer hinzufügen</h4>
 								</div>
-								<form id="myForm2" action="" method="post" autocomplete="off">
+								<form id="myForm2" action="" method="post" autocomplete="off" >
 									<div class="modal-body">
 										<div class="form-group">
-											<form name="form" id="form" method="post">
 												<div id="DropdownContainer" class="dropdown">
-                            							<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-														Kapitel
-                            							<span class="caret"></span>
-														</button>
-                            							<ul class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenu1">
-                                						%allTN%
-														</ul>
+                                                        <select class="btn btn-default dropdown-toggle addForm" name="UserID">
+						                                    %allTN%
+                                                            <span class="caret"></span>
+				                                        </select>   
                         						</div>
-											</form>
 										</div>
 
 									</div>
 									<!---type="submit" value="text" name="newPass" -->
-								
-								<div class="modal-footer">
-
-									<button type= "submit" name = "BeitrittButton" id="ModalBtn" class="btn btn-default">Hinzufügen</button>
-								</div>
+                                    <div class="modal-footer">
+                                        <button type= "submit" name = "HinzuButton" id="ModalBtn" class="btn btn-default">Hinzufügen</button>
+                                    </div>
                                 </form>
 							</div>
 						</div>

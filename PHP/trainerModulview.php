@@ -134,10 +134,24 @@
         $toAdd = $toAdd . $myRow;        
     }
 
+	//alle TN für Dropdown
+	$add = '';
+   $myUsers= $ODB->getAllUsersFromInstitutionNotInGroup($currentGroup->getInstitutionsID(),intval($_GET['GroupID']));
+	for ($a=0;$a<sizeof($myUsers);$a++){
+		$myRow = file_get_contents('../HTML/AdminGroupUserListitem.html');
+      
+        $search = array('%Vorname%','%Nachname%','%UserID%');
+		$replace = array($myUsers[$a]->getsFirstName(),$myUsers[$a]->getsLastName(),$myUsers[$a]->getID());  
+        $myRow = str_replace($search,$replace,$myRow);
+        $add = $add . $myRow;
+       
+	}
+
 //$ODB-> rejectHandIn(6,1) ;
 
     $myPage=str_replace('%linkrow%',$toAdd,$myPage);
 	$myPage=str_replace('%handIn%',json_encode($handIn),$myPage); //setzt Hand In Text ins Modal
+	$myPage = str_replace("%AllTN%",$add,$myPage);  //alle TN in Dopdown
     
     echo $myPage;  
 ?>

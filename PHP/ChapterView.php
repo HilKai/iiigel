@@ -20,7 +20,9 @@
 if(!($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->chapter[$myChapterID]->getID())or($ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModuleID)))) {
        echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
        exit;
-    } else {
+    } elseif ($ODB->isChapterDeleted($myChapterIDp)) {
+        header("location: ../PHP/userOverview.php");
+    }else {
 
     $myUserID = $_SESSION['user'];
     $currentGroupID = $_GET['groupID'];

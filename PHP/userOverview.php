@@ -61,6 +61,11 @@
         $toAdd = $toAdd . $myBox;
     }
 
+    if (isset($_POST['BeitrittButton'])){
+        $ODB->processRegistrationLink($myUser->getID(),$_POST['passwort1']);
+        header("Location: ../PHP/userOverview.php");
+    }
+
     $myPage=str_replace('%Module%',$toAdd,$myPage);
     echo $myPage;
 ?>

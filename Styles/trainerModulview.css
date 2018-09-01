@@ -320,7 +320,7 @@ body {
 
 #PlusTNBtn {
 	border: none !important;
-	margin: 0 auto;
+	margin: 0 auto !important;
 	text-align: center;
 	
 }

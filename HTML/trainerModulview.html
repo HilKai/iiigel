@@ -118,6 +118,41 @@
 							</div>
 						</div>
 					</div>
+            
+            <!--- Modal Link hinzufügen --->
+                    <!-- Modal -->
+					<div id="myLinkModal" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
+									<h4 class="modal-title">Neuen Link/Gruppencode erstellen</h4>
+								</div>
+								<form id="myForm2" action="" method="post" autocomplete="off">
+									<div class="modal-body">
+										<div class="form-group">
+											<label for="exampleInputPrename">Link/Gruppencode</label>
+											<input id="pw1" type="text" name="input" class="form-control form" value="">
+                                            <label for="exampleInputPrename">Startdatum</label>
+                                            <input name="start" id="startdate" type="date" value="" class="addForm" placeholder="Startdatum" style="margin-top: 10px">
+                                            <label for="exampleInputPrename">Enddatum</label>
+                                            <input name="end" id="enddate" type="date" value="" class="addForm" placeholder="Enddatum">
+											<span id="passError" class="text-danger"></span>
+										</div>
+
+									</div>
+									<!---type="submit" value="text" name="newPass" -->
+								
+								<div class="modal-footer">
+									<button type= "submit" name = "ErstellButton" id="ModalBtn" class="btn btn-default">Erstellen</button>
+								</div>
+                                </form>
+							</div>
+
+						</div>
+					</div>
 
             <div id="LeftContainer" class="col-md-4">
 
@@ -156,12 +191,12 @@
                                 <th>Link</th>
                                 <th>Enddatum</th>
                             </tr>
-							<tr> 
-								<td class="fulltd" colspan="6"> <button id="PlusTNBtn" class="btn btn-default" data-toggle="modal" data-target="#myTNModal"> <span class="glyphicon glyphicon-plus"></span> </button> </td> 
-							</tr>
                         </thead>
                         <tbody>
                             %linkrow%
+                            <tr> 
+								<td class="fulltd" colspan="6"> <button id="PlusTNBtn" class="btn btn-default" data-toggle="modal" data-target="#myLinkModal"> <span class="glyphicon glyphicon-plus"></span> </button> </td> 
+							</tr>
                         </tbody>
                     </table>
                 </div>

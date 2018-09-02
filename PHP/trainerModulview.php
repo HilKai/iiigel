@@ -151,10 +151,14 @@
 	$myPage=str_replace('%handIn%',json_encode($handIn),$myPage); //setzt Hand In Text ins Modal
 	$myPage = str_replace("%allTN%",$add,$myPage);  //alle TN in Dropdown
 
-    if (isset($_POST['HinzuButton'])){
-        //if (!$ODB->isUserinGroup($_POST['UserID'],$currentGroupID)) 
+    if (isset($_POST['HinzuButton'])){ 
         $ODB->addUsertoGroup($_POST['UserID'],$currentGroupID);
         header ("Location: ../PHP/trainerModulview.php?groupID=".$currentGroupID);
+    }
+    
+    if (isset($_POST['ErstellButton'])){
+        $ODB->addGroupInvitationLink($_POST['input'],$currentGroupID,$_POST['start'],$_POST['end']);
+        header("Location: ../PHP/trainerModulview.php?groupID=".$currentGroupID);
     }
     
     echo $myPage;  

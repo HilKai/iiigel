@@ -62,7 +62,7 @@
     }
 
     if (isset($_POST['BeitrittButton'])){
-        $ODB->processRegistrationLink($myUser->getID(),$_POST['passwort1']);
+        $ODB->processRegistrationLink($myUser->getID(),$_POST['input']);
         header("Location: ../PHP/userOverview.php");
     }
 

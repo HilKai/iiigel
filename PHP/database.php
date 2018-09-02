@@ -182,7 +182,7 @@
             $this->stmtisInstitutionLinkgueltig = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE Link = ? AND StartDatum >= CURDATE() AND EndDatum <= CURDATE()");
             $this->stmtisUserDeleted = $this->db_connection->prepare("SELECT * FROM users WHERE ID = ? AND bIsDeleted = 1");
             $this->stmtisAdmin = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = 'Admin' AND isDeleted = 0");
-            $this->stmtisChapterDeleted = $this->db_connection->prepare("SELECT * FROM chapters WHERE iIndex = ? AND bIsDeleted = 1");
+            $this->stmtisChapterDeleted = $this->db_connection->prepare("SELECT * FROM chapters WHERE ID = ? AND bIsDeleted = 1");
             
             //---------------------------------------------------------- SELECTS ----------------------------------------------------------------
             
@@ -190,6 +190,7 @@
             $this->stmtGetUserIDFromForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ? AND bIsDeleted = 0");
 			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ?");
             $this->stmtGetInstitutionIDFromCodeClub = $this->db_connection->prepare("SELECT ID FROM institutions WHERE sName = 'CodeClubMG'");
+            $this->stmtGetInstitutionIDFromGAG = $this->db_connection->prepare("SELECT ID FROM institutions WHERE sName = 'Gymnasium Am Geroweiher'");
 			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ? AND bIsDeleted=0");
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ? AND bIsDeleted = 0");
             $this->stmtGetGroupIDFromTutorialModule = $this->db_connection->prepare("SELECT groups.ID AS GroupID FROM groups INNER JOIN modules ON modules.ID = groups.ModulID WHERE modules.sName = 'iiigel' AND groups.bIsDeleted = 0 ");
@@ -283,7 +284,7 @@
             //------------------------------------------------------- INSERTS -------------------------------------------------------------------
             
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword,sProfilePicture) VALUES (?,?,?,?,?,'../ProfilePics/generalpic.png')");
-            $this->stmtaddForeignUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sProfilePicture,bIsForeignAccount,foreignID) VALUES (?,?,?,'../ProfilePics/generalpic.png',1,?)");
+            $this->stmtaddForeignUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sProfilePicture,bIsForeignAccount,foreignID) VALUES (?,?,?,'../ProfilePics/generalpic.png',1,?)");
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
             $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
             $this->stmtaddGroup = $this->db_connection->prepare("INSERT INTO groups (ModulID,InstitutionsID,sName,bIsDeleted) VALUES (?,?,?,0)");
@@ -386,11 +387,14 @@
                     $userName = $output['result']['userName'];
                     $firstName = $output['result']['firstname'];
                     $lastName = $output['result']['lastname'];
+                    $email = $output['result']['email'];
+                    $isAGUser = $output['result']['AGUser'];
+                    $isIFUser = $output['result']['IFUser'];
                     $existingID = $this->existsAccountWithForeignID($ID);
                     if ($existingID != false){
                         return $existingID; 
                     } else {
-                        $newuserID = $this->addForeignUser($userName,$firstName,$lastName,$ID);
+                        $newuserID = $this->addForeignUser($userName,$firstName,$lastName,$email,$ID,$isAGUser,$isIFUser);
                         return $newuserID;
                     }
                 } else {
@@ -617,8 +621,9 @@
             }
         }
         
-        public function isChapterDeleted($Index){
-            $this->stmtisChapterDeleted->bind_param("i",$Index);
+        public function isChapterDeleted($Index,$ModulID){
+            $ChapterID = $this->getChapterIDFromIndex($Index,$ModulID);
+            $this->stmtisChapterDeleted->bind_param("i",$ChapterID);
             $this->stmtisChapterDeleted->execute();
             $res = $this->stmtisChapterDeleted->get_result();
             if (mysqli_num_rows($res) == 1){
@@ -642,13 +647,19 @@
             } 
         }
         
-        public function addForeignUser($Username,$FirstName,$LastName,$ID){
-            $this->stmtaddForeignUser->bind_param("sssi",$Username,$FirstName,$LastName,$ID);
+        public function addForeignUser($Username,$FirstName,$LastName,$email,$ID,$isAGUser,$isIFUser){
+            $this->stmtaddForeignUser->bind_param("ssssi",$Username,$FirstName,$LastName,$email,$ID);
             $this->stmtaddForeignUser->execute();
             $UserID = $this->getUserIDFromForeignID($ID);
-            $InstitutionID = $this->getInstitutionIDFromCodeClub();
+            $InstitutionIDCCMG = $this->getInstitutionIDFromCodeClub();
+            $InstitutionIDGAG = $this->getInstitutionIDFromGAG();
             $GroupID = $this->getGroupIDFromTutorialModule();
-            $this->addUsertoInstitution($UserID,$InstitutionID);
+            if ($isAGUser) {
+                $this->addUsertoInstitution($UserID,$InstitutionIDCCMG);  
+            }
+            if ($isIFUser) {
+                $this->addUsertoInstitution($UserID,$InstitutionIDGAG);
+            }
             $this->addUserToGroup($UserID,$GroupID);
             return $UserID;
         }
@@ -809,6 +820,19 @@
             }
         }
         
+        public function getInstitutionIDFromGAG(){
+            $this->stmtGetInstitutionIDFromGAG->execute();
+            $res = $this->stmtGetInstitutionIDFromGAG->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return $row['ID'];
+            } else {
+                throw new exception('Keine oder mehrere Institutionen namens Gymnasium Am Geroweiher vorhanden.');        
+            }
+        }
+        
+        
+        
         public function getUserFromUsername($Username){
             $this->stmtGetUserFromUsername->bind_param("s",$Username);	
 			$this->stmtGetUserFromUsername->execute();
@@ -897,7 +921,7 @@
 
             if ($iNumResults == 1) {
                 $oModuleRow = mysqli_fetch_array($res);
-                $oChaptersResult = $this->query("SELECT * FROM chapters WHERE ModulID = " . $ID . " ORDER BY iIndex");
+                $oChaptersResult = $this->query("SELECT * FROM chapters WHERE ModulID = " . $ID . " AND bIsDeleted = 0 ORDER BY iIndex");
                 $aChapters = [];
                 while (($row = mysqli_fetch_row($oChaptersResult)) != NULL) {
                     //ToDo: switch to non-indice based access of db-column

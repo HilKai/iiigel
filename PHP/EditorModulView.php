@@ -11,6 +11,7 @@
     include_once("database.php");
 	include_once("Navigation.php");
     $myModulID = $_GET['modulID'];
+    $chapters = $ODB->getAllChaptersFromModuleID($myModulID);
 
     if(!$ODB->hasPermission($_SESSION['user'],"Modul","view",$myModulID) ) {
         echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
@@ -71,19 +72,18 @@
 
      $myPage=str_replace($search,$replace,$myPage);
 
-     for ($i=0; $i< sizeof($myModul->chapter);$i++){  
-            if(($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModul->chapter[$i]->getID()))
+     for ($i=0; $i<sizeof($chapters);$i++){  
+            if(($ODB->hasPermission($_SESSION['user'],"Chapter","view",$chapters[$i]->getID()))
                or ($ODB->hasPermission($_SESSION['user'],"ModulChapter","view",$myModulID))) {
                 $myRow = file_get_contents('../HTML/EditorModulViewTablerow.html');
                 $search = array('%ChapterNum%', '%ChapterName%', '%modulID%', '%ChapterID%');
-                $replace = array($myModul->chapter[$i]->getiIndex(), $myModul->chapter[$i]->getsTitle(),$myModulID,$myModul->chapter[$i]->getID());
+                $replace = array($chapters[$i]->getiIndex(),$chapters[$i]->getsTitle(),$myModulID,$chapters[$i]->getID());
                 $myRow = str_replace($search,$replace,$myRow);
 
 
                 $toAdd = $toAdd . $myRow;
             }
      }
-     
 
      $myPage=str_replace('%Tablerow%',$toAdd,$myPage);
 

@@ -35,7 +35,6 @@
         private $stmtisInstitutionLinkgueltig;
         private $stmtisUserDeleted;
         private $stmtisAdmin;
-        private $stmtisChapterDeleted;
         
         //-------------------------------------------------
         
@@ -82,6 +81,7 @@
         private $stmtGetAllLinksFromInstitution;
         private $stmtGetAllAktiveLinksFromGroup;
         private $stmtGetAllAktiveLinksFromInstitution;
+        private $stmtGetAllChaptersFromModuleID;
         
         private $stmtCountInstitutions;
         private $stmtCountUsers;
@@ -101,6 +101,7 @@
         private $stmtCountAllLinksFromInstitution;
         private $stmtCountAllAktiveLinksFromGroup;
         private $stmtCountAllAktiveLinksFromInstitution;
+        private $stmtCountAllChaptersFromModuleID;
         
         //--------------------------------------------------
         
@@ -182,7 +183,6 @@
             $this->stmtisInstitutionLinkgueltig = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE Link = ? AND StartDatum >= CURDATE() AND EndDatum <= CURDATE()");
             $this->stmtisUserDeleted = $this->db_connection->prepare("SELECT * FROM users WHERE ID = ? AND bIsDeleted = 1");
             $this->stmtisAdmin = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = 'Admin' AND isDeleted = 0");
-            $this->stmtisChapterDeleted = $this->db_connection->prepare("SELECT * FROM chapters WHERE ID = ? AND bIsDeleted = 1");
             
             //---------------------------------------------------------- SELECTS ----------------------------------------------------------------
             
@@ -198,7 +198,7 @@
             $this->stmtGetTrainerofGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE bIsTrainer = 1 AND GroupID = ? AND bIsDeleted = 0");
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM modules WHERE ID = ?");
             $this->stmtGetModuleIDFromName = $this->db_connection->prepare("SELECT ID FROM modules WHERE sName = ?");
-			$this->stmtGetChapterFromID = $this->db_connection->prepare("SELECT * FROM chapters WHERE ID = ? AND bIsDeleted = 0");
+			$this->stmtGetChapterFromID = $this->db_connection->prepare("SELECT * FROM chapters WHERE ID = ?");
             $this->stmtGetProfilePicFromUserID = $this->db_connection->prepare("SELECT sProfilePicture FROM users WHERE ID = ? AND bIsDeleted = 0");
             $this->stmtGetIDFromUsername = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? AND bIsDeleted = 0");
             $this->stmtGetModuleImageFromID = $this->db_connection->prepare("SELECT sPfadBild FROM modules WHERE ID = ?");
@@ -209,7 +209,7 @@
             $this->stmtGetFortschritt = $this->db_connection->prepare("SELECT iFortschritt FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtGetModuleFromGroup = $this->db_connection->prepare("SELECT ModulID From groups WHERE ID = ?");
             $this->stmtGetChapterIDFromIndex = $this->db_connection->prepare("SELECT ID FROM chapters WHERE iIndex = ? AND ModulID = ? AND bIsDeleted = 0");
-            $this->stmtGetIndexFromID = $this->db_connection->prepare("SELECT iIndex FROM chapters WHERE ID = ? AND bIsDeleted = 0");
+            $this->stmtGetIndexFromID = $this->db_connection->prepare("SELECT iIndex FROM chapters WHERE ID = ?");
             
             //------------------------------------------------------- COUNT ---------------------------------------------------------------------
             
@@ -231,6 +231,7 @@
             $this->stmtCountAllLinksFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkinstitution WHERE InstitutionID = ?");
             $this->stmtCountAllAktiveLinksFromGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkgroup WHERE GroupID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtCountAllAktiveLinksFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkinstitution WHERE InstitutionID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
+            $this->stmtCountAllChaptersFromModuleID = $this->db_connection->prepare("SELECT COUNT(ID) FROM chapters WHERE ModulID = ?");
             
             //---------------------------------------------------------- SELECT ALL -------------------------------------------------------------
             
@@ -244,6 +245,7 @@
             $this->stmtGetAllLinksFromInstitution = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE InstitutionID = ?");
             $this->stmtGetAllAktiveLinksFromGroup = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE GroupID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtGetAllAktiveLinksFromInstitution = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE InstitutionID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
+            $this->stmtGetAllChaptersFromModuleID = $this->db_connection->prepare("SELECT * FROM chapters WHERE ModulID = ?");
             
             //-----------------------------------------------------------------------------------------------------------------------------------
             
@@ -614,18 +616,6 @@
             $this->stmtisUserDeleted->bind_param("i",$UserID);
             $this->stmtisUserDeleted->execute();
             $res = $this->stmtisUserDeleted->get_result();
-            if (mysqli_num_rows($res) == 1){
-                return true;
-            } else {
-                return false;
-            }
-        }
-        
-        public function isChapterDeleted($Index,$ModulID){
-            $ChapterID = $this->getChapterIDFromIndex($Index,$ModulID);
-            $this->stmtisChapterDeleted->bind_param("i",$ChapterID);
-            $this->stmtisChapterDeleted->execute();
-            $res = $this->stmtisChapterDeleted->get_result();
             if (mysqli_num_rows($res) == 1){
                 return true;
             } else {
@@ -1370,6 +1360,14 @@
             return $row['COUNT(ID)'];
         }
         
+        public function countAllChaptersFromModuleID($ModulID) {
+            $this->stmtCountAllChaptersFromModuleID->bind_param("i",$ModulID);
+            $this->stmtCountAllChaptersFromModuleID->execute();
+            $res = $this->stmtCountAllChaptersFromModuleID->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(ID)'];
+        }
+        
         // ---------------------- SELECT ALL ------------------------
         
         public function getAllInstitutions(){
@@ -1539,6 +1537,22 @@
                 array_push($pics,$filename);
             }
             return $pics;
+        }
+        
+        public function getAllChaptersFromModuleID($ModulID){
+            $this->stmtGetAllChaptersFromModuleID->bind_param("i",$ModulID);
+            $this->stmtGetAllChaptersFromModuleID->execute();
+            $res = $this->stmtGetAllChaptersFromModuleID->get_result();
+            $anz = $this->countAllChaptersFromModuleID($ModulID);
+            echo $anz;
+            $row = [];
+            $chapters = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                $chapters[$i] = new Chapter($row[$i]['ID'],$row[$i]['sID'],$row[$i]['iIndex'],$row[$i]['sTitle'],$row[$i]['sText'],$row[$i]['sNote'],$row[$i]['ModulID'],$row[$i][ 'sInterpreter'], $row[$i][ 'bIsMandatoryHandIn'],$row[$i]['bIsLive'],$row[$i]['bLiveInterpretation'],$row[$i]['bShowCloud'],$row[$i]['bIsDeleted']); 
+            }
+            
+            return $chapters;
         }
         
         //---------------------------------------------------------- UPDATE ---------------------------------------------------------------------

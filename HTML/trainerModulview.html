@@ -136,7 +136,7 @@
 											<label for="exampleInputPrename">Link/Gruppencode</label>
 											<input id="pw1" type="text" name="input" class="form-control form" value="">
                                             <label for="exampleInputPrename">Startdatum</label>
-                                            <input name="start" id="startdate" type="date" value="" class="addForm" placeholder="Startdatum" style="margin-top: 10px;float: inherit">
+                                            <input name="start" id="startdate" type="date" value="" class="addForm" placeholder="Startdatum" style="margin-top: 10px">
                                             <label for="exampleInputPrename">Enddatum</label>
                                             <input name="end" id="enddate" type="date" value="" class="addForm" placeholder="Enddatum">
 											<span id="passError" class="text-danger"></span>
@@ -191,12 +191,12 @@
                                 <th>Link</th>
                                 <th>Enddatum</th>
                             </tr>
-							<tr> 
-								<td class="fulltd" colspan="6"> <button id="PlusTNBtn" class="btn btn-default" data-toggle="modal" data-target="#myLinkModal"> <span class="glyphicon glyphicon-plus"></span> </button> </td> 
-							</tr>
                         </thead>
                         <tbody>
                             %linkrow%
+                            <tr> 
+								<td class="fulltd" colspan="6"> <button id="PlusTNBtn" class="btn btn-default" data-toggle="modal" data-target="#myLinkModal"> <span class="glyphicon glyphicon-plus"></span> </button> </td> 
+							</tr>
                         </tbody>
                     </table>
                 </div>

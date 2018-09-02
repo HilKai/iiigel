@@ -325,6 +325,12 @@ body {
 	
 }
 
+#PlusTNBtn:active {
+	border: none !important;
+	background-color: #fff !important;
+		
+}
+
 #PlusTNBtn:hover {
 	background-color: #fff !important;
 }
@@ -336,4 +342,9 @@ body {
 .fulltd {
 	margin: 0 auto;
 	text-align: center;
+}
+
+.dateInput {
+	clear: left;
+	margin-top: 10px;
 }

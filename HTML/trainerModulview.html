@@ -135,10 +135,18 @@
 										<div class="form-group">
 											<label for="exampleInputPrename">Link/Gruppencode</label>
 											<input id="pw1" type="text" name="input" class="form-control form" value="">
-                                            <label for="exampleInputPrename">Startdatum</label>
-                                            <input name="start" id="startdate" type="date" value="" class="addForm" placeholder="Startdatum" style="margin-top: 10px">
-                                            <label for="exampleInputPrename">Enddatum</label>
-                                            <input name="end" id="enddate" type="date" value="" class="addForm" placeholder="Enddatum">
+                                            <div id="DateInput" class="row">
+												<div id="Startdatum Input" class="col-md-6">
+													<label for="exampleInputPrename" class="dateInput" >Startdatum</label> <br>
+                                            		<input class=" addForm dateInput" name="start" id="startdate" type="date" value=""  placeholder="Startdatum" style="margin-top: 10px">
+												</div>
+												
+												<div id="Entdatum Input" class="col-md-6">
+													<label class ="dateInput" for="exampleInputPrename">Enddatum</label> <br>
+                                            		<input name="end" id="enddate" type="date" value="" class="addForm dateInput" placeholder="Enddatum">
+												</div>
+											</div>
+										
 											<span id="passError" class="text-danger"></span>
 										</div>
 

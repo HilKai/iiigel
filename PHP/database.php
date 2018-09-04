@@ -35,6 +35,7 @@
         private $stmtisInstitutionLinkgueltig;
         private $stmtisUserDeleted;
         private $stmtisAdmin;
+        private $stmtisInstitutionsLeader;
         
         //-------------------------------------------------
         
@@ -82,6 +83,7 @@
         private $stmtGetAllAktiveLinksFromGroup;
         private $stmtGetAllAktiveLinksFromInstitution;
         private $stmtGetAllChaptersFromModuleID;
+        private $stmtGetAllInstitutionsFromLeader;
         
         private $stmtCountInstitutions;
         private $stmtCountUsers;
@@ -102,6 +104,7 @@
         private $stmtCountAllAktiveLinksFromGroup;
         private $stmtCountAllAktiveLinksFromInstitution;
         private $stmtCountAllChaptersFromModuleID;
+        private $stmtCountAllInstitutionsFromLeader;
         
         //--------------------------------------------------
         
@@ -146,6 +149,7 @@
         //------------------------------------------------
         
         private $stmtdeleteUser;
+        private $stmtdeleteChapter;
         private $stmtrejectHandIn;
         private $stmtdeletePermission;
         
@@ -183,12 +187,13 @@
             $this->stmtisInstitutionLinkgueltig = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE Link = ? AND StartDatum >= CURDATE() AND EndDatum <= CURDATE()");
             $this->stmtisUserDeleted = $this->db_connection->prepare("SELECT * FROM users WHERE ID = ? AND bIsDeleted = 1");
             $this->stmtisAdmin = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = 'Admin' AND isDeleted = 0");
+            $this->stmtisInstitutionsLeader = $this->db_connection->prepare("SELECT * FROM usertoinstitution WHERE UserID = ? AND bIsInstitutionleader = 1");
             
             //---------------------------------------------------------- SELECTS ----------------------------------------------------------------
             
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ? AND bIsDeleted = 0");
             $this->stmtGetUserIDFromForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ? AND bIsDeleted = 0");
-			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ?");
+			$this->stmtGetInstitutionFromID = $this->db_connection->prepare("SELECT * FROM institutions WHERE ID = ? AND bIsDeleted = 0");
             $this->stmtGetInstitutionIDFromCodeClub = $this->db_connection->prepare("SELECT ID FROM institutions WHERE sName = 'CodeClubMG'");
             $this->stmtGetInstitutionIDFromGAG = $this->db_connection->prepare("SELECT ID FROM institutions WHERE sName = 'Gymnasium Am Geroweiher'");
 			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ? AND bIsDeleted=0");
@@ -232,6 +237,7 @@
             $this->stmtCountAllAktiveLinksFromGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkgroup WHERE GroupID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtCountAllAktiveLinksFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkinstitution WHERE InstitutionID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtCountAllChaptersFromModuleID = $this->db_connection->prepare("SELECT COUNT(ID) FROM chapters WHERE ModulID = ?");
+            $this->stmtCountAllInstitutionsFromLeader = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertoinstitution WHERE UserID = ? AND bIsInstitutionleader = 1");
             
             //---------------------------------------------------------- SELECT ALL -------------------------------------------------------------
             
@@ -246,6 +252,7 @@
             $this->stmtGetAllAktiveLinksFromGroup = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE GroupID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtGetAllAktiveLinksFromInstitution = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE InstitutionID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtGetAllChaptersFromModuleID = $this->db_connection->prepare("SELECT * FROM chapters WHERE ModulID = ?");
+            $this->stmtGetAllInstitutionsFromLeader = $this->db_connection->prepare("SELECT * FROM usertoinstitution INNER JOIN institutions ON usertoinstitution.InstitutionID = institutions.ID WHERE UserID = ? AND bIsInstitutionleader = 1 AND bIsDeleted = 0");
             
             //-----------------------------------------------------------------------------------------------------------------------------------
             
@@ -281,12 +288,12 @@
             $this->stmtUpdatePermissionEdit = $this->db_connection->prepare("UPDATE rights SET canEdit = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) ");
             $this->stmtUpdatePermissionCreate = $this->db_connection->prepare("UPDATE rights SET canCreate = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) ");
             $this->stmtUpdatePermissionDelete = $this->db_connection->prepare("UPDATE rights SET canDelete = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL)");
-            $this->stmtUpdateCompletePermission = $this->db_connection->prepare("UPDATE rights SET UserID = ?, Name = ?, ID = ?, canView = ?, canEdit = ?, canCreate = ?, canDelete = ?
-                                                                                 WHERE UserID = ? AND Name = ? AND ID = ? AND canView = ? AND canEdit = ? AND canCreate = ? AND canDelete = ? AND isDeleted = 0");
+            $this->stmtUpdateCompletePermission = $this->db_connection->prepare("UPDATE rights SET UserID = ?, Name = ?, ID = ?, canView = ?, canEdit = ?, canCreate = ?, canDelete = ? WHERE UserID = ? AND Name = ? AND ID = ? AND canView = ? AND canEdit = ? AND canCreate = ? AND canDelete = ? AND isDeleted = 0");
+            
             //------------------------------------------------------- INSERTS -------------------------------------------------------------------
             
             $this->stmtaddUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sHashedPassword,sProfilePicture) VALUES (?,?,?,?,?,'../ProfilePics/generalpic.png')");
-            $this->stmtaddForeignUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sProfilePicture,bIsForeignAccount,foreignID) VALUES (?,?,?,'../ProfilePics/generalpic.png',1,?)");
+            $this->stmtaddForeignUser = $this->db_connection->prepare("INSERT INTO users (sUsername,sFirstName,sLastName,sEMail,sProfilePicture,bIsForeignAccount,foreignID) VALUES (?,?,?,?,'../ProfilePics/generalpic.png',1,?)");
             $this->stmtaddHandIn = $this->db_connection->prepare("INSERT INTO handins (UserID,GroupID,ChapterID,sText) VALUES (?,?,?,?)");
             $this->stmtaddInstitution = $this->db_connection->prepare("INSERT INTO institutions (sName,bIsDeleted) VALUES (?,0)");
             $this->stmtaddGroup = $this->db_connection->prepare("INSERT INTO groups (ModulID,InstitutionsID,sName,bIsDeleted) VALUES (?,?,?,0)");
@@ -305,6 +312,7 @@
             $this->stmtdeleteUser = $this->db_connection->prepare("UPDATE users SET bIsDeleted = 1 WHERE ID = ?");
             $this->stmtrejectHandIn = $this->db_connection->prepare("UPDATE handins SET isRejected = 1 WHERE UserID = ? AND GroupID = ? AND ChapterID = ?");
             $this->stmtdeletePermission = $this->db_connection->prepare("UPDATE rights SET isDeleted=1 WHERE UserID = ? AND Name = ? AND ID = ?");
+            $this->stmtdeleteChapter = $this->db_connection->prepare("UPDATE chapters SET isDeleted = 1 WHERE ID=?");
         }
         
         
@@ -380,6 +388,7 @@
             if (FALSE === $output)
                 throw new Exception(curl_error($ch), curl_errno($ch));
             curl_close($ch);
+            //var_dump($output);
             if ($output!=NULL){
                 if ($output['status']==="success"){
                     $ID = $output['result']['UId'];
@@ -618,6 +627,17 @@
             } else {
                 return false;
             }
+        }
+        
+        public function isInstitutionsLeader($UserID){
+            $this->stmtisInstitutionsLeader->bind_param("i",$UserID);
+			$this->stmtisInstitutionsLeader->execute();
+			$res = $this->stmtisInstitutionsLeader->get_result();
+			if (mysqli_num_rows($res) != 0) {
+				return true;
+			} else{
+				return false;
+			} 
         }
         
         //----------------------------------------------------------- INSERTS -------------------------------------------------------------------
@@ -1365,6 +1385,14 @@
             return $row['COUNT(ID)'];
         }
         
+        public function countAllInstitutionsFromLeader($UserID) {
+            $this->stmtCountAllInstitutionsFromLeader->bind_param("i",$UserID);
+            $this->stmtCountAllInstitutionsFromLeader->execute();
+            $res = $this->stmtCountAllInstitutionsFromLeader->get_result();
+            $row = mysqli_fetch_array($res);
+            return $row['COUNT(UserID)'];
+        }
+        
         // ---------------------- SELECT ALL ------------------------
         
         public function getAllInstitutions(){
@@ -1541,7 +1569,6 @@
             $this->stmtGetAllChaptersFromModuleID->execute();
             $res = $this->stmtGetAllChaptersFromModuleID->get_result();
             $anz = $this->countAllChaptersFromModuleID($ModulID);
-            echo $anz;
             $row = [];
             $chapters = [];
             for ($i=0;$i<$anz;$i++){
@@ -1550,6 +1577,22 @@
             }
             
             return $chapters;
+        }
+        
+        public function getAllInstitutionsFromLeader($UserID){
+            $this->stmtGetAllInstitutionsFromLeader->bind_param("i",$UserID);
+            $this->stmtGetAllInstitutionsFromLeader->execute();
+            $res = $this->stmtGetAllInstitutionsFromLeader->get_result();
+            /*$anz = $this->countAllInstitutionsFromLeader($UserID);
+            $row = [];
+            $institutions = [];
+            for ($i=0;$i<$anz;$i++){
+                $row[$i] = mysqli_fetch_array($res);
+                $institutions[$i] = new Institution($row[$i]['ID'],$row[$i]['sID'],$row[$i]['sName'],$row[$i]['bIsDeleted'],$row[$i]['UserID']);
+            }
+            
+            return $institutions;*/
+            return $res;
         }
         
         //---------------------------------------------------------- UPDATE ---------------------------------------------------------------------
@@ -1686,6 +1729,10 @@
         public function deletePermission($UserID,$Name,$ID=NULL){
             $this->stmtdeletePermission->bind_param("isi",$UserID,$Name,$ID);
             $this->stmtdeletePermission->execute();
+        }
+        public function deleteChapter($ID){
+            $this->stmtdeleteChapter->bind_param("i",$ID);
+            $this->stmtdeleteChapter->execute();
         }
 		
     }

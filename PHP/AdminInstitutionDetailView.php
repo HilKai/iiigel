@@ -11,7 +11,7 @@
     $myPage = str_replace($search,$replace,$myRow);
   
 
-	if(!$ODB->isAdmin($_SESSION['user'])) {
+	if((!$ODB->isAdmin($_SESSION['user']))and(!$ODB->isInstitutionsLeader($_SESSION['user']))) {
 		 echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
     } else {

@@ -85,6 +85,16 @@
             }
      }
 
+	 //Delete Chapter
+	if(isset($_POST['deleteChapter'])){      
+                  for ($i=0; $i<sizeof($chapters);$i++){    
+                    if($chapters[$i]->getID() ==  $_POST['deleteChapter']) {
+                        $ODB->deleteChapter($chapters[$i]->getID());
+                        header("Refresh:0");     
+                    }
+                }
+        }
+		
      $myPage=str_replace('%Tablerow%',$toAdd,$myPage);
 
     

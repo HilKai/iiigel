@@ -168,7 +168,7 @@
             
             //--------------------------------------------------------- IS/HAS SELECTS --------------------------------------------------------------
             
-            $this->stmtExistsAccountWithForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ?");
+            $this->stmtExistsAccountWithForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ? AND bIsDeleted = 0");
 			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
 			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ? AND bIsDeleted = 0");
             $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
@@ -263,7 +263,7 @@
             $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT * FROM modules INNER JOIN moduletoinstitution ON modules.ID = moduletoinstitution.ModuleID WHERE InstitutionID = ?");
             $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ? AND bIsDeleted = 0");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ? AND bIsDeleted=0");
-            $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ? AND bIsDeleted = 0 ORDER BY sFirstName,sLastName");
+            $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE (sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ?) AND bIsDeleted = 0 ORDER BY sFirstName,sLastName");
             $this->stmtGetPermissionsFromName = $this->db_connection->prepare("SELECT *, rights.ID AS pID FROM rights INNER JOIN users ON rights.userID = users.ID WHERE rights.Name = ? AND rights.isDeleted = 0 AND users.bIsDeleted = 0");
             $this->stmtGetPermissionNames = $this->db_connection->prepare("SELECT DISTINCT Name FROM rights WHERE isDeleted = 0 ORDER BY Name");
             

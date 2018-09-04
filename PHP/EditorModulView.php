@@ -93,7 +93,7 @@
                         header("Refresh:0");     
                     }
                 }
-        }
+    }
 		
      $myPage=str_replace('%Tablerow%',$toAdd,$myPage);
 

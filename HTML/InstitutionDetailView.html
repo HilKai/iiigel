@@ -81,11 +81,42 @@
 						%Listitems%
 				    <span class="caret"></span>
 				</select>
-                    	<h6>Benutername</h6>
-			     <button type="submit" id="Button" name="AbgabeButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6">
+                    	<h6>Benutzername</h6>
+			     <button type="submit" id="Button" name="BenutzerHinzuButton" data-toggle="modal" data-target="#myModal" class="btn btn-default col-md-6">
                 Hinzufügen
             </button>
 			</form>
+            
+        <div id="institutionsOverview" class="col-md-8">
+            <h3> Einladungs-Links</h3>
+			<table id="Table" class="table">
+				<thead>
+					<tr>
+						<th>Link</th>
+						<th>StartDatum</th>
+						<th>Enddatum</th>
+					</tr>
+				</thead>
+				<tbody>
+					%linkrow%
+				</tbody>
+			</table>
+		</div>
+   
+
+	   <div id="addInviteLink" class="col-md-3">
+			<p><b>Einladelink hinzufügen</b></p>
+				<form action="" id="myForm" method="post" autocomplete="off">
+            
+				    <input name="link" id="link" type="text" value="" class="addForm" placeholder="Linkstring">
+                    <input name="startdate" id="startdate" type="date" value="" class="addForm" placeholder="Startdatum">
+				    <input name="enddate" id="enddate" type="date" value="" class="addForm" placeholder="Enddatum">
+			        <button type="submit" id="addLink" name="addLink" class="btn btn-default col-md-6" style="width:125px">
+                Hinzufügen
+            </button>
+			</form>
+		
+		</div>
 		
 	
 

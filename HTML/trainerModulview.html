@@ -145,8 +145,7 @@
 			</div>
 
 		</div>
-	</div>
-			
+	</div>		
 			
 	<!-- Modal TN Hinzufügen ---------------------------------------------------------------------------------------------->
 	<div id="myTNModal" class="modal fade" role="dialog">
@@ -189,31 +188,33 @@
 					<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
 					<h4 class="modal-title">Neuen Link/Gruppencode erstellen</h4>
 				</div>
+				
 				<form id="myForm2" action="" method="post" autocomplete="off">
 					<div class="modal-body">
 						<div class="form-group">
 							<label for="exampleInputPrename">Link/Gruppencode</label>
-							<input id="pw1" type="text" name="input" class="form-control form" value="">
-							<div id="DateInput" class="row">
+							<!--Gruppencode Input---------------------------------------------------------------------------------------------->
+							<input id="GroupCodeInput" type="text" name="input" class="form-control form" value=""> 
+							
+							<!--Date----------------------------------------------------------------------------------------------------------->
+							<div id="DateInput" class="row"> 
+								<!--Start-Date------------------------------------------------------------------------------------------------->
 								<div id="Startdatum Input" class="col-md-6">
 									<label for="exampleInputPrename" class="dateInput" >Startdatum</label> <br>
 									<input class=" addForm dateInput" name="start" id="startdate" type="date" value=""  placeholder="Startdatum" style="margin-top: 10px">
 								</div>
-
-								<div id="Entdatum Input" class="col-md-6">
+								<!--End-Date--------------------------------------------------------------------------------------------------->
+								<div id="Entdatum Input" class="col-md-6"> 
 									<label class ="dateInput" for="exampleInputPrename">Enddatum</label> <br>
 									<input name="end" id="enddate" type="date" value="" class="addForm dateInput" placeholder="Enddatum">
 								</div>
 							</div>
-
-							<span id="passError" class="text-danger"></span>
 						</div>
-
-					</div>
-					<!---type="submit" value="text" name="newPass" -->
+					</div> 
 
 				<div class="modal-footer">
-					<button type= "submit" name = "ErstellButton" id="ModalBtn" class="btn btn-default">Erstellen</button>
+					<!----Bestätigungs BTN----------------------------------------------------------------------------------------------------->
+					<button type= "submit" name ="ErstellButton" id="ModalBtn" class="btn btn-default">Erstellen</button>
 				</div>
 				</form>
 			</div>
@@ -273,7 +274,6 @@
         });
     }
 	
-	
 	function refreshUserProgress(){
 		$.ajax({
             url: "getProgressFromGroup.php?groupID=" + $groupID,
@@ -295,7 +295,6 @@
         });	
 	}
 	
-	
 	function refreshHandin(userID){
 		$.ajax({
             url: "getHandInFromUser.php?groupID=" + $groupID + "&" + "tnID=" + userID,
@@ -304,8 +303,7 @@
 									 
 			},
         });	
-	}
-							
+	}						
 
     function modalValue(tnId) {
         document.getElementById("ModalBtn").value = tnId;

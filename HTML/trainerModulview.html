@@ -4,34 +4,29 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	
-	<!-------------------------------------------BOOTSTRAP---------------------------------------------------------->
     <link rel="stylesheet" href="../bootstrap-3.3.7-dist\bootstrap-3.3.7-dist\css\bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="../Styles\trainerModulview.css" type="text/css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	
-    <!--------------------------------------------FONT-------------------------------------------------------------->
+    <!-- Schrift -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-	
 </head>
 
 <body>
 
     <div id="WrappingContainer" class="container">
 
-		<!--HEADER------------------------------------------------------------------------------------------->
-        <div id="Container" class="row"> 
+        <div id="Container" class="row">
 
-            <div class="col-md-9 col-xs-12 noPadding"> <!--Überschrift: Modulname-->
+            <div class="col-md-9 col-xs-12 noPadding">
                 <h1 id="ModulHeading">%Gruppenname%</h1>
             </div>
 
-            %Navigation% <!--Navigationsbuttons-->
+            %Navigation%
 
-            <div class="row"> <!--Untertitel: Institution-->
+            <div class="row">
 
                 <div class="col-md-12">
                     <p id="Institution"><span class="glyphicon glyphicon-education"></span> %Institution%</p>
@@ -41,15 +36,13 @@
 
         </div>
 
-		<!--CONTENT------------------------------------------------------------------------------------------>
         <div id="OverviewContainer" class="row">
-			
-			<!--Table---------------------------------------------------------------------------------------->
+
             <div class="col-md-8 noPadding">
 
                 <table id="Table" class="table">
                     <thead>
-                        <tr> <!--Spaltenüberschriften-->
+                        <tr>
                             <th>Vorname</th>
                             <th>Nachname</th>
                             <th class="hidden-xs">Fortschritt</th>
@@ -62,31 +55,124 @@
                         </tr>
                     </thead>
                     <tbody>
-                        %Tablerow%	<!--Tabellenzeilen-->	
-						<tr> <!--TN Hinzufügen-->
+                        %Tablerow%					
+						<tr> 
 							<td class="fulltd" colspan="6"> <button id="PlusTNBtn" class="btn btn-default" data-toggle="modal" data-target="#myTNModal"> <span class="glyphicon glyphicon-plus"></span> </button> </td> 
 						</tr>
                     </tbody>
                 </table>
-				
             </div>
-		
-			<!--Left-Column------------------------------------------------------------------------------------>
+			
+			
+
+            <!-- Modal Abgabe -->
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Abgabe</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p id="ModalText">..</p>
+                        </div>
+                        <div class="modal-footer">
+							<form action="post"><button id="RejectBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="rejectHandIn(this)">Ablehnen</button></form>
+                            <button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+			
+			
+			<!-- Modal TN Hinzufügen -->
+					<div id="myTNModal" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
+									<h4 class="modal-title">Teilnehmer hinzufügen</h4>
+								</div>
+								<form id="myForm2" action="" method="post" autocomplete="off" >
+									<div class="modal-body">
+										<div class="form-group">
+												<div id="DropdownContainer" class="dropdown">
+                                                        <select class="btn btn-default dropdown-toggle addForm" name="UserID">
+						                                    %allTN%
+                                                            <span class="caret"></span>
+				                                        </select>   
+                        						</div>
+										</div>
+
+									</div>
+									<!---type="submit" value="text" name="newPass" -->
+                                    <div class="modal-footer">
+                                        <button type= "submit" name = "HinzuButton" id="ModalBtn" class="btn btn-default">Hinzufügen</button>
+                                    </div>
+                                </form>
+							</div>
+						</div>
+					</div>
+            
+            <!--- Modal Link hinzufügen --->
+                    <!-- Modal -->
+					<div id="myLinkModal" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
+									<h4 class="modal-title">Neuen Link/Gruppencode erstellen</h4>
+								</div>
+								<form id="myForm2" action="" method="post" autocomplete="off">
+									<div class="modal-body">
+										<div class="form-group">
+											<label for="exampleInputPrename">Link/Gruppencode</label>
+											<input id="pw1" type="text" name="input" class="form-control form" value="">
+                                            <div id="DateInput" class="row">
+												<div id="Startdatum Input" class="col-md-6">
+													<label for="exampleInputPrename" class="dateInput" >Startdatum</label> <br>
+                                            		<input class=" addForm dateInput" name="start" id="startdate" type="date" value=""  placeholder="Startdatum" style="margin-top: 10px">
+												</div>
+												
+												<div id="Entdatum Input" class="col-md-6">
+													<label class ="dateInput" for="exampleInputPrename">Enddatum</label> <br>
+                                            		<input name="end" id="enddate" type="date" value="" class="addForm dateInput" placeholder="Enddatum">
+												</div>
+											</div>
+										
+											<span id="passError" class="text-danger"></span>
+										</div>
+
+									</div>
+									<!---type="submit" value="text" name="newPass" -->
+								
+								<div class="modal-footer">
+									<button type= "submit" name = "ErstellButton" id="ModalBtn" class="btn btn-default">Erstellen</button>
+								</div>
+                                </form>
+							</div>
+
+						</div>
+					</div>
+
             <div id="LeftContainer" class="col-md-4">
-				
-				<!--Kapitel Ansicht BTN-->
-                <div class="btn-group" role="group"> 
-					
+
+                <div class="btn-group" role="group">
+
                     <a href="%TogglelinkK%"><button id="ChapterViewButton" class="btn btn-default"> <span class="glyphicon glyphicon-list"></span>  Kapitel</button></a>
-					
                 </div>
 
-				<!--Alle TN auf ein Level-->
                 <div id="AllLevelUp">
-					
                     <p>Setze alle Benutzer auf mindestens: </p>
                     <form name="form" id="form" method="post">
-                        <div id="DropdownContainer" class="dropdown"> <!--Dropdown-->
+                        <div id="DropdownContainer" class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 Kapitel
                             <span class="caret"></span>
@@ -95,13 +181,17 @@
                                 %ChapterDropDownItems%
                             </ul>
                         </div>
-                        <button id="PinkButton" class="btn btn-default" value="test" name="levelUpforAll" type="submit">OK!</button> <!--Bestätigen-->
-					</form>
-					
+
+                        <button id="PinkButton" class="btn btn-default" value="test" name="levelUpforAll" type="submit">OK!</button>
+                    </form>
+
+                    <audio id="PingAudio">
+                      <source src="../Sounds/pip.wav" type="audio/wav">
+                    </audio>
+
                 </div>
 
-				<!--Einladungslink erstellen-->
-                <div id="InvitationLinks" class="col-md-8"> 
+                <div id="InvitationLinks" class="col-md-8">
                     <h3>Aktive Einladungs-Links</h3>
                     <table id="Table" class="table">
                         <thead>
@@ -121,105 +211,7 @@
 
             </div>
 
-    	</div>
-		
-	</div>
-	
-	<!-- Modal Abgabe ------------------------------------------------------------------------------------------------------->
-	<div id="myModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Abgabe</h4>
-				</div>
-				<div class="modal-body">
-					<p id="ModalText">..</p>
-				</div>
-				<div class="modal-footer">
-					<form action="post"><button id="RejectBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="rejectHandIn(this)">Ablehnen</button></form>
-					<button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button>
-				</div>
-			</div>
-
-		</div>
-	</div>		
-			
-	<!-- Modal TN Hinzufügen ---------------------------------------------------------------------------------------------->
-	<div id="myTNModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
-					<h4 class="modal-title">Teilnehmer hinzufügen</h4>
-				</div>
-				<form id="myForm2" action="" method="post" autocomplete="off" >
-					<div class="modal-body">
-						<div class="form-group">
-								<div id="DropdownContainer" class="dropdown">
-										<select class="btn btn-default dropdown-toggle addForm" name="UserID">
-											%allTN%
-											<span class="caret"></span>
-										</select>   
-								</div>
-						</div>
-
-					</div>
-					<!---type="submit" value="text" name="newPass" -->
-					<div class="modal-footer">
-						<button type= "submit" name = "HinzuButton" id="ModalBtn" class="btn btn-default">Hinzufügen</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>		
-            
-	<!--- Modal Link hinzufügen ----------------------------------------------------------------------------------------------------->
-	<div id="myLinkModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
-					<h4 class="modal-title">Neuen Link/Gruppencode erstellen</h4>
-				</div>
-				
-				<form id="myForm2" action="" method="post" autocomplete="off">
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="exampleInputPrename">Link/Gruppencode</label>
-							<!--Gruppencode Input---------------------------------------------------------------------------------------------->
-							<input id="GroupCodeInput" type="text" name="input" class="form-control form" value=""> 
-							
-							<!--Date----------------------------------------------------------------------------------------------------------->
-							<div id="DateInput" class="row"> 
-								<!--Start-Date------------------------------------------------------------------------------------------------->
-								<div id="Startdatum Input" class="col-md-6">
-									<label for="exampleInputPrename" class="dateInput" >Startdatum</label> <br>
-									<input class=" addForm dateInput" name="start" id="startdate" type="date" value=""  placeholder="Startdatum" style="margin-top: 10px">
-								</div>
-								<!--End-Date--------------------------------------------------------------------------------------------------->
-								<div id="Entdatum Input" class="col-md-6"> 
-									<label class ="dateInput" for="exampleInputPrename">Enddatum</label> <br>
-									<input name="end" id="enddate" type="date" value="" class="addForm dateInput" placeholder="Enddatum">
-								</div>
-							</div>
-						</div>
-					</div> 
-
-				<div class="modal-footer">
-					<!----Bestätigungs BTN----------------------------------------------------------------------------------------------------->
-					<button type= "submit" name ="ErstellButton" id="ModalBtn" class="btn btn-default">Erstellen</button>
-				</div>
-				</form>
-			</div>
-
-		</div>
+    </div>
 	</div>
 
 </body>
@@ -274,6 +266,7 @@
         });
     }
 	
+	
 	function refreshUserProgress(){
 		$.ajax({
             url: "getProgressFromGroup.php?groupID=" + $groupID,
@@ -295,6 +288,7 @@
         });	
 	}
 	
+	
 	function refreshHandin(userID){
 		$.ajax({
             url: "getHandInFromUser.php?groupID=" + $groupID + "&" + "tnID=" + userID,
@@ -303,7 +297,8 @@
 									 
 			},
         });	
-	}						
+	}
+							
 
     function modalValue(tnId) {
         document.getElementById("ModalBtn").value = tnId;

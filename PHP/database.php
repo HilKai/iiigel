@@ -379,16 +379,15 @@
         public function getUserDataFromCodingSpace($authToken){
             $url = "https://www.codeclub.de/internal/?page=answerToIiigel&";
             $url .= "activeToken=".$authToken."&";                            //das authentication Token wird überliefert & an die URL gehangen
-            $url .= "HMACchecksumme=".hash_hmac('sha1', $authToken, "geheimgeheimeinhorn");
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $url .= "HMACchecksumme=".hash_hmac('sha1', $authToken, "geheimgeheimeinhorn"); //token wird gehasht und übergeben
+            $ch = curl_init();  //Initialisierung des Transfers
+            curl_setopt($ch, CURLOPT_URL, $url);  //url wird erstellt
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //string wird übergeben
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            $output = json_decode(curl_exec($ch),true);
+            $output = json_decode(curl_exec($ch),true); //Ausführung und Dekodierung der Daten
             if (FALSE === $output)
                 throw new Exception(curl_error($ch), curl_errno($ch));
-            curl_close($ch);
-            //var_dump($output);
+            curl_close($ch); //Beenden des Transfers
             if ($output!=NULL){
                 if ($output['status']==="success"){
                     $ID = $output['result']['UId'];
@@ -398,6 +397,7 @@
                     $email = $output['result']['email'];
                     $isAGUser = $output['result']['AGUser'];
                     $isIFUser = $output['result']['IFUser'];
+                    //$profilePicture = $output['result']['link'];
                     $existingID = $this->existsAccountWithForeignID($ID);
                     if ($existingID != false){
                         return $existingID; 

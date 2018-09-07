@@ -45,6 +45,7 @@
         private $stmtGetInstitutionIDFromCodeClub;
 		private $stmtGetUserFromUsername;
 		private $stmtGetGroupFromID;
+        private $stmtGetGroupIDFromName;
         private $stmtGetGroupIDFromTutorialModule;
 		private $stmtGetGroupsFromUserID;
         private $stmtGetTrainerofGroup;
@@ -198,6 +199,7 @@
             $this->stmtGetInstitutionIDFromGAG = $this->db_connection->prepare("SELECT ID FROM institutions WHERE sName = 'Gymnasium Am Geroweiher'");
 			$this->stmtGetUserFromUsername = $this->db_connection->prepare("SELECT * FROM users WHERE sUsername = ? AND bIsDeleted=0");
 			$this->stmtGetGroupFromID = $this->db_connection->prepare("SELECT * FROM groups WHERE ID = ? AND bIsDeleted = 0");
+            $this->stmtGetGroupIDFromName = $this->db_connection->prepare("SELECT ID FROM groups WHERE sName = ? AND bIsDeleted=0");
             $this->stmtGetGroupIDFromTutorialModule = $this->db_connection->prepare("SELECT groups.ID AS GroupID FROM groups INNER JOIN modules ON modules.ID = groups.ModulID WHERE modules.sName = 'iiigel' AND groups.bIsDeleted = 0 ");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT GroupID FROM usertogroup INNER JOIN groups ON groups.ID = usertogroup.GroupID WHERE UserID = ? AND groups.bIsDeleted = 0");
             $this->stmtGetTrainerofGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE bIsTrainer = 1 AND GroupID = ? AND bIsDeleted = 0");
@@ -223,7 +225,7 @@
             $this->stmtCountGroups = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups");
             $this->stmtCountModules = $this->db_connection->prepare("SELECT COUNT(ID) FROM modules");
             $this->stmtCountInstitutionsFromUser = $this->db_connection->prepare("SELECT COUNT(InstitutionID) FROM usertoinstitution WHERE UserID = ?");
-            $this->stmtCountUsersFromInstitution = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertoinstitution WHERE InstitutionID = ?");
+            $this->stmtCountUsersFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM users INNER JOIN usertoinstitution ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND bIsDeleted = 0");
             $this->stmtCountModulesFromInstitution = $this->db_connection->prepare("SELECT COUNT(ModuleID) FROM moduletoinstitution WHERE InstitutionID = ?");
             $this->stmtCountGroupsFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups WHERE InstitutionsID = ? AND bIsDeleted = 0");
             $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ? AND bIsDeleted = 0");
@@ -883,6 +885,18 @@
             }
         }
         
+        public function getGroupIDFromName($Name){
+            $this->stmtGetGroupIDFromName->bind_param("s",$Name);	
+			$this->stmtGetGroupIDFromName->execute();
+            $res = $this->stmtGetGroupIDFromName->get_result();
+            if (mysqli_num_rows($res)==1){
+                $row = mysqli_fetch_array($res);
+                    return $row['ID'];
+            } else {
+                return false;        
+            }  
+        }
+        
         public function getGroupIDFromTutorialModule(){
             $this->stmtGetGroupIDFromTutorialModule->execute();
             $res = $this->stmtGetGroupIDFromTutorialModule->get_result(); 
@@ -1278,7 +1292,7 @@
             $this->stmtCountUsersFromInstitution->execute();
             $res = $this->stmtCountUsersFromInstitution->get_result();
             $row = mysqli_fetch_array($res);
-            return $row['COUNT(UserID)'];
+            return $row['COUNT(ID)'];
         }
         
         public function countModulesFromInstitution($InstitutionID){

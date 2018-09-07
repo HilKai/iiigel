@@ -202,7 +202,7 @@
             $this->stmtGetGroupIDFromName = $this->db_connection->prepare("SELECT ID FROM groups WHERE sName = ? AND bIsDeleted=0");
             $this->stmtGetGroupIDFromTutorialModule = $this->db_connection->prepare("SELECT groups.ID AS GroupID FROM groups INNER JOIN modules ON modules.ID = groups.ModulID WHERE modules.sName = 'iiigel' AND groups.bIsDeleted = 0 ");
 			$this->stmtGetGroupsFromUserID = $this->db_connection->prepare("SELECT GroupID FROM usertogroup INNER JOIN groups ON groups.ID = usertogroup.GroupID WHERE UserID = ? AND groups.bIsDeleted = 0");
-            $this->stmtGetTrainerofGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE bIsTrainer = 1 AND GroupID = ? AND bIsDeleted = 0");
+            $this->stmtGetTrainerofGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE bIsTrainer = 1 AND GroupID = ? AND users.bIsDeleted = 0");
 			$this->stmtGetModuleFromID = $this->db_connection->prepare("SELECT * FROM modules WHERE ID = ?");
             $this->stmtGetModuleIDFromName = $this->db_connection->prepare("SELECT ID FROM modules WHERE sName = ?");
 			$this->stmtGetChapterFromID = $this->db_connection->prepare("SELECT * FROM chapters WHERE ID = ?");

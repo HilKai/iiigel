@@ -79,7 +79,7 @@
 		$navigation = str_replace("%AdminDropdown%",$dropdown,$navigation);
         
         $leader = str_replace("%InstitutionsListe%",$toAddIns,$leader);
-		if ($GLOBALS["ODB"]->isInstitutionsLeader($_SESSION['user'])){
+		if ($GLOBALS["ODB"]->isInstitutionsLeader($_SESSION['user'])and(!$GLOBALS["ODB"]->isAdmin($_SESSION['user']))){
 			$navigation = str_replace("%Leader%",$leader,$navigation);
 		} else {
             $navigation = str_replace("%Leader%","",$navigation);

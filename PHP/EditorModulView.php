@@ -61,6 +61,7 @@
 		 $ODB->addChaptertoModule($ODB->getHighestIndexFromChapter($myModulID)+1,$newChapterName,"Hallo",$myModulID);
 		 
 		 $myModul = $ODB->getModuleFromID($myModulID);
+         header("Refresh:0");
 	 }
 
 

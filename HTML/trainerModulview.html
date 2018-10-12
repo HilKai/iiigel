@@ -220,6 +220,7 @@
 
 <script>
 	var handinArray=%handIn%;
+    var handinID = [];
 	
     $(document).ready(function() {
         $(".dropdown-menu li a").click(function() {
@@ -294,9 +295,18 @@
             url: "getHandInFromUser.php?groupID=" + $groupID + "&" + "tnID=" + userID,
 			success: function(data) {
 				handinArray[userID] = data;
-									 
+                getHandInID(userID);
 			},
-        });	
+        });
+	}
+    
+    function getHandInID(userID){
+		$.ajax({
+            url: "getHandInIDFromUser.php?groupID=" + $groupID + "&" + "tnID=" + userID,
+			success: function(data) {
+				handinID[userID] = data;
+			},
+        });
 	}
 							
 
@@ -312,7 +322,7 @@
         $groupID = "%GroupID%";
 
         $.ajax({
-            url: "acceptHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID,
+            url: "acceptHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID + "&" + "handinID=" + handInID[tnID],
 			success: function(data) {location.reload();},
         });
 
@@ -324,7 +334,7 @@
         $groupID = "%GroupID%";
 
         $.ajax({
-            url: "rejectHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID,
+            url: "rejectHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID + "&" + "handinID=" + handinID[tnID],
 			success: function(data) {
 				location.reload();},
         });

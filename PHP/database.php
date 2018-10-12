@@ -7,6 +7,7 @@
         include_once("Model/Chapter.php");
         include_once("Model/Module.php");
         include_once("Model/RegistrationLink.php");
+        include_once("Model/handIn.php");
        
         
     class Database
@@ -170,10 +171,10 @@
             //--------------------------------------------------------- IS/HAS SELECTS --------------------------------------------------------------
             
             $this->stmtExistsAccountWithForeignID = $this->db_connection->prepare("SELECT ID FROM users WHERE foreignID = ? AND bIsDeleted = 0");
-			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
+			$this->stmtisEmailTaken = $this->db_connection->prepare("SELECT sEMail FROM users WHERE UPPER(users.sEMail) = UPPER(?) AND bIsDeleted = 0");
 			$this->stmtisUsernameTaken = $this->db_connection->prepare("SELECT sUsername FROM users WHERE users.sUsername = ? AND bIsDeleted = 0");
-            $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ?");
-            $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE UPPER(users.sEMail) = UPPER(?)");
+            $this->stmtisUsernameFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE sUsername = ? AND bIsDeleted = 0");
+            $this->stmtisEMailFromID = $this->db_connection->prepare("SELECT ID FROM users WHERE UPPER(users.sEMail) = UPPER(?) AND bIsDeleted = 0");
             $this->stmtisUserinGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtisUserinInstitution = $this->db_connection->prepare("SELECT * FROM usertoinstitution WHERE UserID = ? AND InstitutionID = ?");
             $this->stmtisTrainerofGroup = $this->db_connection->prepare("SELECT * FROM usertogroup WHERE UserID = ? AND GroupID = ? AND bIsTrainer = 1 ");
@@ -228,7 +229,7 @@
             $this->stmtCountUsersFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM users INNER JOIN usertoinstitution ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND bIsDeleted = 0");
             $this->stmtCountModulesFromInstitution = $this->db_connection->prepare("SELECT COUNT(ModuleID) FROM moduletoinstitution WHERE InstitutionID = ?");
             $this->stmtCountGroupsFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM groups WHERE InstitutionsID = ? AND bIsDeleted = 0");
-            $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE sUsername LIKE ? AND bIsDeleted = 0");
+            $this->stmtCountSearchedUsers = $this->db_connection->prepare("SELECT COUNT(ID) FROM users WHERE (sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ?) AND bIsDeleted = 0 ORDER BY sFirstName,sLastName");
             $this->stmtCountUsersFromModule = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertogroup INNER JOIN groups ON usertogroup.GroupID = groups.ID WHERE ModulID = ?");
             $this->stmtCountUsersFromGroup = $this->db_connection->prepare("SELECT COUNT(ID) FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ? AND bIsDeleted = 0");
             $this->stmtCountUsersFromPermission = $this->db_connection->prepare("SELECT COUNT(Name) FROM users INNER JOIN rights ON rights.UserID = users.ID WHERE rights.Name = ? AND users.bIsDeleted = 0 AND rights.isDeleted = 0");
@@ -243,12 +244,12 @@
             
             //---------------------------------------------------------- SELECT ALL -------------------------------------------------------------
             
-            $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions");
-            $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users WHERE bIsDeleted = 0");
-            $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups");
-            $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules");
-            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT users.* FROM users LEFT JOIN (SELECT * FROM usertogroup WHERE GroupID = ?) AS usertogroupSubset ON usertogroupSubset.UserID = users.ID LEFT JOIN usertoinstitution ON usertoinstitution.UserID = users.ID WHERE GroupID IS NULL AND InstitutionID = ? AND bIsDeleted = 0");
-            $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT users.* FROM users LEFT JOIN (SELECT * FROM usertoinstitution WHERE InstitutionID = ?) AS usertoinstitutionSubset ON usertoinstitutionSubset.UserID = users.ID WHERE usertoinstitutionSubset.InstitutionID IS NULL AND bIsDeleted = 0");
+            $this->stmtGetAllInstitutions = $this->db_connection->prepare("SELECT * FROM institutions WHERE bIsDeleted = 0 ORDER BY sName");
+            $this->stmtGetAllUsers = $this->db_connection->prepare("SELECT * FROM users WHERE bIsDeleted = 0 ORDER BY sFirstName,sLastName");
+            $this->stmtGetAllGroups = $this->db_connection->prepare("SELECT * FROM groups WHERE bIsDeleted = 0 ORDER BY sName");
+            $this->stmtGetAllModules = $this->db_connection->prepare("SELECT * FROM modules WHERE bIsDeleted = 0 ORDER BY sName");
+            $this->stmtGetAllUsersFromInstitutionNotInGroup = $this->db_connection->prepare("SELECT users.* FROM users LEFT JOIN (SELECT * FROM usertogroup WHERE GroupID = ?) AS usertogroupSubset ON usertogroupSubset.UserID = users.ID LEFT JOIN usertoinstitution ON usertoinstitution.UserID = users.ID WHERE GroupID IS NULL AND InstitutionID = ? AND bIsDeleted = 0 ORDER BY sFirstName,sLastName");
+            $this->stmtGetAllUsersNotInInstitution = $this->db_connection->prepare("SELECT users.* FROM users LEFT JOIN (SELECT * FROM usertoinstitution WHERE InstitutionID = ?) AS usertoinstitutionSubset ON usertoinstitutionSubset.UserID = users.ID WHERE usertoinstitutionSubset.InstitutionID IS NULL AND bIsDeleted = 0 ORDER BY sFirstName,sLastName");
             $this->stmtGetAllLinksFromGroup = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE GroupID = ?");
             $this->stmtGetAllLinksFromInstitution = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE InstitutionID = ?");
             $this->stmtGetAllAktiveLinksFromGroup = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE GroupID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
@@ -259,11 +260,11 @@
             //-----------------------------------------------------------------------------------------------------------------------------------
             
             $this->stmtGetInstitutionsFromUserID = $this->db_connection->prepare("SELECT * FROM institutions INNER JOIN usertoinstitution ON institutions.ID = usertoinstitution.InstitutionID WHERE UserID = ?");
-            $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertoinstitution ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND bIsDeleted = 0");
-            $this->stmtGetUsersFromGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ? AND bIsDeleted = 0");
-            $this->stmtGetUsersFromPermission = $this->db_connection->prepare("SELECT * FROM users INNER JOIN rights ON rights.UserID = users.ID WHERE rights.Name = ? AND users.bIsDeleted = 0 AND rights.isDeleted = 0");
-            $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT * FROM modules INNER JOIN moduletoinstitution ON modules.ID = moduletoinstitution.ModuleID WHERE InstitutionID = ?");
-            $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ? AND bIsDeleted = 0");
+            $this->stmtGetUsersFromInstitution = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertoinstitution ON users.ID = usertoinstitution.UserID WHERE InstitutionID = ? AND bIsDeleted = 0 ORDER BY sFirstName,sLastName");
+            $this->stmtGetUsersFromGroup = $this->db_connection->prepare("SELECT * FROM users INNER JOIN usertogroup ON usertogroup.UserID = users.ID WHERE GroupID = ? AND bIsDeleted = 0 ORDER BY sFirstName,sLastName");
+            $this->stmtGetUsersFromPermission = $this->db_connection->prepare("SELECT * FROM users INNER JOIN rights ON rights.UserID = users.ID WHERE rights.Name = ? AND users.bIsDeleted = 0 AND rights.isDeleted = 0 ORDER BY sFirstName,sLastName");
+            $this->stmtGetModulesFromInstitution = $this->db_connection->prepare("SELECT * FROM modules INNER JOIN moduletoinstitution ON modules.ID = moduletoinstitution.ModuleID WHERE InstitutionID = ? ORDER BY modules.sName");
+            $this->stmtGetGroupsFromInstitution = $this->db_connection->prepare("SELECT * FROM groups WHERE InstitutionsID = ? AND bIsDeleted = 0 ORDER BY sName");
             $this->stmtGetHighestIndexFromChapter = $this->db_connection->prepare("SELECT MAX(iIndex) FROM chapters WHERE ModulID = ? AND bIsDeleted=0");
             $this->stmtSearchUsers = $this->db_connection->prepare("SELECT * FROM users WHERE (sUsername LIKE ? OR sFirstName LIKE ? OR sLastName LIKE ?) AND bIsDeleted = 0 ORDER BY sFirstName,sLastName");
             $this->stmtGetPermissionsFromName = $this->db_connection->prepare("SELECT *, rights.ID AS pID FROM rights INNER JOIN users ON rights.userID = users.ID WHERE rights.Name = ? AND rights.isDeleted = 0 AND users.bIsDeleted = 0");
@@ -285,7 +286,7 @@
             $this->stmtSetChapterIndexFromID = $this->db_connection->prepare("UPDATE chapters SET iIndex = ? WHERE ID = ?");
             $this->stmtMakeUsertoTrainer = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 1 WHERE UserID = ? AND GroupID = ?");
             $this->stmtMakeUsertoNotTrainer = $this->db_connection->prepare("UPDATE usertogroup SET bIsTrainer = 0 WHERE UserID = ? AND GroupID = ?");
-            $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND ChapterID = ? AND bIsAccepted = 0");
+            $this->stmtAcceptHandIn = $this->db_connection->prepare("UPDATE handins SET bIsAccepted = 1 WHERE UserID = ? AND GroupID = ? AND ChapterID = ? AND ID = ?");
             $this->stmtUpdatePermissionView = $this->db_connection->prepare("UPDATE rights SET canView = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL)");
             $this->stmtUpdatePermissionEdit = $this->db_connection->prepare("UPDATE rights SET canEdit = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) ");
             $this->stmtUpdatePermissionCreate = $this->db_connection->prepare("UPDATE rights SET canCreate = ? WHERE UserID = ? AND Name = ? AND (ID = ? OR ID IS NULL) ");
@@ -312,7 +313,7 @@
             //------------------------------------------------------- DELETES ------------------------------------------------------------------
             
             $this->stmtdeleteUser = $this->db_connection->prepare("UPDATE users SET bIsDeleted = 1 WHERE ID = ?");
-            $this->stmtrejectHandIn = $this->db_connection->prepare("UPDATE handins SET isRejected = 1 WHERE UserID = ? AND GroupID = ? AND ChapterID = ?");
+            $this->stmtrejectHandIn = $this->db_connection->prepare("UPDATE handins SET isRejected = 1 WHERE UserID = ? AND GroupID = ? AND ChapterID = ? AND ID = ?");
             $this->stmtdeletePermission = $this->db_connection->prepare("UPDATE rights SET isDeleted=1 WHERE UserID = ? AND Name = ? AND ID = ?");
             $this->stmtdeleteChapter = $this->db_connection->prepare("UPDATE chapters SET bIsDeleted = 1 WHERE ID= ?");
         }
@@ -521,8 +522,8 @@
 			$this->stmtisNewHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
 			$this->stmtisNewHandIn->execute();
 			$res = $this->stmtisNewHandIn->get_result();
-			if (mysqli_num_rows($res) == 1) {
-				return true;
+			if (mysqli_num_rows($res) != 0) {
+                return true;
 			} else{
 				return false;			
 			}
@@ -701,6 +702,8 @@
         }
         
         public function addTrainertoGroup($UserID,$GroupID){
+            $ModulID = $this->getModuleFromGroup($GroupID);
+            $this->addPermission($UserID,'ModulChapter',$ModulID,1,0,0,0);
             $this->stmtaddTrainertoGroup->bind_param("ii",$UserID,$GroupID);
             $this->stmtaddTrainertoGroup->execute();
         }
@@ -839,9 +842,7 @@
                 throw new exception('Keine oder mehrere Institutionen namens Gymnasium Am Geroweiher vorhanden.');        
             }
         }
-        
-        
-        
+         
         public function getUserFromUsername($Username){
             $this->stmtGetUserFromUsername->bind_param("s",$Username);	
 			$this->stmtGetUserFromUsername->execute();
@@ -1127,7 +1128,7 @@
             $this->stmtSearchUsers->bind_param("sss",$Eingabe,$Eingabe,$Eingabe);
             $this->stmtSearchUsers->execute();
             $res = $this->stmtSearchUsers->get_result();
-            $anz = $this->countsearchedUsers($Eingabe);
+            $anz = $this->countsearchedUsers($Eingabe,$Eingabe,$Eingabe);
             $row = [];
             $users = [];
             for ($i=0;$i<$anz;$i++){
@@ -1184,13 +1185,29 @@
 				$this->stmtGetHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
 				$this->stmtGetHandIn->execute();
 				$res = $this->stmtGetHandIn->get_result();
-				//echo $UserID; echo $GroupID; echo $Fortschritt; echo $ModulID; echo $ChapterID;
 				if (mysqli_num_rows($res) == 1){
 					$row = mysqli_fetch_array($res);
-					return $row['sText'];
+                    $handin = new HandIn ($row['ID'],$row['sID'],$row['Date'],$row['UserID'],$row['GroupID'],$row['ChapterID'],$row['bIsAccepted'],$row['bIsUnderReview'],$row['isRejected'],$row['sText']);
+					return $handin;
+				} elseif (mysqli_num_rows($res) > 1) {
+                    $row = [];
+                    $handins = [];
+				    for ($i=0;$i<mysqli_num_rows($res);$i++){
+                        $row[$i]=mysqli_fetch_array($res);
+                        $handins[$i] = new HandIn ($row[$i]['ID'],$row[$i]['sID'],$row[$i]['Date'],$row[$i]['UserID'],$row[$i]['GroupID'],$row[$i]['ChapterID'],$row[$i]['bIsAccepted'],$row[$i]['bIsUnderReview'],$row[$i]['isRejected'],$row[$i]['sText']);
+                    }
+                    $firsthandinindex = 0;
+                    $firsthandindate = $row[0]['Date'];
+                    for ($i=0;$i<mysqli_num_rows($res);$i++){
+                        if ($row[$i]['Date']<$firsthandindate){
+                            $firsthandindate = $row[$i]['Date'];
+                            $firsthandinindex = $i;
+                        } 
+                    }  
+                    return $handins[$firsthandinindex];
 				} else {
-				  throw new exception('Keine oder mehrere Abgaben vom User in dieser Gruppe');  
-				}
+                  throw new exception('Keine Abgaben vom User in dieser Gruppe');  
+                }
 			}
         }
         
@@ -1335,8 +1352,8 @@
             return $row['COUNT(Name)'];
         }
         
-        public function countsearchedUsers($Username){
-            $this->stmtCountSearchedUsers->bind_param("s",$Username);
+        public function countsearchedUsers($Username,$FirstName,$LastName){
+            $this->stmtCountSearchedUsers->bind_param("sss",$Username,$FirstName,$LastName);
             $this->stmtCountSearchedUsers->execute();
             $res = $this->stmtCountSearchedUsers->get_result();
             $row = mysqli_fetch_array($res);
@@ -1687,11 +1704,11 @@
             }
         }
         
-        public function acceptHandIn($UserID,$GroupID){
+        public function acceptHandIn($UserID,$GroupID,$ID){
             $Index = $this->getFortschritt($UserID,$GroupID)+1;
             $ModulID = $this->getModuleFromGroup($GroupID);
             $ChapterID = $this->getChapterIDFromIndex($Index,$ModulID);
-            $this->stmtAcceptHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
+            $this->stmtAcceptHandIn->bind_param("iiii",$UserID,$GroupID,$ChapterID,$ID);
             $this->stmtAcceptHandIn->execute();
         }
         
@@ -1732,11 +1749,11 @@
             $this->stmtdeleteUser->execute();
         }
         
-        public function rejectHandIn($UserID,$GroupID){
+        public function rejectHandIn($UserID,$GroupID,$ID){
             $Fortschritt = $this->getFortschritt($UserID,$GroupID);
             $ModulID = $this->getModuleFromGroup($GroupID);
             $ChapterID = $this->getChapterIDFromIndex($Fortschritt+1,$ModulID);
-            $this->stmtrejectHandIn->bind_param("iii",$UserID,$GroupID,$ChapterID);
+            $this->stmtrejectHandIn->bind_param("iiii",$UserID,$GroupID,$ChapterID,$ID);
             $this->stmtrejectHandIn->execute();
         }
         

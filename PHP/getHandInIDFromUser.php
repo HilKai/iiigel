@@ -6,5 +6,5 @@
 
 
   $handin = $ODB->getHandIn($currentTnID,$currentGroupID);
-  echo $handin->getsText();
+  echo $handin->getID();
 ?>

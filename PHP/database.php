@@ -37,6 +37,8 @@
         private $stmtisUserDeleted;
         private $stmtisAdmin;
         private $stmtisInstitutionsLeader;
+        private $stmtisGroupLinkTaken;
+        private $stmtisInstitutionLinkTaken;
         
         //-------------------------------------------------
         
@@ -190,7 +192,8 @@
             $this->stmtisUserDeleted = $this->db_connection->prepare("SELECT * FROM users WHERE ID = ? AND bIsDeleted = 1");
             $this->stmtisAdmin = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = 'Admin' AND isDeleted = 0");
             $this->stmtisInstitutionsLeader = $this->db_connection->prepare("SELECT * FROM usertoinstitution WHERE UserID = ? AND bIsInstitutionleader = 1");
-            
+            $this->stmtisGroupLinkTaken = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE Link = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
+            $this->stmtisInstitutionLinkTaken = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE Link = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             //---------------------------------------------------------- SELECTS ----------------------------------------------------------------
             
 			$this->stmtGetUserFromID = $this->db_connection->prepare("SELECT * FROM users WHERE users.ID = ? AND bIsDeleted = 0");
@@ -448,6 +451,30 @@
 			$res = $this->stmtisEmailTaken->get_result();
 			$iAmountOfThisEmail = mysqli_num_rows($res);
             if ($iAmountOfThisEmail != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function isGroupLinkTaken($sLink){
+			$this->stmtisGroupLinkTaken->bind_param("s",$sLink);	
+			$this->stmtisGroupLinkTaken->execute();
+			$res = $this->stmtisGroupLinkTaken->get_result();
+			$iAmountOfThisGroupLink = mysqli_num_rows($res);
+            if ($iAmountOfThisGroupLink != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        public function isInstitutionLinkTaken($sLink){
+			$this->stmtisInstitutionLinkTaken->bind_param("s",$sLink);	
+			$this->stmtisInstitutionLinkTaken->execute();
+			$res = $this->stmtisInstitutionLinkTaken->get_result();
+			$iAmountOfThisInstitutionLink = mysqli_num_rows($res);
+            if ($iAmountOfThisInstitutionLink != 0) {
                 return true;
             } else {
                 return false;

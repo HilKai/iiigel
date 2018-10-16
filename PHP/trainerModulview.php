@@ -129,7 +129,7 @@
     for ($i=0; $i< sizeof($aktiveLinks);$i++){  
             $myRow = file_get_contents('../HTML/trainerModulviewAktiveLinktitem.html');
             $search = array('%LinkString%','%endDate%');
-            $replace = array("www.iii"."gel.de/index.php?reg=".$aktiveLinks[$i] ->getLink(),$aktiveLinks[$i]->getEndDatum());
+            $replace = array($aktiveLinks[$i] ->getLink(),$aktiveLinks[$i]->getEndDatum());
             $myRow = str_replace($search,$replace,$myRow);
         $toAdd = $toAdd . $myRow;        
     }
@@ -157,9 +157,57 @@
     }
     
     if (isset($_POST['ErstellButton'])){
-        $ODB->addGroupInvitationLink($_POST['input'],$currentGroupID,$_POST['start'],$_POST['end']);
-        header("Location: ../PHP/trainerModulview.php?groupID=".$currentGroupID);
+        if (!$ODB->isGroupLinkTaken($_POST['input'])) {
+            $ODB->addGroupInvitationLink($_POST['input'],$currentGroupID,$_POST['start'],$_POST['end']);
+            header("Location: ../PHP/trainerModulview.php?groupID=".$currentGroupID);
+        } else {
+            $error = true;
+            $GroupLinkError = "Dieser Gruppencode ist bereits vergeben.";
+            header("Location: ../PHP/trainerModulview.php?groupID=".$currentGroupID);
+        }
     }
     
     echo $myPage;  
 ?>
+
+<div id="myLinkModal" class="modal fade" role="dialog">
+						<div class="modal-dialog">
+
+							<!-- Modal content-->
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
+									<h4 class="modal-title">Neuen Link/Gruppencode erstellen</h4>
+								</div>
+								<form id="myForm2" action="" method="post" autocomplete="off">
+									<div class="modal-body">
+										<div class="form-group">
+											<label for="exampleInputPrename">Link/Gruppencode</label>
+											<input id="pw1" type="text" name="input" class="form-control form" value="">
+                                            <span class="text-danger"><?php if(isset($GroupLinkError)) echo $GroupLinkError; ?> </span>
+                                            <div id="DateInput" class="row">
+												<div id="Startdatum Input" class="col-md-6">
+													<label for="exampleInputPrename" class="dateInput" >Startdatum</label> <br>
+                                            		<input class=" addForm dateInput" name="start" id="startdate" type="date" value=""  placeholder="Startdatum" style="margin-top: 10px">
+												</div>
+												
+												<div id="Entdatum Input" class="col-md-6">
+													<label class ="dateInput" for="exampleInputPrename">Enddatum</label> <br>
+                                            		<input name="end" id="enddate" type="date" value="" class="addForm dateInput" placeholder="Enddatum">
+												</div>
+											</div>
+										
+											<span id="passError" class="text-danger"></span>
+										</div>
+
+									</div>
+									<!---type="submit" value="text" name="newPass" -->
+								
+								<div class="modal-footer">
+									<button type= "submit" name = "ErstellButton" id="ModalBtn" class="btn btn-default">Erstellen</button>
+								</div>
+                                </form>
+							</div>
+
+						</div>
+					</div>

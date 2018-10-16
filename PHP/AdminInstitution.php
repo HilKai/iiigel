@@ -1,8 +1,8 @@
 <?php
-	 ob_start();
-	 session_start();
-	 $myPage = file_get_contents('../HTML/AdminInstitution.html');
-	 include_once("database.php");
+    ob_start();
+    session_start();
+    $myPage = file_get_contents('../HTML/AdminInstitution.html');
+    include_once("database.php");
 	include_once("Navigation.php");
    
     $myUserID = $_SESSION['user'];
@@ -33,12 +33,8 @@
        
     }
 
-   
-   
-
-    
 
     $myPage = str_replace("%tablerow%",$toAdd,$myPage);     
-echo $myPage;
+    echo $myPage;
 	}
 ?>

@@ -1,7 +1,7 @@
 <?php 
     include_once("database.php");
 	include_once("Navigation.php");
-session_start();
+    session_start();
 
     $myPage = file_get_contents('../HTML/AdminGroupDetailView.html');
   
@@ -18,7 +18,7 @@ session_start();
 	
 		
 	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
-     $toAdd = '';
+    $toAdd = '';
     $toTrainerAdd = '';
     $toUserAdd = '';
     if ($_POST != null){

@@ -59,6 +59,7 @@
     if (isset($_POST['addLink'])){
         $ODB->addInstitutionInvitationLink($_POST['link'],$_GET['InstitutionsID'],$_POST['startdate'],$_POST['enddate']);
         header("Location: ../PHP/AdminInstitutionDetailView.php?InstitutionsID=".$_GET['InstitutionsID']);
+        exit;
     }
 
     $myPage = str_replace("%Listitems%",$add,$myPage);   

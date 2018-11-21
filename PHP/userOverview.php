@@ -3,7 +3,7 @@
     session_start();
     $myPage = file_get_contents('../HTML/userOverview.html');
     include_once("database.php");
-    include_once("Model/user.php");
+    include_once("Model/User.php");
 	include_once("Navigation.php");
 
 
@@ -50,12 +50,12 @@
             }
         }
             if ($oneTrainer != null){
-                $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModuleName%', '%ID%');
-                $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$Progress,$ProgressPercent, $link,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName(), "Modul".$i);
+                $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModulePicture%', '%ID%');
+                $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName(),$oneTrainer->getsFirstName()." ". $oneTrainer->getsLastName(),$Progress,$ProgressPercent, $link,$ODB->getModuleImageFromID($myGroups[$i]->getModulID()), "Modul".$i);
                 $myBox = str_replace($search,$replace,$myBox);
             } else {
-               $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModuleName%', '%ID%');
-                $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName()," ",$Progress,$ProgressPercent, $link,$ODB->getModuleFromID($myGroups[$i]->getModulID())->getsName(), "Modul".$i);
+               $search = array('%Name%', '%Institution%', '%Trainer%', '%Progress%', '%ProgressPercent%','%ModuleLink%','%ModulePicture%', '%ID%');
+                $replace = array($myGroups[$i]->getsName(), $ODB->getInstitutionFromID($myGroups[$i]-> getInstitutionsID())->getsName()," ",$Progress,$ProgressPercent, $link,$ODB->getModuleImageFromID($myGroups[$i]->getModulID()), "Modul".$i);
                 $myBox = str_replace($search,$replace,$myBox); 
             }
         $toAdd = $toAdd . $myBox;
@@ -64,6 +64,7 @@
     if (isset($_POST['BeitrittButton'])){
         $ODB->processRegistrationLink($myUser->getID(),$_POST['input']);
         header("Location: ../PHP/userOverview.php");
+        exit;
     }
 
     $myPage=str_replace('%Module%',$toAdd,$myPage);

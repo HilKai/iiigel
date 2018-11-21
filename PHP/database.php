@@ -7,7 +7,7 @@
         include_once("Model/Chapter.php");
         include_once("Model/Module.php");
         include_once("Model/RegistrationLink.php");
-        include_once("Model/handIn.php");
+        include_once("Model/HandIn.php");
        
         
     class Database
@@ -216,7 +216,7 @@
             $this->stmtGetInstitutionFromGroup = $this->db_connection->prepare("SELECT InstitutionsID FROM groups WHERE ID = ?");
             $this->stmtGetGroupIDFromLink = $this->db_connection->prepare("SELECT GroupID FROM registrationlinkgroup WHERE Link = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtGetInstitutionIDFromLink = $this->db_connection->prepare("SELECT InstitutionID FROM registrationlinkinstitution WHERE Link = ?");
-            $this->stmtGetHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND ChapterID = ? AND bisAccepted = 0 AND isRejected = 0");
+            $this->stmtGetHandIn = $this->db_connection->prepare("SELECT * FROM handins WHERE UserID = ? AND GroupID = ? AND ChapterID = ? AND bIsAccepted = 0 AND isRejected = 0");
             $this->stmtGetFortschritt = $this->db_connection->prepare("SELECT iFortschritt FROM usertogroup WHERE UserID = ? AND GroupID = ?");
             $this->stmtGetModuleFromGroup = $this->db_connection->prepare("SELECT ModulID From groups WHERE ID = ?");
             $this->stmtGetChapterIDFromIndex = $this->db_connection->prepare("SELECT ID FROM chapters WHERE iIndex = ? AND ModulID = ? AND bIsDeleted = 0");
@@ -831,7 +831,7 @@
                                     $row['sLastName'],$row['sEMail'],$row['sHashedPassword'],
                                     $row['sProfilePicture'],$row['bIsVerified'],$row['bIsOnline']);
             } else {
-                throw new exception('Mehr als ein User mit dieser ID');        
+                throw new exception('Mehr als ein User oder kein User mit dieser ID');        
             }	
             
         }
@@ -1233,7 +1233,7 @@
                     }  
                     return $handins[$firsthandinindex];
 				} else {
-                  throw new exception('Keine Abgaben vom User in dieser Gruppe');  
+                  return null;  
                 }
 			}
         }
@@ -1660,9 +1660,16 @@
             $this->stmtSetProfilePic->execute();  
         }
         
-        public function setFortschrittFromUserinGroup($UserID,$GroupID ){
-            $this->stmtSetFortschrittFromUserinGroup->bind_param("ii",$GroupID,$UserID);
-            $this->stmtSetFortschrittFromUserinGroup->execute();
+        public function setFortschrittFromUserinGroup($UserID,$GroupID){
+            $moduleID = $this->getModuleFromGroup($GroupID);
+            $highestindex = $this->getHighestIndexFromChapter($moduleID);
+            $lastchapter = $highestindex - 1;
+            $currentprogress = $this->getFortschritt($UserID,$GroupID);
+            if ($currentprogress!=$lastchapter){
+                $this->stmtSetFortschrittFromUserinGroup->bind_param("ii",$GroupID,$UserID);
+                $this->stmtSetFortschrittFromUserinGroup->execute();   
+            }
+            
         }
         
         public function setFortschrittforallUsersinGroup($Fortschritt,$GroupID){
@@ -1732,9 +1739,9 @@
         }
         
         public function acceptHandIn($UserID,$GroupID,$ID){
-            $Index = $this->getFortschritt($UserID,$GroupID)+1;
+            $Fortschritt = $this->getFortschritt($UserID,$GroupID);
             $ModulID = $this->getModuleFromGroup($GroupID);
-            $ChapterID = $this->getChapterIDFromIndex($Index,$ModulID);
+            $ChapterID = $this->getChapterIDFromIndex($Fortschritt+1,$ModulID);
             $this->stmtAcceptHandIn->bind_param("iiii",$UserID,$GroupID,$ChapterID,$ID);
             $this->stmtAcceptHandIn->execute();
         }

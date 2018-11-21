@@ -2,7 +2,7 @@
     ob_start();
     session_start();
     include_once("database.php");
-    include_once("Model/user.php");
+    include_once("Model/User.php");
 	include_once("Navigation.php");
 
     // if session is not set this will redirect to login page

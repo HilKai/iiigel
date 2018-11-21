@@ -72,6 +72,7 @@
 		}
         
 		if($GLOBALS["ODB"]->isAdmin($_SESSION['user'])) {		//Admin Dropdown 
+			//echo 'test';
 			$dropdown= file_get_contents('../HTML/NavigationAdminDropdown.html');
 		} else {
 			$dropdown = '';

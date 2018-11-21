@@ -79,8 +79,10 @@
                             <p id="ModalText">..</p>
                         </div>
                         <div class="modal-footer">
-							<form action="post"><button id="RejectBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="rejectHandIn(this)">Ablehnen</button></form>
-                            <button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button>
+							<form method="post">
+                                <button id="RejectBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="rejectHandIn(this)">Ablehnen</button>
+                                <button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button>
+                            </form>
                         </div>
                     </div>
 
@@ -283,8 +285,10 @@
         $groupID = "%GroupID%";
 
         $.ajax({
-            url: "acceptHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID + "&" + "handinID=" + handInID[tnID],
-			success: function(data) {location.reload();},
+            url: "acceptHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID + "&" + "handinID=" + handinID[tnID],
+			success: function(data) {
+                location.reload();
+            },
         });
 
        

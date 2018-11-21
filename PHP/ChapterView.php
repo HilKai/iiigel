@@ -59,6 +59,7 @@ if(!($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->chapter[$
             $ODB->setFortschrittFromUserinGroup($myUserID,$currentGroupID);     
         }
        header("Location: ../PHP/ChapterView.php?moduleID=".$myModuleID."&chapterID=". ($myChapterID+1)."&groupID=".$currentGroupID );
+        exit;
     }
 
      if ( isset($_POST['AbgabeButton'])){

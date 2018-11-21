@@ -3,7 +3,7 @@
 	 session_start();
 	 $myPage = file_get_contents('../HTML/trainerModulview.html');
 	 include_once("database.php");
-	include_once("Navigation.php");
+	 include_once("Navigation.php");
 	 $grey = "#ddd";
 	 $red = "#ff0000";
 	 $color = $grey;
@@ -13,6 +13,12 @@
     
     $currentGroupID = $_GET['groupID'];
     $myUserID = $_SESSION['user'];
+
+    if (isset($_GET['openmodal'])){
+        $bool = "true";
+    } else {
+        $bool = "false";
+    }
    
 	 
 	 // if session is not set this will redirect to login page
@@ -30,8 +36,8 @@
     //
     $myGroup = $ODB->getGroupFromID($currentGroupID);
     $myModule = $ODB->getModuleFromID($myGroup->getModulID());
-    $search = array('%Gruppenname%', '%Institution%','%GroupID%');
-    $replace = array($myGroup->getsName(), $ODB->getInstitutionFromID($myGroup-> getInstitutionsID())->getsName(), $currentGroupID);
+    $search = array('%Gruppenname%', '%Institution%','%GroupID%','%bool%');
+    $replace = array($myGroup->getsName(), $ODB->getInstitutionFromID($myGroup-> getInstitutionsID())->getsName(), $currentGroupID,$bool);
     $myPage = str_replace($search,$replace,$myPage);
 	
 	$myPage = str_replace('%Navigation%',getNavigation(),$myPage);
@@ -153,61 +159,63 @@
 
     if (isset($_POST['HinzuButton'])){ 
         $ODB->addUsertoGroup($_POST['UserID'],$currentGroupID);
-        header ("Location: ../PHP/trainerModulview.php?groupID=".$currentGroupID);
+        header("Location: ../PHP/trainerModulview.php?groupID=".$currentGroupID);
     }
     
     if (isset($_POST['ErstellButton'])){
         if (!$ODB->isGroupLinkTaken($_POST['input'])) {
             $ODB->addGroupInvitationLink($_POST['input'],$currentGroupID,$_POST['start'],$_POST['end']);
             header("Location: ../PHP/trainerModulview.php?groupID=".$currentGroupID);
+            exit;
         } else {
             $error = true;
             $GroupLinkError = "Dieser Gruppencode ist bereits vergeben.";
-            header("Location: ../PHP/trainerModulview.php?groupID=".$currentGroupID);
         }
     }
     
     echo $myPage;  
 ?>
+<html>
+    <div id="myLinkModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+             <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
+                    <h4 class="modal-title">Neuen Link/Gruppencode erstellen</h4>
+                </div>
+                <form id="myForm2" action="" method="post" autocomplete="off">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleInputPrename">Link/Gruppencode</label>
+                            <input id="pw1" type="text" name="input" class="form-control form" value="">
+                            <span class="text-danger"><?php if(isset($GroupLinkError)) echo $GroupLinkError; ?> </span>
+                            <div id="DateInput" class="row">
+                                <div id="Startdatum Input" class="col-md-6">
+                                    <label for="exampleInputPrename" class="dateInput" >Startdatum</label> <br>
+                                    <input class=" addForm dateInput" name="start" id="startdate" type="date" value=""  placeholder="Startdatum" style="margin-top: 10px">
+                                </div>					
+                                <div id="Entdatum Input" class="col-md-6">
+                                    <label class ="dateInput" for="exampleInputPrename">Enddatum</label> <br>
+                                    <input name="end" id="enddate" type="date" value="" class="addForm dateInput" placeholder="Enddatum">
+                                </div>
+                            </div>				
+                            <span id="passError" class="text-danger"></span>
+                        </div>
+                    </div>		
+                    <div class="modal-footer">
+                        <button type= "submit" name = "ErstellButton" id="ModalBtn" class="btn btn-default">Erstellen</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</html>
 
-<div id="myLinkModal" class="modal fade" role="dialog">
-						<div class="modal-dialog">
-
-							<!-- Modal content-->
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" onclick="deleteDanger()">&times;</button>
-									<h4 class="modal-title">Neuen Link/Gruppencode erstellen</h4>
-								</div>
-								<form id="myForm2" action="" method="post" autocomplete="off">
-									<div class="modal-body">
-										<div class="form-group">
-											<label for="exampleInputPrename">Link/Gruppencode</label>
-											<input id="pw1" type="text" name="input" class="form-control form" value="">
-                                            <span class="text-danger"><?php if(isset($GroupLinkError)) echo $GroupLinkError; ?> </span>
-                                            <div id="DateInput" class="row">
-												<div id="Startdatum Input" class="col-md-6">
-													<label for="exampleInputPrename" class="dateInput" >Startdatum</label> <br>
-                                            		<input class=" addForm dateInput" name="start" id="startdate" type="date" value=""  placeholder="Startdatum" style="margin-top: 10px">
-												</div>
-												
-												<div id="Entdatum Input" class="col-md-6">
-													<label class ="dateInput" for="exampleInputPrename">Enddatum</label> <br>
-                                            		<input name="end" id="enddate" type="date" value="" class="addForm dateInput" placeholder="Enddatum">
-												</div>
-											</div>
-										
-											<span id="passError" class="text-danger"></span>
-										</div>
-
-									</div>
-									<!---type="submit" value="text" name="newPass" -->
-								
-								<div class="modal-footer">
-									<button type= "submit" name = "ErstellButton" id="ModalBtn" class="btn btn-default">Erstellen</button>
-								</div>
-                                </form>
-							</div>
-
-						</div>
-					</div>
+<script type="text/javascript">
+	if ( %bool% == true) {
+		$(function() {
+			$('#myModal').modal('show');
+		});
+	}
+</script>

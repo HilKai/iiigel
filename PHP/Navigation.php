@@ -1,4 +1,8 @@
 <?php
+//Genereller Aufbau der Navigation: Sie stellt verschiedene Sockel auf die Webseite. Wenn die Webseite geladen wird, werden die Rechte des Nutzers angeschaut
+//und man beim Adminrang z.B. den Admin Sockel durch den Admin-Button ersetzt. Während man bei den anderen Sachen die Sockel ausradiert.
+//Sockel: %Bla% Ersetzen: search, replace, etc.
+//Das ganze ist quasi ein Baukasten, nicht jeder sieht die gleiche Webseite 
 
     include_once("database.php");
 	function getNavigation($showHome=true){
@@ -20,11 +24,12 @@
         $toAddIns = "";
         
         
-        if ($GLOBALS["ODB"]->isAdmin($_SESSION['user'])){
+        if ($GLOBALS["ODB"]->isAdmin($_SESSION['user'])){//AL Wenn der User ein Admin ist 
+            
             $modules = $GLOBALS["ODB"]->getAllModules();
             for ($i=0;$i<count($modules);$i++){
-                $myRow = "<li><a class='dropdown-item' href='EditorModulView.php?modulID=%ID%'>%Name%</a></li>" ;
-                $userIsEditor = true;
+                $myRow = "<li><a class='dropdown-item' href='EditorModulView.php?modulID=%ID%'>%Name%</a></li>" ;//AL Packt alle Module in das Editor Dropdown
+                $userIsEditor = true;//AL Ein Admin ist automatisch auch ein Editor
                 $search = array("%Name%","%ID%");
                 $replace = array($modules[$i]->getsName(),$modules[$i]->getID());
                 $myRow = str_replace($search,$replace,$myRow);
@@ -32,7 +37,7 @@
             }
             
         } else {
-		  $permission = $GLOBALS["ODB"]->getPermissionsFromName("Modul");
+		  $permission = $GLOBALS["ODB"]->getPermissionsFromName("Modul");//AL Nehme den Rang vom User
 			while(($permissionRow = mysqli_fetch_array($permission))!=null){
 				
 				$currentUser = $GLOBALS["ODB"]->getUserFromID($permissionRow["UserID"]);
@@ -47,7 +52,7 @@
             }      	
 		}
         
-        if ($GLOBALS["ODB"]->isInstitutionsLeader($_SESSION['user'])and(!$GLOBALS["ODB"]->isAdmin($_SESSION['user']))){
+        if ($GLOBALS["ODB"]->isInstitutionsLeader($_SESSION['user'])and(!$GLOBALS["ODB"]->isAdmin($_SESSION['user']))){//AL Wenn man Admin und Leader ist
             $institution = $GLOBALS["ODB"]->getAllInstitutionsFromLeader($_SESSION['user']);
                 while(($institutionRow = mysqli_fetch_array($institution))!=null){
 
@@ -65,21 +70,20 @@
         
         
 		$editor = str_replace("%ModulListe%",$toAdd,$editor);
-		if (($userIsEditor === true)or($GLOBALS["ODB"]->isAdmin($_SESSION['user']))){
-			$navigation = str_replace("%Editor%",$editor,$navigation);
+		if (($userIsEditor === true)or($GLOBALS["ODB"]->isAdmin($_SESSION['user']))){//AL Wenn man Editor oder Admin ist
+			$navigation = str_replace("%Editor%",$editor,$navigation);//AL Sieht man den Editor Button
 		} else {
-				$navigation = str_replace("%Editor%","",$navigation);
+				$navigation = str_replace("%Editor%","",$navigation);//AL Sonst nicht
 		}
         
 		if($GLOBALS["ODB"]->isAdmin($_SESSION['user'])) {		//Admin Dropdown 
-			//echo 'test';
 			$dropdown= file_get_contents('../HTML/NavigationAdminDropdown.html');
 		} else {
 			$dropdown = '';
 		}
 		$navigation = str_replace("%AdminDropdown%",$dropdown,$navigation);
         
-        $leader = str_replace("%InstitutionsListe%",$toAddIns,$leader);
+        $leader = str_replace("%InstitutionsListe%",$toAddIns,$leader);//AL Institutionleader Dropdown
 		if ($GLOBALS["ODB"]->isInstitutionsLeader($_SESSION['user'])and(!$GLOBALS["ODB"]->isAdmin($_SESSION['user']))){
 			$navigation = str_replace("%Leader%",$leader,$navigation);
 		} else {
@@ -98,7 +102,7 @@
 			$home = '';
 		}
 		
-		$navigation = str_replace("%Home%",$home,$navigation);
+		$navigation = str_replace("%Home%",$home,$navigation);//AL Home Button
 	
 		return  $navigation;
 	}

@@ -36,6 +36,7 @@
         private $stmtisInstitutionLinkgueltig;
         private $stmtisUserDeleted;
         private $stmtisAdmin;
+        private $stmtisEditor;
         private $stmtisInstitutionsLeader;
         private $stmtisGroupLinkTaken;
         private $stmtisInstitutionLinkTaken;
@@ -191,6 +192,7 @@
             $this->stmtisInstitutionLinkgueltig = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE Link = ? AND StartDatum >= CURDATE() AND EndDatum <= CURDATE()");
             $this->stmtisUserDeleted = $this->db_connection->prepare("SELECT * FROM users WHERE ID = ? AND bIsDeleted = 1");
             $this->stmtisAdmin = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = 'Admin' AND isDeleted = 0");
+            $this->stmtisEditor = $this->db_connection->prepare("SELECT * FROM rights WHERE UserID = ? AND Name = 'canEdit' AND isDeleted = 0");
             $this->stmtisInstitutionsLeader = $this->db_connection->prepare("SELECT * FROM usertoinstitution WHERE UserID = ? AND bIsInstitutionleader = 1");
             $this->stmtisGroupLinkTaken = $this->db_connection->prepare("SELECT * FROM registrationlinkgroup WHERE Link = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtisInstitutionLinkTaken = $this->db_connection->prepare("SELECT * FROM registrationlinkinstitution WHERE Link = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
@@ -555,6 +557,17 @@
 				return false;			
 			}
 		}
+        
+        public function isEditor($UserID){
+            $this->stmtisEditor->bind_param("i",$UserID);
+			$this->stmtisEditor->execute();
+			$res = $this->stmtisEditor->get_result();
+			if (mysqli_num_rows($res) == 1) {
+				return true;
+			} else{
+				return false;
+			} 
+        }
         
         public function isAdmin($UserID){
             $this->stmtisAdmin->bind_param("i",$UserID);
@@ -1119,6 +1132,17 @@
             $res = $this->stmtGetPermissionsFromName->get_result(); 
             
             return $res;
+        }
+        
+        public function getPermissionsFromUser($UserID){
+            
+            if($this->isAdmin($UserID)){
+                return "Admin"; 
+            }else if($this->isEditor($UserID)){
+                return "Editor";
+            }else{
+                return "Teilnehmer";
+            }
         }
         
         public function getModulesFromInstitution($InstitutionID){

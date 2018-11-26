@@ -395,6 +395,7 @@ body {
 
 .btn {
     margin-top: 25px;
+    height: 34px;
 }
 
 .btn:hover {

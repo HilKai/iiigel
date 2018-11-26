@@ -67,7 +67,7 @@
 
             <!-- Modal Abgabe -->
             <div id="myModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
+                <div class="modal-dialog" style="width:85%;">
 
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -76,13 +76,11 @@
                             <h4 class="modal-title">Abgabe</h4>
                         </div>
                         <div class="modal-body">
-                            <p id="ModalText">..</p>
+                            <p id="ModalText" style="white-space: pre; font-family: Courier New">..</p><!--AL das Fenster, wo die Abgabe des TN beim Trainer reingestellt wird, mit CSS so formatiert, dass man die Zeilenumbrüche mitnimmt-->
                         </div>
                         <div class="modal-footer">
-							<form method="post">
-                                <button id="RejectBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="rejectHandIn(this)">Ablehnen</button>
-                                <button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button>
-                            </form>
+							<form action="post"><button id="RejectBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="rejectHandIn(this)">Ablehnen</button></form>
+                            <button id="ModalBtn" type="button" class="btn btn-default" data-dismiss="modal" value="" onclick="acceptHandIn(this)">Annehmen</button>
                         </div>
                     </div>
 
@@ -285,10 +283,8 @@
         $groupID = "%GroupID%";
 
         $.ajax({
-            url: "acceptHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID + "&" + "handinID=" + handinID[tnID],
-			success: function(data) {
-                location.reload();
-            },
+            url: "acceptHandIn.php?groupID=" + $groupID + "&" + "tnID=" + tnID + "&" + "handinID=" + handInID[tnID],
+			success: function(data) {location.reload();},
         });
 
        

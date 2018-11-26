@@ -61,6 +61,6 @@
     $myPage=str_replace('%Tablerow%',$toAdd,$myPage);
 
     
-    echo $myPage;  
+        echo $myPage;  
 	}
 ?>

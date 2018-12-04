@@ -3,7 +3,7 @@
 	 session_start();
 	 $myPage = file_get_contents('../HTML/AdminUserView.html');
 	 include_once("database.php");
-	include_once("Navigation.php");
+	 include_once("Navigation.php");
 
      $allUsers = $ODB->getAllUsers();
 	 $searchUsers = $allUsers;
@@ -32,7 +32,8 @@
 		
         }
          
-		if(isset($_POST['DeleteUser'])){      
+		if(isset($_POST['DeleteUser'])){ 
+                 echo Hallo;
                  for ($i=0; $i< sizeof($allUsers);$i++){  
                     if($allUsers[$i]->getID() ==  $_POST['DeleteUser']) {
                         $ODB->deleteUser($allUsers[$i]->getID());

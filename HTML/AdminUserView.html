@@ -60,9 +60,56 @@
 			</div>
 
 		</div>
+        
+        	<div id="myModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">User Löschen</h4>
+						</div>
+						<div class="modal-body">
+
+							<div class="container">
+								<div class="row">
+									<div class="col-md-12">
+										<div class="panel-body">
+											<formgroup>
+                                                <p>Wollen Sie wirklich diesen Nutzer löschen?</p>
+											</formgroup>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button name="DeleteUser" type="button" class="btn btn-default" data-dismiss="modal" value="%id%" onclick="commitChanges()" style="background-color:#e31465; color:#FFFFFF;">Löschen</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
 
 	</div>
 
 </body>
+    
+<script>
 
+
+	function openModal(data) {
+
+		$('#myModal').modal('show');
+		console.log(data);
+
+	}
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
 </html>

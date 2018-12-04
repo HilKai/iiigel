@@ -67,7 +67,7 @@ if(!($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->chapter[$
     if ( isset($_POST['EditChapterButton'])){//AL Wenn der Trainer auf den Button für das bearbeiten dieses Kapitels drückt
         header("Location: ../PHP/chapterEditor.php?moduleID=".$myModuleID."&chapterID=".($myChapterID+1));
     }
-    //if(($ODB->isTrainerofGroup($myUserID,$currentGroupID)) and (($GLOBALS["ODB"]->isAdmin($_SESSION['user'])))) { AL UNBENUTZT
+   
 
     if($ODB->isTrainerofGroup($myUserID,$currentGroupID)) {
         $toAdd = file_get_contents('../HTML/ChapterViewTrainerChapterToggle.html');//AL erstellt den Trainer Button
@@ -161,7 +161,7 @@ if(!($ODB->hasPermission($_SESSION['user'],"Chapter","view",$myModule->chapter[$
     }
     $myPage=str_replace('%ChapterDropDownItems%',$toAdd,$myPage);
     
-echo $myPage;
+    echo $myPage;
 	
 
 }

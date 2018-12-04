@@ -11,7 +11,7 @@
         header("Location: ../index.php");
         exit;
     }
-
+    //TV Wenn der User nicht die Berechtigung hat
 	if(!$ODB->hasPermission($_SESSION['user'],"Modul","edit",$myChapterID) ) {
         echo "Sie haben nicht die benötigte Berechtigung um diese Seite anzusehen.";
         exit;
@@ -26,7 +26,7 @@
 
 	 if ( isset($_POST['btn-save']) ) {
         $error = false;
-		/*PREVENT SQL INJECTION*/
+		/*TV PREVENT SQL INJECTION*/
 		$modulename = trim($_POST['modulename']);
 		$modulename = strip_Tags($modulename);
 		$modulename = htmlspecialchars($modulename);

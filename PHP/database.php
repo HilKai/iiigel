@@ -133,6 +133,7 @@
         private $stmtUpdatePermissionEdit; 
         private $stmtUpdatePermissionCreate;
         private $stmtUpdatePermissionDelete;
+        private $stmtSetChapterHeadlineFromID;
         
         //------------------------------------------------
         
@@ -246,6 +247,7 @@
             $this->stmtCountAllAktiveLinksFromInstitution = $this->db_connection->prepare("SELECT COUNT(ID) FROM registrationlinkinstitution WHERE InstitutionID = ? AND CURRENT_DATE() BETWEEN StartDatum AND EndDatum");
             $this->stmtCountAllChaptersFromModuleID = $this->db_connection->prepare("SELECT COUNT(ID) FROM chapters WHERE ModulID = ?");
             $this->stmtCountAllInstitutionsFromLeader = $this->db_connection->prepare("SELECT COUNT(UserID) FROM usertoinstitution WHERE UserID = ? AND bIsInstitutionleader = 1");
+            $this->stmtSetChapterHeadlineFromID = $this->db_connection->prepare("UPDATE chapters SET sTitle = ? WHERE ID = ?");
             
             //---------------------------------------------------------- SELECT ALL -------------------------------------------------------------
             
@@ -1760,6 +1762,11 @@
               $this->stmtMakeUsertoTrainer->bind_param("ii",$UserID,$GroupID);
               $this->stmtMakeUsertoTrainer->execute(); 
             }
+        }
+        
+        public function setChapterHeadlineFromID($Headline,$ID){
+            $this->stmtSetChapterHeadlineFromID->bind_param("si",$Headline,$ID);
+            $this->stmtSetChapterHeadlineFromID->execute(); 
         }
         
         public function acceptHandIn($UserID,$GroupID,$ID){

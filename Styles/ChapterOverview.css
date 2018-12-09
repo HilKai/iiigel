@@ -354,7 +354,7 @@ body {
     float: left;
     border-radius: 2px;
     text-align: left;
-    overflow: hidden;
+    overflow: scroll;
     -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.68);
     -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.68);
     box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.68);
@@ -433,7 +433,7 @@ body {
     z-index: 1;
     top: 0;
     right: 0;
-    overflow-x: hidden;
+    overflow-x: auto;
     transition: 0.5s;
     padding-top: 60px;
 }

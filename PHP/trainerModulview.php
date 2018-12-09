@@ -13,7 +13,7 @@
     
     $currentGroupID = $_GET['groupID'];
     $myUserID = $_SESSION['user'];
-   
+    $_SESSION['lastDeletedUser'] = 0;
 	 
 	 // if session is not set this will redirect to login page
 	 if( !isset($_SESSION['user']) ) {
@@ -30,7 +30,7 @@
     //
     $myGroup = $ODB->getGroupFromID($currentGroupID);//AL Zieht aus der Datenbank, in welcher Gruppe und welchem Modul man ist
     $myModule = $ODB->getModuleFromID($myGroup->getModulID());
-    $search = array('%Gruppenname%', '%Institution%','%GroupID%');
+    $search = array('%Gruppenname%', '%Institution%', '%GroupID%');
     $replace = array($myGroup->getsName(), $ODB->getInstitutionFromID($myGroup-> getInstitutionsID())->getsName(), $currentGroupID);
     $myPage = str_replace($search,$replace,$myPage);
 	
@@ -39,7 +39,6 @@
     $toAdd = "";
 
     $myModuleID = $myModule->getID();
-
     if ($_POST){
         
         if(isset($_POST['levelUpforAll'])){
@@ -53,6 +52,21 @@
                         $id =$myGroup ->teilnehmer[$i]->getID();
                         $ODB->setFortschrittFromUserinGroup($id,$currentGroupID);
                         header("Refresh:0");     
+                    }
+                }
+            }
+        }
+        if ( isset($_POST['removeUserFromGroupButton']) ) {
+            
+            for ($i=0; $i< sizeof($myGroup->teilnehmer);$i++){   
+                if($myGroup->teilnehmer[$i]->getID() ==  $_POST['removeUserFromGroupButton']) {
+                    if($myGroup->teilnehmer[$i]->getiFortschritt()<sizeof($myModule->chapter)-1){
+                        $id =$myGroup ->teilnehmer[$i]->getID();
+                        if($id!=$myUserID){
+                        $_SESSION['lastDeletedUser'] = $id;
+                        $ODB->removeUserFromGroup($id,$currentGroupID);
+                        header("Refresh:0"); 
+                        }
                     }
                 }
             }

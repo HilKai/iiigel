@@ -1265,7 +1265,6 @@
         }
         
         public function getFortschritt($UserID,$GroupID){
-
             if($_SESSION['lastDeletedUser']!=$UserID){
             $this->stmtGetFortschritt->bind_param("ii",$UserID,$GroupID);
             $this->stmtGetFortschritt->execute();
@@ -1276,7 +1275,8 @@
             } else {
               throw new exception('User ist nicht in dieser Gruppe.');
             }
-        }}
+           }
+        }
         
         public function getModuleFromGroup($GroupID){
             $this->stmtGetModuleFromGroup->bind_param("i",$GroupID);

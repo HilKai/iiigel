@@ -13,7 +13,7 @@
         exit;
     }
 
-    //TV User Daten werden herausgesucht
+    // select loggedin users detail
     $myUser = $ODB->getUserFromID($_SESSION['user']); 
     $myGroups = $ODB->getGroupsFromUserID($_SESSION['user']);
     $search = array('%Vorname%', '%Nachname%', '%UserName%', '%EMail%','%Rechte%','%ProfilePicture%','%userID%');
@@ -24,7 +24,7 @@
 	
     $myTrainer = [];
     $toAdd = "";
-    //TV Anlegen der Modulboxen
+    
     for ($i=0; $i< sizeof($myGroups);$i++){ 
         $myTrainer = $myGroups[$i]->getTrainer();
         $oneTrainer = reset($myTrainer);
